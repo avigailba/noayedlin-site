@@ -76,7 +76,6 @@ const allAdaptations = adaptations ??
 
   {purchaseLinks && purchaseLinks.length > 0 && (
     <div id="buy" class="bd-buy-band">
-      <p class="eyebrow">Where to buy</p>
       <div class="bd-buy-grid">
         {purchaseLinks.map((link) => (
           <div class="bd-buy-cell">
@@ -88,8 +87,6 @@ const allAdaptations = adaptations ??
       </div>
     </div>
   )}
-
-  <hr class="section-rule" />
 
   <section class="bd-synopsis">
     <p class="eyebrow bd-section-eyebrow">Synopsis</p>
@@ -152,17 +149,17 @@ const allAdaptations = adaptations ??
 
   <section class="bd-other">
     <p class="eyebrow bd-section-eyebrow">Other Books</p>
-    <div class="bd-other-grid">
+    <div class="books-rail-grid">
       {sortedBooks.map((b) => {
         const isCurrent = b.data.slug === book.data.slug;
         return (
-          <a href={`/books/${b.data.slug}`} class={`bd-other-tile${isCurrent ? ' is-current' : ''}`}>
-            <div class="bd-other-cover">
-              <img src={b.data.cover} alt={`Cover of ${b.data.title}`} />
+          <a href={`/books/${b.data.slug}`} class={`books-rail-tile${isCurrent ? ' is-current' : ''}`}>
+            <div class="books-rail-cover">
+              <img src={b.data.coverRail ?? b.data.cover} alt={`Cover of ${b.data.title}`} />
               {isCurrent && <span class="bd-reading-now">Reading now</span>}
             </div>
-            <p class="bd-other-title"><em>{b.data.title}</em></p>
-            {!isCurrent && b.data.year && <p class="bd-other-year">{b.data.year}</p>}
+            <p class="books-rail-title"><em>{b.data.title}</em></p>
+            {!isCurrent && b.data.year && <p class="books-rail-year">{b.data.year}</p>}
           </a>
         );
       })}
@@ -224,8 +221,8 @@ const allAdaptations = adaptations ??
 
   .bd-hero-awards {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
+    flex-direction: column;
+    gap: 0.25rem;
   }
 
   .bd-tagline {
@@ -327,6 +324,7 @@ const allAdaptations = adaptations ??
     margin-right: calc(-1 * var(--spacing));
     padding: 3rem var(--spacing);
     margin-top: 3rem;
+    margin-bottom: 3rem;
     text-align: center;
   }
 
@@ -353,30 +351,8 @@ const allAdaptations = adaptations ??
 
   /* Other books */
   .bd-other { margin-top: 3rem; }
-  .bd-other-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-    margin-top: 0;
-  }
 
-  .bd-other-tile {
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .bd-other-cover { position: relative; }
-
-  .bd-other-cover img {
-    width: 100%;
-    aspect-ratio: 2/3;
-    object-fit: cover;
-    display: block;
-  }
-
-  .bd-other-tile.is-current .bd-other-cover img {
+  .books-rail-tile.is-current .books-rail-cover img {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
@@ -390,23 +366,9 @@ const allAdaptations = adaptations ??
     margin-top: 0.3rem;
   }
 
-  .bd-other-title {
-    font-size: 0.85rem;
-    color: var(--text);
-    margin: 0;
-    line-height: 1.4;
-  }
-
-  .bd-other-year {
-    font-size: 0.75rem;
-    color: var(--text-faint);
-    margin: 0;
-  }
-
   @media (max-width: 680px) {
     .bd-hero { grid-template-columns: 130px 1fr; gap: 1.5rem; }
     .bd-cover-wrap { width: 130px; }
-    .bd-other-grid { grid-template-columns: repeat(2, 1fr); }
   }
 
   @media (max-width: 400px) {

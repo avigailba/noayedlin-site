@@ -16,7 +16,12 @@ const maxYear = Math.max(...years);
 ---
 
 <Layout title="Books" lang="en">
-  <h1>Books</h1>
+  <header class="page-heading">
+    <p class="eyebrow">Books</p>
+    <h1>The novels</h1>
+    <p class="page-heading-intro">Award-winning literary fiction by Noa Yedlin.</p>
+  </header>
+  <hr class="page-rule" />
 
   <div class="books-list">
     {books.map((book) => (
@@ -97,6 +102,10 @@ const maxYear = Math.max(...years);
     border-top: 1px solid var(--rule);
   }
 
+  .books-list-row:first-child {
+    border-top: none;
+  }
+
   .books-list-row:last-child {
     border-bottom: 1px solid var(--rule);
   }
@@ -134,13 +143,13 @@ const maxYear = Math.max(...years);
 
   .books-list-sep {
     font-size: 11px;
-    color: var(--text-faint);
+    color: var(--accent);
   }
 
   .books-list-year {
     font-size: 11px;
     letter-spacing: 0.1em;
-    color: var(--text-faint);
+    color: var(--accent);
   }
 
   .books-list-title {
@@ -161,8 +170,8 @@ const maxYear = Math.max(...years);
 
   .books-list-awards {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem;
+    flex-direction: column;
+    gap: 0.25rem;
   }
 
   .books-list-tagline {

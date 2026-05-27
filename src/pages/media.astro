@@ -31,8 +31,13 @@ const items = [
 ---
 
 <Layout title="Media" lang="en">
-  <h1>Media</h1>
-  <ul class="media-list" style="margin-top: 1.5rem;">
+  <header class="page-heading">
+    <p class="eyebrow">Media</p>
+    <h1>In the press</h1>
+    <p class="page-heading-intro">Selected interviews, essays, and critical coverage.</p>
+  </header>
+  <hr class="page-rule" />
+  <ul class="media-list" style="margin-top: 2.5rem;">
     {items.map((item) => (
       <li>
         <span class="media-source">{item.source}</span>

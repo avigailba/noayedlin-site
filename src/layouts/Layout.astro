@@ -137,6 +137,7 @@ const currentPath = Astro.url.pathname;
 
       <div class="footer-bottom">
         <p>© {new Date().getFullYear()} Noa Yedlin. {isHe ? 'כל הזכויות שמורות.' : 'All rights reserved.'}</p>
+        {!isHe && <p><a href="/accessibility">Accessibility Statement</a></p>}
       </div>
     </footer>
   </body>

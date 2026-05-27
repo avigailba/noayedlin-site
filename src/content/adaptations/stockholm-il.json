@@ -1,0 +1,24 @@
+{
+  "slug": "stockholm-il",
+  "source_book": "stockholm",
+  "title": "Stockholm",
+  "medium": "Television series",
+  "country": "Israel",
+  "year": 2021,
+  "network": "Kan 11",
+  "order": 1,
+  "still": {
+    "image": "https://noayedlin.com/wp-content/uploads/2023/09/Pic-1.png",
+    "gradient": ["#3B5E7A", "#1A2E3E"]
+  },
+  "award": "Israeli Best Mini-Series TV Award",
+  "watch": [
+    { "label": "Watch on Kan 11", "url": "https://www.kan.org.il", "primary": true },
+    { "label": "Keshet International", "url": "https://www.keshetinternational.com/catalogue/8849", "primary": false }
+  ],
+  "stills": [
+    "https://noayedlin.com/wp-content/uploads/2023/09/Pic-1.png",
+    "https://noayedlin.com/wp-content/uploads/2023/09/Pic-2.png",
+    "https://noayedlin.com/wp-content/uploads/2023/09/Pic-3.png"
+  ]
+}

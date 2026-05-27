@@ -1,56 +1,236 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getEntry, getCollection } from 'astro:content';
+
+const about = await getEntry('about', 'about');
+const allBooks = await getCollection('booksEn');
+const books = allBooks.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+const { heading, tagline, portrait, lead, bio, awards, representation } = about.data;
 ---
 
 <Layout title="About" lang="en">
-  <div class="about-layout">
-    <div>
-      <img
-        src="https://noayedlin.com/wp-content/uploads/2023/08/Pic.png"
-        alt="Noa Yedlin"
-        style="border: 1px solid var(--color-border);"
-      />
+  <div class="ab-hero">
+    <div class="ab-hero-text">
+      <p class="eyebrow">About</p>
+      <h1 class="ab-name">{heading}</h1>
+      <p class="ab-tagline">{tagline}</p>
+      <ul class="ab-hero-awards">
+        {awards.map((a) => <li class="award-badge">{a}</li>)}
+      </ul>
     </div>
-    <div>
-      <h1>About</h1>
-      <p>
-        Noa Yedlin is an Israeli author, the recipient of the Sapir Prize (the Israeli Man Booker)
-        and the Prime Minister's Literature Award and author of the bestselling <em>House Arrest</em>,
-        <em>Stockholm</em>, <em>People Like Us</em> and <em>The Wrong Book</em>. Yedlin was named
-        by Haaretz Magazine one of "66 Israeli Women You Should Know".
-      </p>
-      <p>
-        Yedlin is also the creator of a two-season TV series based on her bestselling novel
-        <em>Stockholm</em> (the Israeli Best Mini-Series TV Award). A German remake of the series
-        (<em>You Don't Die Among Friends</em>) won Best Scripted Format at the 2021 International
-        Format Awards and Best European Series at La Rochelle Festival De La Fiction 2021. The
-        series has also been remade by SVT Sweden. Her novel <em>People Like Us</em> is currently
-        being developed into a series in Israel. A stage adaptation of <em>House Arrest</em> is
-        playing at Beit Lessin Theater in Tel Aviv.
-      </p>
-      <p>
-        Yedlin is considered one of Israel's top writers. Her novels – widely known for their dark
-        and subtle humor – sketch with biting precision the complex relationships both within the
-        family and outside of it, while capturing and deconstructing the spirit of the times.
-      </p>
-      <div style="margin-top: 2rem;">
-        <p class="section-title">Awards</p>
-        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
-          <li>Sapir Prize, 2013</li>
-          <li>Prime Minister's Prize for Hebrew Literary Works, 2021</li>
-          <li>Haaretz Magazine — "66 Israeli Women You Should Know"</li>
-        </ul>
-      </div>
-      <div style="margin-top: 2rem;">
-        <a
-          href="https://en.wikipedia.org/wiki/Noa_Yedlin"
-          target="_blank"
-          rel="noopener"
-          style="font-size: 0.875rem; text-decoration: none; border-bottom: 1px solid currentColor;"
-        >
-          Wikipedia →
+    <div class="ab-portrait-wrap">
+      <img src={portrait} alt={heading} class="ab-portrait" />
+    </div>
+  </div>
+
+  <hr class="page-rule" />
+
+  <div class="ab-body">
+    <p class="ab-lead" set:html={lead} />
+    {bio.map((p) => <p class="ab-bio-para" set:html={p} />)}
+  </div>
+
+  <div class="ab-awards-band">
+    <p class="eyebrow ab-band-eyebrow">Awards &amp; Recognition</p>
+    <ul class="ab-awards-list">
+      {awards.map((a) => <li class="award-badge">{a}</li>)}
+    </ul>
+  </div>
+
+  <div class="ab-section">
+    <p class="section-title">Representation</p>
+    <div class="ab-rep-grid">
+      {representation.map((r) => (
+        <div class="ab-rep-entry">
+          <p class="ab-rep-role">{r.role}</p>
+          {r.name && <p class="ab-rep-name">{r.name}</p>}
+          {r.phone && <p class="ab-rep-name">{r.phone}</p>}
+          {r.url && (
+            <a href={r.url} target="_blank" rel="noopener" class="ab-rep-link">
+              {r.urlLabel ?? r.url} →
+            </a>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="ab-section">
+    <p class="section-title">Books</p>
+    <div class="books-rail-grid">
+      {books.map((book) => (
+        <a href={`/books/${book.data.slug}`} class="books-rail-tile">
+          <div class="books-rail-cover">
+            <img
+              src={book.data.coverRail ?? book.data.cover}
+              alt={`Cover of ${book.data.title}`}
+              style={book.data.coverColor ? `background: ${book.data.coverColor};` : ''}
+            />
+          </div>
+          <p class="books-rail-title"><em>{book.data.title}</em></p>
+          {book.data.year && <p class="books-rail-year">{book.data.year}</p>}
         </a>
-      </div>
+      ))}
     </div>
   </div>
 </Layout>
+
+<style>
+  .ab-hero {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 4rem;
+    padding: 3rem 0 3rem;
+    align-items: start;
+  }
+
+  .ab-hero-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-top: 0.25rem;
+  }
+
+  .ab-hero-text .eyebrow {
+    margin-bottom: 0;
+  }
+
+  .ab-name {
+    text-align: left;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .ab-tagline {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 0.5rem 0 0;
+    line-height: 1.5;
+  }
+
+  .ab-hero-awards {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-top: 0.5rem;
+  }
+
+  .ab-portrait-wrap {
+    position: relative;
+  }
+
+  .ab-portrait {
+    width: 100%;
+    display: block;
+    filter: grayscale(100%);
+  }
+
+  .ab-body {
+    max-width: 680px;
+    margin: 3rem 0;
+  }
+
+  .ab-lead {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 1.75rem;
+  }
+
+  .ab-lead::first-letter {
+    font-family: var(--font-serif);
+    font-size: 3.8em;
+    line-height: 0.75;
+    float: left;
+    margin-right: 0.07em;
+    margin-top: 0.06em;
+    color: var(--text);
+  }
+
+  .ab-bio-para {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .ab-awards-band {
+    background: var(--bg-alt);
+    margin: 0 calc(-1 * var(--spacing));
+    padding: 2.5rem var(--spacing);
+    margin-bottom: 3.5rem;
+  }
+
+  .ab-band-eyebrow {
+    margin-bottom: 1.25rem;
+  }
+
+  .ab-awards-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .ab-awards-list .award-badge {
+    font-size: 13px;
+  }
+
+  .ab-section {
+    margin-bottom: 3.5rem;
+  }
+
+  .ab-rep-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem 3rem;
+  }
+
+  .ab-rep-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .ab-rep-role {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-faint);
+    margin: 0;
+  }
+
+  .ab-rep-name {
+    font-size: 0.95rem;
+    margin: 0.15rem 0 0;
+    color: var(--text);
+  }
+
+  .ab-rep-link {
+    font-size: 0.875rem;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+    align-self: flex-start;
+    margin-top: 0.15rem;
+  }
+
+  .ab-rep-link:hover { opacity: 0.7; }
+
+  @media (max-width: 760px) {
+    .ab-hero {
+      grid-template-columns: 1fr;
+      padding: 2rem 0;
+    }
+    .ab-portrait-wrap { display: none; }
+    .ab-rep-grid { grid-template-columns: 1fr; }
+    .ab-books-rail { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

@@ -1,0 +1,13 @@
+{
+  "slug": "people-like-us-tv",
+  "source_book": "people-like-us",
+  "title": "People Like Us",
+  "medium": "Television series",
+  "country": "Israel",
+  "network": "Kan 11",
+  "order": 1,
+  "still": {
+    "gradient": ["#2A2A2A", "#1A1A1A"]
+  },
+  "synopsis": "Currently in development for Israeli television."
+}

@@ -2,15 +2,22 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
+
 const books = await getCollection('booksEn');
 const featured = books.find((b) => b.id === 'stockholm');
 const featured2 = books.find((b) => b.id === 'house-arrest');
+const sortedBooks = [...books].sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
 
-const mediaItems = [
-  { title: 'Israel novelist Noa Yedlin essay Hamas war', source: 'Rolling Stone', href: 'https://www.rollingstone.com/politics/political-commentary/israel-novelist-noa-yedlin-essay-hamas-war-1234862193/' },
-  { title: "Stockholm's exploration of mortality", source: 'Ploughshares', href: 'https://blog.pshares.org/stockholms-exploration-of-mortality/' },
-  { title: 'The lady of the house bites off a pound of flesh', source: 'Haaretz', href: 'https://www.haaretz.com/2013-01-31/ty-article/.premium/the-lady-of-the-house-bites-off-a-pound-of-flesh/0000017f-f76d-d044-adff-f7fdd9f50000' },
-];
+const allMedia = await getCollection('media');
+const featuredMedia = allMedia.filter((m) => m.data.featured);
+const homeMedia = (featuredMedia.length >= 5 ? featuredMedia : allMedia)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 5);
+
+function formatDate(dateStr: string) {
+  const [year, month] = dateStr.split('-').map(Number);
+  return new Date(year, month - 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+}
 ---
 
 <Layout title="Home" lang="en">
@@ -20,23 +27,25 @@ const mediaItems = [
     <section class="hp-books-hero">
       {featured2 && (
         <div class="hp-book-col">
-          {featured2.data.badge && <p class="hp-book-badge">{featured2.data.badge}</p>}
           <a href={`/books/${featured2.data.slug}`} class="hp-book-cover-link">
             <img src={featured2.data.cover} alt={`Cover of ${featured2.data.title}`} class="hp-book-cover" />
           </a>
           <h2 class="hp-book-title">
             <a href={`/books/${featured2.data.slug}`}>{featured2.data.title}</a>
           </h2>
+          {featured2.data.badge && <p class="hp-book-badge">{featured2.data.badge}</p>}
           <blockquote class="hp-book-quote">"A lucid, clear, and distinct voice"</blockquote>
           <p class="hp-book-attr">— Dorit Rabinyan</p>
-          {featured2.data.purchaseLinks && featured2.data.purchaseLinks.length > 0 && (
-            <div class="hp-book-links">
-              {featured2.data.purchaseLinks.map((link) => (
-                <a href={link.href} target="_blank" rel="noopener" class="purchase-btn">{link.label}</a>
-              ))}
-            </div>
-          )}
-          <a href={`/books/${featured2.data.slug}`} class="book-more-link">More about the book →</a>
+          <div class="hp-book-cta">
+            {featured2.data.purchaseLinks && featured2.data.purchaseLinks.length > 0 && (
+              <div class="hp-book-links">
+                {featured2.data.purchaseLinks.map((link) => (
+                  <a href={link.href} target="_blank" rel="noopener" class="purchase-btn">{link.label}</a>
+                ))}
+              </div>
+            )}
+            <a href={`/books/${featured2.data.slug}`} class="book-more-link">More about the book →</a>
+          </div>
         </div>
       )}
 
@@ -57,55 +66,273 @@ const mediaItems = [
               <p class="hp-book-attr">— {featured.data.reviews[0].source}</p>
             </>
           )}
-          {featured.data.purchaseLinks && featured.data.purchaseLinks.length > 0 && (
-            <div class="hp-book-links">
-              {featured.data.purchaseLinks.map((link) => (
-                <a href={link.href} target="_blank" rel="noopener" class="purchase-btn">{link.label}</a>
-              ))}
-            </div>
-          )}
-          <a href={`/books/${featured.data.slug}`} class="book-more-link">More about the book →</a>
+          <div class="hp-book-cta">
+            {featured.data.purchaseLinks && featured.data.purchaseLinks.length > 0 && (
+              <div class="hp-book-links">
+                {featured.data.purchaseLinks.map((link) => (
+                  <a href={link.href} target="_blank" rel="noopener" class="purchase-btn">{link.label}</a>
+                ))}
+              </div>
+            )}
+            <a href={`/books/${featured.data.slug}`} class="book-more-link">More about the book →</a>
+          </div>
         </div>
       )}
     </section>
   )}
 
-  <section class="hp-bio-strip">
-    <p class="hp-bio-name">Noa Yedlin</p>
-    <p class="hp-bio-desc">
-      Israeli novelist and screenwriter. Winner of the Sapir Prize and the Prime Minister's
-      Literature Award. Author of <em>Stockholm</em>, <em>House Arrest</em>,
-      <em>People Like Us</em>, and <em>The Wrong Book</em>.
-    </p>
-  </section>
+  {(featured2?.data.selectedReviews || featured?.data.selectedReviews) && (
+    <section class="section hp-praise">
+      <p class="section-title">Praise</p>
+      <div class="hp-reviews-grid">
+        {[
+          ...(featured2?.data.selectedReviews?.slice(0, 2) ?? []).map(r => ({ ...r, book: featured2?.data.title })),
+          ...(featured?.data.selectedReviews?.slice(0, 3) ?? []).map(r => ({ ...r, book: featured?.data.title })),
+        ].map((r) => (
+          <div class="hp-review">
+            <blockquote class="hp-review-quote">"{r.quote}"</blockquote>
+            <p class="hp-review-attr">
+              <span class="hp-review-name">{r.reviewer}</span>
+              {r.publication && <span class="hp-review-pub">{r.publication}</span>}
+            </p>
+            <p class="hp-review-book"><em>{r.book}</em></p>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
 
   <section class="section">
     <p class="section-title">Books</p>
-    <div class="books-grid">
-      {books.map((book) => (
-        <a href={`/books/${book.data.slug}`} class="book-card">
-          <img src={book.data.cover} alt={`Cover of ${book.data.title}`} />
-          <h3>{book.data.title}</h3>
-          <p>{book.data.description.slice(0, 80)}…</p>
+    <div class="books-rail-grid">
+      {sortedBooks.map((book) => (
+        <a href={`/books/${book.data.slug}`} class="books-rail-tile">
+          <div class="books-rail-cover">
+            <img src={book.data.cover} alt={`Cover of ${book.data.title}`} />
+          </div>
+          <p class="books-rail-title"><em>{book.data.title}</em></p>
+          {book.data.year && <p class="books-rail-year">{book.data.year}</p>}
         </a>
       ))}
     </div>
   </section>
 
-  <section class="section">
-    <p class="section-title">Media</p>
-    <ul class="media-list">
-      {mediaItems.map((item) => (
-        <li>
-          <span class="media-source">{item.source}</span>
-          <a href={item.href}>{item.title}</a>
-        </li>
-      ))}
-    </ul>
-    <p style="margin-top: 1.5rem;">
-      <a href="/media" style="text-decoration:none; border-bottom: 1px solid currentColor; font-size: 0.875rem;">
-        See all media →
-      </a>
-    </p>
-  </section>
+  {homeMedia.length > 0 && (
+    <section class="hp-press">
+      <div class="hp-press-header">
+        <p class="eyebrow hp-press-eyebrow">Press</p>
+        <h2 class="hp-press-heading">In the press</h2>
+      </div>
+      <div class="hp-press-list">
+        {homeMedia.map((item) => (
+          <div class="hp-press-row">
+            <div class="hp-press-outlet">
+              <span class="hp-press-outlet-name">{item.data.outlet}</span>
+              <span class="hp-press-date">{formatDate(item.data.date)}</span>
+              {item.data.type && <span class="hp-press-type">{item.data.type}</span>}
+            </div>
+            <div class="hp-press-content">
+              <h3 class="hp-press-headline">
+                <a href={item.data.url} target="_blank" rel="noopener">{item.data.headline}</a>
+              </h3>
+              {item.data.excerpt && <p class="hp-press-excerpt">{item.data.excerpt}</p>}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="hp-press-footer">
+        <a href="/media" class="hp-press-all">All press →</a>
+      </div>
+    </section>
+  )}
 </Layout>
+
+<style>
+  .hp-reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 0;
+  }
+
+  .hp-review {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .hp-review-quote {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text);
+    margin: 0;
+    border-left: 2px solid var(--accent);
+    padding-left: 16px;
+  }
+
+  .hp-review-attr {
+    padding-left: 18px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .hp-review-name {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+
+  .hp-review-pub {
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+  }
+
+  .hp-review-book {
+    padding-left: 18px;
+    margin: 0;
+    font-size: 11px;
+    color: var(--text-faint);
+  }
+
+  /* Press section */
+  .hp-press { margin-bottom: 4rem; }
+
+  .hp-press-header {
+    text-align: center;
+    padding: 64px 0 36px;
+    max-width: 920px;
+    margin: 0 auto;
+  }
+
+  .hp-press-eyebrow {
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .hp-press-heading {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin: 0;
+    text-align: center;
+  }
+
+  .hp-press-list {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .hp-press-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 32px;
+    align-items: baseline;
+    padding: 28px 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .hp-press-row:last-child { border-bottom: 1px solid var(--rule); }
+
+  .hp-press-outlet { display: flex; flex-direction: column; }
+
+  .hp-press-outlet-name {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text);
+  }
+
+  .hp-press-date {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--text-faint);
+    margin-top: 4px;
+  }
+
+  .hp-press-type {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    margin-top: 6px;
+  }
+
+  .hp-press-headline {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .hp-press-headline a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .hp-press-headline a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    opacity: 1;
+  }
+
+  .hp-press-excerpt {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text-muted);
+    max-width: 60ch;
+    margin: 8px 0 0;
+  }
+
+  .hp-press-footer {
+    text-align: center;
+    padding: 32px 0 64px;
+  }
+
+  .hp-press-all {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    padding-bottom: 2px;
+  }
+
+  .hp-press-all:hover { opacity: 0.7; }
+
+  @media (max-width: 600px) {
+    .hp-press-list { padding: 0; }
+    .hp-press-row {
+      grid-template-columns: 1fr;
+      gap: 6px;
+      padding: 20px 0;
+    }
+    .hp-press-outlet {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: baseline;
+    }
+    .hp-press-outlet-name::after { content: ' · '; }
+    .hp-press-date { display: inline; margin-top: 0; }
+    .hp-press-type { display: inline; margin-top: 0; }
+    .hp-press-type::before { content: ' · '; }
+    .hp-press-headline { font-size: 20px; }
+  }
+</style>

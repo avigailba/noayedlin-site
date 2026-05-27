@@ -1,0 +1,67 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Accessibility Statement" lang="en">
+  <div class="acc-page">
+    <h1>Accessibility Statement</h1>
+
+    <div class="acc-body">
+      <p>Noa Yedlin is committed to making this website accessible to all users, including people with disabilities. This statement describes the accessibility features of this site and our ongoing efforts to meet accessibility standards.</p>
+
+      <h2>Compliance Standard</h2>
+      <p>This site aims for AA-level compliance with WCAG 2.1 (Web Content Accessibility Guidelines). Accessibility modifications follow Israeli Regulation 35 on equal rights for persons with disabilities.</p>
+
+      <h2>Accessibility Features</h2>
+      <ul>
+        <li>Clear language and readable fonts throughout</li>
+        <li>Structured content using headings, paragraphs, and lists</li>
+        <li>Simple, intuitive navigation with descriptive link text</li>
+        <li>Text descriptions (alt text) for all images</li>
+        <li>Responsive design across different screen sizes and resolutions</li>
+        <li>Keyboard navigation support using Tab and Enter keys</li>
+        <li>ARIA attributes for screen reader compatibility</li>
+        <li>No flashing or flickering content</li>
+        <li>Sufficient colour contrast between text and backgrounds</li>
+      </ul>
+
+      <h2>Browser Support</h2>
+      <p>This site has been tested in Chrome, Firefox, Safari, and Edge.</p>
+
+      <h2>Known Limitations</h2>
+      <p>Some pages may not yet meet full accessibility requirements. We are actively working to address any gaps. Third-party content (such as external links) may have limited accessibility beyond our control.</p>
+
+      <h2>Contact</h2>
+      <p>If you encounter any accessibility barrier on this site or require assistance, please contact us:</p>
+      <p><strong>Accessibility contact:</strong> <a href="/contact">Contact page</a></p>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .acc-page {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 3rem 0;
+  }
+
+  .acc-body h2 {
+    font-size: 1.1rem;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .acc-body p,
+  .acc-body li {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+
+  .acc-body ul {
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+</style>

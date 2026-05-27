@@ -1,100 +1,444 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const allAdaptations = await getCollection('adaptations');
+const allBooks = await getCollection('booksEn');
+
+const bookMap = Object.fromEntries(allBooks.map(b => [b.data.slug, b.data]));
+
+const groups = allAdaptations.reduce((acc, a) => {
+  const key = a.data.source_book;
+  if (!acc[key]) acc[key] = [];
+  acc[key].push(a);
+  return acc;
+}, {} as Record<string, typeof allAdaptations>);
+
+Object.values(groups).forEach(g => g.sort((a, b) => a.data.order - b.data.order));
+
+const sortedGroups = Object.entries(groups).sort(([slugA], [slugB]) => {
+  return (bookMap[slugA]?.order ?? 999) - (bookMap[slugB]?.order ?? 999);
+});
+
+const countries = [...new Set(allAdaptations.map(a => a.data.country))];
+const countriesText = countries.length <= 2
+  ? countries.join(' and ')
+  : countries.slice(0, -1).join(', ') + ', and ' + countries[countries.length - 1];
 ---
 
 <Layout title="Adaptations" lang="en">
-  <h1>Adaptations</h1>
 
-  <!-- Stockholm -->
-  <div class="adaptation-project">
-    <h2>Stockholm</h2>
-    <p class="adaptation-logline">
-      One evening, a world-renowned economist and leading candidate for the Nobel Prize in Economics
-      is found dead in bed. Four lifelong friends are summoned to the house and begin to unravel a
-      story full of secrets, humor, and mortality.
-    </p>
+  <header class="page-heading">
+    <p class="eyebrow">Adaptations</p>
+    <h1>On screen and on stage</h1>
+    <p class="page-heading-intro">Television and stage adaptations of Noa Yedlin's novels — across {countriesText}.</p>
+  </header>
+  <hr class="page-rule" />
 
-    <div class="adaptation-entries">
-
-      <div class="adaptation-entry single-col">
-        <h3>Israeli TV Series</h3>
-        <p class="adaptation-award">🏆 Israeli Best Mini-Series TV Award</p>
-        <p>Two-season Israeli series based on the novel, broadcast on Kan 11 and distributed internationally by Keshet.</p>
-        <div class="watch-links">
-          <span class="watch-label">Watch:</span>
-          <a href="https://www.kan.org.il" target="_blank" rel="noopener" class="watch-btn">Kan 11</a>
-          <a href="https://www.keshetinternational.com" target="_blank" rel="noopener" class="watch-btn">Keshet</a>
+  {sortedGroups.map(([slug, adaptationList]) => {
+    const book = bookMap[slug];
+    if (!book) return null;
+    return (
+      <div class="ap-group">
+        <div class="ap-group-heading">
+          <div class="ap-group-left">
+            <span class="eyebrow ap-from-label">From the novel</span>
+            <a href={`/books/${slug}`} class="ap-book-link">
+              <em>{book.title}</em><span class="ap-arrow">→</span>
+            </a>
+          </div>
         </div>
-        <div class="photo-gallery">
-          <img src="/images/stockholm-series.jpg" alt="Stockholm Israeli series" onerror="this.parentElement.removeChild(this)" />
-          <img src="https://noayedlin.com/wp-content/uploads/2023/09/Pic-1.png" alt="Stockholm series still" />
-          <img src="https://noayedlin.com/wp-content/uploads/2023/09/Pic-2.png" alt="Stockholm series still" />
-          <img src="https://noayedlin.com/wp-content/uploads/2023/09/Pic-3.png" alt="Stockholm series still" />
+
+        <div class="ap-cards">
+          {adaptationList.map((a) => {
+            const stillStyle = a.data.still?.image
+              ? ''
+              : a.data.still?.gradient
+                ? `background: linear-gradient(135deg, ${a.data.still.gradient[0]}, ${a.data.still.gradient[1]});`
+                : 'background: #2A2A2A;';
+            const longTitle = a.data.title.length > 24;
+            return (
+              <article class="ap-card">
+
+                <div class="ap-still" style={stillStyle}>
+                  {a.data.still?.image && (
+                    <img src={a.data.still.image} alt={a.data.title} />
+                  )}
+                  <div class="ap-still-overlay"></div>
+                  <span class="ap-still-network">
+                    {[a.data.network, a.data.country].filter(Boolean).join(' · ')}
+                  </span>
+                  <span class={`ap-still-title${longTitle ? ' ap-still-title--sm' : ''}`}>
+                    {a.data.title}
+                  </span>
+                  {a.data.medium !== 'Stage play' && (
+                    <span class="ap-play-circle" aria-hidden="true">
+                      <svg width="10" height="12" viewBox="0 0 10 12">
+                        <polygon points="0,0 10,6 0,12" fill="currentColor" />
+                      </svg>
+                    </span>
+                  )}
+                </div>
+
+                <div class="ap-content">
+                  <p class="ap-meta">
+                    {[a.data.country, a.data.medium, a.data.year].filter(Boolean).join(' · ')}
+                  </p>
+                  <h3 class={`ap-card-title${longTitle ? ' ap-card-title--sm' : ''}`}>
+                    {a.data.title}
+                  </h3>
+                  {a.data.network && (
+                    <p class="ap-network">
+                      {a.data.network}{a.data.episodes ? ` · ${a.data.episodes} episodes` : ''}
+                    </p>
+                  )}
+                  {a.data.award && (
+                    <p class="ap-award">
+                      <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                        <polygon points="6,0 7.5,4.5 12,4.5 8.5,7 9.8,11.5 6,9 2.2,11.5 3.5,7 0,4.5 4.5,4.5" fill="var(--accent)" />
+                      </svg>
+                      {a.data.award}
+                    </p>
+                  )}
+                  {a.data.synopsis && (
+                    <p class="ap-synopsis">{a.data.synopsis}</p>
+                  )}
+                  {a.data.watch && a.data.watch.length > 0 && (
+                    <div class="ap-watch">
+                      {a.data.watch.map((w) => (
+                        <a href={w.url} target="_blank" rel="noopener" class={w.primary ? 'ap-btn-primary' : 'ap-btn-outline'}>
+                          {w.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                  {a.data.press && a.data.press.length > 0 && (
+                    <div class="ap-press">
+                      <span class="eyebrow ap-press-label">Press</span>
+                      <div class="ap-press-links">
+                        {a.data.press.map((p) => (
+                          <a href={p.url} target="_blank" rel="noopener" class="ap-press-link">{p.label}</a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
+    );
+  })}
 
-      <div class="adaptation-entry single-col">
-        <h3>German Series — <em>Unter Freunden stirbt man nicht</em></h3>
-        <p class="adaptation-award">
-          🏆 Best Scripted Format · International Format Awards 2021<br/>
-          🏆 Best European Series · La Rochelle Festival De La Fiction 2021
-        </p>
-        <p>German remake of the Stockholm series.</p>
-        <div class="watch-links">
-          <span class="watch-label">Watch:</span>
-          <a href="https://www.imdb.com/title/tt14218612/" target="_blank" rel="noopener" class="watch-btn">IMDB</a>
-        </div>
-        <div class="photo-gallery">
-          <img src="https://noayedlin.com/wp-content/uploads/2023/10/%D7%92%D7%99%D7%A0%D7%944.jpg" alt="German series still" />
-          <img src="https://noayedlin.com/wp-content/uploads/2023/10/2018-02-12-PHOTO-00000150.jpg" alt="German series still" />
-          <img src="https://noayedlin.com/wp-content/uploads/2023/10/2018-02-13-PHOTO-00000271.jpg" alt="German series still" />
-          <img src="https://noayedlin.com/wp-content/uploads/2023/10/DSCF2358ver2-scaled.jpg" alt="German series still" />
-        </div>
-      </div>
-
-      <div class="adaptation-entry single-col">
-        <h3>Swedish Series — <em>Äntligen!</em> (SVT)</h3>
-        <p>Swedish remake produced by SVT, broadcast Christmas 2022.</p>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- House Arrest -->
-  <div class="adaptation-project">
-    <h2>House Arrest</h2>
-    <p class="adaptation-logline">
-      A psychological thriller set against the backdrop of Jerusalem's historic stone buildings.
-    </p>
-    <div class="adaptation-entries">
-      <div class="adaptation-entry single-col">
-        <h3>Stage Adaptation — Beit Lessin Theater</h3>
-        <p>Now playing at Beit Lessin Theater, Tel Aviv.</p>
-        <div class="watch-links">
-          <span class="watch-label">Info:</span>
-          <a href="https://www.lessin.co.il" target="_blank" rel="noopener" class="watch-btn">Beit Lessin</a>
-        </div>
-        <div class="photo-gallery">
-          <img src="https://noayedlin.com/wp-content/uploads/2023/09/Pic-4.png" alt="House Arrest stage production" />
-          <img src="https://noayedlin.com/wp-content/uploads/2023/09/Pic-5.png" alt="House Arrest stage production" />
-          <img src="https://noayedlin.com/wp-content/uploads/2023/09/Pic-6.png" alt="House Arrest stage production" />
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- People Like Us -->
-  <div class="adaptation-project">
-    <h2>People Like Us</h2>
-    <p class="adaptation-logline">
-      Osnat and Dror, a couple in their forties with two daughters, move in the summer to their
-      dream house. Currently being developed as a TV series in Israel.
-    </p>
-    <div class="adaptation-entries">
-      <div class="adaptation-entry single-col">
-        <h3>Israeli Series (In Development)</h3>
-        <p>Currently in development for Israeli television.</p>
-      </div>
-    </div>
-  </div>
 </Layout>
+
+<style>
+  /* Page heading */
+  .ap-heading {
+    padding: 56px 0 36px;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .ap-eyebrow-label {
+    margin-bottom: 0.75rem;
+  }
+
+  .ap-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.02;
+    margin: 0 0 1rem;
+    text-align: center;
+  }
+
+  .ap-intro {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--text-muted);
+    max-width: 460px;
+    margin: 0 auto;
+  }
+
+  .ap-rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 0 0 0;
+  }
+
+  /* Group heading */
+  .ap-group {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .ap-group-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 48px 0 8px;
+  }
+
+  .ap-group-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .ap-from-label {
+    color: var(--text-muted);
+  }
+
+  .ap-book-link {
+    font-family: var(--font-serif);
+    font-size: 2.25rem;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .ap-book-link:hover { opacity: 0.7; }
+
+  .ap-arrow {
+    font-style: normal;
+    font-size: 1.125rem;
+    color: var(--accent);
+    margin-left: 6px;
+    vertical-align: 2px;
+  }
+
+  .ap-count {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-faint);
+    white-space: nowrap;
+  }
+
+  /* Cards */
+  .ap-cards {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ap-card {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 28px;
+    align-items: start;
+    padding: 24px 0;
+    border-top: 0.5px solid var(--rule);
+  }
+
+  .ap-cards .ap-card:last-child {
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  /* Still panel */
+  .ap-still {
+    width: 240px;
+    aspect-ratio: 16/9;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .ap-still img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ap-still-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 55%, transparent 100%);
+  }
+
+  .ap-still-network {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-family: var(--font-serif);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(245, 245, 242, 0.75);
+    z-index: 1;
+    line-height: 1;
+  }
+
+  .ap-still-title {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    right: 40px;
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 1.2;
+    color: rgba(245, 245, 242, 0.95);
+    z-index: 1;
+  }
+
+  .ap-still-title--sm {
+    font-size: 13px;
+  }
+
+  .ap-play-circle {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 22px;
+    height: 22px;
+    border: 1px solid rgba(245, 245, 242, 0.8);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(245, 245, 242, 0.8);
+    z-index: 1;
+    padding-left: 2px;
+  }
+
+  /* Content column */
+  .ap-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 2px;
+  }
+
+  .ap-meta {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .ap-card-title {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    margin: 0;
+    color: var(--text);
+  }
+
+  .ap-card-title--sm {
+    font-size: 22px;
+  }
+
+  .ap-network {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .ap-award {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin: 0 0 2px;
+  }
+
+  .ap-synopsis {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #2A2A2A;
+    margin: 0 0 4px;
+  }
+
+  /* Watch buttons */
+  .ap-watch {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .ap-btn-primary {
+    display: inline-block;
+    background: var(--text);
+    color: var(--bg);
+    padding: 8px 16px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 0;
+  }
+
+  .ap-btn-outline {
+    display: inline-block;
+    border: 1px solid var(--text);
+    background: transparent;
+    color: var(--text);
+    padding: 7px 15px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 0;
+  }
+
+  .ap-btn-primary:hover,
+  .ap-btn-outline:hover { opacity: 0.6; }
+
+  /* Press */
+  .ap-press {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .ap-press-label {
+    color: var(--text-muted);
+  }
+
+  .ap-press-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .ap-press-link {
+    font-size: 11px;
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 2px;
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 680px) {
+    .ap-card {
+      grid-template-columns: 1fr;
+    }
+    .ap-still {
+      width: 100%;
+    }
+    .ap-group-heading {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+</style>

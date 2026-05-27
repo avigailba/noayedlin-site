@@ -1,0 +1,20 @@
+{
+  "slug": "stockholm-se",
+  "source_book": "stockholm",
+  "title": "Äntligen!",
+  "medium": "Television series",
+  "country": "Sweden",
+  "year": 2022,
+  "network": "SVT",
+  "order": 3,
+  "still": {
+    "gradient": ["#6B7E8A", "#2C3840"]
+  },
+  "watch": [
+    { "label": "IMDb", "url": "https://www.imdb.com/title/tt24067946/", "primary": false },
+    { "label": "Keshet International", "url": "https://www.keshetinternational.com/catalogue/9097", "primary": false }
+  ],
+  "press": [
+    { "label": "Dagens Nyheter", "url": "https://www.dn.se/kultur/det-gamla-lorry-ganget-glanser-i-drapliga-svt-serien-antligen/" }
+  ]
+}
