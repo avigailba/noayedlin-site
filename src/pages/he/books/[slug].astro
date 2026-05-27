@@ -11,29 +11,84 @@ export async function getStaticPaths() {
 }
 
 const { book } = Astro.props;
-const { title, cover, description, year, reviews } = book.data;
+const { title, cover, description, year, reviews, purchaseLinks, selectedReviews, adaptationText, awards } = book.data;
+
+const allReviews = [
+  ...(selectedReviews ?? []).map((r) => ({
+    quote: r.quote,
+    name: r.reviewer,
+    pub: r.publication ?? '',
+    starred: false,
+  })),
+  ...(reviews ?? [])
+    .filter((r) => {
+      return !(selectedReviews ?? []).some((s) => s.quote.startsWith(r.quote.slice(0, 40)));
+    })
+    .map((r) => ({
+      quote: r.quote,
+      name: r.source,
+      pub: '',
+      starred: r.starred ?? false,
+    })),
+];
 ---
 
 <Layout title={title} lang="he">
   <div class="about-layout">
     <div>
-      <img src={cover} alt={`עטיפת ${title}`} style="border: 1px solid var(--color-border);" />
+      <img src={cover} alt={`עטיפת ${title}`} style="box-shadow: 4px 6px 18px rgba(31,27,22,0.18);" />
     </div>
     <div>
       <h1>{title}</h1>
-      {year && <p style="color: var(--color-muted); margin-bottom: 1.5rem;">{year}</p>}
+      {year && <p style="color: var(--text-muted); margin-bottom: 1.5rem;">{year}</p>}
       <p>{description}</p>
-      {reviews && reviews.length > 0 && (
-        <div style="margin-top: 2rem;">
-          <p class="section-title">ביקורות</p>
-          {reviews.map((r) => (
-            <blockquote style="border-right: 3px solid var(--color-border); padding-right: 1rem; margin-bottom: 1rem;">
-              <p>"{r.quote}"</p>
-              <footer style="font-size: 0.85rem; color: var(--color-muted);">— {r.source}</footer>
-            </blockquote>
+
+      {awards && awards.length > 0 && (
+        <div style="margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.4rem;">
+          {awards.map((award) => (
+            <span class="award-badge">{award}</span>
           ))}
+        </div>
+      )}
+
+      {purchaseLinks && purchaseLinks.length > 0 && (
+        <div style="margin-top: 2rem;">
+          <p class="section-title">רכישה</p>
+          <div class="purchase-links">
+            {purchaseLinks.map((link) => (
+              <a href={link.href} target="_blank" rel="noopener" class="purchase-btn">
+                {link.label}
+              </a>
+            ))}
+          </div>
         </div>
       )}
     </div>
   </div>
+
+  {allReviews.length > 0 && (
+    <div class="section" style="margin-top: 4rem;">
+      <p class="section-title">ביקורות</p>
+      <div class="selected-reviews">
+        {allReviews.map((r) => (
+          <div class="selected-review">
+            {r.starred && <p class="kirkus-star">★ ביקורת מצוינת של Kirkus</p>}
+            <blockquote>״{r.quote}״</blockquote>
+            <div class="selected-review-attr">
+              {r.name && <span class="reviewer-name">{r.name}</span>}
+              {r.pub && <span class="reviewer-pub">{r.pub}</span>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+
+  {adaptationText && (
+    <div class="section adaptation-section">
+      <p class="section-title">עיבודים</p>
+      <p>{adaptationText}</p>
+      <a href="/he/adaptations" class="learn-more">למידע נוסף ←</a>
+    </div>
+  )}
 </Layout>

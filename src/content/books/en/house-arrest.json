@@ -1,8 +1,52 @@
 {
   "title": "House Arrest",
   "slug": "house-arrest",
-  "cover": "https://noayedlin.com/wp-content/uploads/2023/08/Mask-group-1.png",
-  "description": "A psychological thriller set against the backdrop of Jerusalem's historic stone buildings. A story of family, power, and the walls we build around ourselves.",
-  "year": 2020,
-  "reviews": []
+  "cover": "/images/HouseArrest-fordistribution.jpg",
+  "kind": "Novel",
+  "order": 1,
+  "coverColor": "#3D2B1F",
+  "description": "Asa Fogel, an unemployed professor recently separated from his wife, learns that his mother — deputy director of a peace research institute and professor of Israel studies — is suspected of embezzling 3.4 million shekels. The novel follows Asa as he navigates family dynamics, media scrutiny, and the need to reassess everything he thought he knew about the people closest to him. Told across eight narrative sections, each from a different perspective, House Arrest is a darkly comic portrait of a family, a social class, and the lies we tell to protect ourselves.",
+  "tagline": "A story of family, power, and the walls we build around ourselves.",
+  "year": 2026,
+  "reviews": [
+    { "quote": "One should run, run to buy this book", "source": "Haaretz" },
+    { "quote": "A lucid, clear, and distinct voice", "source": "Dorit Rabinyan" },
+    { "quote": "A challenging and witty novel by an intelligent, wise, and uncompromising author", "source": "IDF Radio" },
+    { "quote": "A riveting book — examining Ashkenazi society with both sarcasm and compassion", "source": "Alon Hilu" }
+  ],
+  "selectedReviews": [
+    {
+      "quote": "All this abundance, in which one family becomes a mirror to an entire social class in Israel.",
+      "reviewer": "Avraham Balaban",
+      "publication": "Haaretz Books"
+    },
+    {
+      "quote": "Yedlin excels at revealing the pathological components of everyday interactions, transforming them into dark, witty humor.",
+      "reviewer": "Ran Ben-Nun",
+      "publication": "Yedioth Aharonot"
+    },
+    {
+      "quote": "An excellent book — a clear, distinct, and uncompromising voice that sets a high literary standard.",
+      "reviewer": "Dorit Rabinyan",
+      "publication": ""
+    },
+    {
+      "quote": "A riveting book that examines Ashkenazi society with both sarcasm and compassion.",
+      "reviewer": "Alon Hilu",
+      "publication": ""
+    },
+    {
+      "quote": "Sharp satire combined with lyrical emotional depth.",
+      "reviewer": "Arik Glasner",
+      "publication": "Yedioth Aharonot"
+    }
+  ],
+  "purchaseLinks": [
+    { "label": "Buy on Amazon", "href": "https://www.amazon.com/House-Arrest-Noa-Yedlin/dp/1954404433" }
+  ],
+  "awards": ["Sapir Prize (2013)"],
+  "badge": "Coming October 13th, 2026",
+  "adaptations": [
+    { "title": "House Arrest", "medium": "Stage play, Beit Lessin Theater, Tel Aviv", "year": 2021 }
+  ]
 }

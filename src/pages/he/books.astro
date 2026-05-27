@@ -12,7 +12,14 @@ const books = await getCollection('booksHe');
       <a href={`/he/books/${book.data.slug}`} class="book-card">
         <img src={book.data.cover} alt={`עטיפת ${book.data.title}`} />
         <h3>{book.data.title}</h3>
-        {book.data.year && <p>{book.data.year}</p>}
+        {book.data.year && <p class="book-card-year">{book.data.year}</p>}
+        {book.data.awards && book.data.awards.length > 0 && (
+          <div class="book-card-awards">
+            {book.data.awards.map((award) => (
+              <span class="award-badge">{award}</span>
+            ))}
+          </div>
+        )}
         <p>{book.data.description.slice(0, 100)}…</p>
       </a>
     ))}

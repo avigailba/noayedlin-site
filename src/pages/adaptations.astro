@@ -4,29 +4,97 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="Adaptations" lang="en">
   <h1>Adaptations</h1>
-  <div class="adaptations-list">
-    <div class="adaptation-item">
-      <h3>Stockholm – Israeli TV Series</h3>
-      <p>Two-season Israeli series based on the novel. Winner of the Israeli Best Mini-Series TV Award.</p>
+
+  <!-- Stockholm -->
+  <div class="adaptation-project">
+    <h2>Stockholm</h2>
+    <p class="adaptation-logline">
+      One evening, a world-renowned economist and leading candidate for the Nobel Prize in Economics
+      is found dead in bed. Four lifelong friends are summoned to the house and begin to unravel a
+      story full of secrets, humor, and mortality.
+    </p>
+
+    <div class="adaptation-entries">
+
+      <div class="adaptation-entry single-col">
+        <h3>Israeli TV Series</h3>
+        <p class="adaptation-award">🏆 Israeli Best Mini-Series TV Award</p>
+        <p>Two-season Israeli series based on the novel, broadcast on Kan 11 and distributed internationally by Keshet.</p>
+        <div class="watch-links">
+          <span class="watch-label">Watch:</span>
+          <a href="https://www.kan.org.il" target="_blank" rel="noopener" class="watch-btn">Kan 11</a>
+          <a href="https://www.keshetinternational.com" target="_blank" rel="noopener" class="watch-btn">Keshet</a>
+        </div>
+        <div class="photo-gallery">
+          <img src="/images/stockholm-series.jpg" alt="Stockholm Israeli series" onerror="this.parentElement.removeChild(this)" />
+          <img src="https://noayedlin.com/wp-content/uploads/2023/09/Pic-1.png" alt="Stockholm series still" />
+          <img src="https://noayedlin.com/wp-content/uploads/2023/09/Pic-2.png" alt="Stockholm series still" />
+          <img src="https://noayedlin.com/wp-content/uploads/2023/09/Pic-3.png" alt="Stockholm series still" />
+        </div>
+      </div>
+
+      <div class="adaptation-entry single-col">
+        <h3>German Series — <em>Unter Freunden stirbt man nicht</em></h3>
+        <p class="adaptation-award">
+          🏆 Best Scripted Format · International Format Awards 2021<br/>
+          🏆 Best European Series · La Rochelle Festival De La Fiction 2021
+        </p>
+        <p>German remake of the Stockholm series.</p>
+        <div class="watch-links">
+          <span class="watch-label">Watch:</span>
+          <a href="https://www.imdb.com/title/tt14218612/" target="_blank" rel="noopener" class="watch-btn">IMDB</a>
+        </div>
+        <div class="photo-gallery">
+          <img src="https://noayedlin.com/wp-content/uploads/2023/10/%D7%92%D7%99%D7%A0%D7%944.jpg" alt="German series still" />
+          <img src="https://noayedlin.com/wp-content/uploads/2023/10/2018-02-12-PHOTO-00000150.jpg" alt="German series still" />
+          <img src="https://noayedlin.com/wp-content/uploads/2023/10/2018-02-13-PHOTO-00000271.jpg" alt="German series still" />
+          <img src="https://noayedlin.com/wp-content/uploads/2023/10/DSCF2358ver2-scaled.jpg" alt="German series still" />
+        </div>
+      </div>
+
+      <div class="adaptation-entry single-col">
+        <h3>Swedish Series — <em>Äntligen!</em> (SVT)</h3>
+        <p>Swedish remake produced by SVT, broadcast Christmas 2022.</p>
+      </div>
+
     </div>
-    <div class="adaptation-item">
-      <h3>You Don't Die Among Friends – German Remake</h3>
-      <p>
-        German adaptation of the Stockholm series. Winner of Best Scripted Format at the 2021
-        International Format Awards and Best European Series at La Rochelle Festival De La Fiction 2021.
-      </p>
+  </div>
+
+  <!-- House Arrest -->
+  <div class="adaptation-project">
+    <h2>House Arrest</h2>
+    <p class="adaptation-logline">
+      A psychological thriller set against the backdrop of Jerusalem's historic stone buildings.
+    </p>
+    <div class="adaptation-entries">
+      <div class="adaptation-entry single-col">
+        <h3>Stage Adaptation — Beit Lessin Theater</h3>
+        <p>Now playing at Beit Lessin Theater, Tel Aviv.</p>
+        <div class="watch-links">
+          <span class="watch-label">Info:</span>
+          <a href="https://www.lessin.co.il" target="_blank" rel="noopener" class="watch-btn">Beit Lessin</a>
+        </div>
+        <div class="photo-gallery">
+          <img src="https://noayedlin.com/wp-content/uploads/2023/09/Pic-4.png" alt="House Arrest stage production" />
+          <img src="https://noayedlin.com/wp-content/uploads/2023/09/Pic-5.png" alt="House Arrest stage production" />
+          <img src="https://noayedlin.com/wp-content/uploads/2023/09/Pic-6.png" alt="House Arrest stage production" />
+        </div>
+      </div>
     </div>
-    <div class="adaptation-item">
-      <h3>Stockholm – Swedish Remake (SVT)</h3>
-      <p>Remake produced by SVT Sweden, broadcast in 2022.</p>
-    </div>
-    <div class="adaptation-item">
-      <h3>People Like Us – Israeli Series (In Development)</h3>
-      <p>Currently being developed as a TV series in Israel.</p>
-    </div>
-    <div class="adaptation-item">
-      <h3>House Arrest – Stage Adaptation</h3>
-      <p>Stage adaptation now playing at Beit Lessin Theater, Tel Aviv.</p>
+  </div>
+
+  <!-- People Like Us -->
+  <div class="adaptation-project">
+    <h2>People Like Us</h2>
+    <p class="adaptation-logline">
+      Osnat and Dror, a couple in their forties with two daughters, move in the summer to their
+      dream house. Currently being developed as a TV series in Israel.
+    </p>
+    <div class="adaptation-entries">
+      <div class="adaptation-entry single-col">
+        <h3>Israeli Series (In Development)</h3>
+        <p>Currently in development for Israeli television.</p>
+      </div>
     </div>
   </div>
 </Layout>

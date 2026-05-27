@@ -42,6 +42,9 @@ const currentPath = Astro.url.pathname;
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.ico" />
     <title>{title} – Noa Yedlin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
   </head>
   <body>
     <header class="site-header">
@@ -57,9 +60,6 @@ const currentPath = Astro.url.pathname;
               </a>
             </li>
           ))}
-          <li>
-            <a href={altLangHref} class="lang-toggle">{altLangLabel}</a>
-          </li>
         </ul>
       </nav>
     </header>
@@ -69,7 +69,75 @@ const currentPath = Astro.url.pathname;
     </main>
 
     <footer class="site-footer">
-      <p>© {new Date().getFullYear()} Noa Yedlin. All rights reserved.</p>
+      <div class="footer-inner">
+        <div class="footer-col">
+          <p class="footer-heading">{isHe ? 'ספרים' : 'Books'}</p>
+          <ul>
+            {isHe ? (
+              <>
+                <li><a href="/he/books/stockholm">סטוקהולם</a></li>
+                <li><a href="/he/books/house-arrest">מעצר בית</a></li>
+                <li><a href="/he/books/people-like-us">אנשים כמונו</a></li>
+                <li><a href="/he/books/the-wrong-book">הספר הלא נכון</a></li>
+              </>
+            ) : (
+              <>
+                <li><a href="/books/stockholm">Stockholm</a></li>
+                <li><a href="/books/house-arrest">House Arrest</a></li>
+                <li><a href="/books/people-like-us">People Like Us</a></li>
+                <li><a href="/books/the-wrong-book">The Wrong Book</a></li>
+              </>
+            )}
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <p class="footer-heading">{isHe ? 'ניווט' : 'Navigate'}</p>
+          <ul>
+            {isHe ? (
+              <>
+                <li><a href="/he/books">ספרים</a></li>
+                <li><a href="/he/events">הרצאות ואירועים</a></li>
+                <li><a href="/he/media">תקשורת</a></li>
+                <li><a href="/he/about">אודות</a></li>
+              </>
+            ) : (
+              <>
+                <li><a href="/books">Books</a></li>
+                <li><a href="/events">Lectures &amp; Events</a></li>
+                <li><a href="/media">Media</a></li>
+                <li><a href="/about">About</a></li>
+              </>
+            )}
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <p class="footer-heading">{isHe ? 'ייצוג' : 'Representatives'}</p>
+          <ul>
+            {isHe ? (
+              <>
+                <li><a href="https://www.curtisbrown.co.uk/client/noa-yedlin" target="_blank" rel="noopener">ספרותי – Curtis Brown</a></li>
+                <li><a href="#" target="_blank" rel="noopener">קולנוע וטלוויזיה – סטוקהולם</a></li>
+                <li><a href="#" target="_blank" rel="noopener">קולנוע וטלוויזיה – ספרים אחרים</a></li>
+                <li><a href="https://lionhouseagency.com/noa-yedlin" target="_blank" rel="noopener">סוכן הרצאות – ארה"ב</a></li>
+              </>
+            ) : (
+              <>
+                <li><a href="https://www.curtisbrown.co.uk/client/noa-yedlin" target="_blank" rel="noopener">Literary – Curtis Brown</a></li>
+                <li><a href="#" target="_blank" rel="noopener">Film &amp; TV – Stockholm</a></li>
+                <li><a href="#" target="_blank" rel="noopener">Film &amp; TV – Other novels</a></li>
+                <li><a href="https://lionhouseagency.com/noa-yedlin" target="_blank" rel="noopener">Lecture Agent – USA</a></li>
+              </>
+            )}
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>© {new Date().getFullYear()} Noa Yedlin. {isHe ? 'כל הזכויות שמורות.' : 'All rights reserved.'}</p>
+      </div>
     </footer>
   </body>
 </html>

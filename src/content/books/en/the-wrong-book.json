@@ -1,8 +1,45 @@
 {
   "title": "The Wrong Book",
   "slug": "the-wrong-book",
-  "cover": "https://noayedlin.com/wp-content/uploads/2023/07/placeholder-1.png",
-  "description": "Rona is a 35-year-old woman on maternity leave who manages social media for her day job. A novel about modern life, digital identity, and the distance between who we are online and who we are at home.",
+  "cover": "/images/the-wrong-book-heb.jpg",
+  "kind": "Novel",
+  "order": 4,
+  "coverColor": "#BFD8E0",
+  "description": "Rona is thirty-five, on maternity leave, and quietly convinced she should have written something serious by now. Years ago she won a prestigious literary competition. Since then, nothing. When a friend introduces her to romantic fiction, Rona enters an online contest under a pseudonym — and wins. A publisher offers her a contract. The book becomes a bestseller. The only problem: her husband Gidi, an archaeology professor, considers this genre beneath contempt. A novel about secrets, identity, and what we owe the people we love.",
+  "tagline": "A novel about secrets, identity, and what we owe the people we love.",
   "year": 2015,
-  "reviews": []
+  "awards": ["Longlisted for the Sapir Prize"],
+  "reviews": [
+    { "quote": "Stunning work — Yedlin's talents shine brightly.", "source": "Haaretz" },
+    { "quote": "A brilliant novel with a genuinely inspired conclusion worthy of great literature.", "source": "Yedioth Aharonoth" },
+    { "quote": "Hilarious and deeply moving.", "source": "Tarbut Yom Aleph" },
+    { "quote": "Excellent, compelling narrative with wonderful style and remarkable irony.", "source": "Haaretz" }
+  ],
+  "selectedReviews": [
+    {
+      "quote": "Stunning work — questions about relationship evolution and expectations emerge throughout. Yedlin's talents shine brightly in this novel.",
+      "reviewer": "Gili Izikovitch",
+      "publication": "Haaretz"
+    },
+    {
+      "quote": "A brilliant novel with a genuinely inspired conclusion worthy of great literature.",
+      "reviewer": "Ran Ben-Nun",
+      "publication": "Yedioth Aharonoth"
+    },
+    {
+      "quote": "Hilarious and deeply moving; highlights remarkable insights about authenticity and the life we perform for others.",
+      "reviewer": "Gili Izikovitch",
+      "publication": "Tarbut Yom Aleph"
+    },
+    {
+      "quote": "Few writers capture average Israeli life as credibly — a sharp exploration of authenticity and betrayal.",
+      "reviewer": "Yaakov Goldberg",
+      "publication": "Mako"
+    },
+    {
+      "quote": "Satiric sparkle and realism; she balances serious issues while preserving the joy of reading.",
+      "reviewer": "Eric Glasner",
+      "publication": "Yedioth Aharonoth"
+    }
+  ]
 }

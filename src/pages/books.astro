@@ -2,19 +2,206 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
-const books = await getCollection('booksEn');
+const allBooks = await getCollection('booksEn');
+const books = allBooks.sort((a, b) => {
+  const ao = a.data.order ?? 999;
+  const bo = b.data.order ?? 999;
+  if (ao !== bo) return ao - bo;
+  return (b.data.year ?? 0) - (a.data.year ?? 0);
+});
+
+const years = books.map(b => b.data.year).filter(Boolean) as number[];
+const minYear = Math.min(...years);
+const maxYear = Math.max(...years);
 ---
 
 <Layout title="Books" lang="en">
   <h1>Books</h1>
-  <div class="books-grid">
+
+  <div class="books-list">
     {books.map((book) => (
-      <a href={`/books/${book.data.slug}`} class="book-card">
-        <img src={book.data.cover} alt={`Cover of ${book.data.title}`} />
-        <h3>{book.data.title}</h3>
-        {book.data.year && <p>{book.data.year}</p>}
-        <p>{book.data.description.slice(0, 100)}…</p>
-      </a>
+      <div class="books-list-row">
+        <div class="books-list-cover">
+          <a href={`/books/${book.data.slug}`}>
+            <img
+              src={book.data.cover}
+              alt={`Cover of ${book.data.title}`}
+              style={book.data.coverColor ? `background: ${book.data.coverColor};` : ''}
+            />
+          </a>
+        </div>
+        <div class="books-list-info">
+          <p class="books-list-meta">
+            {book.data.kind && (
+              <span class="books-list-kind">{book.data.kind}</span>
+            )}
+            {book.data.kind && book.data.year && (
+              <span class="books-list-sep"> · </span>
+            )}
+            {book.data.year && (
+              <span class="books-list-year">{book.data.year}</span>
+            )}
+          </p>
+          <h2 class="books-list-title">{book.data.title}</h2>
+          {book.data.awards && book.data.awards.length > 0 && (
+            <div class="books-list-awards">
+              {book.data.awards.map((award) => (
+                <span class="award-badge">{award}</span>
+              ))}
+            </div>
+          )}
+          {book.data.tagline && (
+            <p class="books-list-tagline">{book.data.tagline}</p>
+          )}
+          <p class="books-list-synopsis">
+            {book.data.synopsis ?? book.data.description}
+          </p>
+          <a href={`/books/${book.data.slug}`} class="books-list-more">Read more</a>
+        </div>
+      </div>
     ))}
   </div>
 </Layout>
+
+<style>
+  .books-page-header {
+    max-width: 720px;
+    margin: 0 auto 3rem;
+    text-align: center;
+  }
+
+  .books-page-title {
+    font-size: clamp(2.25rem, 4.5vw, 2.75rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.6rem;
+  }
+
+  .books-page-subtitle {
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  .books-list {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .books-list-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 2rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .books-list-row:last-child {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .books-list-cover a {
+    display: block;
+  }
+
+  .books-list-cover img {
+    width: 110px;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    box-shadow: 4px 6px 18px rgba(31, 27, 22, 0.18);
+    display: block;
+  }
+
+  .books-list-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding-top: 0.15rem;
+  }
+
+  .books-list-meta {
+    margin: 0;
+    line-height: 1;
+  }
+
+  .books-list-kind {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+  }
+
+  .books-list-sep {
+    font-size: 11px;
+    color: var(--text-faint);
+  }
+
+  .books-list-year {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--text-faint);
+  }
+
+  .books-list-title {
+    font-size: 1.65rem;
+    line-height: 1.15;
+    margin: 0;
+  }
+
+  .books-list-title a {
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .books-list-title a:hover {
+    color: var(--accent);
+    opacity: 1;
+  }
+
+  .books-list-awards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .books-list-tagline {
+    font-style: italic;
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .books-list-synopsis {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.65;
+  }
+
+  .books-list-more {
+    display: inline-block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    color: var(--bg);
+    background: var(--text);
+    text-decoration: none;
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+    align-self: flex-start;
+    margin-top: 0.25rem;
+  }
+
+  .books-list-more:hover { opacity: 0.75; }
+
+  @media (max-width: 540px) {
+    .books-list-row { grid-template-columns: 80px 1fr; gap: 1.25rem; }
+    .books-list-cover img { width: 80px; }
+  }
+</style>

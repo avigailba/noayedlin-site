@@ -4,32 +4,79 @@ import { getCollection } from 'astro:content';
 
 const books = await getCollection('booksEn');
 const featured = books.find((b) => b.id === 'stockholm');
+const featured2 = books.find((b) => b.id === 'house-arrest');
+
+const mediaItems = [
+  { title: 'Israel novelist Noa Yedlin essay Hamas war', source: 'Rolling Stone', href: 'https://www.rollingstone.com/politics/political-commentary/israel-novelist-noa-yedlin-essay-hamas-war-1234862193/' },
+  { title: "Stockholm's exploration of mortality", source: 'Ploughshares', href: 'https://blog.pshares.org/stockholms-exploration-of-mortality/' },
+  { title: 'The lady of the house bites off a pound of flesh', source: 'Haaretz', href: 'https://www.haaretz.com/2013-01-31/ty-article/.premium/the-lady-of-the-house-bites-off-a-pound-of-flesh/0000017f-f76d-d044-adff-f7fdd9f50000' },
+];
 ---
 
 <Layout title="Home" lang="en">
-  <section class="hero">
-    <div class="hero-text">
-      <h1>Noa Yedlin</h1>
-      <p>
-        Israeli novelist and screenwriter. Winner of the Sapir Prize and the Prime Minister's
-        Literature Award. Author of <em>Stockholm</em>, <em>House Arrest</em>,
-        <em>People Like Us</em>, and <em>The Wrong Book</em>.
-      </p>
-      <p style="margin-top:1.5rem;">
-        <a href="/books" style="text-decoration:none; border-bottom: 2px solid currentColor; padding-bottom:2px;">
-          See all books →
-        </a>
-      </p>
-    </div>
-    {featured && (
-      <a href={`/books/${featured.data.slug}`} class="book-card" style="max-width:260px; justify-self:center;">
-        <img src={featured.data.cover} alt={`Cover of ${featured.data.title}`} />
-        <h3>{featured.data.title}</h3>
-        {featured.data.reviews?.[0] && (
-          <p>"{featured.data.reviews[0].quote}" — {featured.data.reviews[0].source}</p>
-        )}
-      </a>
-    )}
+
+  {/* Two featured books — side by side */}
+  {(featured2 || featured) && (
+    <section class="hp-books-hero">
+      {featured2 && (
+        <div class="hp-book-col">
+          {featured2.data.badge && <p class="hp-book-badge">{featured2.data.badge}</p>}
+          <a href={`/books/${featured2.data.slug}`} class="hp-book-cover-link">
+            <img src={featured2.data.cover} alt={`Cover of ${featured2.data.title}`} class="hp-book-cover" />
+          </a>
+          <h2 class="hp-book-title">
+            <a href={`/books/${featured2.data.slug}`}>{featured2.data.title}</a>
+          </h2>
+          <blockquote class="hp-book-quote">"A lucid, clear, and distinct voice"</blockquote>
+          <p class="hp-book-attr">— Dorit Rabinyan</p>
+          {featured2.data.purchaseLinks && featured2.data.purchaseLinks.length > 0 && (
+            <div class="hp-book-links">
+              {featured2.data.purchaseLinks.map((link) => (
+                <a href={link.href} target="_blank" rel="noopener" class="purchase-btn">{link.label}</a>
+              ))}
+            </div>
+          )}
+          <a href={`/books/${featured2.data.slug}`} class="book-more-link">More about the book →</a>
+        </div>
+      )}
+
+      <div class="hp-books-divider" aria-hidden="true"></div>
+
+      {featured && (
+        <div class="hp-book-col">
+          <a href={`/books/${featured.data.slug}`} class="hp-book-cover-link">
+            <img src={featured.data.cover} alt={`Cover of ${featured.data.title}`} class="hp-book-cover" />
+          </a>
+          <h2 class="hp-book-title">
+            <a href={`/books/${featured.data.slug}`}>{featured.data.title}</a>
+          </h2>
+          {featured.data.reviews && featured.data.reviews[0] && (
+            <>
+              {featured.data.reviews[0].starred && <p class="kirkus-star">★ Kirkus Starred Review</p>}
+              <blockquote class="hp-book-quote">"{featured.data.reviews[0].quote}"</blockquote>
+              <p class="hp-book-attr">— {featured.data.reviews[0].source}</p>
+            </>
+          )}
+          {featured.data.purchaseLinks && featured.data.purchaseLinks.length > 0 && (
+            <div class="hp-book-links">
+              {featured.data.purchaseLinks.map((link) => (
+                <a href={link.href} target="_blank" rel="noopener" class="purchase-btn">{link.label}</a>
+              ))}
+            </div>
+          )}
+          <a href={`/books/${featured.data.slug}`} class="book-more-link">More about the book →</a>
+        </div>
+      )}
+    </section>
+  )}
+
+  <section class="hp-bio-strip">
+    <p class="hp-bio-name">Noa Yedlin</p>
+    <p class="hp-bio-desc">
+      Israeli novelist and screenwriter. Winner of the Sapir Prize and the Prime Minister's
+      Literature Award. Author of <em>Stockholm</em>, <em>House Arrest</em>,
+      <em>People Like Us</em>, and <em>The Wrong Book</em>.
+    </p>
   </section>
 
   <section class="section">
@@ -43,5 +90,22 @@ const featured = books.find((b) => b.id === 'stockholm');
         </a>
       ))}
     </div>
+  </section>
+
+  <section class="section">
+    <p class="section-title">Media</p>
+    <ul class="media-list">
+      {mediaItems.map((item) => (
+        <li>
+          <span class="media-source">{item.source}</span>
+          <a href={item.href}>{item.title}</a>
+        </li>
+      ))}
+    </ul>
+    <p style="margin-top: 1.5rem;">
+      <a href="/media" style="text-decoration:none; border-bottom: 1px solid currentColor; font-size: 0.875rem;">
+        See all media →
+      </a>
+    </p>
   </section>
 </Layout>

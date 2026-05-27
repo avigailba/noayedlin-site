@@ -11,29 +11,406 @@ export async function getStaticPaths() {
 }
 
 const { book } = Astro.props;
-const { title, cover, description, year, reviews } = book.data;
+const {
+  title, cover, coverColor, description, synopsis, year, kind,
+  reviews, purchaseLinks, selectedReviews, adaptationText, adaptations,
+  awards, prizes, tagline, badge, excerpt,
+} = book.data;
+
+const allBooks = await getCollection('booksEn');
+const sortedBooks = allBooks.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+
+const allReviews = [
+  ...(selectedReviews ?? []).map((r) => ({
+    quote: r.quote,
+    name: r.reviewer,
+    pub: r.publication ?? '',
+    starred: false,
+  })),
+  ...(reviews ?? [])
+    .filter((r) => !(selectedReviews ?? []).some((s) => s.quote.startsWith(r.quote.slice(0, 40))))
+    .map((r) => ({ quote: r.quote, name: r.source, pub: '', starred: r.starred ?? false })),
+];
+
+const allPrizes = [...(prizes ?? []), ...(awards ?? [])];
+
+const allAdaptations = adaptations ??
+  (adaptationText ? [{ title: '', medium: adaptationText, year: undefined }] : []);
 ---
 
 <Layout title={title} lang="en">
-  <div class="about-layout">
-    <div>
-      <img src={cover} alt={`Cover of ${title}`} style="border: 1px solid var(--color-border);" />
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/books">Books</a>
+    <span aria-hidden="true"> / </span>
+    <span>{title}</span>
+  </nav>
+  <hr class="breadcrumb-rule" />
+
+  <section class="bd-hero">
+    <div class="bd-cover-wrap" style={coverColor ? `background: ${coverColor};` : ''}>
+      <img src={cover} alt={`Cover of ${title}`} />
     </div>
-    <div>
-      <h1>{title}</h1>
-      {year && <p style="color: var(--color-muted); margin-bottom: 1.5rem;">{year}</p>}
-      <p>{description}</p>
-      {reviews && reviews.length > 0 && (
-        <div style="margin-top: 2rem;">
-          <p class="section-title">Reviews</p>
-          {reviews.map((r) => (
-            <blockquote style="border-left: 3px solid var(--color-border); padding-left: 1rem; margin-bottom: 1rem;">
-              <p>"{r.quote}"</p>
-              <footer style="font-size: 0.85rem; color: var(--color-muted);">— {r.source}</footer>
-            </blockquote>
+    <div class="bd-info">
+      {(kind || year) && (
+        <p class="eyebrow bd-eyebrow">
+          {kind}{kind && year ? ' · ' : ''}{year}
+        </p>
+      )}
+      <h1 class="bd-title">{title}</h1>
+      {badge && <p class="book-badge">{badge}</p>}
+      {(allPrizes.length > 0) && (
+        <div class="bd-hero-awards">
+          {allPrizes.map((prize) => (
+            <span class="award-badge">{prize}</span>
           ))}
         </div>
       )}
+      {tagline && <p class="bd-tagline">{tagline}</p>}
+      {excerpt && (
+        <div class="bd-ctas">
+          <a href={excerpt} class="bd-cta-outline">Read an excerpt</a>
+        </div>
+      )}
     </div>
-  </div>
+  </section>
+
+  {purchaseLinks && purchaseLinks.length > 0 && (
+    <div id="buy" class="bd-buy-band">
+      <p class="eyebrow">Where to buy</p>
+      <div class="bd-buy-grid">
+        {purchaseLinks.map((link) => (
+          <div class="bd-buy-cell">
+            <a href={link.href} target="_blank" rel="noopener" class="bd-buy-link">
+              {link.label}
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <hr class="section-rule" />
+
+  <section class="bd-synopsis">
+    <p class="eyebrow bd-section-eyebrow">Synopsis</p>
+    <div class="bd-synopsis-body">
+      {(synopsis ?? description).split('\n').filter(p => p.trim()).map((para) => (
+        <p>{para}</p>
+      ))}
+    </div>
+  </section>
+
+  {allReviews.length > 0 && (
+    <>
+      <hr class="section-rule" />
+      <section class="bd-praise">
+        <p class="eyebrow bd-section-eyebrow">Praise</p>
+        <div class="bd-reviews">
+          {allReviews.map((r) => (
+            <div class="bd-review">
+              {r.starred && <p class="kirkus-star">★ Kirkus Starred Review</p>}
+              <blockquote class="bd-quote">"{r.quote}"</blockquote>
+              <p class="bd-attribution">
+                {r.name}{r.name && r.pub ? ', ' : ''}{r.pub}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
+  )}
+
+  {allPrizes.length > 0 && (
+    <>
+      <hr class="section-rule" />
+      <section class="bd-prizes">
+        <p class="eyebrow bd-section-eyebrow">Prizes</p>
+        <ul class="bd-prize-list">
+          {allPrizes.map((prize) => <li>{prize}</li>)}
+        </ul>
+      </section>
+    </>
+  )}
+
+  {allAdaptations.length > 0 && (
+    <>
+      <hr class="section-rule" />
+      <section class="bd-adaptations">
+        <p class="eyebrow bd-section-eyebrow">Adaptations</p>
+        <ul class="bd-adaptation-list">
+          {allAdaptations.map((a) => (
+            <li>
+              {a.title ? <><em>{a.title}</em>{' — '}</> : null}
+              {a.medium}{a.year ? `, ${a.year}` : ''}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </>
+  )}
+  )}
+
+  <section class="bd-other">
+    <p class="eyebrow bd-section-eyebrow">Other Books</p>
+    <div class="bd-other-grid">
+      {sortedBooks.map((b) => {
+        const isCurrent = b.data.slug === book.data.slug;
+        return (
+          <a href={`/books/${b.data.slug}`} class={`bd-other-tile${isCurrent ? ' is-current' : ''}`}>
+            <div class="bd-other-cover">
+              <img src={b.data.cover} alt={`Cover of ${b.data.title}`} />
+              {isCurrent && <span class="bd-reading-now">Reading now</span>}
+            </div>
+            <p class="bd-other-title"><em>{b.data.title}</em></p>
+            {!isCurrent && b.data.year && <p class="bd-other-year">{b.data.year}</p>}
+          </a>
+        );
+      })}
+    </div>
+  </section>
 </Layout>
+
+<style>
+  /* Breadcrumb */
+  .breadcrumb {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-faint);
+    margin-bottom: 0.75rem;
+  }
+  .breadcrumb a { color: var(--text-faint); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--accent); opacity: 1; }
+  .breadcrumb-rule { border: none; border-top: 1px solid var(--rule); margin-bottom: 3rem; }
+
+  /* Hero */
+  .bd-hero {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 3rem;
+    align-items: start;
+    margin-bottom: 0;
+    padding-bottom: 3rem;
+  }
+
+  .bd-cover-wrap {
+    width: 180px;
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .bd-cover-wrap img {
+    width: 100%;
+    display: block;
+    box-shadow: 4px 6px 18px rgba(31, 27, 22, 0.18);
+  }
+
+  .bd-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    padding-top: 0.25rem;
+  }
+
+  .bd-eyebrow { color: var(--accent); margin: 0; }
+
+  .bd-title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0;
+    text-align: left;
+  }
+
+  .bd-hero-awards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .bd-tagline {
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.55;
+    max-width: 44ch;
+  }
+
+  .bd-ctas {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 0.25rem;
+  }
+
+  .bd-cta-outline {
+    display: inline-block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    color: var(--bg);
+    background: var(--text);
+    text-decoration: none;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    transition: opacity 0.15s;
+  }
+  .bd-cta-outline:hover { opacity: 0.75; }
+
+  /* Section dividers */
+  .section-rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 3rem 0;
+  }
+
+  /* Section eyebrow */
+  .bd-section-eyebrow {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Synopsis */
+  .bd-synopsis { max-width: 560px; margin: 0 auto; }
+  .bd-synopsis-body p { font-size: 0.95rem; line-height: 1.75; color: var(--text); margin-bottom: 1rem; }
+  .bd-synopsis-body p:last-child { margin-bottom: 0; }
+
+  /* Praise */
+  .bd-praise { max-width: 560px; margin: 0 auto; }
+  .bd-reviews { display: flex; flex-direction: column; gap: 2rem; }
+
+  .bd-quote {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    line-height: 1.75;
+    font-style: italic;
+    border-left: 2px solid var(--accent);
+    padding-left: 18px;
+    margin: 0 0 0.5rem;
+    color: var(--text);
+  }
+
+  .bd-attribution {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    padding-left: 20px;
+    margin: 0;
+  }
+
+  /* Prizes */
+  .bd-prizes { max-width: 560px; margin: 0 auto; }
+  .bd-prize-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .bd-prize-list li { font-size: 0.95rem; line-height: 1.7; color: var(--text); }
+
+  /* Adaptations */
+  .bd-adaptations { max-width: 560px; margin: 0 auto; }
+  .bd-adaptation-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .bd-adaptation-list li { font-size: 0.95rem; line-height: 1.7; color: var(--text); }
+
+  /* Buy band */
+  .bd-buy-band {
+    background: var(--bg-alt);
+    margin-left: calc(-1 * var(--spacing));
+    margin-right: calc(-1 * var(--spacing));
+    padding: 3rem var(--spacing);
+    margin-top: 3rem;
+    text-align: center;
+  }
+
+  .bd-buy-band .eyebrow { margin-bottom: 1.5rem; }
+
+  .bd-buy-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem 3rem;
+  }
+
+  .bd-buy-cell { text-align: center; }
+
+  .bd-buy-link {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .bd-buy-link:hover { opacity: 0.7; }
+
+  /* Other books */
+  .bd-other { margin-top: 3rem; }
+  .bd-other-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 0;
+  }
+
+  .bd-other-tile {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .bd-other-cover { position: relative; }
+
+  .bd-other-cover img {
+    width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    display: block;
+  }
+
+  .bd-other-tile.is-current .bd-other-cover img {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .bd-reading-now {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    margin-top: 0.3rem;
+  }
+
+  .bd-other-title {
+    font-size: 0.85rem;
+    color: var(--text);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .bd-other-year {
+    font-size: 0.75rem;
+    color: var(--text-faint);
+    margin: 0;
+  }
+
+  @media (max-width: 680px) {
+    .bd-hero { grid-template-columns: 130px 1fr; gap: 1.5rem; }
+    .bd-cover-wrap { width: 130px; }
+    .bd-other-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 400px) {
+    .bd-hero { grid-template-columns: 1fr; }
+    .bd-cover-wrap { width: 140px; }
+  }
+</style>

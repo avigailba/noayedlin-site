@@ -2,10 +2,59 @@
   "title": "Stockholm",
   "slug": "stockholm",
   "cover": "https://noayedlin.com/wp-content/uploads/2023/09/817D7AOKRqL._SL1500_-679x1024.jpg",
-  "description": "A world-renowned economist and leading candidate for the Nobel Prize in Economics is discovered dead in bed one evening. Stockholm is a darkly comic novel about aging, mortality, ambition, and the secrets we carry to the grave.",
+  "kind": "Novel",
+  "order": 2,
+  "coverColor": "#6B9FB8",
+  "description": "Avishai Sar-Shalom, a world-renowned economist and the leading candidate for the Nobel Prize, is discovered dead in bed by four lifelong friends. Rather than call the police, they decide to conceal his death for eight days — long enough for the Prize committee to make its announcement. Told across eight sections, each from a different friend's perspective, Stockholm is a darkly comic novel about aging, ambition, friendship, and the secrets we carry to the grave.",
   "year": 2023,
+  "awards": ["Shortlisted for the Sapir Prize", "Israeli Best Mini-Series TV Award (adaptation)"],
   "reviews": [
-    { "quote": "A seriously funny take on death and dying.", "source": "Kirkus Reviews (Starred)" },
-    { "quote": "Wry, wise, and utterly absorbing.", "source": "The Guardian" }
+    { "quote": "A seriously funny take on death and dying.", "source": "Kirkus Reviews", "starred": true },
+    { "quote": "Wry, wise, and utterly absorbing.", "source": "The Guardian" },
+    { "quote": "Deviously clever black comedy.", "source": "Publishers Weekly" },
+    { "quote": "A literary tour de force.", "source": "Haaretz" }
+  ],
+  "selectedReviews": [
+    {
+      "quote": "Too funny, too sad, too real, and too preposterous — just like life. Stockholm is the most entertaining book I've read in a long time.",
+      "reviewer": "Etgar Keret",
+      "publication": "Author"
+    },
+    {
+      "quote": "Bright, witty, irreverent and compassionate… an astute and hilarious study of the human condition.",
+      "reviewer": "Ruby Namdar",
+      "publication": "Author"
+    },
+    {
+      "quote": "Hilarious, refreshing, tightly plotted and vividly written. An irresistible read.",
+      "reviewer": "Jonas Jonasson",
+      "publication": "#1 New York Times bestselling author"
+    },
+    {
+      "quote": "The portraits of these four friends are so vivid that as I read, I felt that Avishay's friends also became mine. Unputdownable, full of intrigue, a bit of sadness, and a lot of humor.",
+      "reviewer": "Helene Tursten",
+      "publication": "Internationally bestselling author"
+    },
+    {
+      "quote": "A brilliant meditation on the intricacies of friendship, aging, ego, wounds and healing. Yedlin expertly peels back her complex characters' layers to reveal insights, dark and humorous alike, about what it is to be alive and mortal.",
+      "reviewer": "Parini Shroff",
+      "publication": "Author of The Bandit Queens"
+    },
+    {
+      "quote": "What is sensational about Stockholm is the body: the way in which Yedlin hitches up her sharpened humor to her unique ability to close each segment with fine irony, treating the essence of an aging body — or even a dead one — in a way that astonishes and at the same time appears completely natural.",
+      "reviewer": "Netta Halperin",
+      "publication": "Israel Today"
+    }
+  ],
+  "adaptations": [
+    { "title": "Stockholm", "medium": "Israeli TV series, Kan 11 (two seasons) — winner of the Israeli Best Mini-Series TV Award", "year": 2021 },
+    { "title": "You Don't Die Among Friends", "medium": "German remake — winner of Best Scripted Format at the International Format Awards and Best European Series at La Rochelle Festival de la Fiction", "year": 2021 },
+    { "title": "Stockholm", "medium": "Swedish adaptation, SVT", "year": 2022 }
+  ],
+  "purchaseLinks": [
+    { "label": "Amazon", "href": "https://www.amazon.com/Stockholm-Novel-Noa-Yedlin/dp/0063298678" },
+    { "label": "Barnes & Noble", "href": "https://www.barnesandnoble.com/w/stockholm-noa-yedlin/1143956543" },
+    { "label": "Books-A-Million", "href": "https://www.booksamillion.com/p/Stockholm/Noa-Yedlin/9780063298675" },
+    { "label": "HarperCollins", "href": "https://www.harpercollins.com/products/stockholm-noa-yedlin" }
   ]
 }

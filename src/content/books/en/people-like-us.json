@@ -1,8 +1,43 @@
 {
   "title": "People Like Us",
   "slug": "people-like-us",
-  "cover": "https://noayedlin.com/wp-content/uploads/2023/08/Mask-group-2.png",
-  "description": "Osnat and Dror, a couple in their forties with two daughters, relocate to their dream house during summer. A sharp, witty portrait of a family navigating social ambition, identity, and the gap between aspiration and reality.",
+  "cover": "/images/people-like-us-heb.jpg",
+  "kind": "Novel",
+  "order": 3,
+  "coverColor": "#1A1A1A",
+  "description": "Osnat and Dror, a couple in their forties with two daughters, buy their dream home in a rundown neighborhood — betting on gentrification, on their own good taste, on the idea that people like them belong somewhere better. Then the neighborhood pushes back. A sharp, darkly comic portrait of a family, a social class, and the gap between who we think we are and how we actually live.",
+  "tagline": "A darkly comic portrait of a family and the gap between who we think we are and how we actually live.",
   "year": 2018,
-  "reviews": []
+  "awards": ["Prime Minister's Literature Award (2022)"],
+  "reviews": [
+    { "quote": "Examines an Ashkenazi-secular community with masks stripped from smug faces with striking boldness.", "source": "Israel Today" },
+    { "quote": "Sharp language and ironic dialogue dissect upper-middle-class Israeli life with precision and psychological depth.", "source": "Westdeutscher Rundfunk" },
+    { "quote": "Top-notch.", "source": "Yedioth Aharonoth" },
+    { "quote": "Contemporary, intelligent, and darkly humorous about bourgeois complacency.", "source": "Melabes" }
+  ],
+  "selectedReviews": [
+    {
+      "quote": "This novel examines an Ashkenazi-secular community under scrutiny, with masks stripped from smug faces with striking boldness.",
+      "reviewer": "Darya Maoz",
+      "publication": "Israel Today"
+    },
+    {
+      "quote": "Sharp language and ironic dialogue dissect upper-middle-class Israeli life with precision and psychological depth.",
+      "reviewer": "",
+      "publication": "Westdeutscher Rundfunk"
+    },
+    {
+      "quote": "A psychologically thrilling novel that is contemporary, intelligent, and darkly humorous about bourgeois complacency.",
+      "reviewer": "Meira Barnea Goldberg",
+      "publication": "Melabes"
+    },
+    {
+      "quote": "Yedlin's cultural insight is comparable to Houellebecq and Franzen in capturing the contemporary zeitgeist.",
+      "reviewer": "Elad Zeret",
+      "publication": "Yedioth Aharonoth"
+    }
+  ],
+  "adaptations": [
+    { "title": "People Like Us", "medium": "Israeli TV series, Kan 11, written by Noa Yedlin", "year": 2024 }
+  ]
 }

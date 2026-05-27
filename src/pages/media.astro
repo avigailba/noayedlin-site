@@ -2,9 +2,31 @@
 import Layout from '../layouts/Layout.astro';
 
 const items = [
-  { title: 'The dark comedy that became a German hit', source: 'Rolling Stone', href: '#' },
-  { title: 'Noa Yedlin on writing Stockholm', source: 'Haaretz', href: '#' },
-  { title: '66 Israeli Women You Should Know', source: 'Haaretz Magazine', href: '#' },
+  {
+    title: 'Israel novelist Noa Yedlin essay Hamas war',
+    source: 'Rolling Stone',
+    href: 'https://www.rollingstone.com/politics/political-commentary/israel-novelist-noa-yedlin-essay-hamas-war-1234862193/',
+  },
+  {
+    title: 'Stockholm\'s exploration of mortality',
+    source: 'Ploughshares',
+    href: 'https://blog.pshares.org/stockholms-exploration-of-mortality/',
+  },
+  {
+    title: 'The lady of the house bites off a pound of flesh',
+    source: 'Haaretz',
+    href: 'https://www.haaretz.com/2013-01-31/ty-article/.premium/the-lady-of-the-house-bites-off-a-pound-of-flesh/0000017f-f76d-d044-adff-f7fdd9f50000',
+  },
+  {
+    title: '"The Wrong Book" — On Our Shelf',
+    source: 'Israel Today',
+    href: 'https://newsrnd.com/life/2022-06-01-%22the-wrong-book%22-by-noa-yadlin--on-our-shelf-%7C-israel-today.HkMiwGZSO5.html',
+  },
+  {
+    title: 'Cultural Events — Noa Yedlin',
+    source: 'The National Library of Israel',
+    href: 'https://www.nli.org.il/en/visit/events/noa-yedlin',
+  },
 ];
 ---
 
@@ -14,7 +36,7 @@ const items = [
     {items.map((item) => (
       <li>
         <span class="media-source">{item.source}</span>
-        <a href={item.href}>{item.title}</a>
+        <a href={item.href} target="_blank" rel="noopener">{item.title}</a>
       </li>
     ))}
   </ul>
