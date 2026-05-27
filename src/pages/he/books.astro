@@ -1,0 +1,20 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const books = await getCollection('booksHe');
+---
+
+<Layout title="ספרים" lang="he">
+  <h1>ספרים</h1>
+  <div class="books-grid">
+    {books.map((book) => (
+      <a href={`/he/books/${book.data.slug}`} class="book-card">
+        <img src={book.data.cover} alt={`עטיפת ${book.data.title}`} />
+        <h3>{book.data.title}</h3>
+        {book.data.year && <p>{book.data.year}</p>}
+        <p>{book.data.description.slice(0, 100)}…</p>
+      </a>
+    ))}
+  </div>
+</Layout>

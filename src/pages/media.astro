@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const items = [
+  { title: 'The dark comedy that became a German hit', source: 'Rolling Stone', href: '#' },
+  { title: 'Noa Yedlin on writing Stockholm', source: 'Haaretz', href: '#' },
+  { title: '66 Israeli Women You Should Know', source: 'Haaretz Magazine', href: '#' },
+];
+---
+
+<Layout title="Media" lang="en">
+  <h1>Media</h1>
+  <ul class="media-list" style="margin-top: 1.5rem;">
+    {items.map((item) => (
+      <li>
+        <span class="media-source">{item.source}</span>
+        <a href={item.href}>{item.title}</a>
+      </li>
+    ))}
+  </ul>
+</Layout>

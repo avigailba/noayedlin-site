@@ -1,0 +1,39 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const books = await getCollection('booksHe');
+  return books.map((book) => ({
+    params: { slug: book.data.slug },
+    props: { book },
+  }));
+}
+
+const { book } = Astro.props;
+const { title, cover, description, year, reviews } = book.data;
+---
+
+<Layout title={title} lang="he">
+  <div class="about-layout">
+    <div>
+      <img src={cover} alt={`עטיפת ${title}`} style="border: 1px solid var(--color-border);" />
+    </div>
+    <div>
+      <h1>{title}</h1>
+      {year && <p style="color: var(--color-muted); margin-bottom: 1.5rem;">{year}</p>}
+      <p>{description}</p>
+      {reviews && reviews.length > 0 && (
+        <div style="margin-top: 2rem;">
+          <p class="section-title">ביקורות</p>
+          {reviews.map((r) => (
+            <blockquote style="border-right: 3px solid var(--color-border); padding-right: 1rem; margin-bottom: 1rem;">
+              <p>"{r.quote}"</p>
+              <footer style="font-size: 0.85rem; color: var(--color-muted);">— {r.source}</footer>
+            </blockquote>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+</Layout>

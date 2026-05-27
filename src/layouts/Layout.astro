@@ -1,0 +1,75 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  lang: 'en' | 'he';
+  description?: string;
+}
+
+const { title, lang, description = 'Noa Yedlin – Israeli novelist and screenwriter' } = Astro.props;
+
+const isHe = lang === 'he';
+
+const nav = isHe
+  ? [
+      { label: 'ספרים', href: '/he/books' },
+      { label: 'עיבודים', href: '/he/adaptations' },
+      { label: 'אירועים', href: '/he/events' },
+      { label: 'תקשורת', href: '/he/media' },
+      { label: 'אודות', href: '/he/about' },
+      { label: 'צור קשר', href: '/he/contact' },
+    ]
+  : [
+      { label: 'Books', href: '/books' },
+      { label: 'Adaptations', href: '/adaptations' },
+      { label: 'Events', href: '/events' },
+      { label: 'Media', href: '/media' },
+      { label: 'About', href: '/about' },
+      { label: 'Contact', href: '/contact' },
+    ];
+
+const altLangHref = isHe ? '/' : '/he';
+const altLangLabel = isHe ? 'English' : 'עברית';
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang={lang} dir={isHe ? 'rtl' : 'ltr'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.ico" />
+    <title>{title} – Noa Yedlin</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav-inner">
+        <a href={isHe ? '/he' : '/'} class="site-title">
+          {isHe ? 'נועה ידלין' : 'Noa Yedlin'}
+        </a>
+        <ul class="nav-links">
+          {nav.map(({ label, href }) => (
+            <li>
+              <a href={href} aria-current={currentPath === href ? 'page' : undefined}>
+                {label}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a href={altLangHref} class="lang-toggle">{altLangLabel}</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <p>© {new Date().getFullYear()} Noa Yedlin. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

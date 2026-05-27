@@ -1,0 +1,46 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const books = await getCollection('booksHe');
+const featured = books.find((b) => b.data.slug === 'stockholm');
+---
+
+<Layout title="בית" lang="he">
+  <section class="hero">
+    <div class="hero-text">
+      <h1>נועה ידלין</h1>
+      <p>
+        סופרת וכותבת תסריטים ישראלית. זוכת פרס ספיר ופרס ראש הממשלה לספרות. מחברת
+        <em>סטוקהולם</em>, <em>מעצר בית</em>, <em>אנשים כמונו</em> ו<em>הספר הלא נכון</em>.
+      </p>
+      <p style="margin-top:1.5rem;">
+        <a href="/he/books" style="text-decoration:none; border-bottom: 2px solid currentColor; padding-bottom:2px;">
+          כל הספרים ←
+        </a>
+      </p>
+    </div>
+    {featured && (
+      <a href={`/he/books/${featured.data.slug}`} class="book-card" style="max-width:260px; justify-self:center;">
+        <img src={featured.data.cover} alt={`עטיפת ${featured.data.title}`} />
+        <h3>{featured.data.title}</h3>
+        {featured.data.reviews?.[0] && (
+          <p>"{featured.data.reviews[0].quote}" — {featured.data.reviews[0].source}</p>
+        )}
+      </a>
+    )}
+  </section>
+
+  <section class="section">
+    <p class="section-title">ספרים</p>
+    <div class="books-grid">
+      {books.map((book) => (
+        <a href={`/he/books/${book.data.slug}`} class="book-card">
+          <img src={book.data.cover} alt={`עטיפת ${book.data.title}`} />
+          <h3>{book.data.title}</h3>
+          <p>{book.data.description.slice(0, 80)}…</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</Layout>

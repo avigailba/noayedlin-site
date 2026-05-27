@@ -1,0 +1,21 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const items = [
+  { title: 'הקומדיה האפלה שהפכה להצלחה גרמנית', source: 'Rolling Stone', href: '#' },
+  { title: 'נועה ידלין על כתיבת סטוקהולם', source: 'הארץ', href: '#' },
+  { title: '66 נשים ישראליות שכדאי להכיר', source: 'מגזין הארץ', href: '#' },
+];
+---
+
+<Layout title="תקשורת" lang="he">
+  <h1>תקשורת</h1>
+  <ul class="media-list" style="margin-top: 1.5rem;">
+    {items.map((item) => (
+      <li>
+        <span class="media-source">{item.source}</span>
+        <a href={item.href}>{item.title}</a>
+      </li>
+    ))}
+  </ul>
+</Layout>
