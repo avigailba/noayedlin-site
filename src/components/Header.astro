@@ -1,0 +1,205 @@
+---
+import MobileNav from './MobileNav.astro';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const desktopNav = [
+  { label: 'Books',       href: '/books'       },
+  { label: 'Adaptations', href: '/adaptations' },
+  { label: 'Events',      href: '/events'      },
+  { label: 'Media',       href: '/media'       },
+  { label: 'About',       href: '/about'       },
+  { label: 'Contact',     href: '/contact'     },
+  { label: 'Design',      href: '/design'      },
+];
+---
+
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="/" class="site-title">Noa Yedlin</a>
+
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <ul class="nav-links">
+        {desktopNav.map(({ label, href }) => (
+          <li>
+            <a href={href} aria-current={currentPath === href ? 'page' : undefined}>
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <button
+      class="nav-toggle"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+    >
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+<MobileNav currentPath={currentPath} />
+
+<style>
+/* ── Header shell ── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg);
+  border-bottom: 0.5px solid var(--rule);
+}
+
+.site-header.scrolled {
+  box-shadow: 0 0.5px 0 var(--rule);
+}
+
+.header-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 18px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ── Wordmark ── */
+.site-title {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  text-decoration: none;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+/* ── Desktop nav ── */
+.desktop-nav { display: flex; }
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 22px;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-size: var(--text-xs);
+  letter-spacing: var(--track-wide);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.nav-links a:hover {
+  color: var(--text);
+  opacity: 1;
+}
+
+.nav-links a[aria-current="page"] {
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 2px;
+  opacity: 1;
+}
+
+/* ── Hamburger ── */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.bar {
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background: var(--text);
+}
+
+.nav-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (max-width: 767px) {
+  .desktop-nav { display: none; }
+  .nav-toggle  { display: flex; }
+}
+</style>
+
+<script>
+// ── Sticky shadow ──
+const header = document.getElementById('site-header');
+window.addEventListener('scroll', () => {
+  header?.classList.toggle('scrolled', window.scrollY > 8);
+}, { passive: true });
+
+// ── Mobile drawer ──
+const toggle    = document.querySelector<HTMLButtonElement>('.nav-toggle');
+const drawer    = document.getElementById('mobile-nav');
+const closeBtn  = drawer?.querySelector<HTMLButtonElement>('.drawer-close');
+const navLinks  = drawer?.querySelectorAll<HTMLAnchorElement>('.drawer-link');
+
+function openDrawer() {
+  if (!drawer || !toggle) return;
+  drawer.classList.add('open');
+  drawer.setAttribute('aria-hidden', 'false');
+  toggle.setAttribute('aria-expanded', 'true');
+  toggle.setAttribute('aria-label', 'Close menu');
+  document.documentElement.style.overflow = 'hidden';
+  closeBtn?.focus();
+}
+
+function closeDrawer() {
+  if (!drawer || !toggle) return;
+  drawer.classList.remove('open');
+  drawer.setAttribute('aria-hidden', 'true');
+  toggle.setAttribute('aria-expanded', 'false');
+  toggle.setAttribute('aria-label', 'Open menu');
+  document.documentElement.style.overflow = '';
+  toggle.focus();
+}
+
+toggle?.addEventListener('click', () => {
+  toggle.getAttribute('aria-expanded') === 'true' ? closeDrawer() : openDrawer();
+});
+
+closeBtn?.addEventListener('click', closeDrawer);
+
+navLinks?.forEach(link => link.addEventListener('click', () => closeDrawer()));
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && drawer?.classList.contains('open')) closeDrawer();
+});
+
+// ── Focus trap ──
+drawer?.addEventListener('keydown', (e) => {
+  if (e.key !== 'Tab') return;
+  const focusables = Array.from(
+    drawer.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')
+  );
+  const first = focusables[0];
+  const last  = focusables[focusables.length - 1];
+  if (e.shiftKey) {
+    if (document.activeElement === first) { e.preventDefault(); last?.focus(); }
+  } else {
+    if (document.activeElement === last)  { e.preventDefault(); first?.focus(); }
+  }
+});
+</script>

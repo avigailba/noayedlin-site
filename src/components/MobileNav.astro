@@ -1,0 +1,229 @@
+---
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const mobileNav = [
+  { label: 'Home',        href: '/'            },
+  { label: 'Books',       href: '/books'        },
+  { label: 'Adaptations', href: '/adaptations'  },
+  { label: 'Events',      href: '/events'       },
+  { label: 'Media',       href: '/media'        },
+  { label: 'About',       href: '/about'        },
+  { label: 'Contact',     href: '/contact'      },
+  { label: 'Design',      href: '/design'       },
+];
+---
+
+<div id="mobile-nav" class="mobile-drawer" aria-hidden="true">
+  <div class="drawer-top">
+    <a href="/" class="drawer-wordmark">Noa Yedlin</a>
+    <button class="drawer-close" aria-label="Close menu">
+      <span class="x-bar x-bar-1"></span>
+      <span class="x-bar x-bar-2"></span>
+    </button>
+  </div>
+
+  <nav class="drawer-nav" aria-label="Mobile navigation">
+    <ul class="drawer-links">
+      {mobileNav.map(({ label, href }) => (
+        <li>
+          <a
+            href={href}
+            class="drawer-link"
+            aria-current={currentPath === href ? 'page' : undefined}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <div class="drawer-footer">
+    <div class="drawer-footer-row">
+      <div class="drawer-socials">
+        <!-- Instagram (Tabler outline style) -->
+        <a href="#" aria-label="Instagram" class="social-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+        </a>
+        <!-- YouTube (Tabler outline style) -->
+        <a href="#" aria-label="YouTube" class="social-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+        <!-- Facebook (Tabler outline style) -->
+        <a href="#" aria-label="Facebook" class="social-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div class="drawer-footer-row">
+      <a href="#" class="drawer-newsletter">Letters from Noa →</a>
+    </div>
+  </div>
+</div>
+
+<style>
+.mobile-drawer {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.mobile-drawer.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ── Drawer top bar ── */
+.drawer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 32px;
+  border-bottom: 0.5px solid var(--rule);
+  flex-shrink: 0;
+}
+
+.drawer-wordmark {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.drawer-close {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  padding: 8px;
+  box-sizing: content-box;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.x-bar {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 20px;
+  height: 1.5px;
+  background: var(--text);
+}
+
+.x-bar-1 { transform: translateY(-50%) rotate(45deg); }
+.x-bar-2 { transform: translateY(-50%) rotate(-45deg); }
+
+/* ── Nav list ── */
+.drawer-nav {
+  flex: 1;
+  padding: 32px 24px;
+  overflow-y: auto;
+}
+
+.drawer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.drawer-link {
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  font-weight: 400;
+  line-height: 1.4;
+  text-decoration: none;
+  color: var(--text);
+  display: block;
+  position: relative;
+}
+
+.drawer-link:hover { color: var(--accent); opacity: 1; }
+
+.drawer-link[aria-current="page"] {
+  color: var(--accent);
+}
+
+.drawer-link[aria-current="page"]::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+}
+
+/* ── Footer ── */
+.drawer-footer {
+  flex-shrink: 0;
+  padding: 24px;
+  border-top: 0.5px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.drawer-footer-row {
+  display: flex;
+  align-items: center;
+}
+
+.drawer-socials {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.social-icon {
+  color: var(--text-muted);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.social-icon:hover { color: var(--text); opacity: 1; }
+
+.drawer-newsletter {
+  font-size: var(--text-xs);
+  letter-spacing: var(--track-wide);
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 1px;
+}
+
+.drawer-newsletter:hover { opacity: 0.7; }
+
+/* ── Focus rings ── */
+.drawer-close:focus-visible,
+.drawer-link:focus-visible,
+.social-icon:focus-visible,
+.drawer-newsletter:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+</style>

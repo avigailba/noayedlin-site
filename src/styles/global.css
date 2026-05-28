@@ -110,72 +110,6 @@ a:hover { opacity: 0.7; }
 
 img { max-width: 100%; display: block; }
 
-/* Nav */
-.site-header {
-  border-bottom: 0.5px solid var(--rule);
-  padding: 1.25rem var(--spacing);
-}
-
-.nav-inner {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.site-title {
-  font-family: var(--font-serif);
-  font-size: var(--text-title);
-  text-decoration: none;
-  white-space: nowrap;
-  color: var(--text);
-  letter-spacing: 0;
-}
-
-.nav-links {
-  display: flex;
-  list-style: none;
-  gap: 1.75rem;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.nav-links a {
-  text-decoration: none;
-  font-size: var(--text-xs);
-  letter-spacing: var(--track-wide);
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.nav-links a:hover {
-  color: var(--text);
-  opacity: 1;
-}
-
-.nav-links a[aria-current="page"] {
-  color: var(--accent);
-  opacity: 1;
-}
-
-.lang-toggle {
-  font-size: var(--text-xs);
-  padding: 0.25rem 0.6rem;
-  border: 1px solid var(--rule);
-  border-radius: 3px;
-  text-decoration: none !important;
-  color: var(--text-muted) !important;
-}
-
-.lang-toggle:hover {
-  border-color: var(--accent);
-  color: var(--accent) !important;
-  opacity: 1 !important;
-}
-
 /* Footer */
 .site-footer {
   border-top: 0.5px solid var(--rule);
@@ -414,7 +348,6 @@ img { max-width: 100%; display: block; }
 @media (max-width: 680px) {
   .featured-books-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .featured-book-card:nth-child(2) { margin-top: 0; }
-  .nav-links { gap: 1rem; }
 }
 
 .featured-reviews {

@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Header from '../components/Header.astro';
 
 interface Props {
   title: string;
@@ -10,30 +11,6 @@ interface Props {
 const { title, lang, description = 'Noa Yedlin – Israeli novelist and screenwriter' } = Astro.props;
 
 const isHe = lang === 'he';
-
-const nav = isHe
-  ? [
-      { label: 'בית', href: '/he' },
-      { label: 'ספרים', href: '/he/books' },
-      { label: 'עיבודים', href: '/he/adaptations' },
-      { label: 'אירועים', href: '/he/events' },
-      { label: 'תקשורת', href: '/he/media' },
-      { label: 'אודות', href: '/he/about' },
-      { label: 'צור קשר', href: '/he/contact' },
-    ]
-  : [
-      { label: 'Home', href: '/' },
-      { label: 'Books', href: '/books' },
-      { label: 'Adaptations', href: '/adaptations' },
-      { label: 'Events', href: '/events' },
-      { label: 'Media', href: '/media' },
-      { label: 'About', href: '/about' },
-      { label: 'Contact', href: '/contact' },
-      { label: 'Design', href: '/design' },
-    ];
-
-const altLangHref = isHe ? '/' : '/he';
-const altLangLabel = isHe ? 'English' : 'עברית';
 const currentPath = Astro.url.pathname;
 ---
 
@@ -50,22 +27,7 @@ const currentPath = Astro.url.pathname;
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <header class="site-header">
-      <nav class="nav-inner">
-        <a href={isHe ? '/he' : '/'} class="site-title">
-          {isHe ? 'נועה ידלין' : 'Noa Yedlin'}
-        </a>
-        <ul class="nav-links">
-          {nav.map(({ label, href }) => (
-            <li>
-              <a href={href} aria-current={currentPath === href ? 'page' : undefined}>
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </header>
+    <Header currentPath={currentPath} />
 
     <main>
       <slot />
