@@ -66,6 +66,13 @@ const allAdaptations = adaptations ??
         </div>
       )}
       {tagline && <p class="bd-tagline">{tagline}</p>}
+      {purchaseLinks && purchaseLinks.length > 0 && (
+        <div class="bd-ctas">
+          {purchaseLinks.map((link) => (
+            <a href={link.href} target="_blank" rel="noopener" class="btn-secondary">{link.label}</a>
+          ))}
+        </div>
+      )}
       {excerpt && (
         <div class="bd-ctas">
           <a href={excerpt} class="btn-primary">Read an excerpt</a>
@@ -73,16 +80,6 @@ const allAdaptations = adaptations ??
       )}
     </div>
   </section>
-
-  {purchaseLinks && purchaseLinks.length > 0 && (
-    <div class="bd-buy-links">
-      {purchaseLinks.map((link) => (
-        <a href={link.href} target="_blank" rel="noopener" class="btn-secondary">
-          {link.label}
-        </a>
-      ))}
-    </div>
-  )}
 
   <section class="bd-synopsis">
     <p class="eyebrow bd-section-eyebrow">Synopsis</p>
