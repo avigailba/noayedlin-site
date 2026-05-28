@@ -156,9 +156,13 @@ img { max-width: 100%; display: block; }
   color: var(--text-muted);
 }
 
-.nav-links a:hover,
-.nav-links a[aria-current="page"] {
+.nav-links a:hover {
   color: var(--text);
+  opacity: 1;
+}
+
+.nav-links a[aria-current="page"] {
+  color: var(--accent);
   opacity: 1;
 }
 
