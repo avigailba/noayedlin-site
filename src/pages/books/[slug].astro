@@ -68,23 +68,19 @@ const allAdaptations = adaptations ??
       {tagline && <p class="bd-tagline">{tagline}</p>}
       {excerpt && (
         <div class="bd-ctas">
-          <a href={excerpt} class="bd-cta-outline">Read an excerpt</a>
+          <a href={excerpt} class="btn-primary">Read an excerpt</a>
         </div>
       )}
     </div>
   </section>
 
   {purchaseLinks && purchaseLinks.length > 0 && (
-    <div id="buy" class="bd-buy-band">
-      <div class="bd-buy-grid">
-        {purchaseLinks.map((link) => (
-          <div class="bd-buy-cell">
-            <a href={link.href} target="_blank" rel="noopener" class="bd-buy-link">
-              {link.label}
-            </a>
-          </div>
-        ))}
-      </div>
+    <div class="bd-buy-links">
+      {purchaseLinks.map((link) => (
+        <a href={link.href} target="_blank" rel="noopener" class="btn-secondary">
+          {link.label}
+        </a>
+      ))}
     </div>
   )}
 
@@ -240,20 +236,6 @@ const allAdaptations = adaptations ??
     margin-top: 0.25rem;
   }
 
-  .bd-cta-outline {
-    display: inline-block;
-    font-size: var(--text-label);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-sm);
-    color: var(--bg);
-    background: var(--text);
-    text-decoration: none;
-    padding: 0.4rem 1rem;
-    border-radius: 100px;
-    transition: opacity 0.15s;
-  }
-  .bd-cta-outline:hover { opacity: 0.75; }
-
   /* Section dividers */
   .section-rule {
     border: none;
@@ -315,38 +297,6 @@ const allAdaptations = adaptations ??
     gap: 0.4rem;
   }
   .bd-adaptation-list li { font-size: 0.95rem; line-height: var(--leading-body); color: var(--text); }
-
-  /* Buy band */
-  .bd-buy-band {
-    background: var(--bg-alt);
-    margin-left: calc(-1 * var(--spacing));
-    margin-right: calc(-1 * var(--spacing));
-    padding: 56px 32px;
-    margin-top: 3rem;
-    margin-bottom: 3rem;
-    text-align: center;
-  }
-
-  .bd-buy-band .eyebrow { margin-bottom: 1.5rem; }
-
-  .bd-buy-grid {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1.5rem 3rem;
-  }
-
-  .bd-buy-cell { text-align: center; }
-
-  .bd-buy-link {
-    font-size: var(--text-label);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-    color: var(--accent);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-  .bd-buy-link:hover { opacity: 0.7; }
 
   /* Other books */
   .bd-other { margin-top: 3rem; }

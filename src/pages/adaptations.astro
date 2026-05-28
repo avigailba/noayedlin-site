@@ -106,7 +106,7 @@ const countriesText = countries.length <= 2
                   {a.data.watch && a.data.watch.length > 0 && (
                     <div class="ap-watch">
                       {a.data.watch.map((w) => (
-                        <a href={w.url} target="_blank" rel="noopener" class={w.primary ? 'ap-btn-primary' : 'ap-btn-outline'}>
+                        <a href={w.url} target="_blank" rel="noopener" class={w.primary ? 'btn-primary' : 'btn-secondary'}>
                           {w.label}
                         </a>
                       ))}
@@ -335,34 +335,6 @@ const countriesText = countries.length <= 2
     gap: 8px;
     margin-top: 4px;
   }
-
-  .ap-btn-primary {
-    display: inline-block;
-    background: var(--text);
-    color: var(--bg);
-    padding: 8px 16px;
-    font-size: var(--text-label);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border-radius: 0;
-  }
-
-  .ap-btn-outline {
-    display: inline-block;
-    border: 1px solid var(--text);
-    background: transparent;
-    color: var(--text);
-    padding: 7px 15px;
-    font-size: var(--text-label);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border-radius: 0;
-  }
-
-  .ap-btn-primary:hover,
-  .ap-btn-outline:hover { opacity: 0.6; }
 
   /* Press */
   .ap-press {

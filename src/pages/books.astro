@@ -61,7 +61,7 @@ const maxYear = Math.max(...years);
           <p class="books-list-synopsis">
             {book.data.synopsis ?? book.data.description}
           </p>
-          <a href={`/books/${book.data.slug}`} class="books-list-more">Read more</a>
+          <a href={`/books/${book.data.slug}`} class="btn-primary">Read more</a>
         </div>
       </div>
     ))}
@@ -192,22 +192,6 @@ const maxYear = Math.max(...years);
     overflow: hidden;
     line-height: var(--leading-body);
   }
-
-  .books-list-more {
-    display: inline-block;
-    font-size: var(--text-label);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-sm);
-    color: var(--bg);
-    background: var(--text);
-    text-decoration: none;
-    padding: 0.35rem 0.9rem;
-    border-radius: 100px;
-    align-self: flex-start;
-    margin-top: 0.25rem;
-  }
-
-  .books-list-more:hover { opacity: 0.75; }
 
   @media (max-width: 540px) {
     .books-list-row { grid-template-columns: 80px 1fr; gap: 1.25rem; }

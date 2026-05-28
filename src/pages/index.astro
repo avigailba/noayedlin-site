@@ -40,11 +40,11 @@ function formatDate(dateStr: string) {
             {featured2.data.purchaseLinks && featured2.data.purchaseLinks.length > 0 && (
               <div class="hp-book-links">
                 {featured2.data.purchaseLinks.map((link) => (
-                  <a href={link.href} target="_blank" rel="noopener" class="purchase-btn">{link.label}</a>
+                  <a href={link.href} target="_blank" rel="noopener" class="btn-secondary">{link.label}</a>
                 ))}
               </div>
             )}
-            <a href={`/books/${featured2.data.slug}`} class="book-more-link">More about the book →</a>
+            <a href={`/books/${featured2.data.slug}`} class="btn-primary">More about the book →</a>
           </div>
         </div>
       )}
@@ -70,11 +70,11 @@ function formatDate(dateStr: string) {
             {featured.data.purchaseLinks && featured.data.purchaseLinks.length > 0 && (
               <div class="hp-book-links">
                 {featured.data.purchaseLinks.map((link) => (
-                  <a href={link.href} target="_blank" rel="noopener" class="purchase-btn">{link.label}</a>
+                  <a href={link.href} target="_blank" rel="noopener" class="btn-secondary">{link.label}</a>
                 ))}
               </div>
             )}
-            <a href={`/books/${featured.data.slug}`} class="book-more-link">More about the book →</a>
+            <a href={`/books/${featured.data.slug}`} class="btn-primary">More about the book →</a>
           </div>
         </div>
       )}
@@ -141,7 +141,7 @@ function formatDate(dateStr: string) {
         ))}
       </div>
       <div class="hp-press-footer">
-        <a href="/media" class="hp-press-all">All press →</a>
+        <a href="/media" class="link-accent">All press →</a>
       </div>
     </section>
   )}
@@ -302,20 +302,6 @@ function formatDate(dateStr: string) {
     text-align: center;
     padding: 32px 0 56px;
   }
-
-  .hp-press-all {
-    font-size: var(--text-label);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-    color: var(--accent);
-    text-decoration: underline;
-    text-decoration-color: var(--accent);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 4px;
-    padding-bottom: 2px;
-  }
-
-  .hp-press-all:hover { opacity: 0.7; }
 
   @media (max-width: 600px) {
     .hp-press-list { padding: 0; }
