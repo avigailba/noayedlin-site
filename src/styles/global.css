@@ -25,9 +25,8 @@
   --font-body:  'Inter', system-ui, -apple-system, sans-serif;
 
   /* --- Type scale --- */
-  --text-micro:    10px;               /* press type label */
   --text-xs:       0.75rem;            /* small captions */
-  --text-label:    11px;               /* eyebrow, attribution, badges, footer */
+  --text-label:    12px;               /* eyebrow, attribution, badges, footer, press type */
   --text-nav:      13px;               /* navigation links */
   --text-sm:       0.85rem;            /* book rail titles, small body */
   --text-base:     1rem;               /* 17px — default body */
