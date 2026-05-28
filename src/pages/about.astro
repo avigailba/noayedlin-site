@@ -106,7 +106,7 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
   .ab-tagline {
     font-family: var(--font-serif);
     font-style: italic;
-    font-size: 1.1rem;
+    font-size: var(--text-lead);
     color: var(--text-muted);
     margin: 0.5rem 0 0;
     line-height: 1.5;
@@ -137,8 +137,8 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
 
   .ab-lead {
     font-family: var(--font-serif);
-    font-size: 1.1rem;
-    line-height: 1.8;
+    font-size: var(--text-lead);
+    line-height: var(--leading-prose);
     color: var(--text);
     margin-bottom: 1.75rem;
   }
@@ -154,8 +154,8 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
   }
 
   .ab-bio-para {
-    font-size: 1rem;
-    line-height: 1.8;
+    font-size: var(--text-base);
+    line-height: var(--leading-prose);
     color: var(--text-muted);
     margin-bottom: 1rem;
   }
@@ -179,7 +179,7 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
   }
 
   .ab-awards-list .award-badge {
-    font-size: 13px;
+    font-size: var(--text-nav);
   }
 
   .ab-section {
@@ -199,9 +199,9 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
   }
 
   .ab-rep-role {
-    font-size: 11px;
+    font-size: var(--text-label);
     text-transform: uppercase;
-    letter-spacing: 0.12em;
+    letter-spacing: var(--tracking-md);
     color: var(--text-faint);
     margin: 0;
   }

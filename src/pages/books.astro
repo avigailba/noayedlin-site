@@ -78,14 +78,14 @@ const maxYear = Math.max(...years);
   .books-page-title {
     font-size: clamp(2.25rem, 4.5vw, 2.75rem);
     line-height: 1.05;
-    letter-spacing: -0.01em;
+    letter-spacing: var(--tracking-text);
     margin-bottom: 0.6rem;
   }
 
   .books-page-subtitle {
     font-style: italic;
     color: var(--text-muted);
-    font-size: 1rem;
+    font-size: var(--text-base);
     margin: 0;
   }
 
@@ -135,20 +135,20 @@ const maxYear = Math.max(...years);
   }
 
   .books-list-kind {
-    font-size: 11px;
+    font-size: var(--text-label);
     text-transform: uppercase;
     letter-spacing: 0.18em;
     color: var(--accent);
   }
 
   .books-list-sep {
-    font-size: 11px;
+    font-size: var(--text-label);
     color: var(--accent);
   }
 
   .books-list-year {
-    font-size: 11px;
-    letter-spacing: 0.1em;
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-sm);
     color: var(--accent);
   }
 
@@ -190,14 +190,14 @@ const maxYear = Math.max(...years);
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    line-height: 1.65;
+    line-height: var(--leading-body);
   }
 
   .books-list-more {
     display: inline-block;
-    font-size: 11px;
+    font-size: var(--text-label);
     text-transform: uppercase;
-    letter-spacing: 0.10em;
+    letter-spacing: var(--tracking-sm);
     color: var(--bg);
     background: var(--text);
     text-decoration: none;

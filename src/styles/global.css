@@ -5,6 +5,7 @@
 }
 
 :root {
+  /* --- Colour tokens --- */
   --bg:          #FAFAF8;
   --bg-alt:      #F2F1EA;
   --text:        #1A1A1A;
@@ -12,15 +13,51 @@
   --text-faint:  #8E8E8B;
   --accent:      #E5512C;
   --rule:        #D8D7D0;
-  /* backward-compat aliases */
+
+  /* Aliases kept for older component references */
   --color-bg:     var(--bg);
   --color-text:   var(--text);
   --color-muted:  var(--text-muted);
   --color-border: var(--rule);
   --color-accent: var(--accent);
+
+  /* --- Fonts --- */
   --font-serif: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
   --font-body:  'Inter', system-ui, -apple-system, sans-serif;
-  --font-sans:  'Inter', system-ui, -apple-system, sans-serif;
+
+  /* --- Type scale --- */
+  --text-micro:    10px;               /* press type label */
+  --text-xs:       0.75rem;            /* small captions */
+  --text-label:    11px;               /* eyebrow, attribution, badges, footer */
+  --text-nav:      13px;               /* navigation links */
+  --text-sm:       0.85rem;            /* book rail titles, small body */
+  --text-base:     1rem;               /* 17px — default body */
+  --text-lead:     1.1rem;             /* editorial lead paragraph */
+  --text-md:       1.16rem;            /* h3 default */
+  --text-lg:       1.5rem;             /* prominent card titles */
+  --text-xl:       1.9rem;             /* h2 default */
+  --text-section:  36px;               /* large section headings */
+  --text-h1:       clamp(2.25rem, 4.5vw, 3.25rem);
+  --text-display:  clamp(2.5rem, 5vw, 3.5rem);
+
+  /* --- Letter spacing --- */
+  --tracking-tight:  -0.015em;   /* display / section headings */
+  --tracking-text:   -0.01em;    /* h1 */
+  --tracking-nav:     0.05em;    /* nav links */
+  --tracking-sm:      0.10em;    /* buttons */
+  --tracking-md:      0.12em;    /* label, attribution */
+  --tracking-wide:    0.14em;    /* eyebrow, micro */
+  --tracking-loose:   0.16em;    /* badges, accent labels */
+
+  /* --- Line heights --- */
+  --leading-tight:    1.1;
+  --leading-snug:     1.25;
+  --leading-normal:   1.4;
+  --leading-relaxed:  1.55;
+  --leading-body:     1.7;
+  --leading-prose:    1.8;
+
+  /* --- Layout --- */
   --max-width:  1100px;
   --max-prose:  65ch;
   --spacing:    1.5rem;
@@ -34,7 +71,7 @@ html {
 
 body {
   font-family: var(--font-body);
-  line-height: 1.7;
+  line-height: var(--leading-body);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -55,12 +92,12 @@ main {
 h1, h2, h3 {
   font-family: var(--font-serif);
   font-weight: normal;
-  line-height: 1.3;
+  line-height: var(--leading-normal);
 }
 
-h1 { font-size: clamp(2.25rem, 4.5vw, 3.25rem); line-height: 1.1; letter-spacing: -0.01em; text-align: center; }
-h2 { font-size: 1.9rem; margin-bottom: 1rem; }
-h3 { font-size: 1.16rem; margin-bottom: 0.5rem; }
+h1 { font-size: var(--text-h1);   line-height: var(--leading-tight); letter-spacing: var(--tracking-text); text-align: center; }
+h2 { font-size: var(--text-xl);   margin-bottom: 1rem; }
+h3 { font-size: var(--text-md);   margin-bottom: 0.5rem; }
 
 p { margin-bottom: 1rem; color: var(--text); }
 
@@ -76,7 +113,7 @@ img { max-width: 100%; display: block; }
 
 /* Nav */
 .site-header {
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--rule);
   padding: 1.25rem var(--spacing);
 }
 
@@ -109,8 +146,8 @@ img { max-width: 100%; display: block; }
 
 .nav-links a {
   text-decoration: none;
-  font-size: 13px;
-  letter-spacing: 0.05em;
+  font-size: var(--text-nav);
+  letter-spacing: var(--tracking-nav);
   text-transform: uppercase;
   color: var(--text-muted);
 }
@@ -124,24 +161,24 @@ img { max-width: 100%; display: block; }
 .lang-toggle {
   font-size: 0.8rem;
   padding: 0.25rem 0.6rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--rule);
   border-radius: 3px;
   text-decoration: none !important;
-  color: var(--color-muted) !important;
+  color: var(--text-muted) !important;
 }
 
 .lang-toggle:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent) !important;
+  border-color: var(--accent);
+  color: var(--accent) !important;
   opacity: 1 !important;
 }
 
 /* Footer */
 .site-footer {
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--rule);
   padding: 3rem var(--spacing) 1.5rem;
-  font-size: 0.85rem;
-  color: var(--color-muted);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
 }
 
 .footer-inner {
@@ -154,8 +191,8 @@ img { max-width: 100%; display: block; }
 }
 
 .footer-heading {
-  font-size: 11px;
-  letter-spacing: 0.1em;
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-md);
   text-transform: uppercase;
   color: var(--text-faint);
   margin-bottom: 0.75rem !important;
@@ -171,7 +208,7 @@ img { max-width: 100%; display: block; }
 .footer-col a {
   text-decoration: none;
   color: var(--text-faint);
-  font-size: 11px;
+  font-size: var(--text-label);
   letter-spacing: 0.04em;
 }
 
@@ -190,20 +227,20 @@ img { max-width: 100%; display: block; }
 }
 
 .footer-social a {
-  color: var(--color-muted);
+  color: var(--text-muted);
   text-decoration: none;
   transition: color 0.15s;
 }
 
-.footer-social a:hover { color: var(--color-text); opacity: 1; }
+.footer-social a:hover { color: var(--text); opacity: 1; }
 
 .footer-bottom {
   max-width: var(--max-width);
   margin: 0 auto;
   padding-top: 1.5rem;
   border-top: 1px solid var(--rule);
-  font-size: 11px;
-  letter-spacing: 0.1em;
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-md);
   text-transform: uppercase;
   color: var(--text-faint);
 }
@@ -231,7 +268,7 @@ img { max-width: 100%; display: block; }
   width: 100%;
   aspect-ratio: 2/3;
   object-fit: cover;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--rule);
 }
 
 .book-card h3 {
@@ -240,7 +277,7 @@ img { max-width: 100%; display: block; }
 
 .book-card p {
   font-size: 0.875rem;
-  color: var(--color-muted);
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -271,14 +308,14 @@ img { max-width: 100%; display: block; }
 
 .books-rail-title {
   font-family: var(--font-serif);
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
   color: var(--text);
   margin: 0;
-  line-height: 1.4;
+  line-height: var(--leading-normal);
 }
 
 .books-rail-year {
-  font-size: 0.75rem;
+  font-size: var(--text-xs);
   color: var(--text-faint);
   margin: 0;
 }
@@ -297,7 +334,7 @@ img { max-width: 100%; display: block; }
 
 .hero-bio p {
   font-size: 1.05rem;
-  color: var(--color-muted);
+  color: var(--text-muted);
 }
 
 .featured-books-grid {
@@ -367,10 +404,11 @@ img { max-width: 100%; display: block; }
   gap: 0.2rem;
 }
 
+/* Kirkus star — same family as .award-badge */
 .kirkus-star {
-  font-size: 11px;
+  font-size: var(--text-label);
   text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: var(--tracking-loose);
   color: var(--accent);
   margin: 0;
 }
@@ -379,9 +417,9 @@ img { max-width: 100%; display: block; }
 
 .book-more-link {
   display: inline-block;
-  font-size: 11px;
+  font-size: var(--text-label);
   text-transform: uppercase;
-  letter-spacing: 0.10em;
+  letter-spacing: var(--tracking-sm);
   color: var(--bg);
   background: var(--text);
   text-decoration: none;
@@ -402,12 +440,12 @@ img { max-width: 100%; display: block; }
 
 .featured-book img {
   width: 100%;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--rule);
 }
 
 .featured-review {
-  font-size: 0.85rem;
-  color: var(--color-muted);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -461,7 +499,7 @@ img { max-width: 100%; display: block; }
 .hp-book-badge {
   font-family: var(--font-body);
   font-size: 0.63rem;
-  letter-spacing: 0.12em;
+  letter-spacing: var(--tracking-md);
   text-transform: uppercase;
   color: var(--bg);
   background: var(--text);
@@ -486,7 +524,7 @@ img { max-width: 100%; display: block; }
 
 .hp-book-title {
   font-family: var(--font-serif);
-  font-size: 1.5rem;
+  font-size: var(--text-lg);
   margin: 0;
 }
 
@@ -501,14 +539,14 @@ img { max-width: 100%; display: block; }
   font-size: 0.9rem;
   color: var(--text-muted);
   margin: 0;
-  line-height: 1.55;
+  line-height: var(--leading-relaxed);
   max-width: 38ch;
 }
 
 .hp-book-attr {
-  font-size: 11px;
+  font-size: var(--text-label);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: var(--tracking-md);
   color: var(--text-faint);
   margin: 0;
 }
@@ -521,7 +559,7 @@ img { max-width: 100%; display: block; }
 }
 
 .hp-book-links .purchase-btn {
-  font-size: 11px;
+  font-size: var(--text-label);
   padding: 0.3rem 0.6rem;
   white-space: nowrap;
 }
@@ -561,18 +599,18 @@ img { max-width: 100%; display: block; }
 
 .book-hero-title {
   font-size: clamp(2.5rem, 6vw, 4rem);
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-text);
   margin: 0.5rem 0 1rem;
 }
 
 .book-hero-tagline {
   font-style: italic;
-  font-size: 1.1rem;
+  font-size: var(--text-lead);
   color: var(--text-muted);
   max-width: 560px;
   margin: 0 auto 2.5rem;
-  line-height: 1.55;
+  line-height: var(--leading-relaxed);
 }
 
 .book-hero-columns {
@@ -602,7 +640,7 @@ img { max-width: 100%; display: block; }
 .book-hero-source {
   font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: var(--tracking-loose);
   color: var(--text-muted);
   margin: 0;
 }
@@ -627,7 +665,7 @@ img { max-width: 100%; display: block; }
 
 /* Homepage bio strip */
 .hp-bio-strip {
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--rule);
   padding: 2rem 0;
   margin-bottom: 3rem;
   display: flex;
@@ -644,7 +682,7 @@ img { max-width: 100%; display: block; }
 }
 
 .hp-bio-desc {
-  color: var(--color-muted);
+  color: var(--text-muted);
   font-size: 0.9rem;
   margin: 0;
   max-width: 600px;
@@ -660,7 +698,7 @@ img { max-width: 100%; display: block; }
 
 .hp-about-img {
   width: 100%;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--rule);
 }
 
 @media (max-width: 680px) {
@@ -677,9 +715,9 @@ img { max-width: 100%; display: block; }
 
 .selected-review blockquote {
   font-family: var(--font-serif);
-  font-size: 1rem;
-  line-height: 1.8;
-  color: var(--color-text);
+  font-size: var(--text-base);
+  line-height: var(--leading-prose);
+  color: var(--text);
   margin-bottom: 0.75rem;
 }
 
@@ -696,12 +734,12 @@ img { max-width: 100%; display: block; }
 
 .reviewer-pub {
   font-size: 0.8rem;
-  color: var(--color-muted);
+  color: var(--text-muted);
 }
 
 /* Adaptation section on book page */
 .adaptation-section p {
-  color: var(--color-muted);
+  color: var(--text-muted);
   max-width: 680px;
 }
 
@@ -716,9 +754,9 @@ img { max-width: 100%; display: block; }
 
 /* Award badge */
 .award-badge {
-  font-size: 11px;
+  font-size: var(--text-label);
   text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: var(--tracking-loose);
   color: var(--accent);
   margin: 0;
 }
@@ -731,8 +769,8 @@ img { max-width: 100%; display: block; }
 .book-badge {
   margin: 0;
   font-family: var(--font-body);
-  font-size: 0.63rem;
-  letter-spacing: 0.12em;
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-md);
   text-transform: uppercase;
   color: var(--bg);
   background: var(--text);
@@ -751,16 +789,16 @@ img { max-width: 100%; display: block; }
 .purchase-btn {
   display: inline-block;
   padding: 0.45rem 1rem;
-  border: 1px solid var(--color-border);
-  font-size: 0.85rem;
+  border: 1px solid var(--rule);
+  font-size: var(--text-sm);
   text-decoration: none;
-  color: var(--color-text);
+  color: var(--text);
   transition: border-color 0.15s, background 0.15s;
 }
 
 .purchase-btn:hover {
-  border-color: var(--color-accent);
-  background: var(--color-accent);
+  border-color: var(--accent);
+  background: var(--accent);
   color: #fff;
   opacity: 1;
 }
@@ -791,7 +829,7 @@ img { max-width: 100%; display: block; }
 .page-heading-intro {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 17px;
+  font-size: var(--text-base);
   line-height: 1.5;
   color: var(--text-muted);
   max-width: 460px;
@@ -807,9 +845,9 @@ img { max-width: 100%; display: block; }
 /* Eyebrow labels */
 .eyebrow {
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: var(--text-label);
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: var(--tracking-wide);
   color: var(--text-muted);
 }
 
@@ -817,12 +855,12 @@ img { max-width: 100%; display: block; }
 .section { margin-bottom: 3.5rem; }
 
 .section-title {
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-md);
   text-transform: uppercase;
-  color: var(--color-muted);
+  color: var(--text-muted);
   margin-bottom: 1.5rem;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--rule);
   padding-bottom: 0.5rem;
 }
 
@@ -842,7 +880,7 @@ img { max-width: 100%; display: block; }
 }
 
 .media-source {
-  color: var(--color-muted);
+  color: var(--text-muted);
   white-space: nowrap;
   font-size: 0.8rem;
 }
@@ -851,7 +889,7 @@ img { max-width: 100%; display: block; }
 .adaptation-project {
   margin-top: 3.5rem;
   padding-top: 2rem;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--rule);
 }
 
 .adaptation-project:first-of-type { border-top: none; margin-top: 2rem; }
@@ -862,7 +900,7 @@ img { max-width: 100%; display: block; }
 }
 
 .adaptation-logline {
-  color: var(--color-muted);
+  color: var(--text-muted);
   font-size: 0.95rem;
   max-width: 640px;
   margin-bottom: 2rem;
@@ -888,7 +926,7 @@ img { max-width: 100%; display: block; }
 
 .adaptation-img {
   width: 100%;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--rule);
   display: block;
 }
 
@@ -898,7 +936,7 @@ img { max-width: 100%; display: block; }
 
 .adaptation-award {
   font-size: 0.8rem;
-  color: var(--color-muted);
+  color: var(--text-muted);
   margin-bottom: 0.75rem;
   line-height: 1.6;
 }
@@ -915,22 +953,22 @@ img { max-width: 100%; display: block; }
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--color-muted);
+  color: var(--text-muted);
 }
 
 .watch-btn {
   display: inline-block;
   padding: 0.3rem 0.8rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--rule);
   font-size: 0.8rem;
   text-decoration: none;
-  color: var(--color-text);
+  color: var(--text);
   transition: border-color 0.15s, background 0.15s;
 }
 
 .watch-btn:hover {
-  border-color: var(--color-accent);
-  background: var(--color-accent);
+  border-color: var(--accent);
+  background: var(--accent);
   color: #fff;
   opacity: 1;
 }
@@ -956,7 +994,7 @@ img { max-width: 100%; display: block; }
   aspect-ratio: 4/3;
   object-fit: cover;
   display: block;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--rule);
 }
 
 /* Contact */
@@ -969,8 +1007,8 @@ img { max-width: 100%; display: block; }
 
 .contact-card {
   padding: 1.5rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--rule);
 }
 
-.contact-card h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; }
-.contact-card p, .contact-card a { font-size: 0.9rem; color: var(--color-muted); }
+.contact-card h3 { font-size: var(--text-sm); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; }
+.contact-card p, .contact-card a { font-size: 0.9rem; color: var(--text-muted); }
