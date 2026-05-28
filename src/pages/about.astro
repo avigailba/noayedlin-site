@@ -76,19 +76,19 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
 
   .ab-name {
     text-align: left;
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
+    font-size: var(--text-xl);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--track-tight);
     margin: 0;
   }
 
   .ab-tagline {
     font-family: var(--font-serif);
     font-style: italic;
-    font-size: var(--text-lead);
+    font-size: var(--text-md);
     color: var(--text-muted);
     margin: 0.5rem 0 0;
-    line-height: 1.5;
+    line-height: var(--lh-snug);
   }
 
   .ab-hero-awards {
@@ -116,8 +116,8 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
 
   .ab-lead {
     font-family: var(--font-serif);
-    font-size: var(--text-lead);
-    line-height: var(--leading-prose);
+    font-size: var(--text-md);
+    line-height: var(--lh-loose);
     color: var(--text);
     margin-bottom: 1.75rem;
   }
@@ -133,8 +133,8 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
   }
 
   .ab-bio-para {
-    font-size: var(--text-base);
-    line-height: var(--leading-prose);
+    font-size: var(--text-md);
+    line-height: var(--lh-loose);
     color: var(--text-muted);
     margin-bottom: 1rem;
   }
@@ -158,7 +158,7 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
   }
 
   .ab-awards-list .award-badge {
-    font-size: var(--text-label);
+    font-size: var(--text-xs);
   }
 
   .ab-section {
@@ -178,21 +178,21 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
   }
 
   .ab-rep-role {
-    font-size: var(--text-label);
+    font-size: var(--text-xs);
     text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
+    letter-spacing: var(--track-wide);
     color: var(--text-muted);
     margin: 0;
   }
 
   .ab-rep-name {
-    font-size: 0.95rem;
+    font-size: var(--text-md);
     margin: 0.15rem 0 0;
     color: var(--text);
   }
 
   .ab-rep-link {
-    font-size: 0.875rem;
+    font-size: var(--text-sm);
     color: var(--accent);
     text-decoration: none;
     border-bottom: 1px solid currentColor;

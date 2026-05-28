@@ -51,7 +51,7 @@ const allAdaptations = adaptations ??
     <div class="bd-info">
       {(kind || year) && (
         <p class="eyebrow bd-eyebrow">
-          {kind}{kind && year ? ' · ' : ''}{year}
+          {kind && kind !== 'Novel' ? `${kind}${year ? ' · ' : ''}` : ''}{year}
         </p>
       )}
       <h1 class="bd-title">{title}</h1>
@@ -143,9 +143,9 @@ const allAdaptations = adaptations ??
 <style>
   /* Breadcrumb */
   .breadcrumb {
-    font-size: var(--text-label);
+    font-size: var(--text-xs);
     text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
+    letter-spacing: var(--track-wide);
     color: var(--text-muted);
     margin-bottom: 0.75rem;
   }
@@ -185,9 +185,9 @@ const allAdaptations = adaptations ??
   .bd-eyebrow { color: var(--accent); margin: 0; }
 
   .bd-title {
-    font-size: clamp(2rem, 4vw, 2.75rem);
-    line-height: 1.05;
-    letter-spacing: var(--tracking-text);
+    font-size: var(--text-xl);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--track-tight);
     margin: 0;
     text-align: left;
   }
@@ -200,10 +200,10 @@ const allAdaptations = adaptations ??
 
   .bd-tagline {
     font-style: italic;
-    font-size: var(--text-base);
+    font-size: var(--text-md);
     color: var(--text-muted);
     margin: 0;
-    line-height: var(--leading-relaxed);
+    line-height: var(--lh-snug);
     max-width: 44ch;
   }
 
@@ -229,7 +229,7 @@ const allAdaptations = adaptations ??
 
   /* Synopsis */
   .bd-synopsis { max-width: 620px; margin: 0 auto; }
-  .bd-synopsis-body p { font-size: 0.95rem; line-height: var(--leading-prose); color: var(--text); margin-bottom: 1rem; }
+  .bd-synopsis-body p { font-size: var(--text-md); line-height: var(--lh-loose); color: var(--text); margin-bottom: 1rem; }
   .bd-synopsis-body p:last-child { margin-bottom: 0; }
 
   /* Praise */
@@ -239,8 +239,8 @@ const allAdaptations = adaptations ??
   .bd-quote {
     font-family: var(--font-serif);
     font-style: italic;
-    font-size: var(--text-base);
-    line-height: var(--leading-prose);
+    font-size: var(--text-md);
+    line-height: var(--lh-loose);
     border-left: 2px solid var(--accent);
     padding-left: 1.125rem;
     margin: 0 0 0.5rem;
@@ -248,9 +248,9 @@ const allAdaptations = adaptations ??
   }
 
   .bd-attribution {
-    font-size: var(--text-label);
+    font-size: var(--text-xs);
     text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
+    letter-spacing: var(--track-wide);
     color: var(--text-muted);
     padding-left: 20px;
     margin: 0;
@@ -264,7 +264,7 @@ const allAdaptations = adaptations ??
     flex-direction: column;
     gap: 0.4rem;
   }
-  .bd-prize-list li { font-size: 0.95rem; line-height: var(--leading-body); color: var(--text); }
+  .bd-prize-list li { font-size: var(--text-md); line-height: var(--lh-loose); color: var(--text); }
 
   /* Adaptations */
   .bd-adaptations { max-width: 620px; margin: 0 auto; }
@@ -274,7 +274,7 @@ const allAdaptations = adaptations ??
     flex-direction: column;
     gap: 0.4rem;
   }
-  .bd-adaptation-list li { font-size: 0.95rem; line-height: var(--leading-body); color: var(--text); }
+  .bd-adaptation-list li { font-size: var(--text-md); line-height: var(--lh-loose); color: var(--text); }
 
   @media (max-width: 680px) {
     .bd-hero { grid-template-columns: 150px 1fr; gap: 1.5rem; }
