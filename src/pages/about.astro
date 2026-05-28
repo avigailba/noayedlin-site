@@ -14,9 +14,6 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
       <p class="eyebrow">About</p>
       <h1 class="ab-name">{heading}</h1>
       <p class="ab-tagline">{tagline}</p>
-      <ul class="ab-hero-awards">
-        {awards.map((a) => <li class="award-badge">{a}</li>)}
-      </ul>
     </div>
     <div class="ab-portrait-wrap">
       <img src={portrait} alt={heading} class="ab-portrait" />
