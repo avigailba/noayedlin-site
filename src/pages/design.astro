@@ -195,6 +195,140 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </div>
   </section>
+
+  <hr class="ds-rule" />
+
+  <!-- BUTTONS -->
+  <section class="ds-section">
+    <h2 class="ds-section-heading">Buttons</h2>
+    <div class="ds-component-rows">
+
+      <div class="ds-component-row">
+        <span class="ds-type-meta">.btn-primary</span>
+        <div class="ds-component-preview">
+          <a href="#" class="btn-primary">Read an excerpt</a>
+        </div>
+        <span class="ds-component-note">Filled pill · dark bg · used for primary CTA (excerpt, main action)</span>
+      </div>
+
+      <div class="ds-component-row">
+        <span class="ds-type-meta">.btn-secondary</span>
+        <div class="ds-component-preview">
+          <a href="#" class="btn-secondary">Buy on Amazon</a>
+        </div>
+        <span class="ds-component-note">Outline pill · used for purchase links and secondary CTAs</span>
+      </div>
+
+      <div class="ds-component-row">
+        <span class="ds-type-meta">.link-accent</span>
+        <div class="ds-component-preview">
+          <a href="#" class="link-accent">More about the book →</a>
+        </div>
+        <span class="ds-component-note">Underlined accent link · used for inline navigation CTAs</span>
+      </div>
+
+      <div class="ds-component-row">
+        <span class="ds-type-meta">.lang-toggle</span>
+        <div class="ds-component-preview">
+          <a href="#" class="lang-toggle">עברית</a>
+        </div>
+        <span class="ds-component-note">Bordered pill · language switcher in nav</span>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="ds-rule" />
+
+  <!-- BADGES -->
+  <section class="ds-section">
+    <h2 class="ds-section-heading">Badges &amp; Labels</h2>
+    <div class="ds-component-rows">
+
+      <div class="ds-component-row">
+        <span class="ds-type-meta">.award-badge</span>
+        <div class="ds-component-preview">
+          <p class="award-badge">Sapir Prize (2013)</p>
+        </div>
+        <span class="ds-component-note">Accent colour + star prefix · awards on book detail &amp; about</span>
+      </div>
+
+      <div class="ds-component-row">
+        <span class="ds-type-meta">.book-badge</span>
+        <div class="ds-component-preview">
+          <p class="book-badge" style="align-self: auto; display: inline-block;">Coming October 13th, 2026</p>
+        </div>
+        <span class="ds-component-note">Dark filled banner · publication date / "Coming soon" on book detail hero</span>
+      </div>
+
+      <div class="ds-component-row">
+        <span class="ds-type-meta">.kirkus-star</span>
+        <div class="ds-component-preview">
+          <p class="kirkus-star">★ Kirkus Starred Review</p>
+        </div>
+        <span class="ds-component-note">Accent · starred review callout above praise blockquote</span>
+      </div>
+
+      <div class="ds-component-row">
+        <span class="ds-type-meta">.eyebrow</span>
+        <div class="ds-component-preview">
+          <p class="eyebrow" style="margin:0;">Synopsis</p>
+        </div>
+        <span class="ds-component-note">Muted uppercase label · section headings throughout</span>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="ds-rule" />
+
+  <!-- QUOTES -->
+  <section class="ds-section">
+    <h2 class="ds-section-heading">Quote Styles</h2>
+    <div class="ds-component-rows">
+
+      <div class="ds-component-row ds-component-row--tall">
+        <span class="ds-type-meta">.quote</span>
+        <div class="ds-component-preview" style="flex-direction: column; align-items: flex-start; max-width: 480px;">
+          <blockquote class="quote">"All this abundance, in which one family becomes a mirror to an entire social class in Israel."</blockquote>
+          <p style="font-size: var(--text-label); text-transform: uppercase; letter-spacing: var(--tracking-wide); color: var(--text-muted); margin: 0; padding-left: 20px;">Avraham Balaban, Haaretz Books</p>
+        </div>
+        <span class="ds-component-note">Fraunces italic · 2px accent border-left · praise blockquotes</span>
+      </div>
+
+      <div class="ds-component-row ds-component-row--tall">
+        <span class="ds-type-meta">.hp-book-quote</span>
+        <div class="ds-component-preview" style="flex-direction: column; align-items: flex-start; max-width: 480px;">
+          <blockquote class="hp-book-quote">"A lucid, clear, and distinct voice."</blockquote>
+          <p style="font-size: var(--text-label); text-transform: uppercase; letter-spacing: var(--tracking-wide); color: var(--text-muted); margin: 0;">— Dorit Rabinyan</p>
+        </div>
+        <span class="ds-component-note">Same as .quote but no left border · homepage hero book panels</span>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="ds-rule" />
+
+  <!-- DIVIDERS -->
+  <section class="ds-section">
+    <h2 class="ds-section-heading">Dividers</h2>
+    <div class="ds-divider-rows">
+
+      <div class="ds-divider-row">
+        <span class="ds-type-meta">0.5px solid var(--rule)</span>
+        <div style="flex: 1; border-top: 0.5px solid var(--rule); margin-top: 0.5rem;"></div>
+        <span class="ds-component-note">All section rules, nav border, footer border</span>
+      </div>
+
+      <div class="ds-divider-row">
+        <span class="ds-type-meta">1px solid var(--rule)</span>
+        <div style="flex: 1; border-top: 1px solid var(--rule); margin-top: 0.5rem;"></div>
+        <span class="ds-component-note">Design page rows only</span>
+      </div>
+
+    </div>
+  </section>
 </Layout>
 
 <style>
@@ -367,6 +501,61 @@ import Layout from '../layouts/Layout.astro';
     box-shadow: var(--shadow-cover);
   }
 
+  /* Component rows — buttons, badges, quotes, dividers */
+  .ds-component-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .ds-component-row {
+    display: grid;
+    grid-template-columns: 200px 280px 1fr;
+    align-items: center;
+    gap: 2rem;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .ds-component-row:first-child { border-top: 1px solid var(--rule); }
+
+  .ds-component-row--tall {
+    align-items: start;
+    padding: 20px 0;
+  }
+
+  .ds-component-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .ds-component-note {
+    font-size: var(--text-label);
+    color: var(--text-muted);
+    letter-spacing: 0;
+    text-transform: none;
+    font-family: var(--font-body);
+    line-height: 1.5;
+  }
+
+  .ds-divider-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .ds-divider-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 280px;
+    align-items: center;
+    gap: 2rem;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .ds-divider-row:first-child { border-top: 1px solid var(--rule); }
+
   @media (max-width: 680px) {
     .ds-type-row,
     .ds-font-row,
@@ -375,5 +564,11 @@ import Layout from '../layouts/Layout.astro';
       gap: 0.5rem;
     }
     .ds-leading-grid { grid-template-columns: 1fr 1fr; }
+    .ds-component-row,
+    .ds-divider-row {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    .ds-component-note { white-space: normal; }
   }
 </style>
