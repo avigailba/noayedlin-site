@@ -1,0 +1,134 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events');
+  return events.map((event) => ({
+    params: { slug: event.data.slug ?? event.id },
+    props: { event },
+  }));
+}
+
+const { event } = Astro.props;
+const { title, date_start, date_end, city, region, country, description, type, status } = event.data;
+
+function parseDate(str: string) {
+  const [y, m, d] = str.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+const MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DAYS_LONG   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+const start = parseDate(date_start);
+const end   = date_end ? parseDate(date_end) : null;
+
+function fmtFullDate(d: Date) {
+  return `${DAYS_LONG[d.getDay()]}, ${MONTHS_LONG[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+}
+const dateLabel = end
+  ? `${MONTHS_LONG[start.getMonth()]} ${start.getDate()}–${end.getDate()}, ${start.getFullYear()}`
+  : fmtFullDate(start);
+---
+
+<Layout title={title} lang="en">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/events">Events</a>
+    <span aria-hidden="true"> / </span>
+    <span>{title}</span>
+  </nav>
+  <hr class="breadcrumb-rule" />
+
+  <div class="ev-detail">
+    <p class="eyebrow ev-detail-eyebrow">{type}</p>
+    <h1 class="ev-detail-title">{title}</h1>
+    <p class="ev-detail-date">{dateLabel}</p>
+    <p class="ev-detail-location">{country}{region ? ` · ${city}, ${region}` : ` · ${city}`}</p>
+    {description && <p class="ev-detail-description">{description}</p>}
+    <div class="ev-detail-status">
+      {status === 'details_coming_soon' && (
+        <>
+          <span class="ev-dot ev-dot--muted"></span>
+          <span class="ev-status-label ev-status-label--muted">Details coming soon</span>
+        </>
+      )}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .breadcrumb {
+    font-size: var(--text-label);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+  .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--accent); opacity: 1; }
+  .breadcrumb-rule { border: none; border-top: 0.5px solid var(--rule); margin-bottom: 3rem; }
+
+  .ev-detail {
+    max-width: 620px;
+    margin: 0 auto;
+    padding-top: 2rem;
+  }
+
+  .ev-detail-eyebrow {
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .ev-detail-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    text-align: left;
+    margin: 0 0 1rem;
+  }
+
+  .ev-detail-date {
+    font-family: var(--font-serif);
+    font-size: var(--text-lead);
+    color: var(--text-muted);
+    margin: 0 0 0.35rem;
+  }
+
+  .ev-detail-location {
+    font-size: var(--text-label);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+    margin: 0 0 1.75rem;
+  }
+
+  .ev-detail-description {
+    font-size: var(--text-base);
+    color: var(--text-muted);
+    line-height: var(--leading-prose);
+    margin: 0 0 1.5rem;
+  }
+
+  .ev-detail-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .ev-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .ev-dot--muted { background: var(--text-muted); }
+
+  .ev-status-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+  .ev-status-label--muted { color: var(--text-muted); }
+</style>

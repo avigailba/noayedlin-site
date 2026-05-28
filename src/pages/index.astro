@@ -8,6 +8,41 @@ const featured = books.find((b) => b.id === 'stockholm');
 const featured2 = books.find((b) => b.id === 'house-arrest');
 const sortedBooks = [...books].sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
 
+const allEventsRaw = await getCollection('events');
+
+// Date helpers (homepage)
+function hpParseDate(str: string) {
+  const [y, m, d] = str.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+const HP_MONTHS_ABB  = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const HP_MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+const hpToday = new Date(); hpToday.setHours(0, 0, 0, 0);
+const upcomingEvents = allEventsRaw
+  .filter(e => {
+    const last = hpParseDate(e.data.date_end ?? e.data.date_start);
+    return e.data.status !== 'past' && last >= hpToday;
+  })
+  .sort((a, b) => {
+    const diff = a.data.date_start.localeCompare(b.data.date_start);
+    return diff !== 0 ? diff : (a.data.order ?? 99) - (b.data.order ?? 99);
+  })
+  .slice(0, 3);
+
+function hpEventSubtitle(evs: typeof upcomingEvents) {
+  if (evs.length === 0) return '';
+  const nums = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten'];
+  const n = evs.length <= 10 ? nums[evs.length] : String(evs.length);
+  const countries = new Set(evs.map(e => e.data.country));
+  const loc = countries.size === 1
+    ? (evs[0].data.country === 'United States' ? 'U.S.' : evs[0].data.country)
+    : 'international';
+  const months = new Set(evs.map(e => hpParseDate(e.data.date_start).getMonth()));
+  const monthStr = months.size === 1 ? ` this ${HP_MONTHS_LONG[[...months][0]]}` : '';
+  return `${n} ${loc} appearance${evs.length !== 1 ? 's' : ''}${monthStr}.`;
+}
+
 const allMedia = await getCollection('media');
 const featuredMedia = allMedia.filter((m) => m.data.featured);
 const homeMedia = (featuredMedia.length >= 5 ? featuredMedia : allMedia)
@@ -101,6 +136,49 @@ function formatDate(dateStr: string) {
             <p class="hp-review-book"><em>{r.book}</em></p>
           </div>
         ))}
+      </div>
+    </section>
+  )}
+
+  {upcomingEvents.length > 0 && (
+    <section class="hp-events">
+      <div class="hp-events-header">
+        <p class="eyebrow" style="color: var(--accent); margin-bottom: 0.75rem;">Upcoming</p>
+        <h2 class="hp-events-heading">Lectures &amp; Events</h2>
+        <p class="hp-events-subtitle">{hpEventSubtitle(upcomingEvents)}</p>
+      </div>
+      <div class="hp-events-rows">
+        {upcomingEvents.map((event) => {
+          const start = hpParseDate(event.data.date_start);
+          const end   = event.data.date_end ? hpParseDate(event.data.date_end) : null;
+          const isRange = !!end;
+          const slug = event.data.slug ?? event.id;
+          const dayStr = isRange
+            ? `${start.getDate()}–${end!.getDate()}`
+            : String(start.getDate()).padStart(2, '0');
+          const monthStr = HP_MONTHS_ABB[start.getMonth()].toUpperCase();
+          const regionLine = [event.data.city, event.data.region].filter(Boolean).join(', ');
+          const statusLabel = event.data.status === 'details_coming_soon' ? 'Details coming soon'
+            : event.data.status === 'scheduled' ? 'Get details →'
+            : event.data.status === 'ticketed'  ? 'Get tickets →'
+            : '';
+          return (
+            <div class="hp-ev-row">
+              <div class="hp-ev-date">
+                <span class="hp-ev-day">{dayStr}</span>
+                <span class="hp-ev-month">{monthStr}</span>
+              </div>
+              <div class="hp-ev-body">
+                <p class="hp-ev-title">{event.data.title}</p>
+                <p class="hp-ev-meta">{regionLine} · {statusLabel}</p>
+              </div>
+              <a href={`/events/${slug}`} class="hp-ev-arrow" aria-label={`More about ${event.data.title}`}>→</a>
+            </div>
+          );
+        })}
+      </div>
+      <div class="hp-events-footer">
+        <a href="/events" class="link-accent">All events →</a>
       </div>
     </section>
   )}
@@ -260,6 +338,116 @@ function formatDate(dateStr: string) {
     margin: 0;
     font-size: var(--text-label);
     color: var(--text-muted);
+  }
+
+  /* Homepage events block */
+  .hp-events {
+    margin-bottom: 4rem;
+  }
+
+  .hp-events-header {
+    text-align: center;
+    padding: 56px 0 28px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .hp-events-heading {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: var(--tracking-tight);
+    margin: 0 0 0.5rem;
+    text-align: center;
+  }
+
+  .hp-events-subtitle {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: var(--text-base);
+    color: var(--text-muted);
+    margin: 0;
+    line-height: var(--leading-relaxed);
+  }
+
+  .hp-events-rows {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .hp-ev-row {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: 28px;
+    align-items: center;
+    padding: 22px 0;
+    border-top: 0.5px solid var(--rule);
+  }
+
+  .hp-events-rows .hp-ev-row:last-child {
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  .hp-ev-date {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .hp-ev-day {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .hp-ev-month {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+  }
+
+  .hp-ev-body {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .hp-ev-title {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    font-weight: 400;
+    color: var(--text);
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .hp-ev-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .hp-ev-arrow {
+    font-size: 11px;
+    color: var(--accent);
+    text-decoration: none;
+    padding: 4px;
+    flex-shrink: 0;
+  }
+
+  .hp-ev-arrow:hover { opacity: 0.7; }
+
+  .hp-events-footer {
+    text-align: center;
+    padding: 24px 0 56px;
+    max-width: 720px;
+    margin: 0 auto;
   }
 
   /* Press section */

@@ -108,4 +108,25 @@ const media = defineCollection({
   schema: mediaSchema,
 });
 
-export const collections = { booksEn, booksHe, adaptations, about, media };
+const eventSchema = z.object({
+  slug: z.string().optional(),
+  title: z.string(),
+  date_start: z.string(),
+  date_end: z.string().nullish(),
+  city: z.string(),
+  region: z.string().nullish(),
+  country: z.string(),
+  venue: z.string().nullish(),
+  description: z.string(),
+  type: z.enum(['Lecture', 'Reading', 'Conversation', 'Festival', 'Residency']),
+  status: z.enum(['details_coming_soon', 'scheduled', 'ticketed', 'past']),
+  url: z.string().nullish(),
+  order: z.number().optional(),
+});
+
+const events = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/events' }),
+  schema: eventSchema,
+});
+
+export const collections = { booksEn, booksHe, adaptations, about, media, events };

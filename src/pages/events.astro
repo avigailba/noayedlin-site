@@ -1,19 +1,340 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const allEvents = await getCollection('events');
+
+// Date helpers
+function parseDate(str: string) {
+  const [y, m, d] = str.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+const MONTHS_ABB = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DAYS_ABB   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+function fmtDay(d: Date)   { return String(d.getDate()).padStart(2, '0'); }
+function fmtMonth(d: Date) { return MONTHS_ABB[d.getMonth()].toUpperCase(); }
+function fmtDow(d: Date)   { return DAYS_ABB[d.getDay()]; }
+
+// Split upcoming / past
+const today = new Date(); today.setHours(0, 0, 0, 0);
+function lastDay(e: typeof allEvents[0]) {
+  return parseDate(e.data.date_end ?? e.data.date_start);
+}
+const upcoming = allEvents
+  .filter(e => e.data.status !== 'past' && lastDay(e) >= today)
+  .sort((a, b) => {
+    const diff = a.data.date_start.localeCompare(b.data.date_start);
+    return diff !== 0 ? diff : (a.data.order ?? 99) - (b.data.order ?? 99);
+  });
+const past = allEvents
+  .filter(e => e.data.status === 'past' || lastDay(e) < today)
+  .sort((a, b) => b.data.date_start.localeCompare(a.data.date_start));
 ---
 
 <Layout title="Events &amp; Lectures" lang="en">
-  <header class="page-heading">
-    <p class="eyebrow">Events</p>
-    <h1>Lectures &amp; Events</h1>
-    <p class="page-heading-intro">Readings, lectures, and public appearances.</p>
+
+  <header class="ev-page-header">
+    <p class="eyebrow" style="color: var(--accent); margin-bottom: 0.75rem;">Events</p>
+    <h1 class="ev-page-title">Lectures &amp; Events</h1>
+    <p class="ev-page-subtitle">Upcoming talks, readings, and public appearances.</p>
   </header>
-  <hr class="page-rule" />
-  <p style="color: var(--color-muted); margin-top: 2.5rem;">
-    For lecture and event inquiries, please visit the <a href="/contact">Contact</a> page.
-  </p>
-  <div class="section" style="margin-top: 3rem;">
-    <p class="section-title">Upcoming</p>
-    <p style="color: var(--color-muted);">No upcoming events listed. Check back soon.</p>
-  </div>
+
+  <hr class="ev-page-rule" />
+
+  {allEvents.length === 0 ? (
+    <div class="ev-container">
+      <p class="ev-empty">Upcoming dates will appear here. Check back soon.</p>
+    </div>
+  ) : (
+    <div class="ev-container">
+
+      {upcoming.length > 0 && (
+        <>
+          <p class="ev-section-eyebrow">Upcoming</p>
+          <div class="ev-rows">
+            {upcoming.map((event) => {
+              const start = parseDate(event.data.date_start);
+              const end   = event.data.date_end ? parseDate(event.data.date_end) : null;
+              const isRange = !!end;
+              const slug = event.data.slug ?? event.id;
+              return (
+                <div class="ev-row">
+                  <div class="ev-date">
+                    <p class="ev-day">
+                      {isRange ? (
+                        <>{fmtDay(start)}<span class="ev-day-dash">–</span>{fmtDay(end!)}</>
+                      ) : fmtDay(start)}
+                    </p>
+                    <p class="ev-month">{fmtMonth(start)}</p>
+                    <p class="ev-dow">
+                      {isRange ? `${fmtDow(start)} – ${fmtDow(end!)}` : fmtDow(start)}
+                    </p>
+                  </div>
+                  <div class="ev-content">
+                    <p class="ev-location">{event.data.country} · {event.data.city}{event.data.region ? `, ${event.data.region}` : ''}</p>
+                    <h3 class="ev-title">
+                      <a href={`/events/${slug}`} class="ev-title-link">{event.data.title}</a>
+                    </h3>
+                    <p class="ev-description">{event.data.description}</p>
+                    <div class="ev-status">
+                      {event.data.status === 'details_coming_soon' && (
+                        <>
+                          <span class="ev-dot ev-dot--muted"></span>
+                          <span class="ev-status-label ev-status-label--muted">Details coming soon</span>
+                        </>
+                      )}
+                      {event.data.status === 'scheduled' && (
+                        <>
+                          <span class="ev-dot ev-dot--accent"></span>
+                          {event.data.url
+                            ? <a href={event.data.url} class="ev-status-label ev-status-label--accent" target="_blank" rel="noopener">Get details →</a>
+                            : <span class="ev-status-label ev-status-label--accent">Get details</span>
+                          }
+                        </>
+                      )}
+                      {event.data.status === 'ticketed' && (
+                        <>
+                          <span class="ev-dot ev-dot--accent"></span>
+                          {event.data.url
+                            ? <a href={event.data.url} class="ev-status-label ev-status-label--accent" target="_blank" rel="noopener">Get tickets →</a>
+                            : <span class="ev-status-label ev-status-label--accent">Get tickets</span>
+                          }
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
+
+      {past.length > 0 && (
+        <>
+          <p class="ev-section-eyebrow ev-section-eyebrow--past">Past</p>
+          <div class="ev-rows">
+            {past.map((event) => {
+              const start = parseDate(event.data.date_start);
+              const end   = event.data.date_end ? parseDate(event.data.date_end) : null;
+              const isRange = !!end;
+              const slug = event.data.slug ?? event.id;
+              return (
+                <div class="ev-row ev-row--past">
+                  <div class="ev-date">
+                    <p class="ev-day ev-day--past">
+                      {isRange ? (
+                        <>{fmtDay(start)}<span class="ev-day-dash">–</span>{fmtDay(end!)}</>
+                      ) : fmtDay(start)}
+                    </p>
+                    <p class="ev-month ev-month--past">{fmtMonth(start)}</p>
+                    <p class="ev-dow">
+                      {isRange ? `${fmtDow(start)} – ${fmtDow(end!)}` : fmtDow(start)}
+                    </p>
+                  </div>
+                  <div class="ev-content">
+                    <p class="ev-location">{event.data.country} · {event.data.city}{event.data.region ? `, ${event.data.region}` : ''}</p>
+                    <h3 class="ev-title ev-title--past">
+                      <a href={`/events/${slug}`} class="ev-title-link">{event.data.title}</a>
+                    </h3>
+                    <p class="ev-description">{event.data.description}</p>
+                    <div class="ev-status">
+                      <span class="ev-dot ev-dot--muted"></span>
+                      <span class="ev-status-label ev-status-label--muted">Past event</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
+
+    </div>
+  )}
+
 </Layout>
+
+<style>
+  /* Page header */
+  .ev-page-header {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 56px 0 36px;
+  }
+
+  .ev-page-title {
+    font-family: var(--font-serif);
+    font-size: 44px;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.05;
+    margin: 0 0 1rem;
+    text-align: center;
+  }
+
+  .ev-page-subtitle {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 17px;
+    color: var(--text-muted);
+    max-width: 460px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  .ev-page-rule {
+    border: none;
+    border-top: 0.5px solid var(--rule);
+    margin: 0;
+  }
+
+  /* Content container */
+  .ev-container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .ev-empty {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--text-muted);
+    margin-top: 3rem;
+    text-align: center;
+  }
+
+  /* Section eyebrows */
+  .ev-section-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+    margin: 0;
+    padding: 48px 0 8px;
+  }
+
+  .ev-section-eyebrow--past {
+    padding-top: 56px;
+  }
+
+  /* Event rows */
+  .ev-rows { }
+
+  .ev-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 36px;
+    align-items: baseline;
+    padding: 28px 0;
+    border-top: 0.5px solid var(--rule);
+  }
+
+  .ev-rows .ev-row:last-child {
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  /* Date column */
+  .ev-date { }
+
+  .ev-day {
+    font-family: var(--font-serif);
+    font-size: 44px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin: 0;
+  }
+
+  .ev-day--past { color: var(--text-muted); }
+
+  .ev-day-dash { color: var(--text-muted); }
+
+  .ev-month {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    margin: 6px 0 0;
+  }
+
+  .ev-month--past { color: var(--text-muted); }
+
+  .ev-dow {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin: 4px 0 0;
+  }
+
+  /* Content column */
+  .ev-location {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+    margin: 0 0 10px;
+  }
+
+  .ev-title {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.1;
+    margin: 0 0 6px;
+  }
+
+  .ev-title--past { color: var(--text-muted); }
+
+  .ev-title-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .ev-title-link:hover { color: var(--accent); opacity: 1; }
+
+  .ev-description {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0 0 14px;
+  }
+
+  /* Status indicator */
+  .ev-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .ev-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .ev-dot--muted  { background: var(--text-muted); }
+  .ev-dot--accent { background: var(--accent); }
+
+  .ev-status-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    text-decoration: none;
+  }
+
+  .ev-status-label--muted  { color: var(--text-muted); }
+  .ev-status-label--accent { color: var(--accent); }
+  .ev-status-label--accent:hover { opacity: 0.7; }
+
+  @media (max-width: 540px) {
+    .ev-row {
+      grid-template-columns: 70px 1fr;
+      gap: 20px;
+    }
+    .ev-day { font-size: 32px; }
+    .ev-title { font-size: 20px; }
+  }
+</style>
