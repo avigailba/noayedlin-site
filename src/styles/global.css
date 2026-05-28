@@ -626,7 +626,7 @@ img { max-width: 100%; display: block; }
   font-style: italic;
   font-size: var(--text-lead);
   color: var(--text-muted);
-  max-width: 560px;
+  max-width: 620px;
   margin: 0 auto 2.5rem;
   line-height: var(--leading-relaxed);
 }
@@ -761,7 +761,7 @@ img { max-width: 100%; display: block; }
 /* Adaptation section on book page */
 .adaptation-section p {
   color: var(--text-muted);
-  max-width: 680px;
+  max-width: 620px;
 }
 
 .learn-more {
@@ -873,6 +873,12 @@ img { max-width: 100%; display: block; }
   color: var(--text-muted);
 }
 
+/* Reading column */
+.reading-column {
+  max-width: 620px;
+  margin: 0 auto;
+}
+
 /* Section spacing */
 .section { margin-bottom: 3.5rem; }
 
@@ -924,7 +930,7 @@ img { max-width: 100%; display: block; }
 .adaptation-logline {
   color: var(--text-muted);
   font-size: 0.95rem;
-  max-width: 640px;
+  max-width: 620px;
   margin-bottom: 2rem;
 }
 
