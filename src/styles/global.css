@@ -32,6 +32,7 @@
   --text-nav:      13px;               /* navigation links */
   --text-sm:       0.85rem;            /* book rail titles, small body */
   --text-base:     1rem;               /* 17px — default body */
+  --text-title:    18px;               /* site logo / nav title */
   --text-lead:     1.1rem;             /* editorial lead paragraph */
   --text-md:       1.16rem;            /* h3 default */
   --text-lg:       1.5rem;             /* prominent card titles */
@@ -43,6 +44,7 @@
   /* --- Letter spacing --- */
   --tracking-tight:  -0.015em;   /* display / section headings */
   --tracking-text:   -0.01em;    /* h1 */
+  --tracking-fine:    0.04em;    /* subtle spacing, footer links */
   --tracking-nav:     0.05em;    /* nav links */
   --tracking-sm:      0.10em;    /* buttons */
   --tracking-md:      0.12em;    /* label, attribution */
@@ -56,6 +58,9 @@
   --leading-relaxed:  1.55;
   --leading-body:     1.7;
   --leading-prose:    1.8;
+
+  /* --- Shadows --- */
+  --shadow-cover: 4px 6px 18px rgba(31, 27, 22, 0.18);
 
   /* --- Layout --- */
   --max-width:  1100px;
@@ -129,7 +134,7 @@ img { max-width: 100%; display: block; }
 
 .site-title {
   font-family: var(--font-serif);
-  font-size: 18px;
+  font-size: var(--text-title);
   text-decoration: none;
   white-space: nowrap;
   color: var(--text);
@@ -159,7 +164,7 @@ img { max-width: 100%; display: block; }
 }
 
 .lang-toggle {
-  font-size: 0.8rem;
+  font-size: var(--text-nav);
   padding: 0.25rem 0.6rem;
   border: 1px solid var(--rule);
   border-radius: 3px;
@@ -209,7 +214,7 @@ img { max-width: 100%; display: block; }
   text-decoration: none;
   color: var(--text-faint);
   font-size: var(--text-label);
-  letter-spacing: 0.04em;
+  letter-spacing: var(--tracking-fine);
 }
 
 .footer-col a:hover { color: var(--text); opacity: 1; }
@@ -276,7 +281,7 @@ img { max-width: 100%; display: block; }
 }
 
 .book-card p {
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   color: var(--text-muted);
   margin: 0;
 }
