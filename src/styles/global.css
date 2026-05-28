@@ -278,7 +278,7 @@ img { max-width: 100%; display: block; }
   width: 100%;
   aspect-ratio: 2/3;
   object-fit: cover;
-  border: 1px solid var(--rule);
+  box-shadow: var(--shadow-cover);
 }
 
 .book-card h3 {
@@ -289,6 +289,23 @@ img { max-width: 100%; display: block; }
   font-size: var(--text-sm);
   color: var(--text-muted);
   margin: 0;
+}
+
+/* Cover utility sizes */
+.cover-hero {
+  width: 240px;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  box-shadow: var(--shadow-cover);
+  display: block;
+}
+
+.cover-rail {
+  width: 110px;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  box-shadow: var(--shadow-cover);
+  display: block;
 }
 
 /* Books rail — shared across homepage, about, book detail */
@@ -314,6 +331,7 @@ img { max-width: 100%; display: block; }
   aspect-ratio: 2/3;
   object-fit: cover;
   display: block;
+  box-shadow: var(--shadow-cover);
 }
 
 .books-rail-title {
@@ -520,7 +538,7 @@ img { max-width: 100%; display: block; }
 .hp-book-cover-link { display: block; }
 
 .hp-book-cover {
-  width: 200px;
+  width: 240px;
   aspect-ratio: 2/3;
   object-fit: cover;
   transform: perspective(900px) rotateY(-7deg);
