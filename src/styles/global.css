@@ -294,7 +294,7 @@ img { max-width: 100%; display: block; }
 }
 
 .cover-rail {
-  width: 110px;
+  width: 150px;
   aspect-ratio: 2/3;
   object-fit: cover;
   box-shadow: var(--shadow-cover);
@@ -304,8 +304,9 @@ img { max-width: 100%; display: block; }
 /* Books rail — shared across homepage, about, book detail */
 .books-rail-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, 150px);
+  justify-content: center;
+  gap: 32px;
 }
 
 .books-rail-tile {
@@ -341,8 +342,11 @@ img { max-width: 100%; display: block; }
   margin: 0;
 }
 
-@media (max-width: 680px) {
-  .books-rail-grid { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 600px) {
+  .books-rail-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
 }
 
 /* Hero */
