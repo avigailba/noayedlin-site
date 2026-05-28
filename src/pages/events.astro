@@ -34,13 +34,13 @@ const past = allEvents
 
 <Layout title="Events &amp; Lectures" lang="en">
 
-  <header class="ev-page-header">
-    <p class="eyebrow" style="color: var(--accent); margin-bottom: 0.75rem;">Events</p>
-    <h1 class="ev-page-title">Lectures &amp; Events</h1>
-    <p class="ev-page-subtitle">Upcoming talks, readings, and public appearances.</p>
+  <header class="page-heading">
+    <p class="eyebrow">Events</p>
+    <h1>Lectures &amp; events.</h1>
+    <p class="page-heading-intro">Upcoming talks, readings, and public appearances.</p>
   </header>
 
-  <hr class="ev-page-rule" />
+  <hr class="page-rule" />
 
   {allEvents.length === 0 ? (
     <div class="ev-container">
@@ -159,40 +159,6 @@ const past = allEvents
 </Layout>
 
 <style>
-  /* Page header */
-  .ev-page-header {
-    max-width: 720px;
-    margin: 0 auto;
-    text-align: center;
-    padding: 56px 0 36px;
-  }
-
-  .ev-page-title {
-    font-family: var(--font-serif);
-    font-size: var(--text-xl);
-    font-weight: 400;
-    letter-spacing: var(--track-tight);
-    line-height: var(--lh-tight);
-    margin: 0 0 1rem;
-    text-align: center;
-  }
-
-  .ev-page-subtitle {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: var(--text-md);
-    color: var(--text-muted);
-    max-width: 460px;
-    margin: 0 auto;
-    line-height: var(--lh-snug);
-  }
-
-  .ev-page-rule {
-    border: none;
-    border-top: 0.5px solid var(--rule);
-    margin: 0;
-  }
-
   /* Content container */
   .ev-container {
     max-width: 720px;

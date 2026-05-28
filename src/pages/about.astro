@@ -71,24 +71,31 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
   }
 
   .ab-hero-text .eyebrow {
-    margin-bottom: 0;
+    color: var(--accent);
+    margin-bottom: 14px;
   }
 
   .ab-name {
     text-align: left;
-    font-size: var(--text-xl);
-    line-height: var(--lh-tight);
-    letter-spacing: var(--track-tight);
-    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 96px;
+    letter-spacing: -0.035em;
+    line-height: 0.92;
+    font-weight: 400;
+    margin: 0 0 22px;
+  }
+
+  @media (max-width: 768px) {
+    .ab-name { font-size: clamp(48px, 12vw, 96px); }
   }
 
   .ab-tagline {
-    font-family: var(--font-serif);
-    font-style: italic;
+    font-family: var(--font-body);
     font-size: var(--text-md);
     color: var(--text-muted);
-    margin: 0.5rem 0 0;
+    margin: 0;
     line-height: var(--lh-snug);
+    max-width: 460px;
   }
 
   .ab-hero-awards {

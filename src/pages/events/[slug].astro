@@ -84,12 +84,16 @@ const dateLabel = end
 
   .ev-detail-title {
     font-family: var(--font-serif);
-    font-size: var(--text-xl);
+    font-size: 96px;
+    letter-spacing: -0.035em;
+    line-height: 0.92;
     font-weight: 400;
-    line-height: var(--lh-tight);
-    letter-spacing: var(--track-tight);
     text-align: left;
     margin: 0 0 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .ev-detail-title { font-size: clamp(48px, 12vw, 96px); }
   }
 
   .ev-detail-date {

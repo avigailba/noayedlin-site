@@ -185,11 +185,17 @@ const allAdaptations = adaptations ??
   .bd-eyebrow { color: var(--accent); margin: 0; }
 
   .bd-title {
-    font-size: var(--text-xl);
-    line-height: var(--lh-tight);
-    letter-spacing: var(--track-tight);
+    font-family: var(--font-serif);
+    font-size: 96px;
+    letter-spacing: -0.035em;
+    line-height: 0.92;
+    font-weight: 400;
     margin: 0;
     text-align: left;
+  }
+
+  @media (max-width: 768px) {
+    .bd-title { font-size: clamp(48px, 12vw, 96px); }
   }
 
   .bd-hero-awards {
