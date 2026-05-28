@@ -318,13 +318,7 @@ import Layout from '../layouts/Layout.astro';
       <div class="ds-divider-row">
         <span class="ds-type-meta">0.5px solid var(--rule)</span>
         <div style="flex: 1; border-top: 0.5px solid var(--rule); margin-top: 0.5rem;"></div>
-        <span class="ds-component-note">All section rules, nav border, footer border</span>
-      </div>
-
-      <div class="ds-divider-row">
-        <span class="ds-type-meta">1px solid var(--rule)</span>
-        <div style="flex: 1; border-top: 1px solid var(--rule); margin-top: 0.5rem;"></div>
-        <span class="ds-component-note">Design page rows only</span>
+        <span class="ds-component-note">All dividers — nav, footer, section rules, row separators</span>
       </div>
 
     </div>
@@ -356,7 +350,7 @@ import Layout from '../layouts/Layout.astro';
 
   .ds-rule {
     border: none;
-    border-top: 1px solid var(--rule);
+    border-top: 0.5px solid var(--rule);
     margin: 3rem 0;
   }
 
@@ -408,10 +402,10 @@ import Layout from '../layouts/Layout.astro';
     align-items: baseline;
     gap: 2rem;
     padding: 14px 0;
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 0.5px solid var(--rule);
   }
 
-  .ds-type-row:first-child { border-top: 1px solid var(--rule); }
+  .ds-type-row:first-child { border-top: 0.5px solid var(--rule); }
 
   .ds-type-meta {
     font-size: var(--text-label);
@@ -435,10 +429,10 @@ import Layout from '../layouts/Layout.astro';
     align-items: center;
     gap: 2rem;
     padding: 18px 0;
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 0.5px solid var(--rule);
   }
 
-  .ds-font-row:first-child { border-top: 1px solid var(--rule); }
+  .ds-font-row:first-child { border-top: 0.5px solid var(--rule); }
 
   /* Tracking */
   .ds-tracking-rows {
@@ -453,10 +447,10 @@ import Layout from '../layouts/Layout.astro';
     align-items: center;
     gap: 2rem;
     padding: 16px 0;
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 0.5px solid var(--rule);
   }
 
-  .ds-tracking-row:first-child { border-top: 1px solid var(--rule); }
+  .ds-tracking-row:first-child { border-top: 0.5px solid var(--rule); }
 
   /* Line heights */
   .ds-leading-grid {
@@ -514,10 +508,10 @@ import Layout from '../layouts/Layout.astro';
     align-items: center;
     gap: 2rem;
     padding: 16px 0;
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 0.5px solid var(--rule);
   }
 
-  .ds-component-row:first-child { border-top: 1px solid var(--rule); }
+  .ds-component-row:first-child { border-top: 0.5px solid var(--rule); }
 
   .ds-component-row--tall {
     align-items: start;
@@ -551,10 +545,10 @@ import Layout from '../layouts/Layout.astro';
     align-items: center;
     gap: 2rem;
     padding: 20px 0;
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 0.5px solid var(--rule);
   }
 
-  .ds-divider-row:first-child { border-top: 1px solid var(--rule); }
+  .ds-divider-row:first-child { border-top: 0.5px solid var(--rule); }
 
   @media (max-width: 680px) {
     .ds-type-row,
