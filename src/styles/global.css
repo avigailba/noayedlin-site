@@ -10,7 +10,6 @@
   --bg-alt:      #F2F1EA;
   --text:        #1A1A1A;
   --text-muted:  #5C5C5A;
-  --text-faint:  #8E8E8B;
   --accent:      #E5512C;
   --rule:        #D8D7D0;
 
@@ -199,7 +198,7 @@ img { max-width: 100%; display: block; }
   font-size: var(--text-label);
   letter-spacing: var(--tracking-md);
   text-transform: uppercase;
-  color: var(--text-faint);
+  color: var(--text-muted);
   margin-bottom: 0.75rem !important;
 }
 
@@ -212,7 +211,7 @@ img { max-width: 100%; display: block; }
 
 .footer-col a {
   text-decoration: none;
-  color: var(--text-faint);
+  color: var(--text-muted);
   font-size: var(--text-label);
   letter-spacing: var(--tracking-fine);
 }
@@ -247,7 +246,7 @@ img { max-width: 100%; display: block; }
   font-size: var(--text-label);
   letter-spacing: var(--tracking-md);
   text-transform: uppercase;
-  color: var(--text-faint);
+  color: var(--text-muted);
 }
 
 [dir="rtl"] .footer-social-col {
@@ -321,7 +320,7 @@ img { max-width: 100%; display: block; }
 
 .books-rail-year {
   font-size: var(--text-xs);
-  color: var(--text-faint);
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -552,7 +551,7 @@ img { max-width: 100%; display: block; }
   font-size: var(--text-label);
   text-transform: uppercase;
   letter-spacing: var(--tracking-md);
-  color: var(--text-faint);
+  color: var(--text-muted);
   margin: 0;
 }
 
