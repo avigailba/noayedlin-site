@@ -26,8 +26,7 @@
 
   /* --- Type scale --- */
   --text-xs:       0.75rem;            /* small captions */
-  --text-label:    12px;               /* eyebrow, attribution, badges, footer, press type */
-  --text-nav:      13px;               /* navigation links */
+  --text-label:    13px;               /* eyebrow, attribution, badges, footer, nav links */
   --text-sm:       0.85rem;            /* book rail titles, small body */
   --text-base:     1rem;               /* 17px — default body */
   --text-title:    18px;               /* site logo / nav title */
@@ -149,7 +148,7 @@ img { max-width: 100%; display: block; }
 
 .nav-links a {
   text-decoration: none;
-  font-size: var(--text-nav);
+  font-size: var(--text-label);
   letter-spacing: var(--tracking-nav);
   text-transform: uppercase;
   color: var(--text-muted);
@@ -166,7 +165,7 @@ img { max-width: 100%; display: block; }
 }
 
 .lang-toggle {
-  font-size: var(--text-nav);
+  font-size: var(--text-label);
   padding: 0.25rem 0.6rem;
   border: 1px solid var(--rule);
   border-radius: 3px;
@@ -558,8 +557,6 @@ img { max-width: 100%; display: block; }
   font-style: italic;
   font-size: var(--text-base);
   line-height: var(--leading-prose);
-  border-left: 2px solid var(--accent);
-  padding-left: 1.125rem;
   margin: 0 0 0.5rem;
   color: var(--text);
 }
