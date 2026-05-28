@@ -198,7 +198,7 @@ img { max-width: 100%; display: block; }
 
 .footer-heading {
   font-size: var(--text-label);
-  letter-spacing: var(--tracking-md);
+  letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   color: var(--text-muted);
   margin-bottom: 0.75rem !important;
@@ -246,7 +246,7 @@ img { max-width: 100%; display: block; }
   padding-top: 1.5rem;
   border-top: 1px solid var(--rule);
   font-size: var(--text-label);
-  letter-spacing: var(--tracking-md);
+  letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   color: var(--text-muted);
 }
@@ -867,7 +867,7 @@ img { max-width: 100%; display: block; }
 /* Eyebrow labels */
 .eyebrow {
   font-family: var(--font-body);
-  font-size: var(--text-label);
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
   color: var(--text-muted);
@@ -878,7 +878,7 @@ img { max-width: 100%; display: block; }
 
 .section-title {
   font-size: var(--text-label);
-  letter-spacing: var(--tracking-md);
+  letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   color: var(--text-muted);
   margin-bottom: 1.5rem;
@@ -972,9 +972,9 @@ img { max-width: 100%; display: block; }
 }
 
 .watch-label {
-  font-size: 0.8rem;
+  font-size: var(--text-label);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--tracking-wide);
   color: var(--text-muted);
 }
 
