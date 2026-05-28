@@ -1,0 +1,379 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Design System" lang="en">
+  <h1 class="ds-page-title">Design System</h1>
+
+  <!-- COLOURS -->
+  <section class="ds-section">
+    <h2 class="ds-section-heading">Colours</h2>
+    <div class="ds-swatches">
+      <div class="ds-swatch" style="background: var(--bg); border: 1px solid var(--rule);">
+        <span class="ds-swatch-label">--bg</span>
+        <span class="ds-swatch-value">#FAFAF8</span>
+      </div>
+      <div class="ds-swatch" style="background: var(--bg-alt); border: 1px solid var(--rule);">
+        <span class="ds-swatch-label">--bg-alt</span>
+        <span class="ds-swatch-value">#F2F1EA</span>
+      </div>
+      <div class="ds-swatch" style="background: var(--text);">
+        <span class="ds-swatch-label ds-light">--text</span>
+        <span class="ds-swatch-value ds-light">#1A1A1A</span>
+      </div>
+      <div class="ds-swatch" style="background: var(--text-muted);">
+        <span class="ds-swatch-label ds-light">--text-muted</span>
+        <span class="ds-swatch-value ds-light">#5C5C5A</span>
+      </div>
+      <div class="ds-swatch" style="background: var(--accent);">
+        <span class="ds-swatch-label ds-light">--accent</span>
+        <span class="ds-swatch-value ds-light">#E5512C</span>
+      </div>
+      <div class="ds-swatch" style="background: var(--rule); border: 1px solid var(--rule);">
+        <span class="ds-swatch-label">--rule</span>
+        <span class="ds-swatch-value">#D8D7D0</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="ds-rule" />
+
+  <!-- TYPE SCALE -->
+  <section class="ds-section">
+    <h2 class="ds-section-heading">Type Scale</h2>
+    <div class="ds-type-rows">
+      <div class="ds-type-row">
+        <span class="ds-type-meta">--text-xs · 0.75rem</span>
+        <span style="font-size: var(--text-xs);">Year · Metadata caption</span>
+      </div>
+      <div class="ds-type-row">
+        <span class="ds-type-meta">--text-label · 13px</span>
+        <span style="font-size: var(--text-label); text-transform: uppercase; letter-spacing: var(--tracking-md);">EYEBROW / ATTRIBUTION / NAV / FOOTER</span>
+      </div>
+      <div class="ds-type-row">
+        <span class="ds-type-meta">--text-sm · 0.85rem</span>
+        <span style="font-size: var(--text-sm);">Book rail title · Small body</span>
+      </div>
+      <div class="ds-type-row">
+        <span class="ds-type-meta">--text-base · 1rem (17px)</span>
+        <span style="font-size: var(--text-base);">Default body text</span>
+      </div>
+      <div class="ds-type-row">
+        <span class="ds-type-meta">--text-title · 18px</span>
+        <span style="font-size: var(--text-title); font-family: var(--font-serif);">Noa Yedlin</span>
+      </div>
+      <div class="ds-type-row">
+        <span class="ds-type-meta">--text-lead · 1.1rem</span>
+        <span style="font-size: var(--text-lead); font-family: var(--font-serif); font-style: italic;">Editorial lead paragraph</span>
+      </div>
+      <div class="ds-type-row">
+        <span class="ds-type-meta">--text-md · 1.16rem</span>
+        <span style="font-size: var(--text-md); font-family: var(--font-serif);">Section subheading</span>
+      </div>
+      <div class="ds-type-row">
+        <span class="ds-type-meta">--text-lg · 1.5rem</span>
+        <span style="font-size: var(--text-lg); font-family: var(--font-serif);">Card title</span>
+      </div>
+      <div class="ds-type-row">
+        <span class="ds-type-meta">--text-xl · 1.9rem</span>
+        <span style="font-size: var(--text-xl); font-family: var(--font-serif);">H2 heading</span>
+      </div>
+      <div class="ds-type-row">
+        <span class="ds-type-meta">--text-section · 36px</span>
+        <span style="font-size: var(--text-section); font-family: var(--font-serif);">Section heading</span>
+      </div>
+      <div class="ds-type-row">
+        <span class="ds-type-meta">--text-h1 · clamp(2.25–3.25rem)</span>
+        <span style="font-size: var(--text-h1); font-family: var(--font-serif); letter-spacing: var(--tracking-text);">Page title</span>
+      </div>
+      <div class="ds-type-row">
+        <span class="ds-type-meta">--text-display · clamp(2.5–3.5rem)</span>
+        <span style="font-size: var(--text-display); font-family: var(--font-serif); letter-spacing: var(--tracking-tight);">Display heading</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="ds-rule" />
+
+  <!-- FONTS -->
+  <section class="ds-section">
+    <h2 class="ds-section-heading">Fonts</h2>
+    <div class="ds-font-rows">
+      <div class="ds-font-row">
+        <span class="ds-type-meta">--font-serif · Fraunces</span>
+        <span style="font-family: var(--font-serif); font-size: 1.5rem;">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div class="ds-font-row">
+        <span class="ds-type-meta">--font-body · Inter</span>
+        <span style="font-family: var(--font-body); font-size: 1rem;">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div class="ds-font-row">
+        <span class="ds-type-meta">--font-serif italic</span>
+        <span style="font-family: var(--font-serif); font-style: italic; font-size: 1.5rem;">The quick brown fox jumps over the lazy dog</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="ds-rule" />
+
+  <!-- LETTER SPACING -->
+  <section class="ds-section">
+    <h2 class="ds-section-heading">Letter Spacing</h2>
+    <div class="ds-tracking-rows">
+      <div class="ds-tracking-row">
+        <span class="ds-type-meta">--tracking-tight · -0.015em</span>
+        <span style="letter-spacing: var(--tracking-tight); font-size: var(--text-section); font-family: var(--font-serif);">Display heading</span>
+      </div>
+      <div class="ds-tracking-row">
+        <span class="ds-type-meta">--tracking-text · -0.01em</span>
+        <span style="letter-spacing: var(--tracking-text); font-size: var(--text-xl); font-family: var(--font-serif);">Page title</span>
+      </div>
+      <div class="ds-tracking-row">
+        <span class="ds-type-meta">--tracking-fine · 0.04em</span>
+        <span style="letter-spacing: var(--tracking-fine); font-size: var(--text-label); text-transform: uppercase;">Footer links</span>
+      </div>
+      <div class="ds-tracking-row">
+        <span class="ds-type-meta">--tracking-nav · 0.05em</span>
+        <span style="letter-spacing: var(--tracking-nav); font-size: var(--text-label); text-transform: uppercase;">Navigation</span>
+      </div>
+      <div class="ds-tracking-row">
+        <span class="ds-type-meta">--tracking-sm · 0.10em</span>
+        <span style="letter-spacing: var(--tracking-sm); font-size: var(--text-label); text-transform: uppercase;">Button label</span>
+      </div>
+      <div class="ds-tracking-row">
+        <span class="ds-type-meta">--tracking-md · 0.12em</span>
+        <span style="letter-spacing: var(--tracking-md); font-size: var(--text-label); text-transform: uppercase;">Attribution label</span>
+      </div>
+      <div class="ds-tracking-row">
+        <span class="ds-type-meta">--tracking-wide · 0.14em</span>
+        <span style="letter-spacing: var(--tracking-wide); font-size: var(--text-label); text-transform: uppercase;">Eyebrow label</span>
+      </div>
+      <div class="ds-tracking-row">
+        <span class="ds-type-meta">--tracking-loose · 0.16em</span>
+        <span style="letter-spacing: var(--tracking-loose); font-size: var(--text-label); text-transform: uppercase;">Award badge</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="ds-rule" />
+
+  <!-- LINE HEIGHTS -->
+  <section class="ds-section">
+    <h2 class="ds-section-heading">Line Heights</h2>
+    <div class="ds-leading-grid">
+      {[
+        { token: '--leading-tight', value: '1.1', use: 'H1, display' },
+        { token: '--leading-snug', value: '1.25', use: 'Press headlines' },
+        { token: '--leading-normal', value: '1.4', use: 'H2, H3, rail titles' },
+        { token: '--leading-relaxed', value: '1.55', use: 'Taglines, captions' },
+        { token: '--leading-body', value: '1.7', use: 'Body default' },
+        { token: '--leading-prose', value: '1.8', use: 'Synopsis, quotes' },
+      ].map(({ token, value, use }) => (
+        <div class="ds-leading-card">
+          <p class="ds-type-meta">{token} · {value}</p>
+          <p style={`line-height: ${value}; font-family: var(--font-serif); font-size: var(--text-sm); margin: 0;`}>
+            A novelist of rare clarity,<br />her prose moves like water<br />finding its level.
+          </p>
+          <p class="ds-leading-use">{use}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <hr class="ds-rule" />
+
+  <!-- SHADOW -->
+  <section class="ds-section">
+    <h2 class="ds-section-heading">Shadow</h2>
+    <div class="ds-shadow-row">
+      <div class="ds-shadow-swatch">
+        <img src="/images/HouseArrest-fordistribution.jpg" alt="Book cover" class="ds-shadow-img" />
+      </div>
+      <div>
+        <p class="ds-type-meta" style="margin-bottom: 0.5rem;">--shadow-cover</p>
+        <p style="font-size: var(--text-sm); color: var(--text-muted); margin: 0;">4px 6px 18px rgba(31, 27, 22, 0.18)<br />Book covers on detail page</p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .ds-page-title {
+    font-size: var(--text-h1);
+    font-family: var(--font-serif);
+    letter-spacing: var(--tracking-text);
+    text-align: left;
+    margin-bottom: 3rem;
+  }
+
+  .ds-section {
+    margin-bottom: 3rem;
+  }
+
+  .ds-section-heading {
+    font-size: var(--text-label);
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+
+  .ds-rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 3rem 0;
+  }
+
+  /* Swatches */
+  .ds-swatches {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .ds-swatch {
+    width: 120px;
+    height: 80px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 8px 10px;
+    gap: 2px;
+  }
+
+  .ds-swatch-label {
+    font-size: var(--text-label);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-muted);
+    font-family: monospace;
+  }
+
+  .ds-swatch-value {
+    font-size: var(--text-label);
+    color: var(--text-muted);
+    font-family: monospace;
+  }
+
+  .ds-swatch .ds-light { color: rgba(255,255,255,0.75); }
+  .ds-swatch .ds-light.ds-swatch-value { color: rgba(255,255,255,0.5); }
+
+  /* Type scale */
+  .ds-type-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .ds-type-row {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    align-items: baseline;
+    gap: 2rem;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .ds-type-row:first-child { border-top: 1px solid var(--rule); }
+
+  .ds-type-meta {
+    font-size: var(--text-label);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-muted);
+    font-family: monospace;
+    white-space: nowrap;
+  }
+
+  /* Fonts */
+  .ds-font-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .ds-font-row {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    align-items: center;
+    gap: 2rem;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .ds-font-row:first-child { border-top: 1px solid var(--rule); }
+
+  /* Tracking */
+  .ds-tracking-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .ds-tracking-row {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    align-items: center;
+    gap: 2rem;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .ds-tracking-row:first-child { border-top: 1px solid var(--rule); }
+
+  /* Line heights */
+  .ds-leading-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .ds-leading-card {
+    padding: 1.25rem;
+    background: var(--bg-alt);
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .ds-leading-use {
+    font-size: var(--text-label);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--accent);
+    margin: 0;
+  }
+
+  /* Shadow */
+  .ds-shadow-row {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .ds-shadow-swatch {
+    width: 80px;
+    flex-shrink: 0;
+  }
+
+  .ds-shadow-img {
+    width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    box-shadow: var(--shadow-cover);
+  }
+
+  @media (max-width: 680px) {
+    .ds-type-row,
+    .ds-font-row,
+    .ds-tracking-row {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+    .ds-leading-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
