@@ -542,13 +542,27 @@ img { max-width: 100%; display: block; }
 }
 .hp-book-title a:hover { color: var(--accent); opacity: 1; }
 
-.hp-book-quote {
+/* Canonical quote style — used everywhere */
+.quote {
+  font-family: var(--font-serif);
   font-style: italic;
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  margin: 0;
-  line-height: var(--leading-relaxed);
-  max-width: 38ch;
+  font-size: var(--text-base);
+  line-height: var(--leading-prose);
+  border-left: 2px solid var(--accent);
+  padding-left: 1.125rem;
+  margin: 0 0 0.5rem;
+  color: var(--text);
+}
+
+.hp-book-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--text-base);
+  line-height: var(--leading-prose);
+  border-left: 2px solid var(--accent);
+  padding-left: 1.125rem;
+  margin: 0 0 0.5rem;
+  color: var(--text);
 }
 
 .hp-book-attr {
@@ -723,10 +737,13 @@ img { max-width: 100%; display: block; }
 
 .selected-review blockquote {
   font-family: var(--font-serif);
+  font-style: italic;
   font-size: var(--text-base);
   line-height: var(--leading-prose);
+  border-left: 2px solid var(--accent);
+  padding-left: 1.125rem;
+  margin: 0 0 0.5rem;
   color: var(--text);
-  margin-bottom: 0.75rem;
 }
 
 .selected-review-attr {
@@ -813,13 +830,14 @@ img { max-width: 100%; display: block; }
 
 /* Pull quotes */
 .pull-quote {
-  font-size: 15px;
+  font-family: var(--font-serif);
   font-style: italic;
-  line-height: 1.6;
+  font-size: var(--text-base);
+  line-height: var(--leading-prose);
   border-left: 2px solid var(--accent);
-  padding-left: 14px;
-  margin: 0;
-  color: var(--text-muted);
+  padding-left: 1.125rem;
+  margin: 0 0 0.5rem;
+  color: var(--text);
 }
 
 /* Shared page heading */
