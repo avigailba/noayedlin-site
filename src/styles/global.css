@@ -87,8 +87,12 @@ main {
   flex: 1;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 3rem var(--spacing);
+  padding: 56px 32px;
   width: 100%;
+}
+
+@media (max-width: 600px) {
+  main { padding: 40px 20px; }
 }
 
 h1, h2, h3 {
