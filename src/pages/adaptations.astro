@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import BooksRail from '../components/BooksRail.astro';
 import { getCollection } from 'astro:content';
 
 const allAdaptations = await getCollection('adaptations');
@@ -130,6 +131,8 @@ const countriesText = countries.length <= 2
       </div>
     );
   })}
+
+  <BooksRail divider />
 
 </Layout>
 

@@ -1,12 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import BooksRail from '../components/BooksRail.astro';
 import { getCollection } from 'astro:content';
 
 
 const books = await getCollection('booksEn');
 const featured = books.find((b) => b.id === 'stockholm');
 const featured2 = books.find((b) => b.id === 'house-arrest');
-const sortedBooks = [...books].sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
 
 const allEventsRaw = await getCollection('events');
 
@@ -183,20 +183,7 @@ function formatDate(dateStr: string) {
     </section>
   )}
 
-  <section class="section">
-    <p class="section-title">Books</p>
-    <div class="books-rail-grid">
-      {sortedBooks.map((book) => (
-        <a href={`/books/${book.data.slug}`} class="books-rail-tile">
-          <div class="books-rail-cover">
-            <img src={book.data.cover} alt={`Cover of ${book.data.title}`} />
-          </div>
-          <p class="books-rail-title"><em>{book.data.title}</em></p>
-          {book.data.year && <p class="books-rail-year">{book.data.year}</p>}
-        </a>
-      ))}
-    </div>
-  </section>
+  <BooksRail />
 
   {homeMedia.length > 0 && (
     <section class="hp-press">

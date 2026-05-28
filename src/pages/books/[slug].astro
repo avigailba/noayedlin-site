@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import BooksRail from '../../components/BooksRail.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -16,9 +17,6 @@ const {
   reviews, purchaseLinks, selectedReviews, adaptationText, adaptations,
   awards, prizes, tagline, badge, excerpt,
 } = book.data;
-
-const allBooks = await getCollection('booksEn');
-const sortedBooks = allBooks.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
 
 const allReviews = [
   ...(selectedReviews ?? []).map((r) => ({
@@ -139,24 +137,7 @@ const allAdaptations = adaptations ??
     </>
   )}
 
-  <section class="bd-other">
-    <p class="eyebrow bd-section-eyebrow">Other Books</p>
-    <div class="books-rail-grid">
-      {sortedBooks.map((b) => {
-        const isCurrent = b.data.slug === book.data.slug;
-        return (
-          <a href={`/books/${b.data.slug}`} class={`books-rail-tile${isCurrent ? ' is-current' : ''}`}>
-            <div class="books-rail-cover">
-              <img src={b.data.coverRail ?? b.data.cover} alt={`Cover of ${b.data.title}`} />
-              {isCurrent && <span class="bd-reading-now">Reading now</span>}
-            </div>
-            <p class="books-rail-title"><em>{b.data.title}</em></p>
-            {!isCurrent && b.data.year && <p class="books-rail-year">{b.data.year}</p>}
-          </a>
-        );
-      })}
-    </div>
-  </section>
+  <BooksRail currentSlug={book.data.slug} />
 </Layout>
 
 <style>
@@ -294,23 +275,6 @@ const allAdaptations = adaptations ??
     gap: 0.4rem;
   }
   .bd-adaptation-list li { font-size: 0.95rem; line-height: var(--leading-body); color: var(--text); }
-
-  /* Other books */
-  .bd-other { margin-top: 3rem; }
-
-  .books-rail-tile.is-current .books-rail-cover img {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-
-  .bd-reading-now {
-    display: block;
-    font-size: var(--text-label);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-    color: var(--accent);
-    margin-top: 0.3rem;
-  }
 
   @media (max-width: 680px) {
     .bd-hero { grid-template-columns: 150px 1fr; gap: 1.5rem; }

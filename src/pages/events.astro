@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import BooksRail from '../components/BooksRail.astro';
 import { getCollection } from 'astro:content';
 
 const allEvents = await getCollection('events');
@@ -152,6 +153,8 @@ const past = allEvents
 
     </div>
   )}
+
+  <BooksRail divider />
 
 </Layout>
 

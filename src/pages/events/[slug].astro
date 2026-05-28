@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import BooksRail from '../../components/BooksRail.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -54,6 +55,8 @@ const dateLabel = end
       )}
     </div>
   </div>
+
+  <BooksRail divider />
 </Layout>
 
 <style>

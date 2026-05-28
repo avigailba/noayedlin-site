@@ -1,0 +1,59 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+  currentSlug?: string;
+  divider?: boolean;
+}
+
+const { currentSlug, divider = false } = Astro.props;
+
+const allBooks = await getCollection('booksEn');
+const books = allBooks.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+---
+
+<section class:list={['books-rail', { 'books-rail--divider': divider }]}>
+  <p class="section-title">{currentSlug ? 'Other Books' : 'Books'}</p>
+  <div class="books-rail-grid">
+    {books.map((book) => {
+      const isCurrent = book.data.slug === currentSlug;
+      return (
+        <a href={`/books/${book.data.slug}`} class:list={['books-rail-tile', { 'is-current': isCurrent }]}>
+          <div class="books-rail-cover">
+            <img
+              src={book.data.coverRail ?? book.data.cover}
+              alt={`Cover of ${book.data.title}`}
+            />
+            {isCurrent && <span class="reading-now">Reading now</span>}
+          </div>
+          <p class="books-rail-title"><em>{book.data.title}</em></p>
+          {!isCurrent && book.data.year && <p class="books-rail-year">{book.data.year}</p>}
+        </a>
+      );
+    })}
+  </div>
+</section>
+
+<style>
+  .books-rail {
+    padding: 56px 0 40px;
+  }
+
+  .books-rail--divider {
+    border-top: 0.5px solid var(--rule);
+  }
+
+  .books-rail-tile.is-current .books-rail-cover img {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .reading-now {
+    display: block;
+    font-size: var(--text-label);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--accent);
+    margin-top: 0.3rem;
+  }
+</style>

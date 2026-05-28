@@ -1,10 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getEntry, getCollection } from 'astro:content';
+import BooksRail from '../components/BooksRail.astro';
+import { getEntry } from 'astro:content';
 
 const about = await getEntry('about', 'about');
-const allBooks = await getCollection('booksEn');
-const books = allBooks.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
 const { heading, tagline, portrait, lead, bio, awards, representation } = about.data;
 ---
 
@@ -52,24 +51,7 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
     </div>
   </div>
 
-  <div class="ab-section">
-    <p class="section-title">Books</p>
-    <div class="books-rail-grid">
-      {books.map((book) => (
-        <a href={`/books/${book.data.slug}`} class="books-rail-tile">
-          <div class="books-rail-cover">
-            <img
-              src={book.data.coverRail ?? book.data.cover}
-              alt={`Cover of ${book.data.title}`}
-              style={book.data.coverColor ? `background: ${book.data.coverColor};` : ''}
-            />
-          </div>
-          <p class="books-rail-title"><em>{book.data.title}</em></p>
-          {book.data.year && <p class="books-rail-year">{book.data.year}</p>}
-        </a>
-      ))}
-    </div>
-  </div>
+  <BooksRail />
 </Layout>
 
 <style>
