@@ -115,7 +115,7 @@ img { max-width: 100%; display: block; }
 
 /* Nav */
 .site-header {
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 0.5px solid var(--rule);
   padding: 1.25rem var(--spacing);
 }
 
@@ -181,7 +181,7 @@ img { max-width: 100%; display: block; }
 
 /* Footer */
 .site-footer {
-  border-top: 1px solid var(--rule);
+  border-top: 0.5px solid var(--rule);
   padding: 3rem var(--spacing) 1.5rem;
   font-size: var(--text-sm);
   color: var(--text-muted);
@@ -244,7 +244,7 @@ img { max-width: 100%; display: block; }
   max-width: var(--max-width);
   margin: 0 auto;
   padding-top: 1.5rem;
-  border-top: 1px solid var(--rule);
+  border-top: 0.5px solid var(--rule);
   font-size: var(--text-label);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
@@ -611,7 +611,7 @@ img { max-width: 100%; display: block; }
 .book-hero {
   padding: 3rem 0 4rem;
   text-align: center;
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 0.5px solid var(--rule);
   margin-bottom: 4rem;
 }
 
@@ -668,7 +668,7 @@ img { max-width: 100%; display: block; }
   display: flex;
   justify-content: center;
   padding-bottom: 3rem;
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 0.5px solid var(--rule);
   margin-bottom: 4rem;
 }
 
@@ -683,7 +683,7 @@ img { max-width: 100%; display: block; }
 
 /* Homepage bio strip */
 .hp-bio-strip {
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 0.5px solid var(--rule);
   padding: 2rem 0;
   margin-bottom: 3rem;
   display: flex;
@@ -860,7 +860,7 @@ img { max-width: 100%; display: block; }
 
 .page-rule {
   border: none;
-  border-top: 1px solid var(--rule);
+  border-top: 0.5px solid var(--rule);
   margin: 0;
 }
 
@@ -882,7 +882,7 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
   color: var(--text-muted);
   margin-bottom: 1.5rem;
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 0.5px solid var(--rule);
   padding-bottom: 0.5rem;
 }
 
@@ -911,7 +911,7 @@ img { max-width: 100%; display: block; }
 .adaptation-project {
   margin-top: 3.5rem;
   padding-top: 2rem;
-  border-top: 1px solid var(--rule);
+  border-top: 0.5px solid var(--rule);
 }
 
 .adaptation-project:first-of-type { border-top: none; margin-top: 2rem; }
