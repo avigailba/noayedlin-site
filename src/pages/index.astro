@@ -75,11 +75,10 @@ function formatDate(dateStr: string) {
           <blockquote class="hp-book-quote">"A lucid, clear, and distinct voice"</blockquote>
           <p class="hp-book-attr">— Dorit Rabinyan</p>
           <div class="book-cta-group">
+            <a href={`/books/${featured2.data.slug}`} class="btn-primary">More about the book →</a>
             <div class="retailers">
-              <span class="retailers-label">Order:</span>
               <a class="retailer-link" href="https://www.amazon.com/House-Arrest-Noa-Yedlin/dp/1954404433" target="_blank" rel="noopener">Amazon</a>
             </div>
-            <a href={`/books/${featured2.data.slug}`} class="btn-primary">More about the book →</a>
           </div>
         </div>
       )}
@@ -102,8 +101,8 @@ function formatDate(dateStr: string) {
             </>
           )}
           <div class="book-cta-group">
+            <a href={`/books/${featured.data.slug}`} class="btn-primary">More about the book →</a>
             <div class="retailers">
-              <span class="retailers-label">Order:</span>
               <a class="retailer-link" href="https://www.amazon.com/Stockholm-Novel-Noa-Yedlin/dp/0063298678" target="_blank" rel="noopener">Amazon</a>
               <span class="retailer-sep">·</span>
               <a class="retailer-link" href="https://www.barnesandnoble.com/w/stockholm-noa-yedlin/1143956543" target="_blank" rel="noopener">B&amp;N</a>
@@ -112,7 +111,6 @@ function formatDate(dateStr: string) {
               <span class="retailer-sep">·</span>
               <a class="retailer-link" href="https://www.harpercollins.com/products/stockholm-noa-yedlin" target="_blank" rel="noopener">HarperCollins</a>
             </div>
-            <a href={`/books/${featured.data.slug}`} class="btn-primary">More about the book →</a>
           </div>
         </div>
       )}
@@ -131,9 +129,9 @@ function formatDate(dateStr: string) {
             <blockquote class="hp-review-quote">"{r.quote}"</blockquote>
             <p class="hp-review-attr">
               <span class="hp-review-name">{r.reviewer}</span>
-              {r.publication && <span class="hp-review-pub">{r.publication}</span>}
+              {r.publication && <span class="hp-review-pub"> · {r.publication}</span>}
+              {r.book && <span class="hp-review-book"> | <em>{r.book}</em></span>}
             </p>
-            <p class="hp-review-book"><em>{r.book}</em></p>
           </div>
         ))}
       </div>
@@ -268,14 +266,6 @@ function formatDate(dateStr: string) {
     margin-bottom: 16px;
   }
 
-  .retailers-label {
-    font-size: var(--text-label);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-right: 10px;
-  }
-
   .retailer-link {
     color: var(--accent);
     border-bottom: 1px solid var(--accent);
@@ -317,29 +307,22 @@ function formatDate(dateStr: string) {
   .hp-review-attr {
     padding-left: 18px;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
+    font-size: var(--text-label);
+    color: var(--text-muted);
+    line-height: 1.5;
   }
 
   .hp-review-name {
-    font-size: var(--text-label);
     text-transform: uppercase;
     letter-spacing: var(--tracking-wide);
-    color: var(--text-muted);
   }
 
   .hp-review-pub {
-    font-size: var(--text-label);
-    color: var(--text-muted);
     letter-spacing: 0.04em;
   }
 
   .hp-review-book {
-    padding-left: 18px;
-    margin: 0;
-    font-size: var(--text-label);
-    color: var(--text-muted);
+    letter-spacing: 0.02em;
   }
 
   /* Homepage events block */
