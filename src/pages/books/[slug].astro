@@ -67,9 +67,12 @@ const allAdaptations = adaptations ??
       )}
       {tagline && <p class="bd-tagline">{tagline}</p>}
       {purchaseLinks && purchaseLinks.length > 0 && (
-        <div class="bd-ctas">
-          {purchaseLinks.map((link) => (
-            <a href={link.href} target="_blank" rel="noopener" class="btn-secondary">{link.label}</a>
+        <div class="retailers">
+          {purchaseLinks.map((link, i) => (
+            <>
+              {i > 0 && <span class="retailer-sep">·</span>}
+              <a class="retailer-link" href={link.href} target="_blank" rel="noopener">{link.label}</a>
+            </>
           ))}
         </div>
       )}

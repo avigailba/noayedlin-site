@@ -543,12 +543,26 @@ img { max-width: 100%; display: block; }
 }
 .link-accent:hover { opacity: 0.7; }
 
-.bd-buy-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  justify-content: center;
-  padding: 3rem var(--spacing);
+/* Retailer text-link row — used on homepage + book detail */
+.retailers {
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.retailer-link {
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 1px;
+  text-decoration: none;
+}
+
+.retailer-link:hover { opacity: 0.7; }
+
+.retailer-sep {
+  color: var(--text-muted);
+  margin: 0 6px;
 }
 
 .book-hero-info .btn-primary { align-self: flex-start; }
