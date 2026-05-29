@@ -9,11 +9,14 @@ function parseDate(str: string) {
   const [y, m, d] = str.split('-').map(Number);
   return new Date(y, m - 1, d);
 }
-const MONTHS_ABB = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const DAYS_ABB   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-function fmtDay(d: Date)   { return String(d.getDate()).padStart(2, '0'); }
-function fmtMonth(d: Date) { return MONTHS_ABB[d.getMonth()].toUpperCase(); }
-function fmtDow(d: Date)   { return DAYS_ABB[d.getDay()]; }
+const MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function fmtEventDate(start: Date, end: Date | null): string {
+  if (end) {
+    return `${MONTHS_LONG[start.getMonth()]} ${start.getDate()}–${end.getDate()}, ${start.getFullYear()}`;
+  }
+  return `${MONTHS_LONG[start.getMonth()]} ${start.getDate()}, ${start.getFullYear()}`;
+}
 
 // Split upcoming / past
 const today = new Date(); today.setHours(0, 0, 0, 0);
@@ -51,59 +54,52 @@ const past = allEvents
       {upcoming.length > 0 && (
         <>
           <p class="ev-section-eyebrow">Upcoming</p>
-          <div class="ev-rows">
+          <div class="ev-rows event-rows">
             {upcoming.map((event) => {
               const start = parseDate(event.data.date_start);
               const end   = event.data.date_end ? parseDate(event.data.date_end) : null;
-              const isRange = !!end;
-              const slug = event.data.slug ?? event.id;
+              const slug  = event.data.slug ?? event.id;
+              const locationStr = [event.data.city, event.data.region].filter(Boolean).join(', ');
               return (
-                <div class="ev-row">
-                  <div class="ev-date">
-                    <p class="ev-day">
-                      {isRange ? (
-                        <>{fmtDay(start)}<span class="ev-day-dash">–</span>{fmtDay(end!)}</>
-                      ) : fmtDay(start)}
-                    </p>
-                    <p class="ev-month">{fmtMonth(start)}</p>
-                    <p class="ev-dow">
-                      {isRange ? `${fmtDow(start)} – ${fmtDow(end!)}` : fmtDow(start)}
-                    </p>
+                <article class="event-row">
+                  <div class="event-meta">
+                    <div class="event-date">{fmtEventDate(start, end)}</div>
+                    {locationStr && <div class="event-location">{locationStr}</div>}
+                    {event.data.type && <div class="event-type">{event.data.type}</div>}
                   </div>
-                  <div class="ev-content">
-                    <p class="ev-location">{event.data.country} · {event.data.city}{event.data.region ? `, ${event.data.region}` : ''}</p>
-                    <h3 class="ev-title">
-                      <a href={`/events/${slug}`} class="ev-title-link headline-link">{event.data.title}</a>
+                  <div class="event-content">
+                    <h3 class="event-title">
+                      <a href={`/events/${slug}`} class="headline-link">{event.data.title}</a>
                     </h3>
-                    <p class="ev-description">{event.data.description}</p>
-                    <div class="ev-status">
+                    {event.data.description && <p class="event-description">{event.data.description}</p>}
+                    <div class="event-status">
                       {event.data.status === 'details_coming_soon' && (
                         <>
-                          <span class="ev-dot ev-dot--muted"></span>
-                          <span class="ev-status-label ev-status-label--muted">Details coming soon</span>
+                          <span class="event-dot event-dot--muted"></span>
+                          <span>Details coming soon</span>
                         </>
                       )}
                       {event.data.status === 'scheduled' && (
                         <>
-                          <span class="ev-dot ev-dot--accent"></span>
+                          <span class="event-dot event-dot--accent"></span>
                           {event.data.url
-                            ? <a href={event.data.url} class="ev-status-label ev-status-label--accent" target="_blank" rel="noopener">Get details →</a>
-                            : <span class="ev-status-label ev-status-label--accent">Get details</span>
+                            ? <a href={event.data.url} target="_blank" rel="noopener">Get details →</a>
+                            : <span>Get details</span>
                           }
                         </>
                       )}
                       {event.data.status === 'ticketed' && (
                         <>
-                          <span class="ev-dot ev-dot--accent"></span>
+                          <span class="event-dot event-dot--accent"></span>
                           {event.data.url
-                            ? <a href={event.data.url} class="ev-status-label ev-status-label--accent" target="_blank" rel="noopener">Get tickets →</a>
-                            : <span class="ev-status-label ev-status-label--accent">Get tickets</span>
+                            ? <a href={event.data.url} target="_blank" rel="noopener">Get tickets →</a>
+                            : <span>Get tickets</span>
                           }
                         </>
                       )}
                     </div>
                   </div>
-                </div>
+                </article>
               );
             })}
           </div>
@@ -113,37 +109,30 @@ const past = allEvents
       {past.length > 0 && (
         <>
           <p class="ev-section-eyebrow ev-section-eyebrow--past">Past</p>
-          <div class="ev-rows">
+          <div class="ev-rows event-rows">
             {past.map((event) => {
               const start = parseDate(event.data.date_start);
               const end   = event.data.date_end ? parseDate(event.data.date_end) : null;
-              const isRange = !!end;
-              const slug = event.data.slug ?? event.id;
+              const slug  = event.data.slug ?? event.id;
+              const locationStr = [event.data.city, event.data.region].filter(Boolean).join(', ');
               return (
-                <div class="ev-row ev-row--past">
-                  <div class="ev-date">
-                    <p class="ev-day ev-day--past">
-                      {isRange ? (
-                        <>{fmtDay(start)}<span class="ev-day-dash">–</span>{fmtDay(end!)}</>
-                      ) : fmtDay(start)}
-                    </p>
-                    <p class="ev-month ev-month--past">{fmtMonth(start)}</p>
-                    <p class="ev-dow">
-                      {isRange ? `${fmtDow(start)} – ${fmtDow(end!)}` : fmtDow(start)}
-                    </p>
+                <article class="event-row event-row--past">
+                  <div class="event-meta">
+                    <div class="event-date">{fmtEventDate(start, end)}</div>
+                    {locationStr && <div class="event-location">{locationStr}</div>}
+                    {event.data.type && <div class="event-type">{event.data.type}</div>}
                   </div>
-                  <div class="ev-content">
-                    <p class="ev-location">{event.data.country} · {event.data.city}{event.data.region ? `, ${event.data.region}` : ''}</p>
-                    <h3 class="ev-title ev-title--past">
-                      <a href={`/events/${slug}`} class="ev-title-link headline-link">{event.data.title}</a>
+                  <div class="event-content">
+                    <h3 class="event-title">
+                      <a href={`/events/${slug}`} class="headline-link">{event.data.title}</a>
                     </h3>
-                    <p class="ev-description">{event.data.description}</p>
-                    <div class="ev-status">
-                      <span class="ev-dot ev-dot--muted"></span>
-                      <span class="ev-status-label ev-status-label--muted">Past event</span>
+                    {event.data.description && <p class="event-description">{event.data.description}</p>}
+                    <div class="event-status">
+                      <span class="event-dot event-dot--muted"></span>
+                      <span>Past event</span>
                     </div>
                   </div>
-                </div>
+                </article>
               );
             })}
           </div>
@@ -226,122 +215,6 @@ const past = allEvents
     padding-top: 56px;
   }
 
-  /* Event rows */
-  .ev-rows { }
-
-  .ev-row {
-    display: grid;
-    grid-template-columns: 110px 1fr;
-    gap: 36px;
-    align-items: baseline;
-    padding: 28px 0;
-    border-top: 0.5px solid var(--rule);
-  }
-
-  .ev-rows .ev-row:last-child {
-    border-bottom: 0.5px solid var(--rule);
-  }
-
-  /* Date column */
-  .ev-date { }
-
-  .ev-day {
-    font-family: var(--font-serif);
-    font-size: 44px;
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: -0.02em;
-    color: var(--text);
-    margin: 0;
-  }
-
-  .ev-day--past { color: var(--text-muted); }
-
-  .ev-day-dash { color: var(--text-muted); }
-
-  .ev-month {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--accent);
-    margin: 6px 0 0;
-  }
-
-  .ev-month--past { color: var(--text-muted); }
-
-  .ev-dow {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--text-muted);
-    margin: 4px 0 0;
-  }
-
-  /* Content column */
-  .ev-location {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--text-muted);
-    margin: 0 0 10px;
-  }
-
-  .ev-title {
-    font-family: var(--font-serif);
-    font-size: 26px;
-    font-weight: 400;
-    line-height: 1.1;
-    margin: 0 0 6px;
-  }
-
-  .ev-title--past { color: var(--text-muted); }
-
-  .ev-title-link {
-    color: inherit;
-    text-decoration: none;
-  }
-  /* hover handled by .headline-link */
-
-  .ev-description {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin: 0 0 14px;
-  }
-
-  /* Status indicator */
-  .ev-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-  }
-
-  .ev-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .ev-dot--muted  { background: var(--text-muted); }
-  .ev-dot--accent { background: var(--accent); }
-
-  .ev-status-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    text-decoration: none;
-  }
-
-  .ev-status-label--muted  { color: var(--text-muted); }
-  .ev-status-label--accent { color: var(--accent); }
-  .ev-status-label--accent:hover { opacity: 0.7; }
-
-  @media (max-width: 540px) {
-    .ev-row {
-      grid-template-columns: 70px 1fr;
-      gap: 20px;
-    }
-    .ev-day { font-size: 32px; }
-    .ev-title { font-size: 20px; }
-  }
+  /* Row styles handled by global .event-row* rules */
+  /* Last row border-bottom via .event-rows .event-row:last-child in global */
 </style>

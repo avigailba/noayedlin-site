@@ -15,7 +15,6 @@ function hpParseDate(str: string) {
   const [y, m, d] = str.split('-').map(Number);
   return new Date(y, m - 1, d);
 }
-const HP_MONTHS_ABB  = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const HP_MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
 const hpToday = new Date(); hpToday.setHours(0, 0, 0, 0);
@@ -127,10 +126,10 @@ function formatDate(dateStr: string) {
         ].map((r) => (
           <blockquote class="praise">
             <p>"{r.quote}"</p>
-            <footer class="praise-attribution">
-              <div class="praise-author">{r.reviewer}</div>
-              {r.publication && <div class="praise-outlet">{r.publication}</div>}
-              {r.book && <div class="praise-book"><em>{r.book}</em></div>}
+            <footer class="quote-attribution">
+              <div class="quote-author">{r.reviewer}</div>
+              {r.publication && <div class="quote-outlet">{r.publication}</div>}
+              {r.book && <div class="quote-book"><em>{r.book}</em></div>}
             </footer>
           </blockquote>
         ))}
@@ -145,35 +144,55 @@ function formatDate(dateStr: string) {
         <h2 class="hp-events-heading">Lectures &amp; Events</h2>
         <p class="hp-events-subtitle">{hpEventSubtitle(upcomingEvents)}</p>
       </div>
-      <div class="hp-events-rows">
+      <div class="hp-events-rows event-rows">
         {upcomingEvents.map((event) => {
           const start = hpParseDate(event.data.date_start);
           const end   = event.data.date_end ? hpParseDate(event.data.date_end) : null;
-          const isRange = !!end;
-          const slug = event.data.slug ?? event.id;
-          const dayStr = isRange
-            ? `${start.getDate()}–${end!.getDate()}`
-            : String(start.getDate()).padStart(2, '0');
-          const monthStr = HP_MONTHS_ABB[start.getMonth()].toUpperCase();
-          const regionLine = [event.data.city, event.data.region].filter(Boolean).join(', ');
-          const statusLabel = event.data.status === 'details_coming_soon' ? 'Details coming soon'
-            : event.data.status === 'scheduled' ? 'Get details →'
-            : event.data.status === 'ticketed'  ? 'Get tickets →'
-            : '';
+          const slug  = event.data.slug ?? event.id;
+          const dateStr = end
+            ? `${HP_MONTHS_LONG[start.getMonth()]} ${start.getDate()}–${end.getDate()}, ${start.getFullYear()}`
+            : `${HP_MONTHS_LONG[start.getMonth()]} ${start.getDate()}, ${start.getFullYear()}`;
+          const locationStr = [event.data.city, event.data.region].filter(Boolean).join(', ');
           return (
-            <div class="hp-ev-row">
-              <div class="hp-ev-date">
-                <span class="hp-ev-day">{dayStr}</span>
-                <span class="hp-ev-month">{monthStr}</span>
+            <article class="event-row">
+              <div class="event-meta">
+                <div class="event-date">{dateStr}</div>
+                {locationStr && <div class="event-location">{locationStr}</div>}
+                {event.data.type && <div class="event-type">{event.data.type}</div>}
               </div>
-              <div class="hp-ev-body">
-                <p class="hp-ev-title">
+              <div class="event-content">
+                <h3 class="event-title">
                   <a href={`/events/${slug}`} class="headline-link">{event.data.title}</a>
-                </p>
-                <p class="hp-ev-meta">{regionLine} · {statusLabel}</p>
+                </h3>
+                {event.data.description && <p class="event-description">{event.data.description}</p>}
+                <div class="event-status">
+                  {event.data.status === 'details_coming_soon' && (
+                    <>
+                      <span class="event-dot event-dot--muted"></span>
+                      <span>Details coming soon</span>
+                    </>
+                  )}
+                  {event.data.status === 'scheduled' && (
+                    <>
+                      <span class="event-dot event-dot--accent"></span>
+                      {event.data.url
+                        ? <a href={event.data.url} target="_blank" rel="noopener">Get details →</a>
+                        : <span>Get details</span>
+                      }
+                    </>
+                  )}
+                  {event.data.status === 'ticketed' && (
+                    <>
+                      <span class="event-dot event-dot--accent"></span>
+                      {event.data.url
+                        ? <a href={event.data.url} target="_blank" rel="noopener">Get tickets →</a>
+                        : <span>Get tickets</span>
+                      }
+                    </>
+                  )}
+                </div>
               </div>
-              <a href={`/events/${slug}`} class="hp-ev-arrow" aria-label={`More about ${event.data.title}`}>→</a>
-            </div>
+            </article>
           );
         })}
       </div>
@@ -252,7 +271,7 @@ function formatDate(dateStr: string) {
   /* Bottom-anchored CTA group */
   .book-cta-group {
     margin-top: auto;
-    padding-top: 32px;
+    padding-top: 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -304,74 +323,6 @@ function formatDate(dateStr: string) {
     max-width: 720px;
     margin: 0 auto;
   }
-
-  .hp-ev-row {
-    display: grid;
-    grid-template-columns: 90px 1fr auto;
-    gap: 28px;
-    align-items: center;
-    padding: 22px 0;
-    border-top: 0.5px solid var(--rule);
-  }
-
-  .hp-events-rows .hp-ev-row:last-child {
-    border-bottom: 0.5px solid var(--rule);
-  }
-
-  .hp-ev-date {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-  }
-
-  .hp-ev-day {
-    font-family: var(--font-serif);
-    font-size: 22px;
-    font-weight: 400;
-    color: var(--text);
-    line-height: 1;
-    letter-spacing: -0.01em;
-    white-space: nowrap;
-  }
-
-  .hp-ev-month {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--accent);
-  }
-
-  .hp-ev-body {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-
-  .hp-ev-title {
-    font-family: var(--font-serif);
-    font-size: 19px;
-    font-weight: 400;
-    color: var(--text);
-    margin: 0;
-    line-height: 1.2;
-  }
-
-  .hp-ev-meta {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin: 0;
-    line-height: 1.4;
-  }
-
-  .hp-ev-arrow {
-    font-size: 11px;
-    color: var(--accent);
-    text-decoration: none;
-    padding: 4px;
-    flex-shrink: 0;
-  }
-
-  .hp-ev-arrow:hover { opacity: 0.7; }
 
   .hp-events-footer {
     text-align: center;

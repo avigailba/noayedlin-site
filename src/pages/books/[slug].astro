@@ -104,9 +104,9 @@ const allAdaptations = adaptations ??
               {r.starred && <p class="kirkus-star">★ Kirkus Starred Review</p>}
               <blockquote class="praise">
                 <p>"{r.quote}"</p>
-                <footer class="praise-attribution">
-                  <div class="praise-author">{r.name}</div>
-                  {r.pub && <div class="praise-outlet">{r.pub}</div>}
+                <footer class="quote-attribution">
+                  <div class="quote-author">{r.name}</div>
+                  {r.pub && <div class="quote-outlet">{r.pub}</div>}
                 </footer>
               </blockquote>
             </div>
@@ -263,8 +263,20 @@ const allAdaptations = adaptations ??
   .bd-synopsis-body p:last-child { margin-bottom: 0; }
 
   /* Praise — quote styles from global .praise* rules */
-  .bd-praise { max-width: 620px; margin: 0 auto; }
-  .bd-reviews { display: flex; flex-direction: column; gap: 2rem; }
+  .bd-praise { }
+  .bd-reviews {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px 24px;
+  }
+
+  @media (max-width: 1024px) {
+    .bd-reviews { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 600px) {
+    .bd-reviews { grid-template-columns: 1fr; }
+  }
 
   /* Prizes */
   .bd-prizes { max-width: 620px; margin: 0 auto; }
