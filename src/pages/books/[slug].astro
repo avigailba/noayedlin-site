@@ -99,10 +99,13 @@ const allAdaptations = adaptations ??
           {allReviews.map((r) => (
             <div class="bd-review">
               {r.starred && <p class="kirkus-star">★ Kirkus Starred Review</p>}
-              <blockquote class="bd-quote">"{r.quote}"</blockquote>
-              <p class="bd-attribution">
-                {r.name}{r.name && r.pub ? ' · ' : ''}{r.pub}
-              </p>
+              <blockquote class="praise">
+                <p>"{r.quote}"</p>
+                <footer class="praise-attribution">
+                  <div class="praise-author">{r.name}</div>
+                  {r.pub && <div class="praise-outlet">{r.pub}</div>}
+                </footer>
+              </blockquote>
             </div>
           ))}
         </div>
@@ -256,29 +259,9 @@ const allAdaptations = adaptations ??
   .bd-synopsis-body p { font-size: 0.95rem; line-height: var(--leading-prose); color: var(--text); margin-bottom: 1rem; }
   .bd-synopsis-body p:last-child { margin-bottom: 0; }
 
-  /* Praise */
+  /* Praise — quote styles from global .praise* rules */
   .bd-praise { max-width: 620px; margin: 0 auto; }
   .bd-reviews { display: flex; flex-direction: column; gap: 2rem; }
-
-  .bd-quote {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: var(--text-base);
-    line-height: var(--leading-prose);
-    border-left: 2px solid var(--accent);
-    padding-left: 1.125rem;
-    margin: 0 0 0.5rem;
-    color: var(--text);
-  }
-
-  .bd-attribution {
-    font-size: var(--text-label);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-    color: var(--text-muted);
-    padding-left: 20px;
-    margin: 0;
-  }
 
   /* Prizes */
   .bd-prizes { max-width: 620px; margin: 0 auto; }

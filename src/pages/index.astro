@@ -125,14 +125,14 @@ function formatDate(dateStr: string) {
           ...(featured2?.data.selectedReviews?.slice(0, 2) ?? []).map(r => ({ ...r, book: featured2?.data.title })),
           ...(featured?.data.selectedReviews?.slice(0, 3) ?? []).map(r => ({ ...r, book: featured?.data.title })),
         ].map((r) => (
-          <div class="hp-review">
-            <blockquote class="hp-review-quote">"{r.quote}"</blockquote>
-            <p class="hp-review-attr">
-              <span class="hp-review-name">{r.reviewer}</span>
-              {r.publication && <span class="hp-review-pub"> · {r.publication}</span>}
-              {r.book && <span class="hp-review-book"> | <em>{r.book}</em></span>}
-            </p>
-          </div>
+          <blockquote class="praise">
+            <p>"{r.quote}"</p>
+            <footer class="praise-attribution">
+              <div class="praise-author">{r.reviewer}</div>
+              {r.publication && <div class="praise-outlet">{r.publication}</div>}
+              {r.book && <div class="praise-book"><em>{r.book}</em></div>}
+            </footer>
+          </blockquote>
         ))}
       </div>
     </section>
@@ -287,43 +287,7 @@ function formatDate(dateStr: string) {
     margin-top: 0;
   }
 
-  .hp-review {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .hp-review-quote {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: var(--text-base);
-    line-height: var(--leading-prose);
-    border-left: 2px solid var(--accent);
-    padding-left: 1.125rem;
-    margin: 0 0 0.5rem;
-    color: var(--text);
-  }
-
-  .hp-review-attr {
-    padding-left: 18px;
-    margin: 0;
-    font-size: var(--text-label);
-    color: var(--text-muted);
-    line-height: 1.5;
-  }
-
-  .hp-review-name {
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-  }
-
-  .hp-review-pub {
-    letter-spacing: 0.04em;
-  }
-
-  .hp-review-book {
-    letter-spacing: 0.02em;
-  }
+  /* praise styles handled by global .praise* rules */
 
   /* Homepage events block */
   .hp-events {

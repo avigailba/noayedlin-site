@@ -1,0 +1,217 @@
+---
+interface Props {
+  nav: { label: string; href: string }[];
+  currentPath: string;
+}
+const { nav, currentPath } = Astro.props;
+---
+
+<div id="mobile-nav" class="mobile-nav" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation">
+
+  <div class="mobile-nav-header">
+    <a href="/" class="mobile-nav-wordmark">Noa Yedlin</a>
+    <button class="mobile-nav-close" aria-label="Close menu">
+      <span class="close-bar"></span>
+      <span class="close-bar"></span>
+    </button>
+  </div>
+
+  <nav class="mobile-nav-body">
+    {nav.map(({ label, href }) => (
+      <a
+        href={href}
+        class={`mobile-nav-link${currentPath === href ? ' is-active' : ''}`}
+        aria-current={currentPath === href ? 'page' : undefined}
+      >
+        {label}
+      </a>
+    ))}
+  </nav>
+
+  <div class="mobile-nav-footer">
+    <a href="https://www.instagram.com/noayedlin/" target="_blank" rel="noopener" aria-label="Instagram" class="mobile-social">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+    <a href="#" target="_blank" rel="noopener" aria-label="YouTube" class="mobile-social">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.95C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.95A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+        <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+    <a href="#" target="_blank" rel="noopener" aria-label="Facebook" class="mobile-social">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+      </svg>
+    </a>
+  </div>
+
+</div>
+
+<style>
+  .mobile-nav {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+
+  .mobile-nav.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-nav-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 32px;
+    border-bottom: 0.5px solid var(--rule);
+    flex-shrink: 0;
+  }
+
+  .mobile-nav-wordmark {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .mobile-nav-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .close-bar {
+    display: block;
+    width: 20px;
+    height: 1.5px;
+    background: var(--text);
+    position: absolute;
+  }
+
+  .close-bar:first-child { transform: rotate(45deg); }
+  .close-bar:last-child  { transform: rotate(-45deg); }
+
+  .mobile-nav-body {
+    display: flex;
+    flex-direction: column;
+    padding: 32px 24px;
+    flex: 1;
+    overflow-y: auto;
+    gap: 4px;
+  }
+
+  .mobile-nav-link {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--text);
+    text-decoration: none;
+    padding: 6px 0 6px 16px;
+    border-left: 3px solid transparent;
+    margin-left: -16px;
+    transition: color 0.15s, border-color 0.15s;
+    display: block;
+  }
+
+  .mobile-nav-link.is-active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+  }
+
+  .mobile-nav-link:hover {
+    color: var(--accent);
+    opacity: 1;
+  }
+
+  .mobile-nav-footer {
+    padding: 24px;
+    border-top: 0.5px solid var(--rule);
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .mobile-social {
+    color: var(--text-muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: color 0.15s;
+  }
+
+  .mobile-social:hover {
+    color: var(--text);
+    opacity: 1;
+  }
+</style>
+
+<script>
+  const mobileNav = document.getElementById('mobile-nav');
+  const toggleBtn = document.querySelector('.nav-toggle') as HTMLButtonElement | null;
+  const closeBtn = mobileNav?.querySelector('.mobile-nav-close') as HTMLButtonElement | null;
+  const navLinks = mobileNav?.querySelectorAll('.mobile-nav-link');
+
+  function openNav() {
+    if (!mobileNav || !toggleBtn) return;
+    mobileNav.classList.add('is-open');
+    mobileNav.setAttribute('aria-hidden', 'false');
+    toggleBtn.setAttribute('aria-expanded', 'true');
+    document.documentElement.style.overflow = 'hidden';
+    closeBtn?.focus();
+  }
+
+  function closeNav() {
+    if (!mobileNav || !toggleBtn) return;
+    mobileNav.classList.remove('is-open');
+    mobileNav.setAttribute('aria-hidden', 'true');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    document.documentElement.style.overflow = '';
+    toggleBtn.focus();
+  }
+
+  toggleBtn?.addEventListener('click', openNav);
+  closeBtn?.addEventListener('click', closeNav);
+  navLinks?.forEach(link => link.addEventListener('click', closeNav));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileNav?.classList.contains('is-open')) closeNav();
+  });
+
+  // Focus trap
+  mobileNav?.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (!mobileNav.classList.contains('is-open') || e.key !== 'Tab') return;
+    const focusable = Array.from(
+      mobileNav.querySelectorAll<HTMLElement>('button, a[href]')
+    );
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) { e.preventDefault(); last?.focus(); }
+    } else {
+      if (document.activeElement === last) { e.preventDefault(); first?.focus(); }
+    }
+  });
+</script>

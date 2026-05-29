@@ -136,8 +136,17 @@ img { max-width: 100%; display: block; }
 
 /* Nav */
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg);
   border-bottom: 0.5px solid var(--rule);
-  padding: 1.25rem var(--spacing);
+  padding: 18px 32px;
+  transition: box-shadow 0.15s;
+}
+
+.site-header.scrolled {
+  box-shadow: 0 1px 0 var(--rule);
 }
 
 .nav-inner {
@@ -152,11 +161,11 @@ img { max-width: 100%; display: block; }
 
 .site-title {
   font-family: var(--font-serif);
-  font-size: var(--text-title);
+  font-size: 20px;
   text-decoration: none;
   white-space: nowrap;
   color: var(--text);
-  letter-spacing: 0;
+  letter-spacing: -0.01em;
 }
 
 .nav-links {
@@ -183,6 +192,32 @@ img { max-width: 100%; display: block; }
 .nav-links a[aria-current="page"] {
   color: var(--accent);
   opacity: 1;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 2px;
+}
+
+/* Hamburger */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
+
+.nav-toggle .bar {
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background: var(--text);
+}
+
+@media (max-width: 767px) {
+  .nav-links  { display: none; }
+  .nav-toggle { display: flex; }
 }
 
 .lang-toggle {
@@ -897,6 +932,44 @@ img { max-width: 100%; display: block; }
   padding-left: 1.125rem;
   margin: 0 0 0.5rem;
   color: var(--text);
+}
+
+/* Unified praise / review quote — used on homepage + book detail */
+.praise {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--text-base);
+  line-height: var(--leading-prose);
+  border-left: 2px solid var(--accent);
+  padding-left: 1.125rem;
+  margin: 0;
+  color: var(--text);
+}
+
+.praise p { margin: 0; }
+
+.praise-attribution {
+  margin-top: 12px;
+  font-style: normal;
+}
+
+.praise-author {
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.praise-outlet {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.praise-book {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-top: 6px;
 }
 
 /* Shared page heading — Option D: left-aligned 96px display */
