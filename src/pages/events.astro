@@ -34,8 +34,8 @@ const past = allEvents
 <Layout title="Events &amp; Lectures" lang="en">
 
   <header class="ev-page-header">
-    <p class="eyebrow" style="color: var(--accent); margin-bottom: 0.75rem;">Events</p>
-    <h1 class="ev-page-title">Lectures &amp; Events</h1>
+    <p class="eyebrow" style="color: var(--accent); margin-bottom: 14px;">Events</p>
+    <h1 class="ev-page-title">Lectures &amp; events.</h1>
     <p class="ev-page-subtitle">Upcoming talks, readings, and public appearances.</p>
   </header>
 
@@ -73,7 +73,7 @@ const past = allEvents
                   <div class="ev-content">
                     <p class="ev-location">{event.data.country} · {event.data.city}{event.data.region ? `, ${event.data.region}` : ''}</p>
                     <h3 class="ev-title">
-                      <a href={`/events/${slug}`} class="ev-title-link">{event.data.title}</a>
+                      <a href={`/events/${slug}`} class="ev-title-link headline-link">{event.data.title}</a>
                     </h3>
                     <p class="ev-description">{event.data.description}</p>
                     <div class="ev-status">
@@ -135,7 +135,7 @@ const past = allEvents
                   <div class="ev-content">
                     <p class="ev-location">{event.data.country} · {event.data.city}{event.data.region ? `, ${event.data.region}` : ''}</p>
                     <h3 class="ev-title ev-title--past">
-                      <a href={`/events/${slug}`} class="ev-title-link">{event.data.title}</a>
+                      <a href={`/events/${slug}`} class="ev-title-link headline-link">{event.data.title}</a>
                     </h3>
                     <p class="ev-description">{event.data.description}</p>
                     <div class="ev-status">
@@ -156,32 +156,40 @@ const past = allEvents
 </Layout>
 
 <style>
-  /* Page header */
+  /* Page header — Option D */
   .ev-page-header {
-    max-width: 720px;
-    margin: 0 auto;
-    text-align: center;
-    padding: 56px 0 36px;
+    padding: 32px 0 40px;
+    text-align: left;
+    max-width: 100%;
   }
 
   .ev-page-title {
     font-family: var(--font-serif);
-    font-size: 44px;
+    font-size: 96px;
     font-weight: 400;
-    letter-spacing: -0.015em;
-    line-height: 1.05;
-    margin: 0 0 1rem;
-    text-align: center;
+    letter-spacing: -0.035em;
+    line-height: 0.92;
+    margin: 0 0 22px;
+    text-align: left;
   }
 
   .ev-page-subtitle {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: 17px;
+    font-family: var(--font-body);
+    font-style: normal;
+    font-size: var(--text-md);
     color: var(--text-muted);
     max-width: 460px;
-    margin: 0 auto;
-    line-height: 1.5;
+    margin: 0;
+    line-height: var(--leading-snug);
+  }
+
+  @media (max-width: 768px) {
+    .ev-page-title { font-size: clamp(48px, 12vw, 96px); }
+  }
+
+  @media (max-width: 600px) {
+    .ev-page-header { padding: 20px 0 32px; }
+    .ev-page-title { margin-bottom: 16px; }
   }
 
   .ev-page-rule {
@@ -292,8 +300,7 @@ const past = allEvents
     color: inherit;
     text-decoration: none;
   }
-
-  .ev-title-link:hover { color: var(--accent); opacity: 1; }
+  /* hover handled by .headline-link */
 
   .ev-description {
     font-size: 13px;

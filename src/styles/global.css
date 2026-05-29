@@ -31,7 +31,7 @@
   --text-base:     1rem;               /* 17px — default body */
   --text-title:    18px;               /* site logo / nav title */
   --text-lead:     1.1rem;             /* editorial lead paragraph */
-  --text-md:       1.16rem;            /* h3 default */
+  --text-md:       18px;               /* h3 default, body descriptions */
   --text-lg:       1.5rem;             /* prominent card titles */
   --text-xl:       1.9rem;             /* h2 default */
   --text-section:  36px;               /* large section headings */
@@ -114,6 +114,23 @@ a {
 }
 
 a:hover { opacity: 0.7; }
+
+/* Unified headline link hover — applied to every clickable serif title */
+.headline-link {
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+
+.headline-link:hover,
+.headline-link:focus-visible {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  opacity: 1;
+}
 
 img { max-width: 100%; display: block; }
 
@@ -882,26 +899,46 @@ img { max-width: 100%; display: block; }
   color: var(--text);
 }
 
-/* Shared page heading */
+/* Shared page heading — Option D: left-aligned 96px display */
 .page-heading {
-  padding: 32px 0 36px;
-  text-align: center;
-  max-width: 720px;
-  margin: 0 auto;
+  padding: 32px 0 40px;
+  text-align: left;
+  max-width: 100%;
 }
 
 .page-heading .eyebrow {
-  margin-bottom: 0.75rem;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.page-heading h1 {
+  font-family: var(--font-serif);
+  font-size: 96px;
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  font-weight: 400;
+  color: var(--text);
+  margin: 0 0 22px;
+  text-align: left;
 }
 
 .page-heading-intro {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: var(--text-base);
-  line-height: 1.5;
+  font-family: var(--font-body);
+  font-style: normal;
+  font-size: var(--text-md);
+  line-height: var(--leading-snug);
   color: var(--text-muted);
   max-width: 460px;
-  margin: 0 auto;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .page-heading h1 { font-size: clamp(48px, 12vw, 96px); }
+}
+
+@media (max-width: 600px) {
+  .page-heading { padding: 20px 0 32px; }
+  .page-heading h1 { margin-bottom: 16px; }
 }
 
 .page-rule {

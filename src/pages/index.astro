@@ -169,7 +169,9 @@ function formatDate(dateStr: string) {
                 <span class="hp-ev-month">{monthStr}</span>
               </div>
               <div class="hp-ev-body">
-                <p class="hp-ev-title">{event.data.title}</p>
+                <p class="hp-ev-title">
+                  <a href={`/events/${slug}`} class="headline-link">{event.data.title}</a>
+                </p>
                 <p class="hp-ev-meta">{regionLine} · {statusLabel}</p>
               </div>
               <a href={`/events/${slug}`} class="hp-ev-arrow" aria-label={`More about ${event.data.title}`}>→</a>
@@ -214,7 +216,7 @@ function formatDate(dateStr: string) {
             </div>
             <div class="hp-press-content">
               <h3 class="hp-press-headline">
-                <a href={item.data.url} target="_blank" rel="noopener">{item.data.headline}</a>
+                <a href={item.data.url} target="_blank" rel="noopener" class="headline-link">{item.data.headline}</a>
               </h3>
               {item.data.excerpt && <p class="hp-press-excerpt">{item.data.excerpt}</p>}
             </div>
@@ -402,6 +404,7 @@ function formatDate(dateStr: string) {
     color: var(--text);
     line-height: 1;
     letter-spacing: -0.01em;
+    white-space: nowrap;
   }
 
   .hp-ev-month {
@@ -525,18 +528,7 @@ function formatDate(dateStr: string) {
     margin: 0;
   }
 
-  .hp-press-headline a {
-    color: var(--text);
-    text-decoration: none;
-  }
-
-  .hp-press-headline a:hover {
-    text-decoration: underline;
-    text-decoration-color: var(--accent);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 4px;
-    opacity: 1;
-  }
+  /* base + hover handled by .headline-link */
 
   .hp-press-excerpt {
     font-family: var(--font-serif);

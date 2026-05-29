@@ -33,7 +33,7 @@ const items = [
 <Layout title="Media" lang="en">
   <header class="page-heading">
     <p class="eyebrow">Media</p>
-    <h1>In the press</h1>
+    <h1>In the press.</h1>
     <p class="page-heading-intro">Selected interviews, essays, and critical coverage.</p>
   </header>
   <hr class="page-rule" />
@@ -41,7 +41,7 @@ const items = [
     {items.map((item) => (
       <li>
         <span class="media-source">{item.source}</span>
-        <a href={item.href} target="_blank" rel="noopener">{item.title}</a>
+        <a href={item.href} target="_blank" rel="noopener" class="headline-link">{item.title}</a>
       </li>
     ))}
   </ul>
