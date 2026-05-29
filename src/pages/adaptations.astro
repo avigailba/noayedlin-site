@@ -33,8 +33,6 @@ const countriesText = countries.length <= 2
     <h1>On screen and on stage.</h1>
     <p class="page-heading-intro">Television and stage adaptations of Noa Yedlin's novels — across {countriesText}.</p>
   </header>
-  <hr class="page-rule" />
-
   {sortedGroups.map(([slug, adaptationList]) => {
     const book = bookMap[slug];
     if (!book) return null;
@@ -198,11 +196,10 @@ const countriesText = countries.length <= 2
     gap: 28px;
     align-items: start;
     padding: 24px 0;
-    border-top: 0.5px solid var(--rule);
   }
 
-  .ap-cards .ap-card:last-child {
-    border-bottom: 0.5px solid var(--rule);
+  .ap-card + .ap-card {
+    border-top: 0.5px solid var(--rule);
   }
 
   /* Still panel */

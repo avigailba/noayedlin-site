@@ -20,8 +20,6 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
     </div>
   </div>
 
-  <hr class="page-rule" />
-
   <div class="ab-body">
     <p class="ab-lead" set:html={lead} />
     {bio.map((p) => <p class="ab-bio-para" set:html={p} />)}

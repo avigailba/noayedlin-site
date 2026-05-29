@@ -21,8 +21,6 @@ const maxYear = Math.max(...years);
     <h1>The novels.</h1>
     <p class="page-heading-intro">Award-winning literary fiction by Noa Yedlin.</p>
   </header>
-  <hr class="page-rule" />
-
   <div class="books-list">
     {books.map((book) => (
       <div class="books-list-row">
@@ -101,15 +99,10 @@ const maxYear = Math.max(...years);
     grid-template-columns: 110px 1fr;
     gap: 2rem;
     padding: 2rem 0;
+  }
+
+  .books-list-row + .books-list-row {
     border-top: 0.5px solid var(--rule);
-  }
-
-  .books-list-row:first-child {
-    border-top: none;
-  }
-
-  .books-list-row:last-child {
-    border-bottom: 0.5px solid var(--rule);
   }
 
   .books-list-cover a {

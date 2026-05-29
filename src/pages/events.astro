@@ -42,8 +42,6 @@ const past = allEvents
     <p class="ev-page-subtitle">Upcoming talks, readings, and public appearances.</p>
   </header>
 
-  <hr class="ev-page-rule" />
-
   {allEvents.length === 0 ? (
     <div class="ev-container">
       <p class="ev-empty">Upcoming dates will appear here. Check back soon.</p>
@@ -179,12 +177,6 @@ const past = allEvents
   @media (max-width: 600px) {
     .ev-page-header { padding: 20px 0 32px; }
     .ev-page-title { margin-bottom: 16px; }
-  }
-
-  .ev-page-rule {
-    border: none;
-    border-top: 0.5px solid var(--rule);
-    margin: 0;
   }
 
   /* Content container */

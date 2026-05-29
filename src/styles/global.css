@@ -1042,12 +1042,6 @@ img { max-width: 100%; display: block; }
   .page-heading h1 { margin-bottom: 16px; }
 }
 
-.page-rule {
-  border: none;
-  border-top: 0.5px solid var(--rule);
-  margin: 0;
-}
-
 /* Eyebrow labels */
 .eyebrow {
   font-family: var(--font-body);
@@ -1072,8 +1066,6 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
   color: var(--text-muted);
   margin-bottom: 1.5rem;
-  border-bottom: 0.5px solid var(--rule);
-  padding-bottom: 0.5rem;
 }
 
 /* Media list */
@@ -1215,12 +1207,11 @@ img { max-width: 100%; display: block; }
   grid-template-columns: 160px 1fr;
   gap: 32px;
   padding: 28px 0;
-  border-top: 0.5px solid var(--rule);
   align-items: baseline;
 }
 
-.event-rows .event-row:last-child {
-  border-bottom: 0.5px solid var(--rule);
+.event-row + .event-row {
+  border-top: 0.5px solid var(--rule);
 }
 
 .event-meta {

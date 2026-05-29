@@ -44,7 +44,6 @@ const allAdaptations = adaptations ??
     <span aria-hidden="true"> / </span>
     <span>{title}</span>
   </nav>
-  <hr class="breadcrumb-rule" />
 
   <section class="bd-hero">
     <div class="bd-cover-wrap" style={coverColor ? `background: ${coverColor};` : ''}>
@@ -95,7 +94,6 @@ const allAdaptations = adaptations ??
 
   {allReviews.length > 0 && (
     <>
-      <hr class="section-rule" />
       <section class="bd-praise">
         <p class="eyebrow bd-section-eyebrow">Praise</p>
         <div class="bd-reviews">
@@ -118,7 +116,6 @@ const allAdaptations = adaptations ??
 
   {allPrizes.length > 0 && (
     <>
-      <hr class="section-rule" />
       <section class="bd-prizes">
         <p class="eyebrow bd-section-eyebrow">Prizes</p>
         <ul class="bd-prize-list">
@@ -130,7 +127,6 @@ const allAdaptations = adaptations ??
 
   {allAdaptations.length > 0 && (
     <>
-      <hr class="section-rule" />
       <section class="bd-adaptations">
         <p class="eyebrow bd-section-eyebrow">Adaptations</p>
         <ul class="bd-adaptation-list">
@@ -172,11 +168,10 @@ const allAdaptations = adaptations ??
     text-transform: uppercase;
     letter-spacing: var(--tracking-wide);
     color: var(--text-muted);
-    margin-bottom: 0.75rem;
+    margin-bottom: 3rem;
   }
   .breadcrumb a { color: var(--text-muted); text-decoration: none; }
   .breadcrumb a:hover { color: var(--accent); opacity: 1; }
-  .breadcrumb-rule { border: none; border-top: 0.5px solid var(--rule); margin-bottom: 3rem; }
 
   /* Hero */
   .bd-hero {
@@ -244,13 +239,6 @@ const allAdaptations = adaptations ??
     margin-top: 0.25rem;
   }
 
-  /* Section dividers */
-  .section-rule {
-    border: none;
-    border-top: 0.5px solid var(--rule);
-    margin: 3rem 0;
-  }
-
   /* Section eyebrow */
   .bd-section-eyebrow {
     color: var(--text-muted);
@@ -258,12 +246,12 @@ const allAdaptations = adaptations ??
   }
 
   /* Synopsis */
-  .bd-synopsis { max-width: 620px; margin: 0 auto; }
+  .bd-synopsis { max-width: 620px; margin: 4rem auto 0; }
   .bd-synopsis-body p { font-size: 0.95rem; line-height: var(--leading-prose); color: var(--text); margin-bottom: 1rem; }
   .bd-synopsis-body p:last-child { margin-bottom: 0; }
 
   /* Praise — quote styles from global .praise* rules */
-  .bd-praise { }
+  .bd-praise { margin-top: 4rem; }
   .bd-reviews {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -279,7 +267,7 @@ const allAdaptations = adaptations ??
   }
 
   /* Prizes */
-  .bd-prizes { max-width: 620px; margin: 0 auto; }
+  .bd-prizes { max-width: 620px; margin: 4rem auto 0; }
   .bd-prize-list {
     list-style: none;
     display: flex;
@@ -289,7 +277,7 @@ const allAdaptations = adaptations ??
   .bd-prize-list li { font-size: 0.95rem; line-height: var(--leading-body); color: var(--text); }
 
   /* Adaptations */
-  .bd-adaptations { max-width: 620px; margin: 0 auto; }
+  .bd-adaptations { max-width: 620px; margin: 4rem auto 0; }
   .bd-adaptation-list {
     list-style: none;
     display: flex;
