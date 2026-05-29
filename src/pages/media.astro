@@ -1,47 +1,324 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import BooksRail from '../components/BooksRail.astro';
+import { getCollection } from 'astro:content';
 
-const items = [
-  {
-    title: 'Israel novelist Noa Yedlin essay Hamas war',
-    source: 'Rolling Stone',
-    href: 'https://www.rollingstone.com/politics/political-commentary/israel-novelist-noa-yedlin-essay-hamas-war-1234862193/',
-  },
-  {
-    title: 'Stockholm\'s exploration of mortality',
-    source: 'Ploughshares',
-    href: 'https://blog.pshares.org/stockholms-exploration-of-mortality/',
-  },
-  {
-    title: 'The lady of the house bites off a pound of flesh',
-    source: 'Haaretz',
-    href: 'https://www.haaretz.com/2013-01-31/ty-article/.premium/the-lady-of-the-house-bites-off-a-pound-of-flesh/0000017f-f76d-d044-adff-f7fdd9f50000',
-  },
-  {
-    title: '"The Wrong Book" — On Our Shelf',
-    source: 'Israel Today',
-    href: 'https://newsrnd.com/life/2022-06-01-%22the-wrong-book%22-by-noa-yadlin--on-our-shelf-%7C-israel-today.HkMiwGZSO5.html',
-  },
-  {
-    title: 'Cultural Events — Noa Yedlin',
-    source: 'The National Library of Israel',
-    href: 'https://www.nli.org.il/en/visit/events/noa-yedlin',
-  },
-];
+const allMedia = await getCollection('media');
+const mediaItems = allMedia.sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+function formatDate(dateStr: string) {
+  const [year, month] = dateStr.split('-').map(Number);
+  return new Date(year, month - 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+}
+
+const TYPE_LABELS: Record<string, string> = {
+  Essay: 'Essays',
+  Interview: 'Interviews',
+  Review: 'Reviews',
+  Profile: 'Profiles',
+  Feature: 'Features',
+  Event: 'Events',
+};
+const existingTypes = new Set(mediaItems.map(m => m.data.type).filter(Boolean));
+const languages = new Set(mediaItems.map(m => m.data.language).filter(Boolean));
+const showLangFilter = languages.has('English') && languages.has('Hebrew');
 ---
 
-<Layout title="Media" lang="en">
-  <header class="page-heading">
-    <p class="eyebrow">Media</p>
-    <h1>In the press.</h1>
-    <p class="page-heading-intro">Selected interviews, essays, and critical coverage.</p>
+<Layout title="Press" lang="en">
+  <header class="press-heading">
+    <p class="eyebrow press-eyebrow">Press</p>
+    <h1 class="press-h1">In the press</h1>
+    <p class="press-subtitle">Selected interviews, essays, and critical coverage of Noa Yedlin's novels — in English and Hebrew.</p>
   </header>
-  <ul class="media-list" style="margin-top: 2.5rem;">
-    {items.map((item) => (
-      <li>
-        <span class="media-source">{item.source}</span>
-        <a href={item.href} target="_blank" rel="noopener" class="headline-link">{item.title}</a>
-      </li>
+
+  <div class="filter-bar">
+    <div class="filter-chips" role="group" aria-label="Filter by type">
+      <button class="chip chip--active" data-filter-type="all">All</button>
+      {Object.entries(TYPE_LABELS)
+        .filter(([key]) => existingTypes.has(key as any))
+        .map(([key, label]) => (
+          <button class="chip" data-filter-type={key}>{label}</button>
+        ))}
+    </div>
+    {showLangFilter && (
+      <div class="filter-chips filter-chips--lang" role="group" aria-label="Filter by language">
+        <button class="chip chip--active" data-filter-lang="English">English</button>
+        <button class="chip chip--active" data-filter-lang="Hebrew">עברית</button>
+      </div>
+    )}
+  </div>
+
+  <div class="press-list-wrap">
+    {mediaItems.map((item) => (
+      <div
+        class="press-row"
+        data-row-type={item.data.type ?? ''}
+        data-row-lang={item.data.language ?? ''}
+      >
+        <div class="press-outlet">
+          <span class="press-outlet-name">{item.data.outlet}</span>
+          <span class="press-date">{formatDate(item.data.date)}</span>
+          {item.data.type && <span class="press-type">{item.data.type}</span>}
+        </div>
+        <div class="press-content">
+          <h3 class="press-headline">
+            <a href={item.data.url} target="_blank" rel="noopener">{item.data.headline}</a>
+          </h3>
+          {item.data.excerpt && (
+            <p class="press-excerpt">{item.data.excerpt}</p>
+          )}
+        </div>
+      </div>
     ))}
-  </ul>
+  </div>
+
+  <div class="press-empty" id="press-empty" hidden>
+    <p class="press-empty-msg">No items match this filter.</p>
+    <button class="press-reset" id="press-reset">View all →</button>
+  </div>
+
+  <BooksRail divider />
 </Layout>
+
+<script>
+  const typeChips = document.querySelectorAll<HTMLButtonElement>('[data-filter-type]');
+  const langChips = document.querySelectorAll<HTMLButtonElement>('[data-filter-lang]');
+  const rows = document.querySelectorAll<HTMLElement>('[data-row-type]');
+  const emptyEl = document.getElementById('press-empty')!;
+  const resetBtn = document.getElementById('press-reset')!;
+
+  let activeType = 'all';
+  const activeLangs = new Set([...langChips].map(c => c.dataset.filterLang!));
+
+  function applyFilters() {
+    let visible = 0;
+    rows.forEach(row => {
+      const typeMatch = activeType === 'all' || row.dataset.rowType === activeType;
+      const lang = row.dataset.rowLang ?? '';
+      const langMatch = !lang || activeLangs.size === 0 || activeLangs.has(lang);
+      row.hidden = !(typeMatch && langMatch);
+      if (!row.hidden) visible++;
+    });
+    emptyEl.hidden = visible > 0;
+  }
+
+  typeChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      activeType = chip.dataset.filterType!;
+      typeChips.forEach(c => c.classList.toggle('chip--active', c === chip));
+      applyFilters();
+    });
+  });
+
+  langChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const lang = chip.dataset.filterLang!;
+      if (activeLangs.has(lang)) {
+        if (activeLangs.size > 1) { activeLangs.delete(lang); chip.classList.remove('chip--active'); }
+      } else {
+        activeLangs.add(lang); chip.classList.add('chip--active');
+      }
+      applyFilters();
+    });
+  });
+
+  resetBtn.addEventListener('click', () => {
+    activeType = 'all';
+    typeChips.forEach(c => c.classList.toggle('chip--active', c.dataset.filterType === 'all'));
+    langChips.forEach(c => { activeLangs.add(c.dataset.filterLang!); c.classList.add('chip--active'); });
+    applyFilters();
+  });
+</script>
+
+<style>
+  .press-heading {
+    padding: 56px 0 36px;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .press-eyebrow { color: var(--accent); margin-bottom: 0.75rem; }
+
+  .press-h1 {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    font-weight: 400;
+    line-height: var(--lh-tight);
+    letter-spacing: var(--track-tight);
+    margin: 0 0 0.75rem;
+    text-align: center;
+  }
+
+  .press-subtitle {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: var(--text-md);
+    line-height: var(--lh-snug);
+    color: var(--text-muted);
+    max-width: 460px;
+    margin: 0 auto;
+  }
+
+  /* Filter bar */
+  .filter-bar {
+    padding: 24px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .chip {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--track-wide);
+    padding: 8px 14px;
+    border: 0.5px solid var(--rule);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-radius: 999px;
+    line-height: 1;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .chip:hover { border-color: var(--text); color: var(--text); }
+  .chip--active { border-color: var(--accent); color: var(--accent); }
+
+  /* Press list */
+  .press-list-wrap {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 32px;
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  .press-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 32px;
+    align-items: baseline;
+    padding: 28px 0;
+    border-top: 0.5px solid var(--rule);
+  }
+
+  .press-row[hidden] { display: none; }
+
+  .press-outlet { display: flex; flex-direction: column; }
+
+  .press-outlet-name {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--track-wide);
+    color: var(--text);
+  }
+
+  .press-date {
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .press-type {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--track-wide);
+    color: var(--accent);
+    margin-top: 6px;
+  }
+
+  .press-headline {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-weight: 400;
+    line-height: var(--lh-tight);
+    letter-spacing: var(--track-tight);
+    margin: 0;
+  }
+
+  .press-headline a { color: var(--text); text-decoration: none; }
+
+  .press-headline a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    opacity: 1;
+  }
+
+  .press-excerpt {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: var(--text-sm);
+    line-height: var(--lh-snug);
+    color: var(--text-muted);
+    max-width: 60ch;
+    margin: 8px 0 0;
+  }
+
+  /* Empty state */
+  .press-empty {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 0 32px;
+    text-align: center;
+  }
+
+  .press-empty-msg {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: var(--text-md);
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .press-reset {
+    font-size: var(--text-xs);
+    color: var(--accent);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    letter-spacing: var(--track-wide);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+  }
+
+  .press-reset:hover { opacity: 0.7; }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    .press-list-wrap { padding: 0; }
+
+    .press-row {
+      grid-template-columns: 1fr;
+      gap: 6px;
+      padding: 20px 0;
+    }
+
+    .press-outlet {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0;
+    }
+
+    .press-outlet-name::after { content: ' · '; }
+    .press-date { display: inline; margin-top: 0; }
+    .press-type { display: inline; margin-top: 0; }
+    .press-type::before { content: ' · '; }
+
+    .press-headline { font-size: 20px; }
+  }
+</style>

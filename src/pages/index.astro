@@ -1,12 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import BooksRail from '../components/BooksRail.astro';
 import { getCollection } from 'astro:content';
 
 
 const books = await getCollection('booksEn');
 const featured = books.find((b) => b.id === 'stockholm');
 const featured2 = books.find((b) => b.id === 'house-arrest');
-const sortedBooks = [...books].sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
 
 const allEventsRaw = await getCollection('events');
 
@@ -202,20 +202,7 @@ function formatDate(dateStr: string) {
     </section>
   )}
 
-  <section class="section">
-    <p class="section-title">Books</p>
-    <div class="books-rail-grid">
-      {sortedBooks.map((book) => (
-        <a href={`/books/${book.data.slug}`} class="books-rail-tile">
-          <div class="books-rail-cover">
-            <img src={book.data.cover} alt={`Cover of ${book.data.title}`} />
-          </div>
-          <p class="books-rail-title"><em>{book.data.title}</em></p>
-          {book.data.year && <p class="books-rail-year">{book.data.year}</p>}
-        </a>
-      ))}
-    </div>
-  </section>
+  <BooksRail />
 
   {homeMedia.length > 0 && (
     <section class="hp-press">
@@ -253,8 +240,8 @@ function formatDate(dateStr: string) {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: var(--text-label);
-    letter-spacing: 0.14em;
+    font-size: var(--text-xs);
+    letter-spacing: var(--track-wide);
     text-transform: uppercase;
     color: var(--accent);
     margin-bottom: 18px;
@@ -302,10 +289,10 @@ function formatDate(dateStr: string) {
 
   .hp-events-heading {
     font-family: var(--font-serif);
-    font-size: 36px;
+    font-size: var(--text-lg);
     font-weight: 400;
-    line-height: 1.1;
-    letter-spacing: var(--tracking-tight);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--track-tight);
     margin: 0 0 0.5rem;
     text-align: center;
   }
@@ -313,10 +300,10 @@ function formatDate(dateStr: string) {
   .hp-events-subtitle {
     font-family: var(--font-serif);
     font-style: italic;
-    font-size: var(--text-base);
+    font-size: var(--text-md);
     color: var(--text-muted);
     margin: 0;
-    line-height: var(--leading-relaxed);
+    line-height: var(--lh-snug);
   }
 
   .hp-events-rows {
@@ -348,10 +335,10 @@ function formatDate(dateStr: string) {
 
   .hp-press-heading {
     font-family: var(--font-serif);
-    font-size: var(--text-section);
+    font-size: var(--text-lg);
     font-weight: 400;
-    line-height: 1.05;
-    letter-spacing: var(--tracking-tight);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--track-tight);
     margin: 0;
     text-align: center;
   }
@@ -377,33 +364,33 @@ function formatDate(dateStr: string) {
   .hp-press-outlet { display: flex; flex-direction: column; }
 
   .hp-press-outlet-name {
-    font-size: var(--text-label);
+    font-size: var(--text-xs);
     text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
+    letter-spacing: var(--track-wide);
     color: var(--text);
   }
 
   .hp-press-date {
-    font-size: var(--text-label);
-    letter-spacing: 0.06em;
+    font-size: var(--text-xs);
+    letter-spacing: var(--track-none);
     color: var(--text-muted);
     margin-top: 4px;
   }
 
   .hp-press-type {
-    font-size: var(--text-label);
+    font-size: var(--text-xs);
     text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
+    letter-spacing: var(--track-wide);
     color: var(--accent);
     margin-top: 6px;
   }
 
   .hp-press-headline {
     font-family: var(--font-serif);
-    font-size: 24px;
+    font-size: var(--text-lg);
     font-weight: 400;
-    line-height: var(--leading-snug);
-    letter-spacing: var(--tracking-text);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--track-tight);
     margin: 0;
   }
 
@@ -412,8 +399,8 @@ function formatDate(dateStr: string) {
   .hp-press-excerpt {
     font-family: var(--font-serif);
     font-style: italic;
-    font-size: 14px;
-    line-height: var(--leading-relaxed);
+    font-size: var(--text-sm);
+    line-height: var(--lh-snug);
     color: var(--text-muted);
     max-width: 60ch;
     margin: 8px 0 0;

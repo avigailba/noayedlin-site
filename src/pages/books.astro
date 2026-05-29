@@ -35,10 +35,10 @@ const maxYear = Math.max(...years);
         </div>
         <div class="books-list-info">
           <p class="books-list-meta">
-            {book.data.kind && (
+            {book.data.kind && book.data.kind !== 'Novel' && (
               <span class="books-list-kind">{book.data.kind}</span>
             )}
-            {book.data.kind && book.data.year && (
+            {book.data.kind && book.data.kind !== 'Novel' && book.data.year && (
               <span class="books-list-sep"> · </span>
             )}
             {book.data.year && (
@@ -76,16 +76,16 @@ const maxYear = Math.max(...years);
   }
 
   .books-page-title {
-    font-size: clamp(2.25rem, 4.5vw, 2.75rem);
-    line-height: 1.05;
-    letter-spacing: var(--tracking-text);
+    font-size: var(--text-xl);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--track-tight);
     margin-bottom: 0.6rem;
   }
 
   .books-page-subtitle {
     font-style: italic;
     color: var(--text-muted);
-    font-size: var(--text-base);
+    font-size: var(--text-md);
     margin: 0;
   }
 
@@ -131,26 +131,26 @@ const maxYear = Math.max(...years);
   }
 
   .books-list-kind {
-    font-size: var(--text-label);
+    font-size: var(--text-xs);
     text-transform: uppercase;
-    letter-spacing: 0.18em;
+    letter-spacing: var(--track-wide);
     color: var(--accent);
   }
 
   .books-list-sep {
-    font-size: var(--text-label);
+    font-size: var(--text-xs);
     color: var(--accent);
   }
 
   .books-list-year {
-    font-size: var(--text-label);
-    letter-spacing: var(--tracking-sm);
+    font-size: var(--text-xs);
+    letter-spacing: var(--track-wide);
     color: var(--accent);
   }
 
   .books-list-title {
-    font-size: 1.65rem;
-    line-height: 1.15;
+    font-size: var(--text-lg);
+    line-height: var(--lh-tight);
     margin: 0;
   }
 
@@ -162,21 +162,21 @@ const maxYear = Math.max(...years);
 
   .books-list-tagline {
     font-style: italic;
-    font-size: 0.84rem;
+    font-size: var(--text-sm);
     color: var(--text-muted);
     margin: 0;
-    line-height: 1.5;
+    line-height: var(--lh-snug);
   }
 
   .books-list-synopsis {
-    font-size: 0.8rem;
+    font-size: var(--text-xs);
     color: var(--text-muted);
     margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    line-height: var(--leading-body);
+    line-height: var(--lh-loose);
   }
 
   @media (max-width: 540px) {

@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import BooksRail from '../../components/BooksRail.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -16,9 +17,6 @@ const {
   reviews, purchaseLinks, selectedReviews, adaptationText, adaptations,
   awards, prizes, tagline, badge, excerpt,
 } = book.data;
-
-const allBooks = await getCollection('booksEn');
-const sortedBooks = allBooks.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
 
 const allReviews = [
   ...(selectedReviews ?? []).map((r) => ({
@@ -52,7 +50,7 @@ const allAdaptations = adaptations ??
     <div class="bd-info">
       {(kind || year) && (
         <p class="eyebrow bd-eyebrow">
-          {kind}{kind && year ? ' · ' : ''}{year}
+          {kind && kind !== 'Novel' ? `${kind}${year ? ' · ' : ''}` : ''}{year}
         </p>
       )}
       <h1 class="bd-title">{title}</h1>
@@ -141,32 +139,15 @@ const allAdaptations = adaptations ??
     </>
   )}
 
-  <section class="bd-other">
-    <p class="eyebrow bd-section-eyebrow">Other Books</p>
-    <div class="books-rail-grid">
-      {sortedBooks.map((b) => {
-        const isCurrent = b.data.slug === book.data.slug;
-        return (
-          <a href={`/books/${b.data.slug}`} class={`books-rail-tile${isCurrent ? ' is-current' : ''}`}>
-            <div class="books-rail-cover">
-              <img src={b.data.coverRail ?? b.data.cover} alt={`Cover of ${b.data.title}`} />
-              {isCurrent && <span class="bd-reading-now">Reading now</span>}
-            </div>
-            <p class="books-rail-title"><em>{b.data.title}</em></p>
-            {!isCurrent && b.data.year && <p class="books-rail-year">{b.data.year}</p>}
-          </a>
-        );
-      })}
-    </div>
-  </section>
+  <BooksRail currentSlug={book.data.slug} />
 </Layout>
 
 <style>
   /* Breadcrumb */
   .breadcrumb {
-    font-size: var(--text-label);
+    font-size: var(--text-xs);
     text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
+    letter-spacing: var(--track-wide);
     color: var(--text-muted);
     margin-bottom: 3rem;
   }
@@ -225,10 +206,10 @@ const allAdaptations = adaptations ??
 
   .bd-tagline {
     font-style: italic;
-    font-size: var(--text-base);
+    font-size: var(--text-md);
     color: var(--text-muted);
     margin: 0;
-    line-height: var(--leading-relaxed);
+    line-height: var(--lh-snug);
     max-width: 44ch;
   }
 
@@ -247,7 +228,7 @@ const allAdaptations = adaptations ??
 
   /* Synopsis */
   .bd-synopsis { max-width: 620px; margin: 4rem auto 0; }
-  .bd-synopsis-body p { font-size: 0.95rem; line-height: var(--leading-prose); color: var(--text); margin-bottom: 1rem; }
+  .bd-synopsis-body p { font-size: var(--text-md); line-height: var(--lh-loose); color: var(--text); margin-bottom: 1rem; }
   .bd-synopsis-body p:last-child { margin-bottom: 0; }
 
   /* Praise — quote styles from global .praise* rules */
@@ -274,7 +255,7 @@ const allAdaptations = adaptations ??
     flex-direction: column;
     gap: 0.4rem;
   }
-  .bd-prize-list li { font-size: 0.95rem; line-height: var(--leading-body); color: var(--text); }
+  .bd-prize-list li { font-size: var(--text-md); line-height: var(--lh-loose); color: var(--text); }
 
   /* Adaptations */
   .bd-adaptations { max-width: 620px; margin: 4rem auto 0; }
@@ -284,24 +265,7 @@ const allAdaptations = adaptations ??
     flex-direction: column;
     gap: 0.4rem;
   }
-  .bd-adaptation-list li { font-size: 0.95rem; line-height: var(--leading-body); color: var(--text); }
-
-  /* Other books */
-  .bd-other { margin-top: 3rem; }
-
-  .books-rail-tile.is-current .books-rail-cover img {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-
-  .bd-reading-now {
-    display: block;
-    font-size: var(--text-label);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-    color: var(--accent);
-    margin-top: 0.3rem;
-  }
+  .bd-adaptation-list li { font-size: var(--text-md); line-height: var(--lh-loose); color: var(--text); }
 
   @media (max-width: 680px) {
     .bd-hero { grid-template-columns: 150px 1fr; gap: 1.5rem; }

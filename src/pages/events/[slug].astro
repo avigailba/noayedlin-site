@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import BooksRail from '../../components/BooksRail.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -53,13 +54,15 @@ const dateLabel = end
       )}
     </div>
   </div>
+
+  <BooksRail divider />
 </Layout>
 
 <style>
   .breadcrumb {
-    font-size: var(--text-label);
+    font-size: var(--text-xs);
     text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
+    letter-spacing: var(--track-wide);
     color: var(--text-muted);
     margin-bottom: 3rem;
   }
@@ -93,23 +96,23 @@ const dateLabel = end
 
   .ev-detail-date {
     font-family: var(--font-serif);
-    font-size: var(--text-lead);
+    font-size: var(--text-md);
     color: var(--text-muted);
     margin: 0 0 0.35rem;
   }
 
   .ev-detail-location {
-    font-size: var(--text-label);
+    font-size: var(--text-xs);
     text-transform: uppercase;
-    letter-spacing: 0.14em;
+    letter-spacing: var(--track-wide);
     color: var(--text-muted);
     margin: 0 0 1.75rem;
   }
 
   .ev-detail-description {
-    font-size: var(--text-base);
+    font-size: var(--text-md);
     color: var(--text-muted);
-    line-height: var(--leading-prose);
+    line-height: var(--lh-loose);
     margin: 0 0 1.5rem;
   }
 
@@ -128,9 +131,9 @@ const dateLabel = end
   .ev-dot--muted { background: var(--text-muted); }
 
   .ev-status-label {
-    font-size: 11px;
+    font-size: var(--text-xs);
     text-transform: uppercase;
-    letter-spacing: 0.14em;
+    letter-spacing: var(--track-wide);
   }
   .ev-status-label--muted { color: var(--text-muted); }
 </style>

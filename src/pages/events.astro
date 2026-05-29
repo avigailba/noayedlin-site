@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import BooksRail from '../components/BooksRail.astro';
 import { getCollection } from 'astro:content';
 
 const allEvents = await getCollection('events');
@@ -140,6 +141,8 @@ const past = allEvents
     </div>
   )}
 
+  <BooksRail divider />
+
 </Layout>
 
 <style>
@@ -167,7 +170,7 @@ const past = allEvents
     color: var(--text-muted);
     max-width: 460px;
     margin: 0;
-    line-height: var(--leading-snug);
+    line-height: var(--lh-snug);
   }
 
   @media (max-width: 768px) {
@@ -195,9 +198,9 @@ const past = allEvents
 
   /* Section eyebrows */
   .ev-section-eyebrow {
-    font-size: 11px;
+    font-size: var(--text-xs);
     text-transform: uppercase;
-    letter-spacing: 0.14em;
+    letter-spacing: var(--track-wide);
     color: var(--text-muted);
     margin: 0;
     padding: 48px 0 8px;
@@ -208,5 +211,4 @@ const past = allEvents
   }
 
   /* Row styles handled by global .event-row* rules */
-  /* Last row border-bottom via .event-rows .event-row:last-child in global */
 </style>
