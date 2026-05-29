@@ -38,7 +38,6 @@ const dateLabel = end
     <span aria-hidden="true"> / </span>
     <span>{title}</span>
   </nav>
-  <hr class="breadcrumb-rule" />
 
   <div class="ev-detail">
     <p class="eyebrow ev-detail-eyebrow">{type}</p>
@@ -65,11 +64,10 @@ const dateLabel = end
     text-transform: uppercase;
     letter-spacing: var(--track-wide);
     color: var(--text-muted);
-    margin-bottom: 0.75rem;
+    margin-bottom: 3rem;
   }
   .breadcrumb a { color: var(--text-muted); text-decoration: none; }
   .breadcrumb a:hover { color: var(--accent); opacity: 1; }
-  .breadcrumb-rule { border: none; border-top: 0.5px solid var(--rule); margin-bottom: 3rem; }
 
   .ev-detail {
     max-width: 620px;
@@ -84,12 +82,16 @@ const dateLabel = end
 
   .ev-detail-title {
     font-family: var(--font-serif);
-    font-size: var(--text-xl);
+    font-size: 96px;
     font-weight: 400;
-    line-height: var(--lh-tight);
-    letter-spacing: var(--track-tight);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
     text-align: left;
     margin: 0 0 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .ev-detail-title { font-size: clamp(48px, 12vw, 96px); }
   }
 
   .ev-detail-date {

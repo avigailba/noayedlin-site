@@ -18,11 +18,9 @@ const maxYear = Math.max(...years);
 <Layout title="Books" lang="en">
   <header class="page-heading">
     <p class="eyebrow">Books</p>
-    <h1>The novels</h1>
+    <h1>The novels.</h1>
     <p class="page-heading-intro">Award-winning literary fiction by Noa Yedlin.</p>
   </header>
-  <hr class="page-rule" />
-
   <div class="books-list">
     {books.map((book) => (
       <div class="books-list-row">
@@ -47,7 +45,9 @@ const maxYear = Math.max(...years);
               <span class="books-list-year">{book.data.year}</span>
             )}
           </p>
-          <h2 class="books-list-title">{book.data.title}</h2>
+          <h2 class="books-list-title">
+            <a href={`/books/${book.data.slug}`} class="headline-link">{book.data.title}</a>
+          </h2>
           {book.data.awards && book.data.awards.length > 0 && (
             <div class="books-list-awards">
               {book.data.awards.map((award) => (
@@ -99,15 +99,10 @@ const maxYear = Math.max(...years);
     grid-template-columns: 110px 1fr;
     gap: 2rem;
     padding: 2rem 0;
+  }
+
+  .books-list-row + .books-list-row {
     border-top: 0.5px solid var(--rule);
-  }
-
-  .books-list-row:first-child {
-    border-top: none;
-  }
-
-  .books-list-row:last-child {
-    border-bottom: 0.5px solid var(--rule);
   }
 
   .books-list-cover a {
@@ -157,16 +152,6 @@ const maxYear = Math.max(...years);
     font-size: var(--text-lg);
     line-height: var(--lh-tight);
     margin: 0;
-  }
-
-  .books-list-title a {
-    text-decoration: none;
-    color: var(--text);
-  }
-
-  .books-list-title a:hover {
-    color: var(--accent);
-    opacity: 1;
   }
 
   .books-list-awards {
