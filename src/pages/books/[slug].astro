@@ -101,7 +101,7 @@ const allAdaptations = adaptations ??
               {r.starred && <p class="kirkus-star">★ Kirkus Starred Review</p>}
               <blockquote class="bd-quote">"{r.quote}"</blockquote>
               <p class="bd-attribution">
-                {r.name}{r.name && r.pub ? ', ' : ''}{r.pub}
+                {r.name}{r.name && r.pub ? ' · ' : ''}{r.pub}
               </p>
             </div>
           ))}
