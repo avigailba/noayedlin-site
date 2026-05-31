@@ -406,6 +406,19 @@ img { max-width: 100%; display: block; }
   margin: 0;
 }
 
+/* Section wrapper that provides breathing room above/below the BooksRail */
+.books-rail-section {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+@media (max-width: 768px) {
+  .books-rail-section {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+}
+
 @media (max-width: 600px) {
   .books-rail-grid {
     grid-template-columns: repeat(4, 1fr);
@@ -1005,47 +1018,7 @@ img { max-width: 100%; display: block; }
   margin-top: 6px;
 }
 
-/* Shared page heading — Option D: left-aligned 96px display */
-.page-heading {
-  padding: 32px 0 40px;
-  text-align: left;
-  max-width: 100%;
-}
-
-.page-heading .eyebrow {
-  color: var(--text-muted);
-  margin-bottom: 14px;
-}
-
-.page-heading h1 {
-  font-family: var(--font-serif);
-  font-size: 96px;
-  line-height: 0.92;
-  letter-spacing: -0.035em;
-  font-weight: 400;
-  color: var(--text);
-  margin: 0 0 22px;
-  text-align: left;
-}
-
-.page-heading-intro {
-  font-family: var(--font-body);
-  font-style: normal;
-  font-size: var(--text-md);
-  line-height: var(--lh-snug);
-  color: var(--text-muted);
-  max-width: 460px;
-  margin: 0;
-}
-
-@media (max-width: 768px) {
-  .page-heading h1 { font-size: clamp(48px, 12vw, 96px); }
-}
-
-@media (max-width: 600px) {
-  .page-heading { padding: 20px 0 32px; }
-  .page-heading h1 { margin-bottom: 16px; }
-}
+/* Page heading styles live in src/components/PageHeading.astro */
 
 /* Eyebrow labels */
 .eyebrow {

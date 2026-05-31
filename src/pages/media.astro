@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHeading from '../components/PageHeading.astro';
 import BooksRail from '../components/BooksRail.astro';
 import { getCollection } from 'astro:content';
 
@@ -27,11 +28,7 @@ const showLangFilter = languages.has('English') && languages.has('Hebrew');
 ---
 
 <Layout title="Press" lang="en">
-  <header class="page-heading">
-    <div class="eyebrow">Press</div>
-    <h1>In the press.</h1>
-    <p class="page-heading-intro">Selected interviews, essays, and critical coverage of Noa Yedlin's novels — in English and Hebrew.</p>
-  </header>
+  <PageHeading eyebrow="Press" title="In the press." subtitle="Selected interviews, essays, and critical coverage of Noa Yedlin's novels — in English and Hebrew." />
 
   <div class="filter-bar">
     <div class="filter-chips" role="group" aria-label="Filter by type">
@@ -79,7 +76,9 @@ const showLangFilter = languages.has('English') && languages.has('Hebrew');
     <button class="press-reset" id="press-reset">View all →</button>
   </div>
 
-  <BooksRail divider />
+  <section class="books-rail-section">
+    <BooksRail />
+  </section>
 </Layout>
 
 <script>
