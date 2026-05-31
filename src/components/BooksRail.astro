@@ -13,7 +13,7 @@ const books = allBooks.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 9
 ---
 
 <section class:list={['books-rail', { 'books-rail--divider': divider }]}>
-  <p class="section-title">{currentSlug ? 'Other Books' : 'Books'}</p>
+  <p class="section-eyebrow">{currentSlug ? 'Other Books' : 'Books'}</p>
   <div class="books-rail-grid">
     {books.map((book) => {
       const isCurrent = book.data.slug === currentSlug;

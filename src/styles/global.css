@@ -209,7 +209,8 @@ img { max-width: 100%; display: block; }
   opacity: 1;
 }
 
-.nav-links a[aria-current="page"] {
+.nav-links a[aria-current="page"],
+.nav-links a.is-active {
   color: var(--accent);
   opacity: 1;
   border-bottom: 1px solid var(--accent);
@@ -1050,6 +1051,18 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
   letter-spacing: var(--track-wide);
   color: var(--text-muted);
+}
+
+/* Section eyebrow — uniform heading for all homepage + detail page sections */
+.section-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--track-wide);
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  text-align: left;
+  margin-top: 0;
 }
 
 /* Reading column */

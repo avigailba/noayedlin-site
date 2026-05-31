@@ -159,7 +159,7 @@ const currentPath = Astro.url.pathname;
 
     // Nav active state — client-side fallback using actual browser pathname
     const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
-    document.querySelectorAll<HTMLAnchorElement>('.nav-links a, .mobile-nav-link').forEach(link => {
+    document.querySelectorAll('.nav-links a, .mobile-nav-link').forEach(function(link) {
       const href = (link.getAttribute('href') ?? '').replace(/\/$/, '') || '/';
       const isActive = href === '/' ? currentPath === '/' : currentPath === href || currentPath.startsWith(href + '/');
       if (isActive) {
