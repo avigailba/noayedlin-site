@@ -11,6 +11,9 @@ interface Props {
 const { title, lang, description = 'Noa Yedlin – Israeli novelist and screenwriter' } = Astro.props;
 
 const isHe = lang === 'he';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const rawPath = Astro.url.pathname;
+const currentPath = (rawPath.startsWith(base) ? rawPath.slice(base.length) : rawPath) || '/';
 
 const nav = isHe
   ? [
@@ -34,8 +37,6 @@ const nav = isHe
     ];
 
 const altLangHref = isHe ? '/' : '/he';
-const altLangLabel = isHe ? 'English' : 'עברית';
-const currentPath = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -44,7 +45,7 @@ const currentPath = Astro.url.pathname;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href={base + '/favicon.ico'} />
     <title>{title} – Noa Yedlin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -53,13 +54,13 @@ const currentPath = Astro.url.pathname;
   <body>
     <header class="site-header">
       <nav class="nav-inner">
-        <a href={isHe ? '/he' : '/'} class="site-title">
+        <a href={base + (isHe ? '/he' : '/')} class="site-title">
           {isHe ? 'נועה ידלין' : 'Noa Yedlin'}
         </a>
         <ul class="nav-links">
           {nav.map(({ label, href }) => (
             <li>
-              <a href={href} aria-current={(href === '/' ? currentPath === '/' : currentPath === href || currentPath.startsWith(href + '/')) ? 'page' : undefined}>
+              <a href={base + href} aria-current={(href === '/' ? currentPath === '/' : currentPath === href || currentPath.startsWith(href + '/')) ? 'page' : undefined}>
                 {label}
               </a>
             </li>
@@ -86,17 +87,17 @@ const currentPath = Astro.url.pathname;
           <ul>
             {isHe ? (
               <>
-                <li><a href="/he/books/stockholm">סטוקהולם</a></li>
-                <li><a href="/he/books/house-arrest">מעצר בית</a></li>
-                <li><a href="/he/books/people-like-us">אנשים כמונו</a></li>
-                <li><a href="/he/books/the-wrong-book">הספר הלא נכון</a></li>
+                <li><a href={base + '/he/books/stockholm'}>סטוקהולם</a></li>
+                <li><a href={base + '/he/books/house-arrest'}>מעצר בית</a></li>
+                <li><a href={base + '/he/books/people-like-us'}>אנשים כמונו</a></li>
+                <li><a href={base + '/he/books/the-wrong-book'}>הספר הלא נכון</a></li>
               </>
             ) : (
               <>
-                <li><a href="/books/stockholm">Stockholm</a></li>
-                <li><a href="/books/house-arrest">House Arrest</a></li>
-                <li><a href="/books/people-like-us">People Like Us</a></li>
-                <li><a href="/books/the-wrong-book">The Wrong Book</a></li>
+                <li><a href={base + '/books/stockholm'}>Stockholm</a></li>
+                <li><a href={base + '/books/house-arrest'}>House Arrest</a></li>
+                <li><a href={base + '/books/people-like-us'}>People Like Us</a></li>
+                <li><a href={base + '/books/the-wrong-book'}>The Wrong Book</a></li>
               </>
             )}
           </ul>
@@ -107,17 +108,17 @@ const currentPath = Astro.url.pathname;
           <ul>
             {isHe ? (
               <>
-                <li><a href="/he/books">ספרים</a></li>
-                <li><a href="/he/events">הרצאות ואירועים</a></li>
-                <li><a href="/he/media">תקשורת</a></li>
-                <li><a href="/he/about">אודות</a></li>
+                <li><a href={base + '/he/books'}>ספרים</a></li>
+                <li><a href={base + '/he/events'}>הרצאות ואירועים</a></li>
+                <li><a href={base + '/he/media'}>תקשורת</a></li>
+                <li><a href={base + '/he/about'}>אודות</a></li>
               </>
             ) : (
               <>
-                <li><a href="/books">Books</a></li>
-                <li><a href="/events">Lectures &amp; Events</a></li>
-                <li><a href="/media">Media</a></li>
-                <li><a href="/about">About</a></li>
+                <li><a href={base + '/books'}>Books</a></li>
+                <li><a href={base + '/events'}>Lectures &amp; Events</a></li>
+                <li><a href={base + '/media'}>Media</a></li>
+                <li><a href={base + '/about'}>About</a></li>
               </>
             )}
           </ul>
@@ -144,11 +145,11 @@ const currentPath = Astro.url.pathname;
 
       <div class="footer-bottom">
         <p>© {new Date().getFullYear()} Noa Yedlin. {isHe ? 'כל הזכויות שמורות.' : 'All rights reserved.'}</p>
-        {!isHe && <p><a href="/accessibility">Accessibility Statement</a></p>}
+        {!isHe && <p><a href={base + '/accessibility'}>Accessibility Statement</a></p>}
       </div>
     </footer>
   </body>
-  <script>
+  <script define:vars={{ base }}>
     // Sticky header scroll shadow
     const header = document.querySelector('.site-header');
     if (header) {
@@ -158,9 +159,12 @@ const currentPath = Astro.url.pathname;
     }
 
     // Nav active state — client-side fallback using actual browser pathname
-    const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+    const currentPath = (window.location.pathname.startsWith(base)
+      ? window.location.pathname.slice(base.length)
+      : window.location.pathname).replace(/\/$/, '') || '/';
     document.querySelectorAll('.nav-links a, .mobile-nav-link').forEach(function(link) {
-      const href = (link.getAttribute('href') ?? '').replace(/\/$/, '') || '/';
+      const fullHref = link.getAttribute('href') ?? '';
+      const href = (fullHref.startsWith(base) ? fullHref.slice(base.length) : fullHref).replace(/\/$/, '') || '/';
       const isActive = href === '/' ? currentPath === '/' : currentPath === href || currentPath.startsWith(href + '/');
       if (isActive) {
         link.setAttribute('aria-current', 'page');

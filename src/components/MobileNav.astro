@@ -4,12 +4,13 @@ interface Props {
   currentPath: string;
 }
 const { nav, currentPath } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <div id="mobile-nav" class="mobile-nav" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation">
 
   <div class="mobile-nav-header">
-    <a href="/" class="mobile-nav-wordmark">Noa Yedlin</a>
+    <a href={base + '/'} class="mobile-nav-wordmark">Noa Yedlin</a>
     <button class="mobile-nav-close" aria-label="Close menu">
       <span class="close-bar"></span>
       <span class="close-bar"></span>
@@ -19,7 +20,7 @@ const { nav, currentPath } = Astro.props;
   <nav class="mobile-nav-body">
     {nav.map(({ label, href }) => (
       <a
-        href={href}
+        href={base + href}
         class={`mobile-nav-link${(href === '/' ? currentPath === '/' : currentPath === href || currentPath.startsWith(href + '/')) ? ' is-active' : ''}`}
         aria-current={(href === '/' ? currentPath === '/' : currentPath === href || currentPath.startsWith(href + '/')) ? 'page' : undefined}
       >

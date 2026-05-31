@@ -12,6 +12,7 @@ export async function getStaticPaths() {
 }
 
 const { book } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const {
   title, cover, coverColor, description, synopsis, year, kind,
   reviews, purchaseLinks, selectedReviews, adaptationText, adaptations,
@@ -38,7 +39,7 @@ const allAdaptations = adaptations ??
 
 <Layout title={title} lang="en">
   <nav class="breadcrumb" aria-label="Breadcrumb">
-    <a href="/books">Books</a>
+    <a href={base + '/books'}>Books</a>
     <span aria-hidden="true"> / </span>
     <span>{title}</span>
   </nav>

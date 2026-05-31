@@ -4,6 +4,7 @@ import BooksRail from '../components/BooksRail.astro';
 import { getCollection } from 'astro:content';
 
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const books = await getCollection('booksEn');
 const featured = books.find((b) => b.id === 'stockholm');
 const featured2 = books.find((b) => b.id === 'house-arrest');
@@ -49,11 +50,11 @@ function formatDate(dateStr: string) {
     <section class="hp-books-hero">
       {featured2 && (
         <div class="hp-book-col">
-          <a href={`/books/${featured2.data.slug}`} class="hp-book-cover-link">
+          <a href={`${base}/books/${featured2.data.slug}`} class="hp-book-cover-link">
             <img src={featured2.data.cover} alt={`Cover of ${featured2.data.title}`} class="hp-book-cover" />
           </a>
           <h2 class="hp-book-title">
-            <a href={`/books/${featured2.data.slug}`}>{featured2.data.title}</a>
+            <a href={`${base}/books/${featured2.data.slug}`}>{featured2.data.title}</a>
           </h2>
           <div class="book-status">
             <span class="status-dot"></span>
@@ -62,7 +63,7 @@ function formatDate(dateStr: string) {
           <blockquote class="hp-book-quote">"A lucid, clear, and distinct voice"</blockquote>
           <p class="hp-book-attr">— Dorit Rabinyan</p>
           <div class="book-cta-group">
-            <a href={`/books/${featured2.data.slug}`} class="btn-primary">More about the book →</a>
+            <a href={`${base}/books/${featured2.data.slug}`} class="btn-primary">More about the book →</a>
             <div class="retailers">
               <a class="retailer-link" href="https://www.amazon.com/House-Arrest-Noa-Yedlin/dp/1954404433" target="_blank" rel="noopener">Amazon</a>
             </div>
@@ -74,11 +75,11 @@ function formatDate(dateStr: string) {
 
       {featured && (
         <div class="hp-book-col">
-          <a href={`/books/${featured.data.slug}`} class="hp-book-cover-link">
+          <a href={`${base}/books/${featured.data.slug}`} class="hp-book-cover-link">
             <img src={featured.data.cover} alt={`Cover of ${featured.data.title}`} class="hp-book-cover" />
           </a>
           <h2 class="hp-book-title">
-            <a href={`/books/${featured.data.slug}`}>{featured.data.title}</a>
+            <a href={`${base}/books/${featured.data.slug}`}>{featured.data.title}</a>
           </h2>
           {featured.data.reviews && featured.data.reviews[0] && (
             <>
@@ -88,7 +89,7 @@ function formatDate(dateStr: string) {
             </>
           )}
           <div class="book-cta-group">
-            <a href={`/books/${featured.data.slug}`} class="btn-primary">More about the book →</a>
+            <a href={`${base}/books/${featured.data.slug}`} class="btn-primary">More about the book →</a>
             <div class="retailers">
               <a class="retailer-link" href="https://www.amazon.com/Stockholm-Novel-Noa-Yedlin/dp/0063298678" target="_blank" rel="noopener">Amazon</a>
               <span class="retailer-sep">·</span>
@@ -146,7 +147,7 @@ function formatDate(dateStr: string) {
               </div>
               <div class="event-content">
                 <h3 class="event-title">
-                  <a href={`/events/${slug}`} class="headline-link">{event.data.title}</a>
+                  <a href={`${base}/events/${slug}`} class="headline-link">{event.data.title}</a>
                 </h3>
                 {event.data.description && <p class="event-description">{event.data.description}</p>}
                 <div class="event-status">
@@ -181,7 +182,7 @@ function formatDate(dateStr: string) {
         })}
       </div>
       <div class="hp-events-footer">
-        <a href="/events" class="link-accent">All events →</a>
+        <a href={base + '/events'} class="link-accent">All events →</a>
       </div>
     </section>
   )}
@@ -211,7 +212,7 @@ function formatDate(dateStr: string) {
         ))}
       </div>
       <div class="hp-press-footer">
-        <a href="/media" class="link-accent">All press →</a>
+        <a href={base + '/media'} class="link-accent">All press →</a>
       </div>
     </section>
   )}

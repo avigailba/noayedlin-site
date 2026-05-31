@@ -5,6 +5,7 @@ import BooksRail from '../components/BooksRail.astro';
 import { getCollection } from 'astro:content';
 
 const allEvents = await getCollection('events');
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 // Date helpers
 function parseDate(str: string) {
@@ -65,7 +66,7 @@ const past = allEvents
                   </div>
                   <div class="event-content">
                     <h3 class="event-title">
-                      <a href={`/events/${slug}`} class="headline-link">{event.data.title}</a>
+                      <a href={`${base}/events/${slug}`} class="headline-link">{event.data.title}</a>
                     </h3>
                     {event.data.description && <p class="event-description">{event.data.description}</p>}
                     <div class="event-status">
@@ -120,7 +121,7 @@ const past = allEvents
                   </div>
                   <div class="event-content">
                     <h3 class="event-title">
-                      <a href={`/events/${slug}`} class="headline-link">{event.data.title}</a>
+                      <a href={`${base}/events/${slug}`} class="headline-link">{event.data.title}</a>
                     </h3>
                     {event.data.description && <p class="event-description">{event.data.description}</p>}
                     <div class="event-status">

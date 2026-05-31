@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <Layout title="Accessibility Statement" lang="en">
@@ -33,7 +34,7 @@ import Layout from '../layouts/Layout.astro';
 
       <h2>Contact</h2>
       <p>If you encounter any accessibility barrier on this site or require assistance, please contact us:</p>
-      <p><strong>Accessibility contact:</strong> <a href="/contact">Contact page</a></p>
+      <p><strong>Accessibility contact:</strong> <a href={base + '/contact'}>Contact page</a></p>
     </div>
   </div>
 </Layout>

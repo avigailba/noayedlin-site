@@ -140,7 +140,7 @@ import Layout from '../layouts/Layout.astro';
     <h2 class="ds-section-heading">Shadow</h2>
     <div class="ds-shadow-row">
       <div class="ds-shadow-swatch">
-        <img src="/images/HouseArrest-fordistribution.jpg" alt="Book cover" class="ds-shadow-img" />
+        <img src={import.meta.env.BASE_URL.replace(/\/$/, '') + '/images/HouseArrest-fordistribution.jpg'} alt="Book cover" class="ds-shadow-img" />
       </div>
       <div>
         <p class="ds-type-meta" style="margin-bottom: 0.5rem;">--shadow-cover</p>
