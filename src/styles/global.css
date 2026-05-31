@@ -959,10 +959,14 @@ img { max-width: 100%; display: block; }
   font-style: italic;
   font-size: var(--text-md);
   line-height: var(--lh-loose);
-  border-left: 2px solid var(--accent);
-  padding-left: 1.125rem;
   margin: 0;
   color: var(--text);
+}
+
+/* Left border scoped to homepage praise grid only */
+.hp-reviews-grid .praise {
+  border-left: 2px solid var(--accent);
+  padding-left: 1.125rem;
 }
 
 .praise p { margin: 0; }
