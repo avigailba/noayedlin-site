@@ -480,6 +480,33 @@ img { max-width: 100%; display: block; }
 }
 .link-accent:hover { opacity: 0.7; }
 
+.headline-link {
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+.headline-link::after {
+  content: ' →';
+  display: inline-block;
+  margin-left: 4px;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+}
+.headline-link:hover,
+.headline-link:focus-visible {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.headline-link:hover::after,
+.headline-link:focus-visible::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 .bd-buy-links {
   display: flex;
   flex-wrap: wrap;

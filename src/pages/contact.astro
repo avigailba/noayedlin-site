@@ -10,26 +10,95 @@ import BooksRail from '../components/BooksRail.astro';
     <p class="page-heading-intro">For rights, media, and lecture inquiries.</p>
   </header>
   <hr class="page-rule" />
-  <div class="contact-grid" style="margin-top: 2.5rem;">
-    <div class="contact-card">
-      <h3>Literary Agent</h3>
-      <p>Curtis Brown</p>
-      <a href="https://www.curtisbrown.co.uk/client/noa-yedlin" target="_blank" rel="noopener">
-        curtisbrown.co.uk
-      </a>
-    </div>
-    <div class="contact-card">
-      <h3>Lecture Agent – USA</h3>
-      <p>Lion House Agency</p>
-      <a href="https://lionhouseagency.com/noa-yedlin" target="_blank" rel="noopener">
-        lionhouseagency.com
-      </a>
-    </div>
-    <div class="contact-card">
-      <h3>Lecture Agent – Israel</h3>
-      <p>+972-3-7208856</p>
-    </div>
-  </div>
 
-  <BooksRail divider />
+  <section class="rep-section">
+    <div class="rep-grid">
+      <article class="rep-card">
+        <div class="rep-role">Literary agent</div>
+        <div class="rep-agency">Curtis Brown</div>
+        <a class="link-accent" href="https://www.curtisbrown.co.uk/client/noa-yedlin" target="_blank" rel="noopener">curtisbrown.co.uk</a>
+      </article>
+
+      <article class="rep-card">
+        <div class="rep-role">Lecture agent — USA</div>
+        <div class="rep-agency">Lion House Agency</div>
+        <a class="link-accent" href="https://lionhouseagency.com/noa-yedlin" target="_blank" rel="noopener">lionhouseagency.com</a>
+      </article>
+
+      <article class="rep-card">
+        <div class="rep-role">Lecture agent — Israel</div>
+        <div class="rep-agency">Hamartzim</div>
+        <span class="rep-phone">+972-3-7208856</span>
+      </article>
+
+      <article class="rep-card">
+        <div class="rep-role">Film &amp; TV — <em>Stockholm</em></div>
+        <div class="rep-agency">Keshet International</div>
+      </article>
+
+      <article class="rep-card">
+        <div class="rep-role">Film &amp; TV — other novels</div>
+        <div class="rep-agency">WME</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="books-rail-section">
+    <BooksRail />
+  </section>
 </Layout>
+
+<style>
+  .rep-section {
+    padding: 56px 0;
+  }
+
+  .rep-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .rep-card {
+    background: var(--bg-alt);
+    border-radius: 8px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .rep-role {
+    font-size: var(--text-xs);
+    letter-spacing: var(--track-wide);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .rep-agency {
+    font-family: var(--font-serif);
+    font-size: var(--text-md);
+    color: var(--text);
+  }
+
+  .rep-phone {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 1024px) {
+    .rep-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .rep-section {
+      padding: 40px 0;
+    }
+    .rep-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

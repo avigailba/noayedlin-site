@@ -47,7 +47,9 @@ const maxYear = Math.max(...years);
               <span class="books-list-year">{book.data.year}</span>
             )}
           </p>
-          <h2 class="books-list-title">{book.data.title}</h2>
+          <h2 class="books-list-title">
+            <a href={`/books/${book.data.slug}`} class="headline-link">{book.data.title}</a>
+          </h2>
           {book.data.awards && book.data.awards.length > 0 && (
             <div class="books-list-awards">
               {book.data.awards.map((award) => (
@@ -96,9 +98,9 @@ const maxYear = Math.max(...years);
 
   .books-list-row {
     display: grid;
-    grid-template-columns: 110px 1fr;
-    gap: 2rem;
-    padding: 2rem 0;
+    grid-template-columns: 240px 1fr;
+    gap: 2.5rem;
+    padding: 2.5rem 0;
     border-top: 0.5px solid var(--rule);
   }
 
@@ -115,7 +117,7 @@ const maxYear = Math.max(...years);
   }
 
   .books-list-cover img {
-    width: 110px;
+    width: 240px;
     aspect-ratio: 2/3;
     object-fit: cover;
     box-shadow: 4px 6px 18px rgba(31, 27, 22, 0.18);
@@ -159,16 +161,6 @@ const maxYear = Math.max(...years);
     margin: 0;
   }
 
-  .books-list-title a {
-    text-decoration: none;
-    color: var(--text);
-  }
-
-  .books-list-title a:hover {
-    color: var(--accent);
-    opacity: 1;
-  }
-
   .books-list-awards {
     display: flex;
     flex-direction: column;
@@ -194,8 +186,13 @@ const maxYear = Math.max(...years);
     line-height: var(--lh-loose);
   }
 
-  @media (max-width: 540px) {
-    .books-list-row { grid-template-columns: 80px 1fr; gap: 1.25rem; }
-    .books-list-cover img { width: 80px; }
+  @media (max-width: 700px) {
+    .books-list-row { grid-template-columns: 140px 1fr; gap: 1.5rem; padding: 2rem 0; }
+    .books-list-cover img { width: 140px; }
+  }
+
+  @media (max-width: 480px) {
+    .books-list-row { grid-template-columns: 110px 1fr; gap: 1.25rem; }
+    .books-list-cover img { width: 110px; }
   }
 </style>
