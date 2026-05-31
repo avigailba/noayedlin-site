@@ -671,7 +671,9 @@ img { max-width: 100%; display: block; }
   grid-template-columns: 1fr auto 1fr;
   gap: 0;
   min-height: 60vh;
-  padding: 48px 0;
+  max-height: 88vh;
+  padding: 32px 0;
+  box-sizing: border-box;
   margin-bottom: 4rem;
   align-items: stretch;
 }
@@ -715,8 +717,8 @@ img { max-width: 100%; display: block; }
 .hp-book-cover-link { display: block; margin-bottom: 20px; }
 
 .hp-book-cover {
-  width: 100%;
-  max-width: 360px;
+  width: min(360px, 32vw, 48vh);
+  max-width: 100%;
   aspect-ratio: 2/3;
   object-fit: cover;
   transform: perspective(900px) rotateY(-7deg);
@@ -785,19 +787,12 @@ img { max-width: 100%; display: block; }
   white-space: nowrap;
 }
 
-@media (max-width: 1280px) {
-  .hp-book-cover { max-width: 300px; }
-}
-
-@media (max-width: 1024px) {
-  .hp-book-cover { max-width: 240px; }
-}
-
 @media (max-width: 768px) {
   .hp-books-hero {
     grid-template-columns: 1fr;
     gap: 3rem;
     min-height: auto;
+    max-height: none;
     padding: 32px 0;
   }
   .hp-books-divider {
@@ -805,7 +800,7 @@ img { max-width: 100%; display: block; }
     height: 1px;
     margin: 0;
   }
-  .hp-book-cover { max-width: 380px; }
+  .hp-book-cover { width: 100%; max-width: 320px; }
 }
 
 /* Books page hero */
