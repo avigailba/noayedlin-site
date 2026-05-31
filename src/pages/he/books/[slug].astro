@@ -11,6 +11,7 @@ export async function getStaticPaths() {
 }
 
 const { book } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const { title, cover, description, year, reviews, purchaseLinks, selectedReviews, adaptationText, awards } = book.data;
 
 const allReviews = [
@@ -36,7 +37,7 @@ const allReviews = [
 <Layout title={title} lang="he">
   <div class="about-layout">
     <div>
-      <img src={cover} alt={`עטיפת ${title}`} style="box-shadow: 4px 6px 18px rgba(31,27,22,0.18);" />
+      <img src={cover.startsWith('/') ? base + cover : cover} alt={`עטיפת ${title}`} style="box-shadow: 4px 6px 18px rgba(31,27,22,0.18);" />
     </div>
     <div>
       <h1>{title}</h1>

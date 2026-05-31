@@ -51,7 +51,7 @@ function formatDate(dateStr: string) {
       {featured2 && (
         <div class="hp-book-col">
           <a href={`${base}/books/${featured2.data.slug}`} class="hp-book-cover-link">
-            <img src={featured2.data.cover} alt={`Cover of ${featured2.data.title}`} class="hp-book-cover" />
+            <img src={featured2.data.cover.startsWith('/') ? base + featured2.data.cover : featured2.data.cover} alt={`Cover of ${featured2.data.title}`} class="hp-book-cover" />
           </a>
           <h2 class="hp-book-title">
             <a href={`${base}/books/${featured2.data.slug}`}>{featured2.data.title}</a>
@@ -76,7 +76,7 @@ function formatDate(dateStr: string) {
       {featured && (
         <div class="hp-book-col">
           <a href={`${base}/books/${featured.data.slug}`} class="hp-book-cover-link">
-            <img src={featured.data.cover} alt={`Cover of ${featured.data.title}`} class="hp-book-cover" />
+            <img src={featured.data.cover.startsWith('/') ? base + featured.data.cover : featured.data.cover} alt={`Cover of ${featured.data.title}`} class="hp-book-cover" />
           </a>
           <h2 class="hp-book-title">
             <a href={`${base}/books/${featured.data.slug}`}>{featured.data.title}</a>
@@ -239,13 +239,14 @@ function formatDate(dateStr: string) {
     flex-shrink: 0;
   }
 
-  /* CTA group — natural flow, no bottom-anchor */
+  /* CTA group — pushed to bottom of column */
   .book-cta-group {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 14px;
     width: 100%;
+    margin-top: auto;
   }
 
   .hp-reviews-grid {

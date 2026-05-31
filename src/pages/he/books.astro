@@ -3,14 +3,15 @@ import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
 const books = await getCollection('booksHe');
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <Layout title="ספרים" lang="he">
   <h1>ספרים</h1>
   <div class="books-grid">
     {books.map((book) => (
-      <a href={`/he/books/${book.data.slug}`} class="book-card">
-        <img src={book.data.cover} alt={`עטיפת ${book.data.title}`} />
+      <a href={`${base}/he/books/${book.data.slug}`} class="book-card">
+        <img src={book.data.cover.startsWith('/') ? base + book.data.cover : book.data.cover} alt={`עטיפת ${book.data.title}`} />
         <h3>{book.data.title}</h3>
         {book.data.year && <p class="book-card-year">{book.data.year}</p>}
         {book.data.awards && book.data.awards.length > 0 && (

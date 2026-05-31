@@ -46,7 +46,7 @@ const allAdaptations = adaptations ??
 
   <section class="bd-hero">
     <div class="bd-cover-wrap" style={coverColor ? `background: ${coverColor};` : ''}>
-      <img src={cover} alt={`Cover of ${title}`} />
+      <img src={cover.startsWith('/') ? base + cover : cover} alt={`Cover of ${title}`} />
     </div>
     <div class="bd-info">
       {(kind || year) && (

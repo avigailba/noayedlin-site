@@ -18,11 +18,12 @@ const books = allBooks.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 9
   <div class="books-rail-grid">
     {books.map((book) => {
       const isCurrent = book.data.slug === currentSlug;
+      const coverSrc = book.data.coverRail ?? book.data.cover;
       return (
         <a href={`${base}/books/${book.data.slug}`} class:list={['books-rail-tile', { 'is-current': isCurrent }]}>
           <div class="books-rail-cover">
             <img
-              src={book.data.coverRail ?? book.data.cover}
+              src={coverSrc.startsWith('/') ? base + coverSrc : coverSrc}
               alt={`Cover of ${book.data.title}`}
             />
             {isCurrent && <span class="reading-now">Reading now</span>}

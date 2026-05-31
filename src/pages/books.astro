@@ -25,7 +25,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         <div class="books-list-cover">
           <a href={`${base}/books/${book.data.slug}`}>
             <img
-              src={book.data.cover}
+              src={book.data.cover.startsWith('/') ? base + book.data.cover : book.data.cover}
               alt={`Cover of ${book.data.title}`}
               style={book.data.coverColor ? `background: ${book.data.coverColor};` : ''}
             />
