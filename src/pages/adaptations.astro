@@ -40,12 +40,9 @@ const countriesText = countries.length <= 2
     return (
       <div class="ap-group">
         <div class="ap-group-heading">
-          <div class="ap-group-left">
-            <span class="eyebrow ap-from-label">From the novel</span>
-            <a href={`/books/${slug}`} class="ap-book-link headline-link">
-              <em>{book.title}</em><span class="ap-arrow">→</span>
-            </a>
-          </div>
+          <span class="eyebrow ap-from-label">From the novel</span>
+          <h2 class="ap-group-title"><em>{book.title}</em></h2>
+          <a href={`/books/${slug}`} class="btn-secondary ap-group-cta">View book</a>
         </div>
 
         <div class="ap-cards">
@@ -94,7 +91,7 @@ const countriesText = countries.length <= 2
                   {a.data.award && (
                     <p class="ap-award">
                       <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
-                        <polygon points="6,0 7.5,4.5 12,4.5 8.5,7 9.8,11.5 6,9 2.2,11.5 3.5,7 0,4.5 4.5,4.5" fill="var(--accent)" />
+                        <polygon points="6,0 7.5,4.5 12,4.5 8.5,7 9.8,11.5 6,9 2.2,11.5 3.5,7 0,4.5 4.5,4.5" fill="var(--text-muted)" />
                       </svg>
                       {a.data.award}
                     </p>
@@ -143,22 +140,18 @@ const countriesText = countries.length <= 2
 
   .ap-group-heading {
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    padding: 48px 0 8px;
-  }
-
-  .ap-group-left {
-    display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    align-items: flex-start;
+    padding: 48px 0 0;
+    margin-bottom: 32px;
   }
 
   .ap-from-label {
     color: var(--text-muted);
+    margin-bottom: 6px;
   }
 
-  .ap-book-link {
+  .ap-group-title {
     font-family: var(--font-serif);
     font-size: var(--text-xl);
     font-style: italic;
@@ -166,26 +159,10 @@ const countriesText = countries.length <= 2
     letter-spacing: var(--track-tight);
     line-height: var(--lh-tight);
     color: var(--text);
-    text-decoration: none;
+    margin: 0 0 18px;
   }
 
-  /* hover handled by .headline-link */
-
-  .ap-arrow {
-    font-style: normal;
-    font-size: 1.125rem;
-    color: var(--accent);
-    margin-left: 6px;
-    vertical-align: 2px;
-  }
-
-  .ap-count {
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--track-wide);
-    color: var(--text-muted);
-    white-space: nowrap;
-  }
+  .ap-group-cta { /* scoped to ensure correct margin reset */ }
 
   /* Cards */
   .ap-cards {
@@ -315,7 +292,7 @@ const countriesText = countries.length <= 2
     font-size: var(--text-xs);
     text-transform: uppercase;
     letter-spacing: var(--track-wide);
-    color: var(--accent);
+    color: var(--text-muted);
     margin: 0 0 2px;
   }
 
@@ -369,10 +346,6 @@ const countriesText = countries.length <= 2
     }
     .ap-still {
       width: 100%;
-    }
-    .ap-group-heading {
-      flex-direction: column;
-      gap: 0.5rem;
     }
   }
 </style>
