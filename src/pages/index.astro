@@ -105,9 +105,9 @@ function formatDate(dateStr: string) {
     </section>
   )}
 
+
   {(featured2?.data.selectedReviews || featured?.data.selectedReviews) && (
     <section class="section hp-praise">
-      <p class="section-eyebrow">Praise</p>
       <div class="hp-reviews-grid">
         {[
           ...(featured2?.data.selectedReviews?.slice(0, 2) ?? []).map(r => ({ ...r, book: featured2?.data.title })),
