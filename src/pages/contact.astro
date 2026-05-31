@@ -1,15 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHeading from '../components/PageHeading.astro';
 import BooksRail from '../components/BooksRail.astro';
 ---
 
 <Layout title="Contact" lang="en">
-  <header class="page-heading">
-    <p class="eyebrow">Contact</p>
-    <h1>Get in touch</h1>
-    <p class="page-heading-intro">For rights, media, and lecture inquiries.</p>
-  </header>
-  <hr class="page-rule" />
+  <PageHeading
+    eyebrow="Contact"
+    title="Get in touch."
+    subtitle="For literary rights, film & TV rights, lecture bookings, and general inquiries — please reach out to the relevant representative below."
+  />
 
   <section class="rep-section">
     <div class="rep-grid">
@@ -28,17 +28,20 @@ import BooksRail from '../components/BooksRail.astro';
       <article class="rep-card">
         <div class="rep-role">Lecture agent — Israel</div>
         <div class="rep-agency">Hamartzim</div>
+        <a class="link-accent" href="mailto:info@hamartzim.co.il">info@hamartzim.co.il</a>
         <span class="rep-phone">+972-3-7208856</span>
       </article>
 
       <article class="rep-card">
         <div class="rep-role">Film &amp; TV — <em>Stockholm</em></div>
         <div class="rep-agency">Keshet International</div>
+        <a class="link-accent" href="mailto:keren.shahar@keshet-tv.com">keren.shahar@keshet-tv.com</a>
       </article>
 
       <article class="rep-card">
         <div class="rep-role">Film &amp; TV — other novels</div>
         <div class="rep-agency">WME</div>
+        <a class="link-accent" href="mailto:jgillett@wmeagency.com">jgillett@wmeagency.com</a>
       </article>
     </div>
   </section>

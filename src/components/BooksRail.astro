@@ -13,7 +13,7 @@ const books = allBooks.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 9
 ---
 
 <section class:list={['books-rail', { 'books-rail--divider': divider }]}>
-  <p class="section-title">{currentSlug ? 'Other Books' : 'Books'}</p>
+  <p class="section-eyebrow">{currentSlug ? 'Other Books' : 'Books'}</p>
   <div class="books-rail-grid">
     {books.map((book) => {
       const isCurrent = book.data.slug === currentSlug;
@@ -36,11 +36,7 @@ const books = allBooks.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 9
 
 <style>
   .books-rail {
-    padding: 56px 0 40px;
-  }
-
-  .books-rail--divider {
-    border-top: 0.5px solid var(--rule);
+    padding: 0;
   }
 
   .books-rail-tile.is-current .books-rail-cover img {
@@ -53,7 +49,7 @@ const books = allBooks.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 9
     font-size: var(--text-xs);
     text-transform: uppercase;
     letter-spacing: var(--track-wide);
-    color: var(--accent);
+    color: var(--text-muted);
     margin-top: 0.3rem;
   }
 </style>

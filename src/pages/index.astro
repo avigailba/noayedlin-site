@@ -15,7 +15,6 @@ function hpParseDate(str: string) {
   const [y, m, d] = str.split('-').map(Number);
   return new Date(y, m - 1, d);
 }
-const HP_MONTHS_ABB  = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const HP_MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
 const hpToday = new Date(); hpToday.setHours(0, 0, 0, 0);
@@ -30,18 +29,6 @@ const upcomingEvents = allEventsRaw
   })
   .slice(0, 3);
 
-function hpEventSubtitle(evs: typeof upcomingEvents) {
-  if (evs.length === 0) return '';
-  const nums = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten'];
-  const n = evs.length <= 10 ? nums[evs.length] : String(evs.length);
-  const countries = new Set(evs.map(e => e.data.country));
-  const loc = countries.size === 1
-    ? (evs[0].data.country === 'United States' ? 'U.S.' : evs[0].data.country)
-    : 'international';
-  const months = new Set(evs.map(e => hpParseDate(e.data.date_start).getMonth()));
-  const monthStr = months.size === 1 ? ` this ${HP_MONTHS_LONG[[...months][0]]}` : '';
-  return `${n} ${loc} appearance${evs.length !== 1 ? 's' : ''}${monthStr}.`;
-}
 
 const allMedia = await getCollection('media');
 const featuredMedia = allMedia.filter((m) => m.data.featured);
@@ -75,11 +62,10 @@ function formatDate(dateStr: string) {
           <blockquote class="hp-book-quote">"A lucid, clear, and distinct voice"</blockquote>
           <p class="hp-book-attr">— Dorit Rabinyan</p>
           <div class="book-cta-group">
+            <a href={`/books/${featured2.data.slug}`} class="btn-primary">More about the book →</a>
             <div class="retailers">
-              <span class="retailers-label">Order:</span>
               <a class="retailer-link" href="https://www.amazon.com/House-Arrest-Noa-Yedlin/dp/1954404433" target="_blank" rel="noopener">Amazon</a>
             </div>
-            <a href={`/books/${featured2.data.slug}`} class="btn-primary">More about the book →</a>
           </div>
         </div>
       )}
@@ -102,8 +88,8 @@ function formatDate(dateStr: string) {
             </>
           )}
           <div class="book-cta-group">
+            <a href={`/books/${featured.data.slug}`} class="btn-primary">More about the book →</a>
             <div class="retailers">
-              <span class="retailers-label">Order:</span>
               <a class="retailer-link" href="https://www.amazon.com/Stockholm-Novel-Noa-Yedlin/dp/0063298678" target="_blank" rel="noopener">Amazon</a>
               <span class="retailer-sep">·</span>
               <a class="retailer-link" href="https://www.barnesandnoble.com/w/stockholm-noa-yedlin/1143956543" target="_blank" rel="noopener">B&amp;N</a>
@@ -112,7 +98,6 @@ function formatDate(dateStr: string) {
               <span class="retailer-sep">·</span>
               <a class="retailer-link" href="https://www.harpercollins.com/products/stockholm-noa-yedlin" target="_blank" rel="noopener">HarperCollins</a>
             </div>
-            <a href={`/books/${featured.data.slug}`} class="btn-primary">More about the book →</a>
           </div>
         </div>
       )}
@@ -121,20 +106,20 @@ function formatDate(dateStr: string) {
 
   {(featured2?.data.selectedReviews || featured?.data.selectedReviews) && (
     <section class="section hp-praise">
-      <p class="section-title">Praise</p>
+      <p class="section-eyebrow">Praise</p>
       <div class="hp-reviews-grid">
         {[
           ...(featured2?.data.selectedReviews?.slice(0, 2) ?? []).map(r => ({ ...r, book: featured2?.data.title })),
           ...(featured?.data.selectedReviews?.slice(0, 3) ?? []).map(r => ({ ...r, book: featured?.data.title })),
         ].map((r) => (
-          <div class="hp-review">
-            <blockquote class="hp-review-quote">"{r.quote}"</blockquote>
-            <p class="hp-review-attr">
-              <span class="hp-review-name">{r.reviewer}</span>
-              {r.publication && <span class="hp-review-pub">{r.publication}</span>}
-            </p>
-            <p class="hp-review-book"><em>{r.book}</em></p>
-          </div>
+          <blockquote class="praise">
+            <p>"{r.quote}"</p>
+            <footer class="quote-attribution">
+              <div class="quote-author">{r.reviewer}</div>
+              {r.publication && <div class="quote-outlet">{r.publication}</div>}
+              {r.book && <div class="quote-book"><em>{r.book}</em></div>}
+            </footer>
+          </blockquote>
         ))}
       </div>
     </section>
@@ -142,38 +127,56 @@ function formatDate(dateStr: string) {
 
   {upcomingEvents.length > 0 && (
     <section class="hp-events">
-      <div class="hp-events-header">
-        <p class="eyebrow" style="color: var(--accent); margin-bottom: 0.75rem;">Upcoming</p>
-        <h2 class="hp-events-heading">Lectures &amp; Events</h2>
-        <p class="hp-events-subtitle">{hpEventSubtitle(upcomingEvents)}</p>
-      </div>
-      <div class="hp-events-rows">
+      <p class="section-eyebrow">Upcoming Events</p>
+      <div class="hp-events-rows event-rows">
         {upcomingEvents.map((event) => {
           const start = hpParseDate(event.data.date_start);
           const end   = event.data.date_end ? hpParseDate(event.data.date_end) : null;
-          const isRange = !!end;
-          const slug = event.data.slug ?? event.id;
-          const dayStr = isRange
-            ? `${start.getDate()}–${end!.getDate()}`
-            : String(start.getDate()).padStart(2, '0');
-          const monthStr = HP_MONTHS_ABB[start.getMonth()].toUpperCase();
-          const regionLine = [event.data.city, event.data.region].filter(Boolean).join(', ');
-          const statusLabel = event.data.status === 'details_coming_soon' ? 'Details coming soon'
-            : event.data.status === 'scheduled' ? 'Get details →'
-            : event.data.status === 'ticketed'  ? 'Get tickets →'
-            : '';
+          const slug  = event.data.slug ?? event.id;
+          const dateStr = end
+            ? `${HP_MONTHS_LONG[start.getMonth()]} ${start.getDate()}–${end.getDate()}, ${start.getFullYear()}`
+            : `${HP_MONTHS_LONG[start.getMonth()]} ${start.getDate()}, ${start.getFullYear()}`;
+          const locationStr = [event.data.city, event.data.region].filter(Boolean).join(', ');
           return (
-            <div class="hp-ev-row">
-              <div class="hp-ev-date">
-                <span class="hp-ev-day">{dayStr}</span>
-                <span class="hp-ev-month">{monthStr}</span>
+            <article class="event-row">
+              <div class="event-meta">
+                <div class="event-date">{dateStr}</div>
+                {locationStr && <div class="event-location">{locationStr}</div>}
+                {event.data.type && <div class="event-type">{event.data.type}</div>}
               </div>
-              <div class="hp-ev-body">
-                <p class="hp-ev-title">{event.data.title}</p>
-                <p class="hp-ev-meta">{regionLine} · {statusLabel}</p>
+              <div class="event-content">
+                <h3 class="event-title">
+                  <a href={`/events/${slug}`} class="headline-link">{event.data.title}</a>
+                </h3>
+                {event.data.description && <p class="event-description">{event.data.description}</p>}
+                <div class="event-status">
+                  {event.data.status === 'details_coming_soon' && (
+                    <>
+                      <span class="event-dot event-dot--muted"></span>
+                      <span>Details coming soon</span>
+                    </>
+                  )}
+                  {event.data.status === 'scheduled' && (
+                    <>
+                      <span class="event-dot event-dot--accent"></span>
+                      {event.data.url
+                        ? <a href={event.data.url} target="_blank" rel="noopener">Get details →</a>
+                        : <span>Get details</span>
+                      }
+                    </>
+                  )}
+                  {event.data.status === 'ticketed' && (
+                    <>
+                      <span class="event-dot event-dot--accent"></span>
+                      {event.data.url
+                        ? <a href={event.data.url} target="_blank" rel="noopener">Get tickets →</a>
+                        : <span>Get tickets</span>
+                      }
+                    </>
+                  )}
+                </div>
               </div>
-              <a href={`/events/${slug}`} class="hp-ev-arrow" aria-label={`More about ${event.data.title}`}>→</a>
-            </div>
+            </article>
           );
         })}
       </div>
@@ -183,14 +186,13 @@ function formatDate(dateStr: string) {
     </section>
   )}
 
-  <BooksRail />
+  <section class="books-rail-section">
+    <BooksRail />
+  </section>
 
   {homeMedia.length > 0 && (
     <section class="hp-press">
-      <div class="hp-press-header">
-        <p class="eyebrow hp-press-eyebrow">Press</p>
-        <h2 class="hp-press-heading">In the press</h2>
-      </div>
+      <p class="section-eyebrow">Press</p>
       <div class="hp-press-list">
         {homeMedia.map((item) => (
           <div class="hp-press-row">
@@ -201,7 +203,7 @@ function formatDate(dateStr: string) {
             </div>
             <div class="hp-press-content">
               <h3 class="hp-press-headline">
-                <a href={item.data.url} target="_blank" rel="noopener">{item.data.headline}</a>
+                <a href={item.data.url} target="_blank" rel="noopener" class="headline-link">{item.data.headline}</a>
               </h3>
               {item.data.excerpt && <p class="hp-press-excerpt">{item.data.excerpt}</p>}
             </div>
@@ -224,7 +226,7 @@ function formatDate(dateStr: string) {
     font-size: var(--text-xs);
     letter-spacing: var(--track-wide);
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--text);
     margin-bottom: 18px;
   }
 
@@ -232,47 +234,17 @@ function formatDate(dateStr: string) {
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: var(--accent);
+    background: var(--text-muted);
     flex-shrink: 0;
   }
 
-  /* Bottom-anchored CTA group */
+  /* CTA group — natural flow, no bottom-anchor */
   .book-cta-group {
-    margin-top: auto;
-    padding-top: 32px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 14px;
     width: 100%;
-  }
-
-  .retailers {
-    font-size: var(--text-xs);
-    line-height: var(--lh-snug);
-    white-space: nowrap;
-    margin-bottom: 16px;
-  }
-
-  .retailers-label {
-    font-size: var(--text-xs);
-    letter-spacing: var(--track-wide);
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-right: 10px;
-  }
-
-  .retailer-link {
-    color: var(--accent);
-    border-bottom: 1px solid var(--accent);
-    padding-bottom: 1px;
-    text-decoration: none;
-  }
-
-  .retailer-link:hover { opacity: 0.7; }
-
-  .retailer-sep {
-    color: var(--text-muted);
-    margin: 0 6px;
   }
 
   .hp-reviews-grid {
@@ -282,153 +254,18 @@ function formatDate(dateStr: string) {
     margin-top: 0;
   }
 
-  .hp-review {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .hp-review-quote {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: var(--text-md);
-    line-height: var(--lh-loose);
-    border-left: 2px solid var(--accent);
-    padding-left: 1.125rem;
-    margin: 0 0 0.5rem;
-    color: var(--text);
-  }
-
-  .hp-review-attr {
-    padding-left: 18px;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-  }
-
-  .hp-review-name {
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--track-wide);
-    color: var(--text-muted);
-  }
-
-  .hp-review-pub {
-    font-size: var(--text-xs);
-    color: var(--text-muted);
-    letter-spacing: var(--track-none);
-  }
-
-  .hp-review-book {
-    padding-left: 18px;
-    margin: 0;
-    font-size: var(--text-xs);
-    color: var(--text-muted);
-  }
+  /* praise styles handled by global .praise* rules */
 
   /* Homepage events block */
   .hp-events {
+    padding-top: 56px;
     margin-bottom: 4rem;
-  }
-
-  .hp-events-header {
-    text-align: center;
-    padding: 56px 0 28px;
-    max-width: 720px;
-    margin: 0 auto;
-  }
-
-  .hp-events-heading {
-    font-family: var(--font-serif);
-    font-size: var(--text-lg);
-    font-weight: 400;
-    line-height: var(--lh-tight);
-    letter-spacing: var(--track-tight);
-    margin: 0 0 0.5rem;
-    text-align: center;
-  }
-
-  .hp-events-subtitle {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: var(--text-md);
-    color: var(--text-muted);
-    margin: 0;
-    line-height: var(--lh-snug);
   }
 
   .hp-events-rows {
     max-width: 720px;
     margin: 0 auto;
   }
-
-  .hp-ev-row {
-    display: grid;
-    grid-template-columns: 90px 1fr auto;
-    gap: 28px;
-    align-items: center;
-    padding: 22px 0;
-    border-top: 0.5px solid var(--rule);
-  }
-
-  .hp-events-rows .hp-ev-row:last-child {
-    border-bottom: 0.5px solid var(--rule);
-  }
-
-  .hp-ev-date {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-  }
-
-  .hp-ev-day {
-    font-family: var(--font-serif);
-    font-size: var(--text-lg);
-    font-weight: 400;
-    color: var(--text);
-    line-height: var(--lh-tight);
-    letter-spacing: var(--track-tight);
-  }
-
-  .hp-ev-month {
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--track-wide);
-    color: var(--accent);
-  }
-
-  .hp-ev-body {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-
-  .hp-ev-title {
-    font-family: var(--font-serif);
-    font-size: var(--text-md);
-    font-weight: 400;
-    color: var(--text);
-    margin: 0;
-    line-height: var(--lh-tight);
-  }
-
-  .hp-ev-meta {
-    font-size: var(--text-xs);
-    color: var(--text-muted);
-    margin: 0;
-    line-height: var(--lh-snug);
-  }
-
-  .hp-ev-arrow {
-    font-size: var(--text-xs);
-    color: var(--accent);
-    text-decoration: none;
-    padding: 4px;
-    flex-shrink: 0;
-  }
-
-  .hp-ev-arrow:hover { opacity: 0.7; }
 
   .hp-events-footer {
     text-align: center;
@@ -438,29 +275,7 @@ function formatDate(dateStr: string) {
   }
 
   /* Press section */
-  .hp-press { margin-bottom: 4rem; }
-
-  .hp-press-header {
-    text-align: center;
-    padding: 56px 0 36px;
-    max-width: 920px;
-    margin: 0 auto;
-  }
-
-  .hp-press-eyebrow {
-    color: var(--accent);
-    margin-bottom: 0.75rem;
-  }
-
-  .hp-press-heading {
-    font-family: var(--font-serif);
-    font-size: var(--text-lg);
-    font-weight: 400;
-    line-height: var(--lh-tight);
-    letter-spacing: var(--track-tight);
-    margin: 0;
-    text-align: center;
-  }
+  .hp-press { padding-top: 56px; margin-bottom: 4rem; }
 
   .hp-press-list {
     max-width: 800px;
@@ -474,10 +289,11 @@ function formatDate(dateStr: string) {
     gap: 32px;
     align-items: baseline;
     padding: 28px 0;
-    border-top: 0.5px solid var(--rule);
   }
 
-  .hp-press-row:last-child { border-bottom: 0.5px solid var(--rule); }
+  .hp-press-row + .hp-press-row {
+    border-top: 0.5px solid var(--rule);
+  }
 
   .hp-press-outlet { display: flex; flex-direction: column; }
 
@@ -499,7 +315,7 @@ function formatDate(dateStr: string) {
     font-size: var(--text-xs);
     text-transform: uppercase;
     letter-spacing: var(--track-wide);
-    color: var(--accent);
+    color: var(--text-muted);
     margin-top: 6px;
   }
 
@@ -512,18 +328,7 @@ function formatDate(dateStr: string) {
     margin: 0;
   }
 
-  .hp-press-headline a {
-    color: var(--text);
-    text-decoration: none;
-  }
-
-  .hp-press-headline a:hover {
-    text-decoration: underline;
-    text-decoration-color: var(--accent);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 4px;
-    opacity: 1;
-  }
+  /* base + hover handled by .headline-link */
 
   .hp-press-excerpt {
     font-family: var(--font-serif);
@@ -541,6 +346,7 @@ function formatDate(dateStr: string) {
   }
 
   @media (max-width: 600px) {
+    .hp-events, .hp-press { padding-top: 40px; }
     .hp-press-list { padding: 0; }
     .hp-press-row {
       grid-template-columns: 1fr;

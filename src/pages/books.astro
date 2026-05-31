@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHeading from '../components/PageHeading.astro';
 import { getCollection } from 'astro:content';
 
 const allBooks = await getCollection('booksEn');
@@ -16,13 +17,7 @@ const maxYear = Math.max(...years);
 ---
 
 <Layout title="Books" lang="en">
-  <header class="page-heading">
-    <p class="eyebrow">Books</p>
-    <h1>The novels</h1>
-    <p class="page-heading-intro">Award-winning literary fiction by Noa Yedlin.</p>
-  </header>
-  <hr class="page-rule" />
-
+  <PageHeading eyebrow="Books" title="The novels." subtitle="Award-winning literary fiction by Noa Yedlin." />
   <div class="books-list">
     {books.map((book) => (
       <div class="books-list-row">
@@ -71,26 +66,6 @@ const maxYear = Math.max(...years);
 </Layout>
 
 <style>
-  .books-page-header {
-    max-width: 720px;
-    margin: 0 auto 3rem;
-    text-align: center;
-  }
-
-  .books-page-title {
-    font-size: var(--text-xl);
-    line-height: var(--lh-tight);
-    letter-spacing: var(--track-tight);
-    margin-bottom: 0.6rem;
-  }
-
-  .books-page-subtitle {
-    font-style: italic;
-    color: var(--text-muted);
-    font-size: var(--text-md);
-    margin: 0;
-  }
-
   .books-list {
     max-width: 720px;
     margin: 0 auto;
@@ -101,15 +76,10 @@ const maxYear = Math.max(...years);
     grid-template-columns: 240px 1fr;
     gap: 2.5rem;
     padding: 2.5rem 0;
+  }
+
+  .books-list-row + .books-list-row {
     border-top: 0.5px solid var(--rule);
-  }
-
-  .books-list-row:first-child {
-    border-top: none;
-  }
-
-  .books-list-row:last-child {
-    border-bottom: 0.5px solid var(--rule);
   }
 
   .books-list-cover a {
@@ -141,18 +111,18 @@ const maxYear = Math.max(...years);
     font-size: var(--text-xs);
     text-transform: uppercase;
     letter-spacing: var(--track-wide);
-    color: var(--accent);
+    color: var(--text-muted);
   }
 
   .books-list-sep {
     font-size: var(--text-xs);
-    color: var(--accent);
+    color: var(--text-muted);
   }
 
   .books-list-year {
     font-size: var(--text-xs);
     letter-spacing: var(--track-wide);
-    color: var(--accent);
+    color: var(--text-muted);
   }
 
   .books-list-title {
@@ -165,6 +135,10 @@ const maxYear = Math.max(...years);
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+  }
+
+  .books-list-awards .award-badge {
+    color: var(--text);
   }
 
   .books-list-tagline {

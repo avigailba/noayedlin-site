@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHeading from '../components/PageHeading.astro';
 import BooksRail from '../components/BooksRail.astro';
 import { getEntry } from 'astro:content';
 
@@ -8,18 +9,9 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
 ---
 
 <Layout title="About" lang="en">
-  <div class="ab-hero">
-    <div class="ab-hero-text">
-      <p class="eyebrow">About</p>
-      <h1 class="ab-name">{heading}</h1>
-      <p class="ab-tagline">{tagline}</p>
-    </div>
-    <div class="ab-portrait-wrap">
-      <img src={portrait} alt={heading} class="ab-portrait" />
-    </div>
-  </div>
-
-  <hr class="page-rule" />
+  <PageHeading eyebrow="About" title={heading} subtitle={tagline} variant="with-aside">
+    <img slot="aside" src={portrait} alt={heading} class="ab-portrait" />
+  </PageHeading>
 
   <div class="ab-body">
     <p class="ab-lead" set:html={lead} />
@@ -51,58 +43,12 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
     </div>
   </div>
 
-  <BooksRail />
+  <section class="books-rail-section">
+    <BooksRail />
+  </section>
 </Layout>
 
 <style>
-  .ab-hero {
-    display: grid;
-    grid-template-columns: 1fr 260px;
-    gap: 4rem;
-    padding: 56px 0;
-    align-items: start;
-  }
-
-  .ab-hero-text {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    padding-top: 0.25rem;
-  }
-
-  .ab-hero-text .eyebrow {
-    margin-bottom: 0;
-  }
-
-  .ab-name {
-    text-align: left;
-    font-size: var(--text-xl);
-    line-height: var(--lh-tight);
-    letter-spacing: var(--track-tight);
-    margin: 0;
-  }
-
-  .ab-tagline {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: var(--text-md);
-    color: var(--text-muted);
-    margin: 0.5rem 0 0;
-    line-height: var(--lh-snug);
-  }
-
-  .ab-hero-awards {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    margin-top: 0.5rem;
-  }
-
-  .ab-portrait-wrap {
-    position: relative;
-  }
-
   .ab-portrait {
     width: 100%;
     display: block;
@@ -203,13 +149,8 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
 
   .ab-rep-link:hover { opacity: 0.7; }
 
-  @media (max-width: 760px) {
-    .ab-hero {
-      grid-template-columns: 1fr;
-      padding: 40px 0;
-    }
-    .ab-portrait-wrap { display: none; }
+  @media (max-width: 768px) {
+    .ab-portrait { display: none; }
     .ab-rep-grid { grid-template-columns: 1fr; }
-    .ab-books-rail { grid-template-columns: repeat(2, 1fr); }
   }
 </style>

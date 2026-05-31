@@ -42,10 +42,10 @@
     }
   ],
   "purchaseLinks": [
-    { "label": "Buy on Amazon", "href": "https://www.amazon.com/House-Arrest-Noa-Yedlin/dp/1954404433" }
+    { "label": "Amazon", "href": "https://www.amazon.com/House-Arrest-Noa-Yedlin/dp/1954404433" }
   ],
   "awards": ["Sapir Prize (2013)"],
-  "badge": "Coming October 13th, 2026",
+  "badge": "Forthcoming · October 13, 2026",
   "adaptations": [
     { "title": "House Arrest", "medium": "Stage play, Beit Lessin Theater, Tel Aviv", "year": 2021 }
   ]

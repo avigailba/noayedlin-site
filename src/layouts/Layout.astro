@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import MobileNav from '../components/MobileNav.astro';
 
 interface Props {
   title: string;
@@ -58,14 +59,21 @@ const currentPath = Astro.url.pathname;
         <ul class="nav-links">
           {nav.map(({ label, href }) => (
             <li>
-              <a href={href} aria-current={currentPath === href ? 'page' : undefined}>
+              <a href={href} aria-current={(href === '/' ? currentPath === '/' : currentPath === href || currentPath.startsWith(href + '/')) ? 'page' : undefined}>
                 {label}
               </a>
             </li>
           ))}
         </ul>
+        <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
       </nav>
     </header>
+
+    <MobileNav nav={nav} currentPath={currentPath} />
 
     <main>
       <slot />
@@ -140,4 +148,27 @@ const currentPath = Astro.url.pathname;
       </div>
     </footer>
   </body>
+  <script>
+    // Sticky header scroll shadow
+    const header = document.querySelector('.site-header');
+    if (header) {
+      const update = () => header.classList.toggle('scrolled', window.scrollY > 8);
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    }
+
+    // Nav active state — client-side fallback using actual browser pathname
+    const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+    document.querySelectorAll('.nav-links a, .mobile-nav-link').forEach(function(link) {
+      const href = (link.getAttribute('href') ?? '').replace(/\/$/, '') || '/';
+      const isActive = href === '/' ? currentPath === '/' : currentPath === href || currentPath.startsWith(href + '/');
+      if (isActive) {
+        link.setAttribute('aria-current', 'page');
+        link.classList.add('is-active');
+      } else {
+        link.removeAttribute('aria-current');
+        link.classList.remove('is-active');
+      }
+    });
+  </script>
 </html>
