@@ -29,18 +29,6 @@ const upcomingEvents = allEventsRaw
   })
   .slice(0, 3);
 
-function hpEventSubtitle(evs: typeof upcomingEvents) {
-  if (evs.length === 0) return '';
-  const nums = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten'];
-  const n = evs.length <= 10 ? nums[evs.length] : String(evs.length);
-  const countries = new Set(evs.map(e => e.data.country));
-  const loc = countries.size === 1
-    ? (evs[0].data.country === 'United States' ? 'U.S.' : evs[0].data.country)
-    : 'international';
-  const months = new Set(evs.map(e => hpParseDate(e.data.date_start).getMonth()));
-  const monthStr = months.size === 1 ? ` this ${HP_MONTHS_LONG[[...months][0]]}` : '';
-  return `${n} ${loc} appearance${evs.length !== 1 ? 's' : ''}${monthStr}.`;
-}
 
 const allMedia = await getCollection('media');
 const featuredMedia = allMedia.filter((m) => m.data.featured);
@@ -118,7 +106,7 @@ function formatDate(dateStr: string) {
 
   {(featured2?.data.selectedReviews || featured?.data.selectedReviews) && (
     <section class="section hp-praise">
-      <p class="section-title">Praise</p>
+      <p class="section-eyebrow">Praise</p>
       <div class="hp-reviews-grid">
         {[
           ...(featured2?.data.selectedReviews?.slice(0, 2) ?? []).map(r => ({ ...r, book: featured2?.data.title })),
@@ -139,11 +127,7 @@ function formatDate(dateStr: string) {
 
   {upcomingEvents.length > 0 && (
     <section class="hp-events">
-      <div class="hp-events-header">
-        <p class="eyebrow" style="color: var(--accent); margin-bottom: 0.75rem;">Upcoming</p>
-        <h2 class="hp-events-heading">Lectures &amp; Events</h2>
-        <p class="hp-events-subtitle">{hpEventSubtitle(upcomingEvents)}</p>
-      </div>
+      <p class="section-eyebrow">Upcoming Events</p>
       <div class="hp-events-rows event-rows">
         {upcomingEvents.map((event) => {
           const start = hpParseDate(event.data.date_start);
@@ -202,14 +186,13 @@ function formatDate(dateStr: string) {
     </section>
   )}
 
-  <BooksRail />
+  <section class="books-rail-section">
+    <BooksRail />
+  </section>
 
   {homeMedia.length > 0 && (
     <section class="hp-press">
-      <div class="hp-press-header">
-        <p class="eyebrow hp-press-eyebrow">Press</p>
-        <h2 class="hp-press-heading">In the press</h2>
-      </div>
+      <p class="section-eyebrow">Press</p>
       <div class="hp-press-list">
         {homeMedia.map((item) => (
           <div class="hp-press-row">
@@ -243,7 +226,7 @@ function formatDate(dateStr: string) {
     font-size: var(--text-xs);
     letter-spacing: var(--track-wide);
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--text);
     margin-bottom: 18px;
   }
 
@@ -251,18 +234,16 @@ function formatDate(dateStr: string) {
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: var(--accent);
+    background: var(--text-muted);
     flex-shrink: 0;
   }
 
-  /* Bottom-anchored CTA group */
+  /* CTA group — natural flow, no bottom-anchor */
   .book-cta-group {
-    margin-top: auto;
-    padding-top: 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 14px;
     width: 100%;
   }
 
@@ -277,33 +258,8 @@ function formatDate(dateStr: string) {
 
   /* Homepage events block */
   .hp-events {
+    padding-top: 56px;
     margin-bottom: 4rem;
-  }
-
-  .hp-events-header {
-    text-align: center;
-    padding: 56px 0 28px;
-    max-width: 720px;
-    margin: 0 auto;
-  }
-
-  .hp-events-heading {
-    font-family: var(--font-serif);
-    font-size: var(--text-lg);
-    font-weight: 400;
-    line-height: var(--lh-tight);
-    letter-spacing: var(--track-tight);
-    margin: 0 0 0.5rem;
-    text-align: center;
-  }
-
-  .hp-events-subtitle {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: var(--text-md);
-    color: var(--text-muted);
-    margin: 0;
-    line-height: var(--lh-snug);
   }
 
   .hp-events-rows {
@@ -319,29 +275,7 @@ function formatDate(dateStr: string) {
   }
 
   /* Press section */
-  .hp-press { margin-bottom: 4rem; }
-
-  .hp-press-header {
-    text-align: center;
-    padding: 56px 0 36px;
-    max-width: 920px;
-    margin: 0 auto;
-  }
-
-  .hp-press-eyebrow {
-    color: var(--accent);
-    margin-bottom: 0.75rem;
-  }
-
-  .hp-press-heading {
-    font-family: var(--font-serif);
-    font-size: var(--text-lg);
-    font-weight: 400;
-    line-height: var(--lh-tight);
-    letter-spacing: var(--track-tight);
-    margin: 0;
-    text-align: center;
-  }
+  .hp-press { padding-top: 56px; margin-bottom: 4rem; }
 
   .hp-press-list {
     max-width: 800px;
@@ -381,7 +315,7 @@ function formatDate(dateStr: string) {
     font-size: var(--text-xs);
     text-transform: uppercase;
     letter-spacing: var(--track-wide);
-    color: var(--accent);
+    color: var(--text-muted);
     margin-top: 6px;
   }
 
@@ -412,6 +346,7 @@ function formatDate(dateStr: string) {
   }
 
   @media (max-width: 600px) {
+    .hp-events, .hp-press { padding-top: 40px; }
     .hp-press-list { padding: 0; }
     .hp-press-row {
       grid-template-columns: 1fr;

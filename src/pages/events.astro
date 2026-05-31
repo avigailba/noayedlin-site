@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHeading from '../components/PageHeading.astro';
 import BooksRail from '../components/BooksRail.astro';
 import { getCollection } from 'astro:content';
 
@@ -37,11 +38,7 @@ const past = allEvents
 
 <Layout title="Events &amp; Lectures" lang="en">
 
-  <header class="ev-page-header">
-    <p class="eyebrow" style="color: var(--accent); margin-bottom: 14px;">Events</p>
-    <h1 class="ev-page-title">Lectures &amp; events.</h1>
-    <p class="ev-page-subtitle">Upcoming talks, readings, and public appearances.</p>
-  </header>
+  <PageHeading eyebrow="Events" title="Lectures & events." subtitle="Upcoming talks, readings, and public appearances." />
 
   {allEvents.length === 0 ? (
     <div class="ev-container">
@@ -141,47 +138,13 @@ const past = allEvents
     </div>
   )}
 
-  <BooksRail divider />
+  <section class="books-rail-section">
+    <BooksRail />
+  </section>
 
 </Layout>
 
 <style>
-  /* Page header — Option D */
-  .ev-page-header {
-    padding: 32px 0 40px;
-    text-align: left;
-    max-width: 100%;
-  }
-
-  .ev-page-title {
-    font-family: var(--font-serif);
-    font-size: 96px;
-    font-weight: 400;
-    letter-spacing: -0.035em;
-    line-height: 0.92;
-    margin: 0 0 22px;
-    text-align: left;
-  }
-
-  .ev-page-subtitle {
-    font-family: var(--font-body);
-    font-style: normal;
-    font-size: var(--text-md);
-    color: var(--text-muted);
-    max-width: 460px;
-    margin: 0;
-    line-height: var(--lh-snug);
-  }
-
-  @media (max-width: 768px) {
-    .ev-page-title { font-size: clamp(48px, 12vw, 96px); }
-  }
-
-  @media (max-width: 600px) {
-    .ev-page-header { padding: 20px 0 32px; }
-    .ev-page-title { margin-bottom: 16px; }
-  }
-
   /* Content container */
   .ev-container {
     max-width: 720px;

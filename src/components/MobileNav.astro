@@ -20,8 +20,8 @@ const { nav, currentPath } = Astro.props;
     {nav.map(({ label, href }) => (
       <a
         href={href}
-        class={`mobile-nav-link${currentPath === href ? ' is-active' : ''}`}
-        aria-current={currentPath === href ? 'page' : undefined}
+        class={`mobile-nav-link${(href === '/' ? currentPath === '/' : currentPath === href || currentPath.startsWith(href + '/')) ? ' is-active' : ''}`}
+        aria-current={(href === '/' ? currentPath === '/' : currentPath === href || currentPath.startsWith(href + '/')) ? 'page' : undefined}
       >
         {label}
       </a>
