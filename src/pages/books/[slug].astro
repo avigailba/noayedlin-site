@@ -54,7 +54,12 @@ const allAdaptations = adaptations ??
         </p>
       )}
       <h1 class="bd-title">{title}</h1>
-      {badge && <p class="book-badge">{badge}</p>}
+      {badge && (
+        <div class="book-status">
+          <span class="status-dot"></span>
+          <span>{badge}</span>
+        </div>
+      )}
       {(allPrizes.length > 0) && (
         <div class="bd-hero-awards">
           {allPrizes.map((prize) => (
@@ -65,6 +70,7 @@ const allAdaptations = adaptations ??
       {tagline && <p class="bd-tagline">{tagline}</p>}
       {purchaseLinks && purchaseLinks.length > 0 && (
         <div class="retailers">
+          <span class="retailers-label">Order:</span>
           {purchaseLinks.map((link, i) => (
             <>
               {i > 0 && <span class="retailer-sep">·</span>}

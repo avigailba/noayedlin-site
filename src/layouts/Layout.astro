@@ -156,5 +156,19 @@ const currentPath = Astro.url.pathname;
       window.addEventListener('scroll', update, { passive: true });
       update();
     }
+
+    // Nav active state — client-side fallback using actual browser pathname
+    const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+    document.querySelectorAll<HTMLAnchorElement>('.nav-links a, .mobile-nav-link').forEach(link => {
+      const href = (link.getAttribute('href') ?? '').replace(/\/$/, '') || '/';
+      const isActive = href === '/' ? currentPath === '/' : currentPath === href || currentPath.startsWith(href + '/');
+      if (isActive) {
+        link.setAttribute('aria-current', 'page');
+        link.classList.add('is-active');
+      } else {
+        link.removeAttribute('aria-current');
+        link.classList.remove('is-active');
+      }
+    });
   </script>
 </html>

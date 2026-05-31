@@ -584,6 +584,14 @@ img { max-width: 100%; display: block; }
   margin: 0;
 }
 
+.retailers-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: var(--track-wide);
+  color: var(--text-faint);
+  margin-right: 6px;
+}
+
 .retailer-link {
   color: var(--accent);
   border-bottom: 1px solid var(--accent);
