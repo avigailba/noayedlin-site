@@ -288,11 +288,22 @@ img { max-width: 100%; display: block; }
   gap: 0.4rem;
 }
 
+.footer-col li {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  letter-spacing: var(--track-none);
+  line-height: var(--lh-snug);
+}
+
 .footer-col a {
   text-decoration: none;
   color: var(--text-muted);
   font-size: var(--text-xs);
   letter-spacing: var(--track-none);
+}
+
+.footer-col a[href^="mailto"] {
+  color: var(--accent);
 }
 
 .footer-col a:hover { color: var(--text); opacity: 1; }
