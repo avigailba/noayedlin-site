@@ -671,7 +671,7 @@ img { max-width: 100%; display: block; }
   grid-template-columns: 1fr auto 1fr;
   gap: 0;
   min-height: 50vh;
-  max-height: calc(100vh - 170px);
+  max-height: calc(100vh - 280px);
   padding: 24px 0;
   box-sizing: border-box;
   margin-bottom: 4rem;
@@ -769,6 +769,25 @@ img { max-width: 100%; display: block; }
   letter-spacing: var(--track-wide);
   color: var(--text-muted);
   margin: 0 0 20px;
+}
+
+/* Canonical status indicator — dot prefix + uppercase label */
+.book-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-xs);
+  letter-spacing: var(--track-wide);
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.status-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  flex-shrink: 0;
 }
 
 /* In the hero, status-type labels (kirkus star) need same bottom gap as book-status */
@@ -1091,7 +1110,7 @@ img { max-width: 100%; display: block; }
   letter-spacing: var(--track-wide);
   color: var(--text-muted);
   margin-bottom: 24px;
-  text-align: left;
+  text-align: center;
   margin-top: 0;
 }
 

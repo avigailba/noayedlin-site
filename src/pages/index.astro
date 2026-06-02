@@ -219,25 +219,8 @@ function formatDate(dateStr: string) {
 </Layout>
 
 <style>
-  /* Book status indicator */
-  .book-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: var(--text-xs);
-    letter-spacing: var(--track-wide);
-    text-transform: uppercase;
-    color: var(--text);
-    margin-bottom: 14px;
-  }
-
-  .status-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--text-muted);
-    flex-shrink: 0;
-  }
+  /* Book status indicator — inherits canonical styles from global; hero needs bottom margin */
+  .book-status { margin-bottom: 14px; }
 
   /* CTA group — pushed to bottom of column */
   .book-cta-group {

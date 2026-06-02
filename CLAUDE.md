@@ -140,7 +140,7 @@ Sections are headed by an eyebrow only. No Fraunces H2, no italic subtitle. The 
 <!-- section content -->
 ```
 
-**Style:** `var(--text-xs)`, `var(--track-wide)`, `uppercase`, `color: var(--text-muted)`, 24px bottom margin.
+**Style:** `var(--text-xs)`, `var(--track-wide)`, `uppercase`, `color: var(--text-muted)`, 24px bottom margin, `text-align: center`.
 
 **Use on:** Praise, Books rail, Upcoming events, Press, Adaptations preview, About preview, Synopsis, Prizes, Adaptations (book detail), Other books, Representation.
 
