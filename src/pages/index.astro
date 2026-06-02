@@ -452,24 +452,17 @@ function formatDate(dateStr: string) {
   }
   .hp-praise-label { margin-bottom: 14px; padding-right: clamp(28px, 2.6vw, 56px); }
 
-  /* Horizontal scroll row */
+  /* 2-row grid */
   .hp-praise-scroll {
-    display: flex;
-    gap: clamp(24px, 3vw, 40px);
-    overflow-x: auto;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: clamp(16px, 2vw, 28px);
     padding-right: clamp(28px, 2.6vw, 56px);
-    padding-bottom: 4px; /* room for scrollbar */
-    scrollbar-width: thin;
-    scrollbar-color: var(--rule) transparent;
   }
-  .hp-praise-scroll::-webkit-scrollbar { height: 4px; }
-  .hp-praise-scroll::-webkit-scrollbar-track { background: transparent; }
-  .hp-praise-scroll::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 2px; }
 
   .gh-praise-item {
     border-left: 2px solid var(--accent);
     padding-left: 16px;
-    flex: 0 0 260px; /* fixed width so they don't squish */
   }
   .gh-praise-q {
     font-family: var(--font-serif);
@@ -518,7 +511,7 @@ function formatDate(dateStr: string) {
     .gh-title { white-space: normal; }
     .hp-praise-band { padding: 20px 0 20px 20px; }
     .hp-praise-label { padding-right: 20px; }
-    .hp-praise-scroll { padding-right: 20px; }
+    .hp-praise-scroll { grid-template-columns: repeat(3, 1fr); padding-right: 20px; }
   }
 
   /* ── Mobile: ≤ 600px — cover above text ── */
