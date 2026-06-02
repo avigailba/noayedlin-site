@@ -2,8 +2,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://avigailba.github.io',
-  base: '/noayedlin-site',
+  site: 'https://noayedlin-site.vercel.app',
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'he'],
