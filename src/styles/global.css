@@ -43,7 +43,8 @@
   --lh-loose: 1.6;   /* body prose */
 
   /* --- Shadows --- */
-  --shadow-cover: 4px 6px 18px rgba(31, 27, 22, 0.18);
+  --shadow-cover:    4px 6px 18px rgba(31, 27, 22, 0.18);
+  --shadow-cover-lg: 8px 14px 40px rgba(31, 27, 22, 0.24);
 
   /* --- Layout --- */
   --max-width:  1100px;

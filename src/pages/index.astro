@@ -6,8 +6,22 @@ import { getCollection } from 'astro:content';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const books = await getCollection('booksEn');
-const featured = books.find((b) => b.id === 'stockholm');
-const featured2 = books.find((b) => b.id === 'house-arrest');
+const featured2 = books.find((b) => b.id === 'house-arrest');  // primary featured
+const featured  = books.find((b) => b.id === 'stockholm');
+const backlist  = [
+  books.find((b) => b.id === 'stockholm'),
+  books.find((b) => b.id === 'people-like-us'),
+  books.find((b) => b.id === 'the-wrong-book'),
+].filter(Boolean);
+
+function coverSrc(raw: string) {
+  return raw.startsWith('/') ? base + raw : raw;
+}
+
+// Praise quotes — pull from book data
+const heroP1 = featured2?.data.selectedReviews?.[0];
+const heroP2 = featured?.data.selectedReviews?.[0];
+const heroP3 = featured?.data.selectedReviews?.[1];
 
 const allEventsRaw = await getCollection('events');
 
@@ -45,207 +59,474 @@ function formatDate(dateStr: string) {
 
 <Layout title="Home" lang="en">
 
-  {/* Two featured books — horizontal diptych */}
-  {(featured2 || featured) && (
-    <section class="hp-books-hero">
-      {featured2 && (
-        <div class="hero-book">
-          <a href={`${base}/books/${featured2.data.slug}`} class="hp-book-cover-link">
-            <img src={featured2.data.cover.startsWith('/') ? base + featured2.data.cover : featured2.data.cover} alt={`Cover of ${featured2.data.title}`} class="hero-cover" />
+  {/* ── Full-viewport hero ── */}
+  {featured2 && (
+    <section class="hp-hero-frame" aria-label="Featured book">
+      <div class="hp-hero-body">
+
+        {/* Feature column — House Arrest */}
+        <div class="hp-feat">
+          <a href={`${base}/books/${featured2.data.slug}`} class="gh-cover-link">
+            <img
+              class="gh-cover"
+              src={coverSrc(featured2.data.cover)}
+              alt={`Cover of ${featured2.data.title}`}
+              width="300" height="450"
+            />
           </a>
-          <div class="hero-text">
-            <h2 class="hp-book-title">
-              <a href={`${base}/books/${featured2.data.slug}`}>{featured2.data.title}</a>
-            </h2>
-            <div class="book-status">
-              <span class="status-dot"></span>
-              <span>Forthcoming · October 13, 2026</span>
-            </div>
-            <blockquote class="hp-book-quote">"A lucid, clear, and distinct voice"</blockquote>
-            <p class="hp-book-attr">— Dorit Rabinyan</p>
-            <div class="hero-cta-group">
-              <div class="retailers">
-                <a class="retailer-link" href="https://www.amazon.com/House-Arrest-Noa-Yedlin/dp/1954404433" target="_blank" rel="noopener">Amazon</a>
-              </div>
-              <a href={`${base}/books/${featured2.data.slug}`} class="btn-primary">More about the book →</a>
+          <div class="gh-info">
+            <div class="gh-badge">Forthcoming · Oct 2026</div>
+            <h1 class="gh-title">{featured2.data.title}</h1>
+            <blockquote class="gh-quote">"A lucid, clear, and distinct voice."</blockquote>
+            <p class="eyebrow gh-attr">— Dorit Rabinyan</p>
+            <div class="gh-btns">
+              <a class="btn-primary gh-btn" href={`${base}/books/${featured2.data.slug}`}>
+                More about the book <span class="gh-arrow">→</span>
+              </a>
+              <a class="btn-secondary gh-btn" href="https://www.amazon.com/House-Arrest-Noa-Yedlin/dp/1954404433" target="_blank" rel="noopener noreferrer">
+                Pre-order on Amazon
+              </a>
             </div>
           </div>
         </div>
-      )}
 
-      <div class="hero-divider" aria-hidden="true"></div>
-
-      {featured && (
-        <div class="hero-book">
-          <a href={`${base}/books/${featured.data.slug}`} class="hp-book-cover-link">
-            <img src={featured.data.cover.startsWith('/') ? base + featured.data.cover : featured.data.cover} alt={`Cover of ${featured.data.title}`} class="hero-cover" />
-          </a>
-          <div class="hero-text">
-            <h2 class="hp-book-title">
-              <a href={`${base}/books/${featured.data.slug}`}>{featured.data.title}</a>
-            </h2>
-            {featured.data.reviews && featured.data.reviews[0] && (
-              <>
-                {featured.data.reviews[0].starred && <p class="kirkus-star">★ Kirkus Starred Review</p>}
-                <blockquote class="hp-book-quote">"{featured.data.reviews[0].quote}"</blockquote>
-                <p class="hp-book-attr">— {featured.data.reviews[0].source}</p>
-              </>
-            )}
-            <div class="hero-cta-group">
-              <div class="retailers">
-                <a class="retailer-link" href="https://www.amazon.com/Stockholm-Novel-Noa-Yedlin/dp/0063298678" target="_blank" rel="noopener">Amazon</a>
-                <span class="retailer-sep">·</span>
-                <a class="retailer-link" href="https://www.barnesandnoble.com/w/stockholm-noa-yedlin/1143956543" target="_blank" rel="noopener">B&amp;N</a>
-                <span class="retailer-sep">·</span>
-                <a class="retailer-link" href="https://www.booksamillion.com/p/Stockholm/Noa-Yedlin/9780063298675" target="_blank" rel="noopener">BAM</a>
-                <span class="retailer-sep">·</span>
-                <a class="retailer-link" href="https://www.harpercollins.com/products/stockholm-noa-yedlin" target="_blank" rel="noopener">HarperCollins</a>
+        {/* Rail column — backlist */}
+        <div class="hp-rail">
+          <p class="eyebrow hp-rail-label">More from Noa Yedlin</p>
+          {backlist.map((book, i) => (
+            <a class="gh-rail-item" href={`${base}/books/${book!.data.slug}`}>
+              <img
+                class="gh-rail-thumb"
+                src={coverSrc(book!.data.cover)}
+                alt={`Cover of ${book!.data.title}`}
+                width="52" height="78"
+              />
+              <div class="gh-rail-text">
+                <div class="gh-rail-title">{book!.data.title}</div>
+                <div class="eyebrow gh-rail-year">{book!.data.year}</div>
               </div>
-              <a href={`${base}/books/${featured.data.slug}`} class="btn-primary">More about the book →</a>
-            </div>
-          </div>
+              <span class="gh-rail-more">View more <span class="gh-rail-arrow">→</span></span>
+            </a>
+          ))}
         </div>
-      )}
-    </section>
-  )}
+      </div>
 
-
-  {(featured2?.data.selectedReviews || featured?.data.selectedReviews) && (
-    <section class="section hp-praise">
-      <div class="hp-reviews-grid">
-        {[
-          ...(featured2?.data.selectedReviews?.slice(0, 2) ?? []).map(r => ({ ...r, book: featured2?.data.title })),
-          ...(featured?.data.selectedReviews?.slice(0, 3) ?? []).map(r => ({ ...r, book: featured?.data.title })),
-        ].map((r) => (
-          <blockquote class="praise">
-            <p>"{r.quote}"</p>
-            <footer class="quote-attribution">
-              <div class="quote-author">{r.reviewer}</div>
-              {r.publication && <div class="quote-outlet">{r.publication}</div>}
-              {r.book && <div class="quote-book"><em>{r.book}</em></div>}
-            </footer>
-          </blockquote>
-        ))}
+      {/* Praise band — always visible at bottom */}
+      <div class="hp-praise-band">
+        <p class="eyebrow hp-praise-label">Praise</p>
+        <div class="hp-praise-grid">
+          {heroP1 && (
+            <div class="gh-praise-item">
+              <p class="gh-praise-q">"{heroP1.quote}"</p>
+              <p class="eyebrow">{heroP1.reviewer}{heroP1.publication ? ` · ${heroP1.publication}` : ''}</p>
+            </div>
+          )}
+          {heroP2 && (
+            <div class="gh-praise-item">
+              <p class="gh-praise-q">"{heroP2.quote}"</p>
+              <p class="eyebrow">{heroP2.reviewer}{heroP2.publication ? ` · ${heroP2.publication}` : ''}</p>
+            </div>
+          )}
+          {heroP3 && (
+            <div class="gh-praise-item">
+              <p class="gh-praise-q">"{heroP3.quote}"</p>
+              <p class="eyebrow">{heroP3.reviewer}{heroP3.publication ? ` · ${heroP3.publication}` : ''}</p>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   )}
 
-  {upcomingEvents.length > 0 && (
-    <section class="hp-events">
-      <p class="section-eyebrow">Upcoming Events</p>
-      <div class="hp-events-rows event-rows">
-        {upcomingEvents.map((event) => {
-          const start = hpParseDate(event.data.date_start);
-          const end   = event.data.date_end ? hpParseDate(event.data.date_end) : null;
-          const slug  = event.data.slug ?? event.id;
-          const dateStr = end
-            ? `${HP_MONTHS_LONG[start.getMonth()]} ${start.getDate()}–${end.getDate()}, ${start.getFullYear()}`
-            : `${HP_MONTHS_LONG[start.getMonth()]} ${start.getDate()}, ${start.getFullYear()}`;
-          const locationStr = [event.data.city, event.data.region].filter(Boolean).join(', ');
-          return (
-            <article class="event-row">
-              <div class="event-meta">
-                <div class="event-date">{dateStr}</div>
-                {locationStr && <div class="event-location">{locationStr}</div>}
-                {event.data.type && <div class="event-type">{event.data.type}</div>}
-              </div>
-              <div class="event-content">
-                <h3 class="event-title">
-                  <a href={`${base}/events/${slug}`} class="headline-link">{event.data.title}</a>
-                </h3>
-                {event.data.description && <p class="event-description">{event.data.description}</p>}
-                <div class="event-status">
-                  {event.data.status === 'details_coming_soon' && (
-                    <>
-                      <span class="event-dot event-dot--muted"></span>
-                      <span>Details coming soon</span>
-                    </>
-                  )}
-                  {event.data.status === 'scheduled' && (
-                    <>
-                      <span class="event-dot event-dot--accent"></span>
-                      {event.data.url
-                        ? <a href={event.data.url} target="_blank" rel="noopener">Get details →</a>
-                        : <span>Get details</span>
-                      }
-                    </>
-                  )}
-                  {event.data.status === 'ticketed' && (
-                    <>
-                      <span class="event-dot event-dot--accent"></span>
-                      {event.data.url
-                        ? <a href={event.data.url} target="_blank" rel="noopener">Get tickets →</a>
-                        : <span>Get tickets</span>
-                      }
-                    </>
-                  )}
+  {/* ── Remaining homepage content ── */}
+  <div class="hp-inner">
+
+    {upcomingEvents.length > 0 && (
+      <section class="hp-events">
+        <p class="section-eyebrow">Upcoming Events</p>
+        <div class="hp-events-rows event-rows">
+          {upcomingEvents.map((event) => {
+            const start = hpParseDate(event.data.date_start);
+            const end   = event.data.date_end ? hpParseDate(event.data.date_end) : null;
+            const slug  = event.data.slug ?? event.id;
+            const dateStr = end
+              ? `${HP_MONTHS_LONG[start.getMonth()]} ${start.getDate()}–${end.getDate()}, ${start.getFullYear()}`
+              : `${HP_MONTHS_LONG[start.getMonth()]} ${start.getDate()}, ${start.getFullYear()}`;
+            const locationStr = [event.data.city, event.data.region].filter(Boolean).join(', ');
+            return (
+              <article class="event-row">
+                <div class="event-meta">
+                  <div class="event-date">{dateStr}</div>
+                  {locationStr && <div class="event-location">{locationStr}</div>}
+                  {event.data.type && <div class="event-type">{event.data.type}</div>}
                 </div>
+                <div class="event-content">
+                  <h3 class="event-title">
+                    <a href={`${base}/events/${slug}`} class="headline-link">{event.data.title}</a>
+                  </h3>
+                  {event.data.description && <p class="event-description">{event.data.description}</p>}
+                  <div class="event-status">
+                    {event.data.status === 'details_coming_soon' && (
+                      <>
+                        <span class="event-dot event-dot--muted"></span>
+                        <span>Details coming soon</span>
+                      </>
+                    )}
+                    {event.data.status === 'scheduled' && (
+                      <>
+                        <span class="event-dot event-dot--accent"></span>
+                        {event.data.url
+                          ? <a href={event.data.url} target="_blank" rel="noopener">Get details →</a>
+                          : <span>Get details</span>
+                        }
+                      </>
+                    )}
+                    {event.data.status === 'ticketed' && (
+                      <>
+                        <span class="event-dot event-dot--accent"></span>
+                        {event.data.url
+                          ? <a href={event.data.url} target="_blank" rel="noopener">Get tickets →</a>
+                          : <span>Get tickets</span>
+                        }
+                      </>
+                    )}
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+        <div class="hp-events-footer">
+          <a href={base + '/events'} class="link-accent">All events →</a>
+        </div>
+      </section>
+    )}
+
+    <section class="books-rail-section">
+      <BooksRail />
+    </section>
+
+    {homeMedia.length > 0 && (
+      <section class="hp-press">
+        <p class="section-eyebrow">Press</p>
+        <div class="hp-press-list">
+          {homeMedia.map((item) => (
+            <div class="hp-press-row">
+              <div class="hp-press-outlet">
+                <span class="hp-press-outlet-name">{item.data.outlet}</span>
+                <span class="hp-press-date">{formatDate(item.data.date)}</span>
+                {item.data.type && <span class="hp-press-type">{item.data.type}</span>}
               </div>
-            </article>
-          );
-        })}
-      </div>
-      <div class="hp-events-footer">
-        <a href={base + '/events'} class="link-accent">All events →</a>
-      </div>
-    </section>
-  )}
-
-  <section class="books-rail-section">
-    <BooksRail />
-  </section>
-
-  {homeMedia.length > 0 && (
-    <section class="hp-press">
-      <p class="section-eyebrow">Press</p>
-      <div class="hp-press-list">
-        {homeMedia.map((item) => (
-          <div class="hp-press-row">
-            <div class="hp-press-outlet">
-              <span class="hp-press-outlet-name">{item.data.outlet}</span>
-              <span class="hp-press-date">{formatDate(item.data.date)}</span>
-              {item.data.type && <span class="hp-press-type">{item.data.type}</span>}
+              <div class="hp-press-content">
+                <h3 class="hp-press-headline">
+                  <a href={item.data.url} target="_blank" rel="noopener" class="headline-link">{item.data.headline}</a>
+                </h3>
+                {item.data.excerpt && <p class="hp-press-excerpt">{item.data.excerpt}</p>}
+              </div>
             </div>
-            <div class="hp-press-content">
-              <h3 class="hp-press-headline">
-                <a href={item.data.url} target="_blank" rel="noopener" class="headline-link">{item.data.headline}</a>
-              </h3>
-              {item.data.excerpt && <p class="hp-press-excerpt">{item.data.excerpt}</p>}
-            </div>
-          </div>
-        ))}
-      </div>
-      <div class="hp-press-footer">
-        <a href={base + '/media'} class="link-accent">All press →</a>
-      </div>
-    </section>
-  )}
+          ))}
+        </div>
+        <div class="hp-press-footer">
+          <a href={base + '/media'} class="link-accent">All press →</a>
+        </div>
+      </section>
+    )}
+  </div>
 </Layout>
 
 <style>
-  /* Book status indicator — spacing below in the hero text column */
-  .book-status { margin-bottom: 10px; }
-
-  .hp-reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-top: 0;
+  /* ── Override main on homepage: hero is full-bleed ── */
+  :global(main) {
+    padding: 0;
+    max-width: none;
   }
 
-  /* praise styles handled by global .praise* rules */
-
-  /* Homepage events block */
-  .hp-events {
-    padding-top: 56px;
-    margin-bottom: 4rem;
-  }
-
-  .hp-events-rows {
-    max-width: 720px;
+  /* ── Inner wrapper restores padding for post-hero sections ── */
+  .hp-inner {
+    max-width: var(--max-width);
     margin: 0 auto;
+    padding: 0 32px 56px;
+  }
+  @media (max-width: 600px) {
+    .hp-inner { padding: 0 20px 40px; }
   }
 
+  /* ═══════════════════════════════════════════════════
+     Hero frame — full-viewport flex column
+  ═══════════════════════════════════════════════════ */
+  .hp-hero-frame {
+    height: calc(100dvh - var(--header-h, 68px));
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+  }
+
+  /* Body: feature + rail, clips overflow so praise band stays visible */
+  .hp-hero-body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    overflow: hidden;
+  }
+
+  /* ── Feature column ── */
+  .hp-feat {
+    flex: 1.55;
+    display: flex;
+    align-items: center;
+    gap: clamp(28px, 3.2vw, 46px);
+    padding: 24px clamp(36px, 4vw, 56px);
+  }
+
+  .gh-cover-link { display: block; flex-shrink: 0; }
+
+  .gh-cover {
+    height: clamp(248px, 46vh, 430px);
+    width: auto;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 3px;
+    box-shadow: var(--shadow-cover-lg);
+    display: block;
+    transition: transform .35s cubic-bezier(.2,.7,.3,1), box-shadow .35s ease;
+  }
+  .gh-cover-link:hover .gh-cover {
+    transform: translateY(-6px);
+    box-shadow: 10px 20px 48px rgba(31, 27, 22, 0.28);
+  }
+
+  .gh-info {
+    display: flex;
+    flex-direction: column;
+    max-width: 460px;
+    min-width: 0;
+  }
+
+  .gh-badge {
+    display: inline-block;
+    background: var(--text);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 11px;
+    border-radius: 4px;
+    white-space: nowrap;
+    margin-bottom: 16px;
+    align-self: flex-start;
+  }
+
+  .gh-title {
+    font-family: var(--font-serif);
+    font-size: clamp(44px, 4.4vw, 62px);
+    font-weight: 600;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    margin: 0 0 16px;
+    text-align: left; /* override global h1 center */
+  }
+
+  .gh-quote {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(17px, 1.5vw, 20px);
+    line-height: 1.6;
+    color: var(--text);
+    border: none;       /* override global .quote border */
+    padding: 0;
+    margin: 0 0 8px;
+  }
+
+  .gh-attr { margin: 0 0 26px; }
+
+  /* Button row */
+  .gh-btns {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .gh-btn {
+    padding: 12px 22px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform .18s ease, background .18s ease, color .18s ease, opacity .18s ease;
+  }
+
+  .gh-btns .btn-primary.gh-btn:hover {
+    opacity: 1;
+    background: #000;
+    transform: translateY(-1px);
+  }
+  .gh-btns .btn-secondary.gh-btn:hover {
+    opacity: 1;
+    background: var(--text);
+    color: #fff;
+  }
+
+  .gh-arrow {
+    display: inline-block;
+    transition: transform .2s ease;
+  }
+  .gh-btns .btn-primary.gh-btn:hover .gh-arrow { transform: translateX(4px); }
+
+  /* ── Rail column ── */
+  .hp-rail {
+    flex: 1;
+    background: var(--bg-alt);
+    border-left: 0.5px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(20px, 3vh, 34px) clamp(28px, 2.6vw, 40px);
+  }
+
+  .hp-rail-label { margin-bottom: 20px; }
+
+  .gh-rail-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: clamp(12px, 1.8vh, 20px) 0;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .gh-rail-item + .gh-rail-item { border-top: 0.5px solid var(--rule); }
+
+  .gh-rail-thumb {
+    width: 52px;
+    height: 78px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 2px;
+    box-shadow: var(--shadow-cover);
+    display: block;
+    transition: transform .3s cubic-bezier(.2,.7,.3,1);
+  }
+  .gh-rail-item:hover .gh-rail-thumb { transform: translateY(-4px); }
+
+  .gh-rail-text { flex: 1; min-width: 0; }
+  .gh-rail-title {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .gh-rail-year { margin-top: 4px; }
+
+  .gh-rail-more {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-decoration: none;
+  }
+  .gh-rail-arrow {
+    display: inline-block;
+    transition: transform .2s ease;
+  }
+  .gh-rail-item:hover .gh-rail-arrow { transform: translateX(4px); }
+
+  /* ── Praise band ── */
+  .hp-praise-band {
+    flex: none;
+    border-top: 0.5px solid var(--rule);
+    background: var(--bg-alt);
+    padding: 20px clamp(28px, 2.6vw, 56px);
+  }
+  .hp-praise-label { margin-bottom: 14px; }
+
+  .hp-praise-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(24px, 3vw, 40px);
+  }
+
+  .gh-praise-item {
+    border-left: 2px solid var(--accent);
+    padding-left: 16px;
+  }
+  .gh-praise-q {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(13px, 1.05vw, 15px);
+    line-height: 1.5;
+    color: var(--text);
+    margin: 0 0 6px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  /* ── Entrance animation — feature column only ── */
+  @media (prefers-reduced-motion: no-preference) {
+    .hp-feat {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: ghHeroUp .7s cubic-bezier(.2,.7,.3,1) .14s forwards;
+    }
+  }
+  @keyframes ghHeroUp { to { opacity: 1; transform: none; } }
+
+  /* ── Responsive: ≤ 860px — stack, scrollable ── */
+  @media (max-width: 860px) {
+    .hp-hero-frame {
+      height: auto;
+      min-height: calc(100dvh - var(--header-h, 68px));
+      overflow: visible;
+    }
+    .hp-hero-body {
+      flex-direction: column;
+      overflow: visible;
+    }
+    .hp-feat {
+      flex: none;
+      padding: 32px 20px;
+    }
+    .hp-rail {
+      flex: none;
+      border-left: none;
+      border-top: 0.5px solid var(--rule);
+      padding: 24px 20px;
+    }
+    .hp-praise-grid {
+      grid-template-columns: 1fr;
+    }
+    .gh-praise-item:not(:first-child) { display: none; }
+    .gh-title { white-space: normal; }
+    .hp-praise-band { padding: 20px; }
+  }
+
+  /* ── Mobile: ≤ 600px — cover above text ── */
+  @media (max-width: 600px) {
+    .hp-feat {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+    }
+    .gh-cover {
+      height: clamp(200px, 44vw, 280px);
+    }
+  }
+
+  /* ── Post-hero sections ── */
+  .hp-events { padding-top: 56px; margin-bottom: 4rem; }
+  .hp-events-rows { max-width: 720px; margin: 0 auto; }
   .hp-events-footer {
     text-align: center;
     padding: 24px 0 56px;
@@ -253,15 +534,8 @@ function formatDate(dateStr: string) {
     margin: 0 auto;
   }
 
-  /* Press section */
   .hp-press { padding-top: 56px; margin-bottom: 4rem; }
-
-  .hp-press-list {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 32px;
-  }
-
+  .hp-press-list { max-width: 800px; margin: 0 auto; }
   .hp-press-row {
     display: grid;
     grid-template-columns: 160px 1fr;
@@ -269,27 +543,19 @@ function formatDate(dateStr: string) {
     align-items: baseline;
     padding: 28px 0;
   }
-
-  .hp-press-row + .hp-press-row {
-    border-top: 0.5px solid var(--rule);
-  }
-
+  .hp-press-row + .hp-press-row { border-top: 0.5px solid var(--rule); }
   .hp-press-outlet { display: flex; flex-direction: column; }
-
   .hp-press-outlet-name {
     font-size: var(--text-xs);
     text-transform: uppercase;
     letter-spacing: var(--track-wide);
     color: var(--text);
   }
-
   .hp-press-date {
     font-size: var(--text-xs);
-    letter-spacing: var(--track-none);
     color: var(--text-muted);
     margin-top: 4px;
   }
-
   .hp-press-type {
     font-size: var(--text-xs);
     text-transform: uppercase;
@@ -297,7 +563,6 @@ function formatDate(dateStr: string) {
     color: var(--text-muted);
     margin-top: 6px;
   }
-
   .hp-press-headline {
     font-family: var(--font-serif);
     font-size: var(--text-lg);
@@ -306,9 +571,6 @@ function formatDate(dateStr: string) {
     letter-spacing: var(--track-tight);
     margin: 0;
   }
-
-  /* base + hover handled by .headline-link */
-
   .hp-press-excerpt {
     font-family: var(--font-serif);
     font-style: italic;
@@ -318,7 +580,6 @@ function formatDate(dateStr: string) {
     max-width: 60ch;
     margin: 8px 0 0;
   }
-
   .hp-press-footer {
     text-align: center;
     padding: 32px 0 56px;
@@ -326,17 +587,12 @@ function formatDate(dateStr: string) {
 
   @media (max-width: 600px) {
     .hp-events, .hp-press { padding-top: 40px; }
-    .hp-press-list { padding: 0; }
     .hp-press-row {
       grid-template-columns: 1fr;
       gap: 6px;
       padding: 20px 0;
     }
-    .hp-press-outlet {
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: baseline;
-    }
+    .hp-press-outlet { flex-direction: row; flex-wrap: wrap; align-items: baseline; }
     .hp-press-outlet-name::after { content: ' · '; }
     .hp-press-date { display: inline; margin-top: 0; }
     .hp-press-type { display: inline; margin-top: 0; }
@@ -344,3 +600,13 @@ function formatDate(dateStr: string) {
     .hp-press-headline { font-size: var(--text-md); }
   }
 </style>
+
+<script>
+  // Measure actual header height and set --header-h CSS var
+  const header = document.querySelector('.site-header');
+  if (header) {
+    const setH = () => document.documentElement.style.setProperty('--header-h', header.getBoundingClientRect().height + 'px');
+    setH();
+    new ResizeObserver(setH).observe(header);
+  }
+</script>
