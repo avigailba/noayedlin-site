@@ -296,13 +296,13 @@ function formatDate(dateStr: string) {
     display: flex;
     align-items: center;
     gap: clamp(28px, 3.2vw, 46px);
-    padding: 24px clamp(36px, 4vw, 56px);
+    padding: 24px clamp(28px, 3vw, 40px) 24px 15%;
   }
 
   .gh-cover-link { display: block; flex-shrink: 0; }
 
   .gh-cover {
-    height: clamp(248px, 46vh, 430px);
+    height: clamp(300px, 56vh, 520px);
     width: auto;
     aspect-ratio: 2 / 3;
     object-fit: cover;
@@ -408,7 +408,7 @@ function formatDate(dateStr: string) {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: clamp(20px, 3vh, 34px) clamp(28px, 2.6vw, 40px);
+    padding: clamp(20px, 3vh, 34px) 15% clamp(20px, 3vh, 34px) clamp(28px, 2.6vw, 40px);
   }
 
   .hp-rail-label { margin-bottom: 20px; }
@@ -515,13 +515,13 @@ function formatDate(dateStr: string) {
     }
     .hp-feat {
       flex: none;
-      padding: 32px 20px;
+      padding: 32px 20px;  /* flat padding on mobile */
     }
     .hp-rail {
       flex: none;
       border-left: none;
       border-top: 0.5px solid var(--rule);
-      padding: 24px 20px;
+      padding: 24px 20px;  /* flat padding on mobile */
     }
     .hp-praise-grid {
       grid-template-columns: 1fr;
