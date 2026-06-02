@@ -45,59 +45,63 @@ function formatDate(dateStr: string) {
 
 <Layout title="Home" lang="en">
 
-  {/* Two featured books — side by side */}
+  {/* Two featured books — horizontal diptych */}
   {(featured2 || featured) && (
     <section class="hp-books-hero">
       {featured2 && (
-        <div class="hp-book-col">
+        <div class="hero-book">
           <a href={`${base}/books/${featured2.data.slug}`} class="hp-book-cover-link">
-            <img src={featured2.data.cover.startsWith('/') ? base + featured2.data.cover : featured2.data.cover} alt={`Cover of ${featured2.data.title}`} class="hp-book-cover" />
+            <img src={featured2.data.cover.startsWith('/') ? base + featured2.data.cover : featured2.data.cover} alt={`Cover of ${featured2.data.title}`} class="hero-cover" />
           </a>
-          <h2 class="hp-book-title">
-            <a href={`${base}/books/${featured2.data.slug}`}>{featured2.data.title}</a>
-          </h2>
-          <div class="book-status">
-            <span class="status-dot"></span>
-            <span>Forthcoming · October 13, 2026</span>
-          </div>
-          <blockquote class="hp-book-quote">"A lucid, clear, and distinct voice"</blockquote>
-          <p class="hp-book-attr">— Dorit Rabinyan</p>
-          <div class="book-cta-group">
-            <a href={`${base}/books/${featured2.data.slug}`} class="btn-primary">More about the book →</a>
-            <div class="retailers">
-              <a class="retailer-link" href="https://www.amazon.com/House-Arrest-Noa-Yedlin/dp/1954404433" target="_blank" rel="noopener">Amazon</a>
+          <div class="hero-text">
+            <h2 class="hp-book-title">
+              <a href={`${base}/books/${featured2.data.slug}`}>{featured2.data.title}</a>
+            </h2>
+            <div class="book-status">
+              <span class="status-dot"></span>
+              <span>Forthcoming · October 13, 2026</span>
+            </div>
+            <blockquote class="hp-book-quote">"A lucid, clear, and distinct voice"</blockquote>
+            <p class="hp-book-attr">— Dorit Rabinyan</p>
+            <div class="hero-cta-group">
+              <div class="retailers">
+                <a class="retailer-link" href="https://www.amazon.com/House-Arrest-Noa-Yedlin/dp/1954404433" target="_blank" rel="noopener">Amazon</a>
+              </div>
+              <a href={`${base}/books/${featured2.data.slug}`} class="btn-primary">More about the book →</a>
             </div>
           </div>
         </div>
       )}
 
-      <div class="hp-books-divider" aria-hidden="true"></div>
+      <div class="hero-divider" aria-hidden="true"></div>
 
       {featured && (
-        <div class="hp-book-col">
+        <div class="hero-book">
           <a href={`${base}/books/${featured.data.slug}`} class="hp-book-cover-link">
-            <img src={featured.data.cover.startsWith('/') ? base + featured.data.cover : featured.data.cover} alt={`Cover of ${featured.data.title}`} class="hp-book-cover" />
+            <img src={featured.data.cover.startsWith('/') ? base + featured.data.cover : featured.data.cover} alt={`Cover of ${featured.data.title}`} class="hero-cover" />
           </a>
-          <h2 class="hp-book-title">
-            <a href={`${base}/books/${featured.data.slug}`}>{featured.data.title}</a>
-          </h2>
-          {featured.data.reviews && featured.data.reviews[0] && (
-            <>
-              {featured.data.reviews[0].starred && <p class="kirkus-star">★ Kirkus Starred Review</p>}
-              <blockquote class="hp-book-quote">"{featured.data.reviews[0].quote}"</blockquote>
-              <p class="hp-book-attr">— {featured.data.reviews[0].source}</p>
-            </>
-          )}
-          <div class="book-cta-group">
-            <a href={`${base}/books/${featured.data.slug}`} class="btn-primary">More about the book →</a>
-            <div class="retailers">
-              <a class="retailer-link" href="https://www.amazon.com/Stockholm-Novel-Noa-Yedlin/dp/0063298678" target="_blank" rel="noopener">Amazon</a>
-              <span class="retailer-sep">·</span>
-              <a class="retailer-link" href="https://www.barnesandnoble.com/w/stockholm-noa-yedlin/1143956543" target="_blank" rel="noopener">B&amp;N</a>
-              <span class="retailer-sep">·</span>
-              <a class="retailer-link" href="https://www.booksamillion.com/p/Stockholm/Noa-Yedlin/9780063298675" target="_blank" rel="noopener">BAM</a>
-              <span class="retailer-sep">·</span>
-              <a class="retailer-link" href="https://www.harpercollins.com/products/stockholm-noa-yedlin" target="_blank" rel="noopener">HarperCollins</a>
+          <div class="hero-text">
+            <h2 class="hp-book-title">
+              <a href={`${base}/books/${featured.data.slug}`}>{featured.data.title}</a>
+            </h2>
+            {featured.data.reviews && featured.data.reviews[0] && (
+              <>
+                {featured.data.reviews[0].starred && <p class="kirkus-star">★ Kirkus Starred Review</p>}
+                <blockquote class="hp-book-quote">"{featured.data.reviews[0].quote}"</blockquote>
+                <p class="hp-book-attr">— {featured.data.reviews[0].source}</p>
+              </>
+            )}
+            <div class="hero-cta-group">
+              <div class="retailers">
+                <a class="retailer-link" href="https://www.amazon.com/Stockholm-Novel-Noa-Yedlin/dp/0063298678" target="_blank" rel="noopener">Amazon</a>
+                <span class="retailer-sep">·</span>
+                <a class="retailer-link" href="https://www.barnesandnoble.com/w/stockholm-noa-yedlin/1143956543" target="_blank" rel="noopener">B&amp;N</a>
+                <span class="retailer-sep">·</span>
+                <a class="retailer-link" href="https://www.booksamillion.com/p/Stockholm/Noa-Yedlin/9780063298675" target="_blank" rel="noopener">BAM</a>
+                <span class="retailer-sep">·</span>
+                <a class="retailer-link" href="https://www.harpercollins.com/products/stockholm-noa-yedlin" target="_blank" rel="noopener">HarperCollins</a>
+              </div>
+              <a href={`${base}/books/${featured.data.slug}`} class="btn-primary">More about the book →</a>
             </div>
           </div>
         </div>
@@ -219,18 +223,8 @@ function formatDate(dateStr: string) {
 </Layout>
 
 <style>
-  /* Book status indicator — inherits canonical styles from global; hero needs bottom margin */
-  .book-status { margin-bottom: 14px; }
-
-  /* CTA group — pushed to bottom of column */
-  .book-cta-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    margin-top: auto;
-  }
+  /* Book status indicator — spacing below in the hero text column */
+  .book-status { margin-bottom: 10px; }
 
   .hp-reviews-grid {
     display: grid;
