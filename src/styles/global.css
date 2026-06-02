@@ -682,7 +682,6 @@ img { max-width: 100%; display: block; }
   grid-template-columns: 1fr auto 1fr;
   gap: 0;
   min-height: 50vh;
-  max-height: calc(100vh - 280px);
   padding: 24px 0;
   box-sizing: border-box;
   margin-bottom: 4rem;
