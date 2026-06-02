@@ -138,13 +138,24 @@ import Layout from '../layouts/Layout.astro';
   <!-- SHADOW -->
   <section class="ds-section">
     <h2 class="ds-section-heading">Shadow</h2>
-    <div class="ds-shadow-row">
-      <div class="ds-shadow-swatch">
-        <img src={import.meta.env.BASE_URL.replace(/\/$/, '') + '/images/HouseArrest-fordistribution.jpg'} alt="Book cover" class="ds-shadow-img" />
+    <div class="ds-shadow-rows">
+      <div class="ds-shadow-row">
+        <div class="ds-shadow-swatch">
+          <img src={import.meta.env.BASE_URL.replace(/\/$/, '') + '/images/HouseArrest-fordistribution.jpg'} alt="Book cover" class="ds-shadow-img" style="box-shadow: var(--shadow-cover);" />
+        </div>
+        <div>
+          <p class="ds-type-meta" style="margin-bottom: 0.5rem;">--shadow-cover</p>
+          <p style="font-size: var(--text-sm); color: var(--text-muted); margin: 0;">4px 6px 18px rgba(31, 27, 22, 0.18)<br />Rail covers, detail page covers</p>
+        </div>
       </div>
-      <div>
-        <p class="ds-type-meta" style="margin-bottom: 0.5rem;">--shadow-cover</p>
-        <p style="font-size: var(--text-sm); color: var(--text-muted); margin: 0;">4px 6px 18px rgba(31, 27, 22, 0.18)<br />Book covers on detail page</p>
+      <div class="ds-shadow-row">
+        <div class="ds-shadow-swatch">
+          <img src={import.meta.env.BASE_URL.replace(/\/$/, '') + '/images/HouseArrest-fordistribution.jpg'} alt="Book cover" class="ds-shadow-img" style="box-shadow: var(--shadow-cover-lg);" />
+        </div>
+        <div>
+          <p class="ds-type-meta" style="margin-bottom: 0.5rem;">--shadow-cover-lg</p>
+          <p style="font-size: var(--text-sm); color: var(--text-muted); margin: 0;">8px 14px 40px rgba(31, 27, 22, 0.24)<br />Featured hero cover</p>
+        </div>
       </div>
     </div>
   </section>
@@ -430,6 +441,11 @@ import Layout from '../layouts/Layout.astro';
   }
 
   /* Shadow */
+  .ds-shadow-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
   .ds-shadow-row {
     display: flex;
     align-items: center;
