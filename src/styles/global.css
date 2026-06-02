@@ -727,12 +727,12 @@ img { max-width: 100%; display: block; }
 .hp-book-cover-link { display: block; margin-bottom: 16px; }
 
 .hp-book-cover {
-  width: min(380px, 28vw, 38vh);
+  width: min(380px, 26vh);
   max-width: 100%;
   aspect-ratio: 2/3;
   object-fit: cover;
   transform: perspective(900px) rotateY(-7deg);
-  box-shadow: 4px 6px 18px rgba(31, 27, 22, 0.18);
+  box-shadow: var(--shadow-cover);
   transition: transform 0.35s ease;
 }
 
@@ -829,7 +829,7 @@ img { max-width: 100%; display: block; }
     height: 1px;
     margin: 0;
   }
-  .hp-book-cover { width: 100%; max-width: 300px; }
+  .hp-book-cover { width: 100%; max-width: 280px; }
 }
 
 /* Books page hero */
