@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import BooksRail from '../components/BooksRail.astro';
 import { getCollection } from 'astro:content';
 
 
@@ -22,6 +21,12 @@ function coverSrc(raw: string) {
 const heroP1 = featured2?.data.selectedReviews?.[0];
 const heroP2 = featured?.data.selectedReviews?.[0];
 const heroP3 = featured?.data.selectedReviews?.[1];
+
+// All praise — interleave House Arrest + Stockholm quotes
+const allPraise = [
+  ...(featured2?.data.selectedReviews ?? []).map((r: any) => ({ ...r, book: featured2!.data.title })),
+  ...(featured?.data.selectedReviews  ?? []).map((r: any) => ({ ...r, book: featured!.data.title  })),
+];
 
 const allEventsRaw = await getCollection('events');
 
@@ -202,9 +207,23 @@ function formatDate(dateStr: string) {
       </section>
     )}
 
-    <section class="books-rail-section">
-      <BooksRail />
-    </section>
+    {allPraise.length > 0 && (
+      <section class="hp-all-praise">
+        <p class="section-eyebrow">Praise</p>
+        <div class="hp-praise-all-grid">
+          {allPraise.map((r: any) => (
+            <blockquote class="praise hp-praise-quote">
+              <p>"{r.quote}"</p>
+              <footer class="quote-attribution">
+                <div class="quote-author">{r.reviewer}</div>
+                {r.publication && <div class="quote-outlet">{r.publication}</div>}
+                <div class="quote-book"><em>{r.book}</em></div>
+              </footer>
+            </blockquote>
+          ))}
+        </div>
+      </section>
+    )}
 
     {homeMedia.length > 0 && (
       <section class="hp-press">
@@ -525,6 +544,28 @@ function formatDate(dateStr: string) {
   }
 
   /* ── Post-hero sections ── */
+  .hp-all-praise {
+    padding-top: 64px;
+    margin-bottom: 4rem;
+  }
+  .hp-praise-all-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 0;
+  }
+  .hp-praise-quote {
+    border-left: 2px solid var(--accent);
+    padding-left: 1.125rem;
+    margin: 0;
+  }
+  @media (max-width: 860px) {
+    .hp-praise-all-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .hp-praise-all-grid { grid-template-columns: 1fr; }
+  }
+
   .hp-events { padding-top: 56px; margin-bottom: 4rem; }
   .hp-events-rows { max-width: 720px; margin: 0 auto; }
   .hp-events-footer {
