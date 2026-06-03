@@ -132,17 +132,6 @@ function formatDate(dateStr: string) {
   {/* ── Remaining homepage content ── */}
   <div class="hp-inner">
 
-    {aboutEntry && (
-      <section class="hp-about-strip">
-        <img class="hp-about-img" src={aboutEntry.data.portrait} alt={aboutEntry.data.heading} />
-        <div class="hp-about-text">
-          <p class="eyebrow hp-about-eyebrow">About</p>
-          <p class="hp-about-lead" set:html={aboutEntry.data.lead} />
-          <a href={base + '/about'} class="link-accent">Read more →</a>
-        </div>
-      </section>
-    )}
-
     {upcomingEvents.length > 0 && (
       <section class="hp-events">
         <p class="section-eyebrow">Upcoming Events</p>
@@ -189,6 +178,17 @@ function formatDate(dateStr: string) {
         </div>
         <div class="hp-events-footer">
           <a href={base + '/events'} class="link-accent">All events →</a>
+        </div>
+      </section>
+    )}
+
+    {aboutEntry && (
+      <section class="hp-about-strip">
+        <img class="hp-about-img" src={aboutEntry.data.portrait} alt={aboutEntry.data.heading} />
+        <div class="hp-about-text">
+          <p class="eyebrow hp-about-eyebrow">About</p>
+          <p class="hp-about-lead" set:html={aboutEntry.data.lead} />
+          <a href={base + '/about'} class="link-accent">Read more →</a>
         </div>
       </section>
     )}
