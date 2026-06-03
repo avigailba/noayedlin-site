@@ -28,28 +28,6 @@ const allPraise = [
   ...(featured?.data.selectedReviews  ?? []).map((r: any) => ({ ...r, book: featured!.data.title  })),
 ];
 
-const allEventsRaw = await getCollection('events');
-
-// Date helpers (homepage)
-function hpParseDate(str: string) {
-  const [y, m, d] = str.split('-').map(Number);
-  return new Date(y, m - 1, d);
-}
-const HP_MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-
-const hpToday = new Date(); hpToday.setHours(0, 0, 0, 0);
-const upcomingEvents = allEventsRaw
-  .filter(e => {
-    const last = hpParseDate(e.data.date_end ?? e.data.date_start);
-    return e.data.status !== 'past' && last >= hpToday;
-  })
-  .sort((a, b) => {
-    const diff = a.data.date_start.localeCompare(b.data.date_start);
-    return diff !== 0 ? diff : (a.data.order ?? 99) - (b.data.order ?? 99);
-  })
-  .slice(0, 3);
-
-
 const allMedia = await getCollection('media');
 const featuredMedia = allMedia.filter((m) => m.data.featured);
 const homeMedia = (featuredMedia.length >= 5 ? featuredMedia : allMedia)
@@ -135,67 +113,6 @@ function formatDate(dateStr: string) {
 
   {/* ── Remaining homepage content ── */}
   <div class="hp-inner">
-
-    {upcomingEvents.length > 0 && (
-      <section class="hp-events">
-        <p class="section-eyebrow">Upcoming Events</p>
-        <div class="hp-events-rows event-rows">
-          {upcomingEvents.map((event) => {
-            const start = hpParseDate(event.data.date_start);
-            const end   = event.data.date_end ? hpParseDate(event.data.date_end) : null;
-            const slug  = event.data.slug ?? event.id;
-            const dateStr = end
-              ? `${HP_MONTHS_LONG[start.getMonth()]} ${start.getDate()}–${end.getDate()}, ${start.getFullYear()}`
-              : `${HP_MONTHS_LONG[start.getMonth()]} ${start.getDate()}, ${start.getFullYear()}`;
-            const locationStr = [event.data.city, event.data.region].filter(Boolean).join(', ');
-            return (
-              <article class="event-row">
-                <div class="event-meta">
-                  <div class="event-date">{dateStr}</div>
-                  {locationStr && <div class="event-location">{locationStr}</div>}
-                  {event.data.type && <div class="event-type">{event.data.type}</div>}
-                </div>
-                <div class="event-content">
-                  <h3 class="event-title">
-                    <a href={`${base}/events/${slug}`} class="headline-link">{event.data.title}</a>
-                  </h3>
-                  {event.data.description && <p class="event-description">{event.data.description}</p>}
-                  <div class="event-status">
-                    {event.data.status === 'details_coming_soon' && (
-                      <>
-                        <span class="event-dot event-dot--muted"></span>
-                        <span>Details coming soon</span>
-                      </>
-                    )}
-                    {event.data.status === 'scheduled' && (
-                      <>
-                        <span class="event-dot event-dot--accent"></span>
-                        {event.data.url
-                          ? <a href={event.data.url} target="_blank" rel="noopener">Get details →</a>
-                          : <span>Get details</span>
-                        }
-                      </>
-                    )}
-                    {event.data.status === 'ticketed' && (
-                      <>
-                        <span class="event-dot event-dot--accent"></span>
-                        {event.data.url
-                          ? <a href={event.data.url} target="_blank" rel="noopener">Get tickets →</a>
-                          : <span>Get tickets</span>
-                        }
-                      </>
-                    )}
-                  </div>
-                </div>
-              </article>
-            );
-          })}
-        </div>
-        <div class="hp-events-footer">
-          <a href={base + '/events'} class="link-accent">All events →</a>
-        </div>
-      </section>
-    )}
 
     {aboutEntry && (
       <section class="hp-about-strip">
