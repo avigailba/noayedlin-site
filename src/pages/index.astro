@@ -93,6 +93,8 @@ function formatDate(dateStr: string) {
           </div>
         </div>
 
+        <div class="hp-col-divider" aria-hidden="true"></div>
+
         {/* Rail column — backlist */}
         <div class="hp-rail">
           <p class="eyebrow hp-rail-label">More from Noa Yedlin</p>
@@ -257,6 +259,13 @@ function formatDate(dateStr: string) {
     overflow: hidden;
   }
 
+  .hp-col-divider {
+    flex-shrink: 0;
+    width: 0.5px;
+    background: var(--rule);
+    margin: 48px 0;
+  }
+
   /* ── Feature column ── */
   .hp-feat {
     flex: 1.55;
@@ -371,7 +380,6 @@ function formatDate(dateStr: string) {
   .hp-rail {
     flex: 1;
     background: var(--bg);
-    border-left: 0.5px solid var(--rule);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -486,9 +494,9 @@ function formatDate(dateStr: string) {
       flex: none;
       padding: 32px 20px;  /* flat padding on mobile */
     }
+    .hp-col-divider { display: none; }
     .hp-rail {
       flex: none;
-      border-left: none;
       border-top: 0.5px solid var(--rule);
       padding: 24px 20px;  /* flat padding on mobile */
     }
