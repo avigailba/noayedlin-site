@@ -33,7 +33,19 @@ import Layout from '../layouts/Layout.astro';
         <span class="ds-swatch-label">--rule</span>
         <span class="ds-swatch-value">#D8D7D0</span>
       </div>
+      <div class="ds-swatch" style="background: var(--bg-alt); border: 1px solid var(--rule);">
+        <span class="ds-swatch-label">--bg-alt</span>
+        <span class="ds-swatch-value">#F2F1EA</span>
+      </div>
+      <div class="ds-swatch" style="background: var(--text-muted);">
+        <span class="ds-swatch-label ds-light">--text-faint</span>
+        <span class="ds-swatch-value ds-light">#8E8E8B</span>
+      </div>
     </div>
+    <p style="font-size: var(--text-xs); color: var(--text-muted); margin-top: 1rem;">
+      <strong>--text-faint</strong> (#8E8E8B) — tertiary text: fine print, retailer label prefix.<br/>
+      <strong>--bg-alt</strong> (#F2F1EA) — tinted surface: hero rail, praise band, line-height cards.
+    </p>
   </section>
 
   <hr class="ds-rule" />
@@ -199,6 +211,28 @@ import Layout from '../layouts/Layout.astro';
         <span class="ds-component-note">Bordered pill · language switcher in nav</span>
       </div>
 
+      <div class="ds-component-row">
+        <span class="ds-type-meta">.headline-link</span>
+        <div class="ds-component-preview">
+          <a href="#" class="headline-link" style="font-family: var(--font-serif); font-size: var(--text-lg);">A master at tone</a>
+        </div>
+        <span class="ds-component-note">Hover: accent colour + underline + sliding → arrow · applied to every clickable serif title</span>
+      </div>
+
+      <div class="ds-component-row">
+        <span class="ds-type-meta">.retailers</span>
+        <div class="ds-component-preview">
+          <div class="retailers">
+            <a class="retailer-link" href="#">Amazon</a>
+            <span class="retailer-sep">·</span>
+            <a class="retailer-link" href="#">B&amp;N</a>
+            <span class="retailer-sep">·</span>
+            <a class="retailer-link" href="#">BAM</a>
+          </div>
+        </div>
+        <span class="ds-component-note">Inline editorial purchase links separated by · — never buttons</span>
+      </div>
+
     </div>
   </section>
 
@@ -241,6 +275,22 @@ import Layout from '../layouts/Layout.astro';
         <span class="ds-component-note">Muted uppercase label · section headings throughout</span>
       </div>
 
+      <div class="ds-component-row">
+        <span class="ds-type-meta">.gh-badge</span>
+        <div class="ds-component-preview">
+          <div style="display:inline-block;background:var(--text);color:#fff;font-family:var(--font-body);font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:5px 11px;border-radius:4px;">Forthcoming · Oct 2026</div>
+        </div>
+        <span class="ds-component-note">Hero badge · filled dark pill, 4px radius · forthcoming / release status in featured hero</span>
+      </div>
+
+      <div class="ds-component-row">
+        <span class="ds-type-meta">.book-status</span>
+        <div class="ds-component-preview">
+          <div class="book-status"><span class="status-dot"></span><span>Forthcoming · October 13, 2026</span></div>
+        </div>
+        <span class="ds-component-note">Dot + uppercase text · book detail pages and hero panels · dot is --text-muted, never accent</span>
+      </div>
+
     </div>
   </section>
 
@@ -252,24 +302,82 @@ import Layout from '../layouts/Layout.astro';
     <div class="ds-component-rows">
 
       <div class="ds-component-row ds-component-row--tall">
-        <span class="ds-type-meta">.quote</span>
+        <span class="ds-type-meta">.praise (homepage)</span>
         <div class="ds-component-preview" style="flex-direction: column; align-items: flex-start; max-width: 480px;">
-          <blockquote class="quote">"All this abundance, in which one family becomes a mirror to an entire social class in Israel."</blockquote>
-          <p style="font-size: var(--text-xs); text-transform: uppercase; letter-spacing: var(--track-wide); color: var(--text-muted); margin: 0; padding-left: 20px;">Avraham Balaban, Haaretz Books</p>
+          <blockquote class="praise" style="border-left: 2px solid var(--accent); padding-left: 1.125rem;">"All this abundance, in which one family becomes a mirror to an entire social class in Israel."</blockquote>
+          <footer class="quote-attribution" style="padding-left: 1.125rem;">
+            <div class="quote-author">Avraham Balaban</div>
+            <div class="quote-outlet">Haaretz Books</div>
+            <div class="quote-book"><em>House Arrest</em></div>
+          </footer>
         </div>
-        <span class="ds-component-note">Fraunces italic · 2px accent border-left · praise blockquotes</span>
+        <span class="ds-component-note">.praise + 2px accent border-left · homepage praise grid only · shows .quote-book (book title) since quotes are mixed</span>
       </div>
 
       <div class="ds-component-row ds-component-row--tall">
-        <span class="ds-type-meta">.hp-book-quote</span>
+        <span class="ds-type-meta">.praise (book detail)</span>
         <div class="ds-component-preview" style="flex-direction: column; align-items: flex-start; max-width: 480px;">
-          <blockquote class="hp-book-quote">"A lucid, clear, and distinct voice."</blockquote>
-          <p style="font-size: var(--text-xs); text-transform: uppercase; letter-spacing: var(--track-wide); color: var(--text-muted); margin: 0;">— Dorit Rabinyan</p>
+          <blockquote class="praise">"Bright, witty, irreverent and compassionate — an astute and hilarious study of the human condition."</blockquote>
+          <footer class="quote-attribution">
+            <div class="quote-author">Ruby Namdar</div>
+            <div class="quote-outlet">Author</div>
+          </footer>
         </div>
-        <span class="ds-component-note">Same as .quote but no left border · homepage hero book panels</span>
+        <span class="ds-component-note">.praise with no left border · book detail praise grid · omit .quote-book (single-book context)</span>
+      </div>
+
+      <div class="ds-component-row ds-component-row--tall">
+        <span class="ds-type-meta">.quote (pull quote)</span>
+        <div class="ds-component-preview" style="flex-direction: column; align-items: flex-start; max-width: 480px;">
+          <blockquote class="quote">"A lucid, clear, and distinct voice."</blockquote>
+        </div>
+        <span class="ds-component-note">Fraunces italic · 2px accent border-left · inline pull quotes and hero panel quotes</span>
       </div>
 
     </div>
+  </section>
+
+  <hr class="ds-rule" />
+
+  <!-- EVENT ROW -->
+  <section class="ds-section">
+    <h2 class="ds-section-heading">Event Row</h2>
+    <div style="max-width: 720px;">
+      <article class="event-row">
+        <div class="event-meta">
+          <div class="event-date">June 15, 2026</div>
+          <div class="event-location">New York, NY</div>
+          <div class="event-type">Lecture</div>
+        </div>
+        <div class="event-content">
+          <h3 class="event-title" style="margin:0 0 6px;">
+            <a href="#" class="headline-link">An Evening with Noa Yedlin</a>
+          </h3>
+          <p class="event-description">In conversation with the author.</p>
+          <div class="event-status">
+            <span class="event-dot event-dot--accent"></span>
+            <a href="#">Get tickets →</a>
+          </div>
+        </div>
+      </article>
+      <article class="event-row">
+        <div class="event-meta">
+          <div class="event-date">September 3, 2026</div>
+          <div class="event-location">Tel Aviv</div>
+          <div class="event-type">Book Launch</div>
+        </div>
+        <div class="event-content">
+          <h3 class="event-title" style="margin:0 0 6px;">
+            <a href="#" class="headline-link">House Arrest Launch Event</a>
+          </h3>
+          <div class="event-status">
+            <span class="event-dot event-dot--muted"></span>
+            <span>Details coming soon</span>
+          </div>
+        </div>
+      </article>
+    </div>
+    <p style="font-size: var(--text-xs); color: var(--text-muted); margin-top: 1.5rem;">Shared pattern across <code>/events</code> listing and homepage upcoming block. 160px meta column + content column.</p>
   </section>
 
   <hr class="ds-rule" />
