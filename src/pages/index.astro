@@ -28,6 +28,24 @@ const allPraise = [
   ...(featured?.data.selectedReviews  ?? []).map((r: any) => ({ ...r, book: featured!.data.title  })),
 ];
 
+const allEventsRaw = await getCollection('events');
+function hpParseDate(str: string) {
+  const [y, m, d] = str.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+const HP_MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const hpToday = new Date(); hpToday.setHours(0, 0, 0, 0);
+const upcomingEvents = allEventsRaw
+  .filter(e => {
+    const last = hpParseDate(e.data.date_end ?? e.data.date_start);
+    return e.data.status !== 'past' && last >= hpToday;
+  })
+  .sort((a, b) => {
+    const diff = a.data.date_start.localeCompare(b.data.date_start);
+    return diff !== 0 ? diff : (a.data.order ?? 99) - (b.data.order ?? 99);
+  })
+  .slice(0, 3);
+
 const allMedia = await getCollection('media');
 const featuredMedia = allMedia.filter((m) => m.data.featured);
 const homeMedia = (featuredMedia.length >= 5 ? featuredMedia : allMedia)
@@ -121,6 +139,56 @@ function formatDate(dateStr: string) {
           <p class="eyebrow hp-about-eyebrow">About</p>
           <p class="hp-about-lead" set:html={aboutEntry.data.lead} />
           <a href={base + '/about'} class="link-accent">Read more →</a>
+        </div>
+      </section>
+    )}
+
+    {upcomingEvents.length > 0 && (
+      <section class="hp-events">
+        <p class="section-eyebrow">Upcoming Events</p>
+        <div class="hp-events-rows event-rows">
+          {upcomingEvents.map((event) => {
+            const start = hpParseDate(event.data.date_start);
+            const end   = event.data.date_end ? hpParseDate(event.data.date_end) : null;
+            const slug  = event.data.slug ?? event.id;
+            const dateStr = end
+              ? `${HP_MONTHS_LONG[start.getMonth()]} ${start.getDate()}–${end.getDate()}, ${start.getFullYear()}`
+              : `${HP_MONTHS_LONG[start.getMonth()]} ${start.getDate()}, ${start.getFullYear()}`;
+            const locationStr = [event.data.city, event.data.region].filter(Boolean).join(', ');
+            return (
+              <article class="event-row">
+                <div class="event-meta">
+                  <div class="event-date">{dateStr}</div>
+                  {locationStr && <div class="event-location">{locationStr}</div>}
+                  {event.data.type && <div class="event-type">{event.data.type}</div>}
+                </div>
+                <div class="event-content">
+                  <h3 class="event-title">
+                    <a href={`${base}/events/${slug}`} class="headline-link">{event.data.title}</a>
+                  </h3>
+                  {event.data.description && <p class="event-description">{event.data.description}</p>}
+                  <div class="event-status">
+                    {event.data.status === 'details_coming_soon' && (
+                      <><span class="event-dot event-dot--muted"></span><span>Details coming soon</span></>
+                    )}
+                    {event.data.status === 'scheduled' && (
+                      <><span class="event-dot event-dot--accent"></span>
+                        {event.data.url ? <a href={event.data.url} target="_blank" rel="noopener">Get details →</a> : <span>Get details</span>}
+                      </>
+                    )}
+                    {event.data.status === 'ticketed' && (
+                      <><span class="event-dot event-dot--accent"></span>
+                        {event.data.url ? <a href={event.data.url} target="_blank" rel="noopener">Get tickets →</a> : <span>Get tickets</span>}
+                      </>
+                    )}
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+        <div class="hp-events-footer">
+          <a href={base + '/events'} class="link-accent">All events →</a>
         </div>
       </section>
     )}
@@ -444,11 +512,14 @@ function formatDate(dateStr: string) {
   }
 
   /* ── Post-hero sections ── */
-  .hp-events { padding-top: 56px; margin-bottom: 4rem; }
+  .hp-events {
+    padding: 64px 0;
+    border-top: 0.5px solid var(--rule);
+  }
   .hp-events-rows { max-width: 720px; margin: 0 auto; }
   .hp-events-footer {
     text-align: center;
-    padding: 24px 0 56px;
+    padding: 24px 0 0;
     max-width: 720px;
     margin: 0 auto;
   }
@@ -483,7 +554,10 @@ function formatDate(dateStr: string) {
     .hp-about-img { max-width: 180px; }
   }
 
-  .hp-press { padding-top: 56px; margin-bottom: 4rem; }
+  .hp-press {
+    padding: 64px 0;
+    border-top: 0.5px solid var(--rule);
+  }
   .hp-press-list { max-width: 800px; margin: 0 auto; }
   .hp-press-row {
     display: grid;
@@ -535,7 +609,7 @@ function formatDate(dateStr: string) {
   }
 
   @media (max-width: 600px) {
-    .hp-events, .hp-press { padding-top: 40px; }
+    .hp-events, .hp-press { padding: 40px 0; }
     .hp-press-row {
       grid-template-columns: 1fr;
       gap: 6px;
