@@ -48,6 +48,9 @@ const upcomingEvents = allEventsRaw
 
 const allMedia = await getCollection('media');
 const featuredMedia = allMedia.filter((m) => m.data.featured);
+
+const allAdaptations = await getCollection('adaptations');
+const featuredStill = allAdaptations.find(a => a.data.slug === 'stockholm-de')?.data?.still?.image;
 const homeMedia = (featuredMedia.length >= 5 ? featuredMedia : allMedia)
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
   .slice(0, 5);
@@ -191,6 +194,24 @@ function formatDate(dateStr: string) {
         </div>
       </section>
     )}
+
+    {/* ── Adaptations preview ── */}
+    <section class="hp-adaptations">
+      <div class="hp-adaptations__text">
+        <p class="section-eyebrow">Adaptations</p>
+        <h2 class="hp-adaptations__title">On screen and on stage.</h2>
+        <div class="hp-adaptations__body">
+          <p>Yedlin is the creator of a two-season TV series based on her bestselling novel <em>Stockholm</em>, winner of the Israeli Best Mini-Series TV Award. A German remake — <em>You Don't Die Among Friends</em> — won Best Scripted Format at the 2021 International Format Awards and Best European Series at La Rochelle Festival De La Fiction 2021. The series has also been remade by SVT Sweden.</p>
+          <p>Her novel <em>People Like Us</em> is currently being developed into a series in Israel, and a stage adaptation of <em>House Arrest</em> is playing at Beit Lessin Theater in Tel Aviv.</p>
+        </div>
+        <a href={base + '/adaptations'} class="btn-primary">All adaptations →</a>
+      </div>
+      {featuredStill && (
+        <div class="hp-adaptations__image">
+          <img src={featuredStill} alt="Production still from the Stockholm TV series" />
+        </div>
+      )}
+    </section>
 
     {homeMedia.length > 0 && (
       <section class="hp-press">
@@ -551,6 +572,54 @@ function formatDate(dateStr: string) {
       gap: 24px;
     }
     .hp-about-img { max-width: 180px; }
+  }
+
+  /* Adaptations preview */
+  .hp-adaptations__text .section-eyebrow {
+    text-align: left;
+  }
+
+  .hp-adaptations {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: center;
+    padding: 56px 0;
+    border-top: 0.5px solid var(--rule);
+  }
+
+  .hp-adaptations__title {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    letter-spacing: var(--track-snug);
+    line-height: var(--lh-tight);
+    font-weight: 400;
+    margin: 0 0 18px;
+  }
+
+  .hp-adaptations__body p {
+    font-family: var(--font-body);
+    font-size: var(--text-md);
+    line-height: var(--lh-loose);
+    color: var(--text);
+    margin: 0 0 14px;
+  }
+
+  .hp-adaptations__body p:last-child { margin-bottom: 24px; }
+
+  .hp-adaptations__image img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .hp-adaptations {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
   }
 
   .hp-press {

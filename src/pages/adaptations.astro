@@ -27,11 +27,17 @@ const countries = [...new Set(allAdaptations.map(a => a.data.country))];
 const countriesText = countries.length <= 2
   ? countries.join(' and ')
   : countries.slice(0, -1).join(', ') + ', and ' + countries[countries.length - 1];
+
 ---
 
 <Layout title="Adaptations" lang="en">
 
   <PageHeading eyebrow="Adaptations" title="On screen and on stage." subtitle={`Television and stage adaptations of Noa Yedlin's novels — across ${countriesText}.`} />
+
+  <div class="ap-intro">
+    <p>Yedlin is the creator of a two-season TV series based on her bestselling novel <em>Stockholm</em>, winner of the Israeli Best Mini-Series TV Award. A German remake, <em>You Don't Die Among Friends</em>, won Best Scripted Format at the 2021 International Format Awards and Best European Series at La Rochelle Festival De La Fiction 2021. The series has been adapted in three countries: Israel, Germany, and Sweden. Her novel <em>People Like Us</em> is currently in development for Israeli television, and a stage adaptation of <em>House Arrest</em> is playing at Beit Lessin Theater in Tel Aviv.</p>
+  </div>
+
   {sortedGroups.map(([slug, adaptationList]) => {
     const book = bookMap[slug];
     if (!book) return null;
@@ -39,8 +45,9 @@ const countriesText = countries.length <= 2
       <div class="ap-group">
         <div class="ap-group-heading">
           <span class="eyebrow ap-from-label">From the novel</span>
-          <h2 class="ap-group-title"><em>{book.title}</em></h2>
-          <a href={`${base}/books/${slug}`} class="btn-secondary ap-group-cta">View book</a>
+          <h2 class="ap-group-title">
+            <a href={`${base}/books/${slug}`} class="headline-link"><em>{book.title}</em></a>
+          </h2>
         </div>
 
         <div class="ap-cards">
@@ -52,27 +59,13 @@ const countriesText = countries.length <= 2
                 : 'background: #2A2A2A;';
             const longTitle = a.data.title.length > 24;
             return (
-              <article class="ap-card">
+              <article class={`ap-card${a.data.still?.image ? ' ap-card--has-thumb' : ''}`}>
 
-                <div class="ap-still" style={stillStyle}>
-                  {a.data.still?.image && (
-                    <img src={a.data.still.image} alt={a.data.title} />
-                  )}
-                  <div class="ap-still-overlay"></div>
-                  <span class="ap-still-network">
-                    {[a.data.network, a.data.country].filter(Boolean).join(' · ')}
-                  </span>
-                  <span class={`ap-still-title${longTitle ? ' ap-still-title--sm' : ''}`}>
-                    {a.data.title}
-                  </span>
-                  {a.data.medium !== 'Stage play' && (
-                    <span class="ap-play-circle" aria-hidden="true">
-                      <svg width="10" height="12" viewBox="0 0 10 12">
-                        <polygon points="0,0 10,6 0,12" fill="currentColor" />
-                      </svg>
-                    </span>
-                  )}
-                </div>
+                {a.data.still?.image && (
+                  <div class="ap-card-thumb">
+                    <img src={a.data.still.image} alt={a.data.title} style={a.data.still.position ? `object-position: ${a.data.still.position}` : undefined} />
+                  </div>
+                )}
 
                 <div class="ap-content">
                   <p class="ap-meta">
@@ -86,13 +79,17 @@ const countriesText = countries.length <= 2
                       {a.data.network}{a.data.episodes ? ` · ${a.data.episodes} episodes` : ''}
                     </p>
                   )}
-                  {a.data.award && (
-                    <p class="ap-award">
-                      <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
-                        <polygon points="6,0 7.5,4.5 12,4.5 8.5,7 9.8,11.5 6,9 2.2,11.5 3.5,7 0,4.5 4.5,4.5" fill="var(--text-muted)" />
-                      </svg>
-                      {a.data.award}
-                    </p>
+                  {a.data.awards && a.data.awards.length > 0 && (
+                    <div class="ap-awards">
+                      {a.data.awards.map((award: string) => (
+                        <p class="ap-award">
+                          <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                            <polygon points="6,0 7.5,4.5 12,4.5 8.5,7 9.8,11.5 6,9 2.2,11.5 3.5,7 0,4.5 4.5,4.5" fill="var(--text-muted)" />
+                          </svg>
+                          {award}
+                        </p>
+                      ))}
+                    </div>
                   )}
                   {a.data.synopsis && (
                     <p class="ap-synopsis">{a.data.synopsis}</p>
@@ -108,7 +105,6 @@ const countriesText = countries.length <= 2
                   )}
                   {a.data.press && a.data.press.length > 0 && (
                     <div class="ap-press">
-                      <span class="eyebrow ap-press-label">Press</span>
                       <div class="ap-press-links">
                         {a.data.press.map((p) => (
                           <a href={p.url} target="_blank" rel="noopener" class="ap-press-link">{p.label}</a>
@@ -117,6 +113,22 @@ const countriesText = countries.length <= 2
                     </div>
                   )}
                 </div>
+
+                {(() => {
+                  const galleryStills = (a.data.stills ?? []).filter((src: string) => src !== a.data.still?.image);
+                  return galleryStills.length > 0 ? (
+                    <div class="ap-group-stills">
+                      {galleryStills.map((src: string) => (
+                        <figure class="ap-stills-item">
+                          <a href={src} target="_blank" rel="noopener" class="ap-stills-link" title="View full size">
+                            <img src={src} alt="" loading="lazy" />
+                            <span class="ap-stills-zoom" aria-hidden="true">↗</span>
+                          </a>
+                        </figure>
+                      ))}
+                    </div>
+                  ) : null;
+                })()}
               </article>
             );
           })}
@@ -132,10 +144,78 @@ const countriesText = countries.length <= 2
 </Layout>
 
 <style>
+  /* Intro paragraph */
+  .ap-intro {
+    max-width: var(--max-width);
+    margin: 0 auto 48px;
+  }
+
+  .ap-intro p {
+    font-family: var(--font-body);
+    font-size: var(--text-md);
+    line-height: var(--lh-loose);
+    color: var(--text);
+    margin: 0;
+  }
+
+  /* Production stills — bottom of each book group */
+  .ap-group-stills {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    margin-top: 20px;
+  }
+
+  .ap-stills-item {
+    margin: 0;
+    padding: 0;
+  }
+
+  .ap-stills-link {
+    display: block;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ap-stills-link img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+    transition: opacity 0.15s;
+  }
+
+  .ap-stills-zoom {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    font-size: 11px;
+    line-height: 1;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.15s;
+    background: rgba(0,0,0,0.45);
+    padding: 3px 5px;
+  }
+
+  .ap-stills-link:hover img { opacity: 0.85; }
+  .ap-stills-link:hover .ap-stills-zoom { opacity: 1; }
+
+  @media (max-width: 680px) {
+    .ap-group-stills {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
   /* Group heading */
   .ap-group {
-    max-width: 860px;
+    max-width: var(--max-width);
     margin: 0 auto;
+  }
+
+  .ap-group + .ap-group {
+    border-top: 0.5px solid var(--rule);
   }
 
   .ap-group-heading {
@@ -143,7 +223,7 @@ const countriesText = countries.length <= 2
     flex-direction: column;
     align-items: flex-start;
     padding: 48px 0 0;
-    margin-bottom: 32px;
+    margin-bottom: 0;
   }
 
   .ap-from-label {
@@ -162,8 +242,6 @@ const countriesText = countries.length <= 2
     margin: 0 0 18px;
   }
 
-  .ap-group-cta { /* scoped to ensure correct margin reset */ }
-
   /* Cards */
   .ap-cards {
     display: flex;
@@ -171,89 +249,46 @@ const countriesText = countries.length <= 2
   }
 
   .ap-card {
-    display: grid;
-    grid-template-columns: 240px 1fr;
-    gap: 28px;
-    align-items: start;
     padding: 24px 0;
   }
 
-  .ap-card + .ap-card {
-    border-top: 0.5px solid var(--rule);
+  .ap-card--has-thumb {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 32px;
+    align-items: start;
   }
 
-  /* Still panel */
-  .ap-still {
-    width: 240px;
-    aspect-ratio: 16/9;
-    position: relative;
-    overflow: hidden;
-    flex-shrink: 0;
+  .ap-card-thumb {
+    width: 320px;
   }
 
-  .ap-still img {
+  .ap-card-thumb img {
     width: 100%;
-    height: 100%;
+    aspect-ratio: 16 / 9;
     object-fit: cover;
+    object-position: top;
     display: block;
   }
 
-  .ap-still-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 55%, transparent 100%);
+  /* stills gallery spans both columns */
+  .ap-card--has-thumb .ap-group-stills {
+    grid-column: 1 / -1;
   }
 
-  .ap-still-network {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    font-family: var(--font-serif);
-    font-size: var(--text-xs);
-    letter-spacing: var(--track-wide);
-    text-transform: uppercase;
-    color: rgba(245, 245, 242, 0.75);
-    z-index: 1;
-    line-height: 1;
+  @media (max-width: 680px) {
+    .ap-card--has-thumb {
+      grid-template-columns: 1fr;
+    }
+    .ap-card-thumb { width: 100%; }
   }
 
-  .ap-still-title {
-    position: absolute;
-    bottom: 12px;
-    left: 12px;
-    right: 40px;
-    font-family: var(--font-serif);
-    font-size: var(--text-sm);
-    line-height: var(--lh-tight);
-    color: rgba(245, 245, 242, 0.95);
-    z-index: 1;
-  }
-
-  .ap-still-title--sm {
-    font-size: var(--text-xs);
-  }
-
-  .ap-play-circle {
-    position: absolute;
-    bottom: 12px;
-    right: 12px;
-    width: 22px;
-    height: 22px;
-    border: 1px solid rgba(245, 245, 242, 0.8);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(245, 245, 242, 0.8);
-    z-index: 1;
-    padding-left: 2px;
-  }
 
   /* Content column */
   .ap-content {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 8px;
     padding-top: 2px;
   }
 
@@ -275,14 +310,16 @@ const countriesText = countries.length <= 2
     color: var(--text);
   }
 
-  .ap-card-title--sm {
-    font-size: var(--text-lg);
-  }
-
   .ap-network {
     font-size: var(--text-xs);
     color: var(--text-muted);
     margin: 0;
+  }
+
+  .ap-awards {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }
 
   .ap-award {
@@ -292,8 +329,8 @@ const countriesText = countries.length <= 2
     font-size: var(--text-xs);
     text-transform: uppercase;
     letter-spacing: var(--track-wide);
-    color: var(--text-muted);
-    margin: 0 0 2px;
+    color: var(--text);
+    margin: 0;
   }
 
   .ap-synopsis {
@@ -321,10 +358,6 @@ const countriesText = countries.length <= 2
     margin-top: 4px;
   }
 
-  .ap-press-label {
-    color: var(--text-muted);
-  }
-
   .ap-press-links {
     display: flex;
     flex-wrap: wrap;
@@ -340,12 +373,4 @@ const countriesText = countries.length <= 2
     letter-spacing: var(--track-none);
   }
 
-  @media (max-width: 680px) {
-    .ap-card {
-      grid-template-columns: 1fr;
-    }
-    .ap-still {
-      width: 100%;
-    }
-  }
 </style>

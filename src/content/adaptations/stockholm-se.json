@@ -8,13 +8,18 @@
   "network": "SVT",
   "order": 3,
   "still": {
+    "image": "/adaptations/stockholm-se-still-1.avif",
     "gradient": ["#6B7E8A", "#2C3840"]
   },
+  "stills": [
+    "https://noayedlin.com/wp-content/uploads/2023/09/Pic-1.png"
+  ],
   "watch": [
-    { "label": "IMDb", "url": "https://www.imdb.com/title/tt24067946/", "primary": false },
+    { "label": "Watch on Vimeo", "url": "https://vimeo.com/801561424", "primary": true },
     { "label": "Keshet International", "url": "https://www.keshetinternational.com/catalogue/9097", "primary": false }
   ],
   "press": [
+    { "label": "IMDb", "url": "https://www.imdb.com/title/tt24067946/" },
     { "label": "Dagens Nyheter", "url": "https://www.dn.se/kultur/det-gamla-lorry-ganget-glanser-i-drapliga-svt-serien-antligen/" }
   ]
 }

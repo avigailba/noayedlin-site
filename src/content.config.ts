@@ -51,8 +51,9 @@ const adaptationSchema = z.object({
   still: z.object({
     image: z.string().optional(),
     gradient: z.tuple([z.string(), z.string()]).optional(),
+    position: z.string().optional(),
   }).optional(),
-  award: z.string().optional(),
+  awards: z.array(z.string()).optional(),
   synopsis: z.string().optional(),
   watch: z.array(z.object({
     label: z.string(),

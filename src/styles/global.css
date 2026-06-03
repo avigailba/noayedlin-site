@@ -541,10 +541,8 @@ img { max-width: 100%; display: block; }
   color: var(--bg);
   padding: 10px 22px;
   font-size: var(--text-xs);
-  letter-spacing: var(--track-wide);
-  text-transform: uppercase;
+  letter-spacing: var(--track-none);
   border: none;
-  border-radius: 999px;
   text-decoration: none;
   cursor: pointer;
   transition: opacity 0.15s;
@@ -557,10 +555,8 @@ img { max-width: 100%; display: block; }
   color: var(--text);
   padding: 9px 21px;
   font-size: var(--text-xs);
-  letter-spacing: var(--track-wide);
-  text-transform: uppercase;
+  letter-spacing: var(--track-none);
   border: 1px solid var(--text);
-  border-radius: 999px;
   text-decoration: none;
   cursor: pointer;
   transition: opacity 0.15s;

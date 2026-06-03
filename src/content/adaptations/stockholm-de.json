@@ -5,22 +5,30 @@
   "medium": "Television series",
   "country": "Germany",
   "year": 2021,
+  "network": "Vox",
   "order": 2,
   "still": {
-    "image": "https://noayedlin.com/wp-content/uploads/2023/10/2018-02-12-PHOTO-00000150.jpg",
-    "gradient": ["#8E7A6B", "#3D2B1F"]
+    "image": "https://noayedlin.com/wp-content/uploads/2023/09/Pic-2.png",
+    "gradient": ["#8E7A6B", "#3D2B1F"],
+    "position": "top"
   },
-  "award": "Best European Series, La Rochelle 2021 · Best Scripted Format, IFA 2021",
+  "awards": [
+    "Best Scripted Format · 2021 International Format Awards",
+    "Best European Series · La Rochelle Festival De La Fiction 2021"
+  ],
   "watch": [
-    { "label": "IMDb", "url": "https://www.imdb.com/title/tt13413120/", "primary": false }
+    { "label": "Watch on YouTube", "url": "https://www.youtube.com/watch?v=pHSIM--ReGA", "primary": true },
+    { "label": "Watch YouTube clip", "url": "https://www.youtube.com/watch?v=yOJzNkKiAXM", "primary": false },
+    { "label": "Watch on TVNow", "url": "https://www.tvnow.de/serien/unter-freunden-stirbt-man-nicht-19005/staffel-1/episode-1-annette-3822471", "primary": false }
   ],
   "press": [
-    { "label": "DWDL", "url": "https://www.dwdl.de/zahlenzentrale/81960/" },
-    { "label": "Wikipedia", "url": "https://de.wikipedia.org/wiki/Unter_Freunden_stirbt_man_nicht" }
+    { "label": "IMDb", "url": "https://www.imdb.com/title/tt13413120/" },
+    { "label": "Wikipedia (DE)", "url": "https://de.wikipedia.org/wiki/Unter_Freunden_stirbt_man_nicht" },
+    { "label": "DWDL ratings", "url": "https://www.dwdl.de/zahlenzentrale/81960/auch_berben_lauterbach__co_koennen_bei_vox_nicht_punkten/" },
+    { "label": "DWDL review", "url": "https://www.dwdl.de/meinungen/81971/unter_freunden_stirbt_man_nicht_haette_mehr_verdient/" },
+    { "label": "Tresor TV", "url": "https://www.tresor.tv/en/news/unter-freunden-stirbt-man-nicht-gewinnt-internationalen-tv-preis/" }
   ],
   "stills": [
-    "https://noayedlin.com/wp-content/uploads/2023/10/2018-02-12-PHOTO-00000150.jpg",
-    "https://noayedlin.com/wp-content/uploads/2023/10/2018-02-13-PHOTO-00000271.jpg",
-    "https://noayedlin.com/wp-content/uploads/2023/10/DSCF2358ver2-scaled.jpg"
+    "https://noayedlin.com/wp-content/uploads/2023/09/Pic-2.png"
   ]
 }
