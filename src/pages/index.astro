@@ -146,8 +146,8 @@ function formatDate(dateStr: string) {
             return (
               <article class="event-row">
                 <div class="event-meta">
-                  <div class="event-date">{dateStr}</div>
                   {locationStr && <div class="event-location">{locationStr}</div>}
+                  <div class="event-date">{dateStr}</div>
                   {event.data.type && <div class="event-type">{event.data.type}</div>}
                 </div>
                 <div class="event-content">
