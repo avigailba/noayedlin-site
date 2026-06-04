@@ -928,6 +928,8 @@ function formatDate(dateStr: string) {
     { book: 'on People Like Us', text: "All this abundance, in which one family becomes a mirror to an entire social class in Israel.",                                                   author: "Avraham Balaban", role: "Haaretz Books" },
     { book: 'on People Like Us', text: "A riveting book that examines Ashkenazi society with both sarcasm and compassion.",                                                               author: "Alon Hilu",      role: "Author" },
     { book: 'on People Like Us', text: "An excellent book \u2014 a clear, distinct, and uncompromising voice that sets a high literary standard.",                                        author: "Dorit Rabinyan", role: "Author" },
+    { book: 'on House Arrest',   text: "One should run, run to buy this book",                                                                                                              author: "Haaretz",        role: "" },
+    { book: 'on House Arrest',   text: "A lucid, clear, and distinct voice",                                                                                                                author: "Dorit Rabinyan", role: "Author" },
   ];
 
   function shuffle(arr: typeof QUOTES) {
@@ -969,7 +971,7 @@ function formatDate(dateStr: string) {
     const q = shuffled[idx];
     bookEl.textContent  = q.book;
     quoteEl.textContent = '\u201c' + q.text + '\u201d';
-    attrEl.textContent  = q.author.toUpperCase() + ' \u00b7 ' + q.role.toUpperCase();
+    attrEl.textContent  = q.role ? q.author.toUpperCase() + ' \u00b7 ' + q.role.toUpperCase() : q.author.toUpperCase();
     counterEl.textContent = (idx + 1) + ' / ' + shuffled.length;
     dotsEl.querySelectorAll('.hpc-dot').forEach((d, i) => {
       d.classList.toggle('hpc-dot--active', i === idx);
