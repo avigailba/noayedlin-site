@@ -994,6 +994,11 @@ function formatDate(dateStr: string) {
   buildDots();
   render(current);
 
-  prevBtn.addEventListener('click', () => goTo(current - 1));
-  nextBtn.addEventListener('click', () => goTo(current + 1));
+  // Auto-advance every 5 seconds; pause on user interaction
+  let timer = setInterval(() => goTo(current + 1), 5000);
+  const resetTimer = () => { clearInterval(timer); timer = setInterval(() => goTo(current + 1), 5000); };
+
+  prevBtn.addEventListener('click', () => { goTo(current - 1); resetTimer(); });
+  nextBtn.addEventListener('click', () => { goTo(current + 1); resetTimer(); });
+  dotsEl.addEventListener('click', resetTimer);
 </script>
