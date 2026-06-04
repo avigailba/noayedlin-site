@@ -406,10 +406,16 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
       grid-template-rows: auto auto;
     }
 
-    .ap-entry--has-image .ap-img-wrap {
+    .ap-entry--has-image .ap-img-wrap,
+    .ap-entry--has-image .ap-img-strip-wrap {
       grid-column: 1 / -1;
-      max-width: 260px;
+      max-width: 320px;
       margin-top: 12px;
+    }
+
+    .ap-strip-btn {
+      width: 36px;
+      height: 36px;
     }
   }
 
@@ -420,7 +426,8 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
       gap: 8px 0;
     }
 
-    .ap-entry--has-image .ap-img-wrap {
+    .ap-entry--has-image .ap-img-wrap,
+    .ap-entry--has-image .ap-img-strip-wrap {
       grid-column: 1;
       max-width: 100%;
       margin-top: 4px;
@@ -430,6 +437,12 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
       flex-direction: row;
       flex-wrap: wrap;
       gap: 0 8px;
+    }
+
+    .ap-strip-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 15px;
     }
   }
 </style>
