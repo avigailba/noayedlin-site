@@ -8,15 +8,14 @@
   "network": "Beit Lessin Theater, Tel Aviv",
   "order": 1,
   "still": {
-    "image": "https://noayedlin.com/wp-content/uploads/2023/09/Pic-4.png",
-    "gradient": ["#5C4A3A", "#2A1F17"]
+    "image": "https://noayedlin.com/wp-content/uploads/2023/09/Pic-5.png"
   },
-  "press": [
-    { "label": "Drama Israel", "url": "https://exposure.dramaisrael.org/2021/house-arrest/" }
-  ],
   "stills": [
-    "https://noayedlin.com/wp-content/uploads/2023/09/Pic-4.png",
     "https://noayedlin.com/wp-content/uploads/2023/09/Pic-5.png",
+    "https://noayedlin.com/wp-content/uploads/2023/09/Pic-4.png",
     "https://noayedlin.com/wp-content/uploads/2023/09/Pic-6.png"
+  ],
+  "info": [
+    { "label": "Drama Israel", "url": "https://exposure.dramaisrael.org/2021/house-arrest/" }
   ]
 }

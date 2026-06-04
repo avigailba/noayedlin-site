@@ -7,7 +7,8 @@
   "network": "Kan 11",
   "order": 1,
   "still": {
-    "gradient": ["#2A2A2A", "#1A1A1A"]
+    "image": "/images/people-like-us-heb.jpg",
+    "position": "center center"
   },
-  "synopsis": "Currently in development for Israeli television."
+  "status": "In development"
 }
