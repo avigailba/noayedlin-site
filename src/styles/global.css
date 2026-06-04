@@ -1381,6 +1381,10 @@ img { max-width: 100%; display: block; }
   }
 }
 
+@media (max-width: 600px) {
+  .section-eyebrow { text-align: left; }
+}
+
 /* Touch devices: show underlines on links that rely on hover only */
 @media (hover: none) {
   .headline-link {
