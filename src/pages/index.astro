@@ -322,6 +322,7 @@ function formatDate(dateStr: string) {
   /* ── Feature column ── */
   .hp-feat {
     flex: 1.55;
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: clamp(28px, 3.2vw, 46px);
@@ -331,7 +332,7 @@ function formatDate(dateStr: string) {
   .gh-cover-link { display: block; flex-shrink: 0; }
 
   .gh-cover {
-    width: clamp(200px, 22vw, 280px);
+    width: clamp(160px, min(22vw, 36vh), 320px);
     height: auto;
     aspect-ratio: 2 / 3;
     object-fit: cover;
@@ -370,7 +371,7 @@ function formatDate(dateStr: string) {
 
   .gh-title {
     font-family: var(--font-serif);
-    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-size: clamp(36px, 4.4vw, 62px);
     font-weight: 600;
     line-height: 0.95;
     letter-spacing: -0.02em;

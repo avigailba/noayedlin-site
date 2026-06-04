@@ -80,21 +80,32 @@ const altLangHref = isHe ? '/' : '/he';
     </main>
 
     <footer class="site-footer">
-      <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <p class="footer-brand-name">{isHe ? 'נועה ידלין' : 'Noa Yedlin'}</p>
+          <p class="footer-brand-tagline">
+            {isHe ? (
+              <>סופרת ותסריטאית ישראלית.<br />זוכת פרס ספיר.</>
+            ) : (
+              <>Israeli novelist and screenwriter.<br />Sapir Prize Winner.</>
+            )}
+          </p>
+        </div>
+
         <div class="footer-col">
-          <p class="footer-heading">{isHe ? 'ספרים' : 'Books'}</p>
+          <p class="footer-col-label">{isHe ? 'ספרים' : 'Books'}</p>
           <ul>
             {isHe ? (
               <>
-                <li><a href={base + '/he/books/stockholm'}>סטוקהולם</a></li>
                 <li><a href={base + '/he/books/house-arrest'}>מעצר בית</a></li>
+                <li><a href={base + '/he/books/stockholm'}>סטוקהולם</a></li>
                 <li><a href={base + '/he/books/people-like-us'}>אנשים כמונו</a></li>
                 <li><a href={base + '/he/books/the-wrong-book'}>הספר הלא נכון</a></li>
               </>
             ) : (
               <>
-                <li><a href={base + '/books/stockholm'}>Stockholm</a></li>
                 <li><a href={base + '/books/house-arrest'}>House Arrest</a></li>
+                <li><a href={base + '/books/stockholm'}>Stockholm</a></li>
                 <li><a href={base + '/books/people-like-us'}>People Like Us</a></li>
                 <li><a href={base + '/books/the-wrong-book'}>The Wrong Book</a></li>
               </>
@@ -103,29 +114,31 @@ const altLangHref = isHe ? '/' : '/he';
         </div>
 
         <div class="footer-col">
-          <p class="footer-heading">{isHe ? 'ניווט' : 'Navigate'}</p>
+          <p class="footer-col-label">{isHe ? 'ניווט' : 'Navigate'}</p>
           <ul>
             {isHe ? (
               <>
                 <li><a href={base + '/he/books'}>ספרים</a></li>
                 <li><a href={base + '/he/events'}>הרצאות ואירועים</a></li>
-                <li><a href={base + '/he/media'}>תקשורת</a></li>
                 <li><a href={base + '/he/about'}>אודות</a></li>
+                <li><a href={base + '/he/media'}>תקשורת</a></li>
+                <li><a href={base + '/he/contact'}>צור קשר</a></li>
               </>
             ) : (
               <>
                 <li><a href={base + '/books'}>Books</a></li>
-                <li><a href={base + '/events'}>Lectures &amp; Events</a></li>
-                <li><a href={base + '/media'}>Media</a></li>
+                <li><a href={base + '/events'}>Events</a></li>
                 <li><a href={base + '/about'}>About</a></li>
+                <li><a href={base + '/media'}>Media</a></li>
+                <li><a href={base + '/contact'}>Contact</a></li>
                 <li><a href={base + '/design'}>Design system</a></li>
               </>
             )}
           </ul>
         </div>
 
-        <div class="footer-col">
-          <p class="footer-heading">{isHe ? 'ייצוג' : 'Representatives'}</p>
+        <div class="footer-col footer-col--reps">
+          <p class="footer-col-label">{isHe ? 'ייצוג' : 'Representatives'}</p>
           <ul>
             {isHe ? (
               <>
@@ -143,12 +156,11 @@ const altLangHref = isHe ? '/' : '/he';
             )}
           </ul>
         </div>
-
       </div>
 
       <div class="footer-bottom">
         <p>© {new Date().getFullYear()} Noa Yedlin. {isHe ? 'כל הזכויות שמורות.' : 'All rights reserved.'}</p>
-        {!isHe && <p><a href={base + '/accessibility'}>Accessibility Statement</a></p>}
+        {!isHe && <a href={base + '/accessibility'} class="footer-accessibility">Accessibility Statement</a>}
       </div>
     </footer>
   </body>
