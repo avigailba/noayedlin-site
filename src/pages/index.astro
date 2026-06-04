@@ -17,16 +17,6 @@ function coverSrc(raw: string) {
   return raw.startsWith('/') ? base + raw : raw;
 }
 
-// Praise quotes — pull from book data
-const heroP1 = featured2?.data.selectedReviews?.[0];
-const heroP2 = featured?.data.selectedReviews?.[0];
-const heroP3 = featured?.data.selectedReviews?.[1];
-
-// All praise — interleave House Arrest + Stockholm quotes
-const allPraise = [
-  ...(featured2?.data.selectedReviews ?? []).map((r: any) => ({ ...r, book: featured2!.data.title })),
-  ...(featured?.data.selectedReviews  ?? []).map((r: any) => ({ ...r, book: featured!.data.title  })),
-];
 
 const allEventsRaw = await getCollection('events');
 function hpParseDate(str: string) {
@@ -119,19 +109,47 @@ function formatDate(dateStr: string) {
         </div>
       </div>
 
-      {/* Praise band — all quotes, horizontally scrollable */}
-      <div class="hp-praise-band">
-        <div class="hp-praise-scroll">
-          {allPraise.map((r: any) => (
-            <div class="gh-praise-item">
-              <p class="gh-praise-q">"{r.quote}"</p>
-              <p class="eyebrow">{r.reviewer}{r.publication ? ` · ${r.publication}` : ''}</p>
-            </div>
-          ))}
-        </div>
-      </div>
     </section>
   )}
+
+  {/* ── Praise carousel ── */}
+  <section class="hp-praise-carousel" aria-label="Reader praise">
+    <div class="hpc-body" id="hpc-body">
+      <p class="hpc-book" id="hpc-book"></p>
+      <blockquote class="hpc-quote" id="hpc-quote"></blockquote>
+      <p class="hpc-attr" id="hpc-attr"></p>
+    </div>
+    <div class="hpc-nav">
+      <button class="hpc-arrow" id="hpc-prev" aria-label="Previous quote">←</button>
+      <div class="hpc-dots" id="hpc-dots" role="tablist" aria-label="Quote navigation"></div>
+      <button class="hpc-arrow" id="hpc-next" aria-label="Next quote">→</button>
+      <span class="hpc-counter" id="hpc-counter"></span>
+    </div>
+  </section>
+
+  {/* ── Rail row — backlist outside hero at ≤1024px ── */}
+  <div class="hp-rail-row">
+    <div class="hp-rail-row-inner">
+      <p class="eyebrow hp-rail-row-label">More from Noa Yedlin</p>
+      <div class="hp-rail-row-items">
+        {backlist.map((book) => (
+          <a class="gh-rail-item" href={`${base}/books/${book!.data.slug}`}>
+            <img
+              class="gh-rail-thumb"
+              src={coverSrc(book!.data.cover)}
+              alt={`Cover of ${book!.data.title}`}
+              width="52" height="78"
+            />
+            <div class="gh-rail-text">
+              <div class="gh-rail-title">{book!.data.title}</div>
+              <div class="eyebrow gh-rail-year">{book!.data.year}</div>
+            </div>
+            <span class="gh-rail-more">View more <span class="gh-rail-arrow">→</span></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
 
   {/* ── Remaining homepage content ── */}
   <div class="hp-inner">
@@ -264,12 +282,26 @@ function formatDate(dateStr: string) {
      Hero frame — full-viewport flex column
   ═══════════════════════════════════════════════════ */
   .hp-hero-frame {
-    height: calc(100dvh - var(--header-h, 68px));
+    height: max(460px, calc(75vh - var(--header-h, 68px)));
     display: flex;
     flex-direction: column;
     background: var(--bg);
     color: var(--text);
     overflow: hidden;
+    position: relative;
+  }
+
+  /* Scroll-invitation gradient — fades hero bottom edge into page bg */
+  .hp-hero-frame::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: linear-gradient(to bottom, transparent, var(--bg));
+    pointer-events: none;
+    z-index: 1;
   }
 
   /* Body: feature + rail, clips overflow so praise band stays visible */
@@ -293,14 +325,14 @@ function formatDate(dateStr: string) {
     display: flex;
     align-items: center;
     gap: clamp(28px, 3.2vw, 46px);
-    padding: 24px clamp(28px, 3vw, 40px) 24px 15%;
+    padding: 24px clamp(28px, 3vw, 40px) 24px 12%;
   }
 
   .gh-cover-link { display: block; flex-shrink: 0; }
 
   .gh-cover {
-    height: clamp(300px, 56vh, 520px);
-    width: auto;
+    width: clamp(200px, 22vw, 280px);
+    height: auto;
     aspect-ratio: 2 / 3;
     object-fit: cover;
     border-radius: 3px;
@@ -325,7 +357,7 @@ function formatDate(dateStr: string) {
     background: var(--text);
     color: #fff;
     font-family: var(--font-body);
-    font-size: 11px;
+    font-size: clamp(0.65rem, 0.8vw, 0.75rem);
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -338,11 +370,10 @@ function formatDate(dateStr: string) {
 
   .gh-title {
     font-family: var(--font-serif);
-    font-size: clamp(44px, 4.4vw, 62px);
+    font-size: clamp(2rem, 4vw, 3.5rem);
     font-weight: 600;
     line-height: 0.95;
     letter-spacing: -0.02em;
-    white-space: nowrap;
     margin: 0 0 16px;
     text-align: left; /* override global h1 center */
   }
@@ -350,7 +381,7 @@ function formatDate(dateStr: string) {
   .gh-quote {
     font-family: var(--font-serif);
     font-style: italic;
-    font-size: clamp(17px, 1.5vw, 20px);
+    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
     line-height: 1.6;
     color: var(--text);
     border: none;       /* override global .quote border */
@@ -377,6 +408,8 @@ function formatDate(dateStr: string) {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    white-space: nowrap;
+    min-width: fit-content;
     transition: transform .18s ease, background .18s ease, color .18s ease, opacity .18s ease;
   }
 
@@ -456,38 +489,121 @@ function formatDate(dateStr: string) {
   }
   .gh-rail-item:hover .gh-rail-arrow { transform: translateX(4px); }
 
-  /* ── Praise band ── */
-  .hp-praise-band {
-    flex: none;
-    border-top: 0.5px solid var(--rule);
-    background: var(--bg);
-    padding: 20px 0 20px clamp(28px, 2.6vw, 56px);
-  }
-  .hp-praise-label { margin-bottom: 14px; padding-right: clamp(28px, 2.6vw, 56px); }
-
-  /* 2-row grid */
-  .hp-praise-scroll {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: clamp(16px, 2vw, 28px);
-    padding-right: clamp(28px, 2.6vw, 56px);
+  /* ── Praise carousel (full-bleed, lives outside hp-inner) ── */
+  :global(.hp-praise-carousel) {
+    background: var(--bg-alt);
+    padding: 72px 32px;
+    text-align: center;
   }
 
-  .gh-praise-item {
-    border-left: 2px solid var(--accent);
-    padding-left: 16px;
+  :global(.hpc-body) {
+    max-width: 860px;
+    margin: 0 auto 40px;
+    transition: opacity 0.18s ease, transform 0.18s ease;
   }
-  .gh-praise-q {
+
+  :global(.hpc-body.is-leaving) {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.hpc-body) { transition: none; }
+  }
+
+  :global(.hpc-book) {
     font-family: var(--font-serif);
     font-style: italic;
-    font-size: clamp(13px, 1.05vw, 15px);
-    line-height: 1.5;
+    font-size: var(--text-sm);
+    color: var(--accent);
+    white-space: nowrap;
+    margin: 0 0 24px;
+  }
+
+  :global(.hpc-quote) {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(22px, 2.8vw, 36px);
+    line-height: var(--lh-snug);
+    letter-spacing: var(--track-none);
     color: var(--text);
-    margin: 0 0 6px;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
+    border: none;
+    padding: 0;
+    margin: 0 0 24px;
+  }
+
+  :global(.hpc-attr) {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    letter-spacing: var(--track-wide);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  :global(.hpc-nav) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  :global(.hpc-arrow) {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--rule);
+    background: transparent;
+    cursor: pointer;
+    color: var(--text);
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.15s;
+    flex-shrink: 0;
+  }
+
+  :global(.hpc-arrow:hover) {
+    border-color: var(--text);
+  }
+
+  :global(.hpc-dots) {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  :global(.hpc-dot) {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--rule);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: width 0.2s ease, background 0.2s ease, border-color 0.2s ease, border-radius 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  :global(.hpc-dot--active) {
+    width: 20px;
+    border-radius: 4px;
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  :global(.hpc-counter) {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    letter-spacing: var(--track-wide);
+    color: var(--text-muted);
+    min-width: 36px;
+    text-align: left;
+  }
+
+  @media (max-width: 768px) {
+    :global(.hp-praise-carousel) { padding: 48px 20px; }
+    :global(.hpc-body) { margin-bottom: 32px; }
   }
 
   /* ── Entrance animation — feature column only ── */
@@ -500,11 +616,38 @@ function formatDate(dateStr: string) {
   }
   @keyframes ghHeroUp { to { opacity: 1; transform: none; } }
 
-  /* ── Responsive: ≤ 860px — stack, scrollable ── */
-  @media (max-width: 860px) {
+  /* ── 1280px: tighten column proportions ── */
+  @media (max-width: 1280px) {
+    .hp-feat {
+      padding: 24px clamp(20px, 2.5vw, 32px) 24px 8%;
+    }
+    .hp-rail {
+      min-width: 280px;
+      max-width: 320px;
+      flex: none;
+      padding: clamp(20px, 3vh, 34px) 4% clamp(20px, 3vh, 34px) clamp(24px, 2vw, 32px);
+    }
+    .gh-info { min-width: 260px; }
+  }
+
+  /* ── 1024px: drop in-hero rail, hero becomes 2-col ── */
+  @media (max-width: 1024px) {
+    .hp-col-divider { display: none; }
+    .hp-rail { display: none; }
+    .hp-feat {
+      flex: 1;
+      justify-content: center;
+      padding: 24px 8%;
+    }
+    .gh-cover {
+      width: clamp(220px, 28vw, 360px);
+    }
+  }
+
+  /* ── 768px: single-column, remove viewport lock ── */
+  @media (max-width: 768px) {
     .hp-hero-frame {
       height: auto;
-      min-height: calc(100dvh - var(--header-h, 68px));
       overflow: visible;
     }
     .hp-hero-body {
@@ -513,30 +656,95 @@ function formatDate(dateStr: string) {
     }
     .hp-feat {
       flex: none;
-      padding: 32px 20px;  /* flat padding on mobile */
-    }
-    .hp-col-divider { display: none; }
-    .hp-rail {
-      flex: none;
-      border-top: 0.5px solid var(--rule);
-      padding: 24px 20px;  /* flat padding on mobile */
-    }
-    .gh-title { white-space: normal; }
-    .hp-praise-band { padding: 20px 0 20px 20px; }
-    .hp-praise-label { padding-right: 20px; }
-    .hp-praise-scroll { grid-template-columns: repeat(3, 1fr); padding-right: 20px; }
-  }
-
-  /* ── Mobile: ≤ 600px — cover above text ── */
-  @media (max-width: 600px) {
-    .hp-feat {
       flex-direction: column;
-      align-items: flex-start;
-      gap: 20px;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 32px 20px;
+      gap: 24px;
     }
     .gh-cover {
-      height: clamp(200px, 44vw, 280px);
+      width: clamp(180px, 56vw, 260px);
     }
+    .gh-info {
+      max-width: 100%;
+      align-items: center;
+    }
+    .gh-badge { align-self: center; }
+    .gh-title { white-space: normal; text-align: center; }
+    .gh-quote, .gh-attr { text-align: center; }
+    .gh-btns { justify-content: center; }
+  }
+
+  /* ── Rail row — backlist, visible ≤1024px below the praise section ── */
+  .hp-rail-row { display: none; }
+
+  @media (max-width: 1024px) {
+    .hp-rail-row {
+      display: block;
+      background: var(--bg);
+      border-top: 0.5px solid var(--rule);
+    }
+    .hp-rail-row-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 0 32px;
+    }
+    .hp-rail-row-label {
+      flex-shrink: 0;
+      white-space: nowrap;
+      margin: 0;
+      padding: 16px 20px 16px 0;
+      border-right: 0.5px solid var(--rule);
+    }
+    .hp-rail-row-items {
+      display: flex;
+      flex: 1;
+    }
+    .hp-rail-row .gh-rail-item {
+      flex: 1;
+      padding: 12px 20px;
+      border-top: none;
+    }
+    .hp-rail-row .gh-rail-item + .gh-rail-item {
+      border-top: none;
+      border-left: 0.5px solid var(--rule);
+    }
+    .hp-rail-row .gh-rail-more { display: none; }
+  }
+
+  @media (max-width: 768px) {
+    .hp-rail-row-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 16px 20px;
+      gap: 12px;
+    }
+    .hp-rail-row-label {
+      border-right: none;
+      padding: 0;
+    }
+    .hp-rail-row-items {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      width: 100%;
+      flex-wrap: nowrap;
+    }
+    .hp-rail-row .gh-rail-item {
+      flex: 0 0 auto;
+      min-width: 160px;
+      padding: 8px 16px 8px 0;
+      border-top: none;
+    }
+    .hp-rail-row .gh-rail-item:first-child { padding-left: 0; }
+    .hp-rail-row .gh-rail-item + .gh-rail-item {
+      border-top: none;
+      border-left: 0.5px solid var(--rule);
+      padding-left: 16px;
+    }
+    .hp-rail-row .gh-rail-more { display: flex; }
   }
 
   /* ── Post-hero sections ── */
@@ -708,4 +916,81 @@ function formatDate(dateStr: string) {
     setH();
     new ResizeObserver(setH).observe(header);
   }
+
+  // ── Praise carousel ──
+  const QUOTES = [
+    { book: 'on Stockholm',      text: "Too funny, too sad, too real, and too preposterous \u2014 just like life. Stockholm is the most entertaining book I\u2019ve read in a long time.", author: "Etgar Keret",    role: "Author" },
+    { book: 'on Stockholm',      text: "Bright, witty, irreverent and compassionate\u2026 an astute and hilarious study of the human condition.",                                          author: "Ruby Namdar",   role: "Author" },
+    { book: 'on Stockholm',      text: "Hilarious, refreshing, tightly plotted and vividly written. An irresistible read.",                                                               author: "Jonas Jonasson", role: "#1 New York Times bestselling author" },
+    { book: 'on Stockholm',      text: "The portraits of these four friends are so vivid that as I read, I felt Avishay\u2019s friends also became mine. Unputdownable, full of intrigue, a bit of sadness, and a lot of humor.", author: "Helene Tursten", role: "Internationally bestselling author" },
+    { book: 'on Stockholm',      text: "A brilliant meditation on the intricacies of friendship, aging, ego, wounds and healing.",                                                        author: "Parini Shroff",  role: "Author of The Bandit Queens" },
+    { book: 'on People Like Us', text: "All this abundance, in which one family becomes a mirror to an entire social class in Israel.",                                                   author: "Avraham Balaban", role: "Haaretz Books" },
+    { book: 'on People Like Us', text: "A riveting book that examines Ashkenazi society with both sarcasm and compassion.",                                                               author: "Alon Hilu",      role: "Author" },
+    { book: 'on People Like Us', text: "An excellent book \u2014 a clear, distinct, and uncompromising voice that sets a high literary standard.",                                        author: "Dorit Rabinyan", role: "Author" },
+  ];
+
+  function shuffle(arr: typeof QUOTES) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  const shuffled = shuffle(QUOTES);
+  let current = 0;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const bodyEl    = document.getElementById('hpc-body')!;
+  const bookEl    = document.getElementById('hpc-book')!;
+  const quoteEl   = document.getElementById('hpc-quote')!;
+  const attrEl    = document.getElementById('hpc-attr')!;
+  const dotsEl    = document.getElementById('hpc-dots')!;
+  const prevBtn   = document.getElementById('hpc-prev')!;
+  const nextBtn   = document.getElementById('hpc-next')!;
+  const counterEl = document.getElementById('hpc-counter')!;
+
+  function buildDots() {
+    dotsEl.innerHTML = '';
+    shuffled.forEach((_, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'hpc-dot' + (i === current ? ' hpc-dot--active' : '');
+      btn.setAttribute('aria-label', `Go to quote ${i + 1}`);
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-selected', String(i === current));
+      btn.addEventListener('click', () => goTo(i));
+      dotsEl.appendChild(btn);
+    });
+  }
+
+  function render(idx: number) {
+    const q = shuffled[idx];
+    bookEl.textContent  = q.book;
+    quoteEl.textContent = '\u201c' + q.text + '\u201d';
+    attrEl.textContent  = q.author.toUpperCase() + ' \u00b7 ' + q.role.toUpperCase();
+    counterEl.textContent = (idx + 1) + ' / ' + shuffled.length;
+    dotsEl.querySelectorAll('.hpc-dot').forEach((d, i) => {
+      d.classList.toggle('hpc-dot--active', i === idx);
+      d.setAttribute('aria-selected', String(i === idx));
+    });
+  }
+
+  async function goTo(idx: number) {
+    if (!reducedMotion) {
+      bodyEl.classList.add('is-leaving');
+      await new Promise(r => setTimeout(r, 180));
+    }
+    current = ((idx % shuffled.length) + shuffled.length) % shuffled.length;
+    render(current);
+    if (!reducedMotion) {
+      bodyEl.classList.remove('is-leaving');
+    }
+  }
+
+  buildDots();
+  render(current);
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
 </script>
