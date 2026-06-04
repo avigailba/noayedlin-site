@@ -1380,3 +1380,13 @@ img { max-width: 100%; display: block; }
     gap: 8px;
   }
 }
+
+/* Touch devices: show underlines on links that rely on hover only */
+@media (hover: none) {
+  .headline-link {
+    text-decoration: underline;
+    text-decoration-color: var(--rule);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+}
