@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageHeading from '../components/PageHeading.astro';
-import BooksRail from '../components/BooksRail.astro';
 ---
 
 <Layout title="Contact" lang="en">
@@ -12,96 +11,116 @@ import BooksRail from '../components/BooksRail.astro';
   />
 
   <section class="rep-section">
-    <div class="rep-grid">
-      <article class="rep-card">
-        <div class="rep-role">Literary agent</div>
-        <div class="rep-agency">Curtis Brown</div>
-        <a class="link-accent" href="https://www.curtisbrown.co.uk/client/noa-yedlin" target="_blank" rel="noopener">curtisbrown.co.uk</a>
-      </article>
+    <div class="rep-list">
 
-      <article class="rep-card">
-        <div class="rep-role">Lecture agent — USA</div>
-        <div class="rep-agency">Lion House Agency</div>
-        <a class="link-accent" href="https://lionhouseagency.com/noa-yedlin" target="_blank" rel="noopener">lionhouseagency.com</a>
-      </article>
+      <div class="rep-row">
+        <div class="rep-meta">Literary agent</div>
+        <div class="rep-body">
+          <div class="rep-agency">Curtis Brown</div>
+          <a href="https://www.curtisbrown.co.uk/client/noa-yedlin" target="_blank" rel="noopener">curtisbrown.co.uk</a>
+        </div>
+      </div>
 
-      <article class="rep-card">
-        <div class="rep-role">Lecture agent — Israel</div>
-        <div class="rep-agency">Hamartzim</div>
-        <a class="link-accent" href="mailto:info@hamartzim.co.il">info@hamartzim.co.il</a>
-        <span class="rep-phone">+972-3-7208856</span>
-      </article>
+      <div class="rep-row">
+        <div class="rep-meta">Lecture agent — USA</div>
+        <div class="rep-body">
+          <div class="rep-agency">Lion House Agency</div>
+          <a href="https://lionhouseagency.com/noa-yedlin" target="_blank" rel="noopener">lionhouseagency.com</a>
+        </div>
+      </div>
 
-      <article class="rep-card">
-        <div class="rep-role">Film &amp; TV — <em>Stockholm</em></div>
-        <div class="rep-agency">Keshet International</div>
-        <a class="link-accent" href="mailto:keren.shahar@keshet-tv.com">keren.shahar@keshet-tv.com</a>
-      </article>
+      <div class="rep-row">
+        <div class="rep-meta">Lecture agent — Israel</div>
+        <div class="rep-body">
+          <div class="rep-agency">Hamartzim</div>
+          <a href="mailto:info@hamartzim.co.il">info@hamartzim.co.il</a>
+          <span class="rep-phone">+972-3-7208856</span>
+        </div>
+      </div>
 
-      <article class="rep-card">
-        <div class="rep-role">Film &amp; TV — other novels</div>
-        <div class="rep-agency">WME</div>
-        <a class="link-accent" href="mailto:jgillett@wmeagency.com">jgillett@wmeagency.com</a>
-      </article>
+      <div class="rep-row">
+        <div class="rep-meta">Film &amp; TV — <em>Stockholm</em></div>
+        <div class="rep-body">
+          <div class="rep-agency">Keshet International</div>
+          <a href="mailto:keren.shahar@keshet-tv.com">keren.shahar@keshet-tv.com</a>
+        </div>
+      </div>
+
+      <div class="rep-row">
+        <div class="rep-meta">Film &amp; TV — other novels</div>
+        <div class="rep-body">
+          <div class="rep-agency">WME</div>
+          <a href="mailto:jgillett@wmeagency.com">jgillett@wmeagency.com</a>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  {/* <section class="books-rail-section">
-    <BooksRail />
-  </section> */}
 </Layout>
 
 <style>
   .rep-section {
-    padding: 56px 0;
+    max-width: 720px;
+    padding: 48px 0 80px;
   }
 
-  .rep-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-
-  .rep-card {
-    background: var(--bg-alt);
-    border-radius: 8px;
-    padding: 28px 24px;
+  .rep-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
   }
 
-  .rep-role {
+  .rep-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 32px;
+    padding: 24px 0;
+    border-top: 0.5px solid var(--rule);
+    align-items: baseline;
+  }
+
+  .rep-meta {
     font-size: var(--text-xs);
     letter-spacing: var(--track-wide);
     text-transform: uppercase;
     color: var(--text-muted);
-    margin-bottom: 8px;
+    padding-top: 2px;
+  }
+
+  .rep-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
 
   .rep-agency {
     font-family: var(--font-serif);
-    font-size: var(--text-md);
+    font-size: var(--text-lg);
     color: var(--text);
+    line-height: var(--lh-tight);
   }
+
+  .rep-body a {
+    font-size: var(--text-sm);
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 1px;
+    align-self: flex-start;
+  }
+
+  .rep-body a:hover { opacity: 0.7; }
 
   .rep-phone {
     font-size: var(--text-sm);
     color: var(--text-muted);
   }
 
-  @media (max-width: 1024px) {
-    .rep-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
   @media (max-width: 600px) {
-    .rep-section {
-      padding: 40px 0;
-    }
-    .rep-grid {
+    .rep-section { padding: 32px 0 56px; }
+    .rep-row {
       grid-template-columns: 1fr;
+      gap: 8px;
     }
   }
 </style>
