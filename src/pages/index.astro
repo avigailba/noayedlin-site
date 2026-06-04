@@ -658,22 +658,23 @@ function formatDate(dateStr: string) {
     .hp-feat {
       flex: none;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       justify-content: flex-start;
       padding: 32px 20px;
       gap: 24px;
     }
     .gh-cover {
       width: clamp(180px, 56vw, 260px);
+      align-self: center;
     }
     .gh-info {
       max-width: 100%;
-      align-items: center;
+      align-items: flex-start;
     }
-    .gh-badge { align-self: center; }
-    .gh-title { white-space: normal; text-align: center; }
-    .gh-quote, .gh-attr { text-align: center; }
-    .gh-btns { justify-content: center; }
+    .gh-badge { align-self: flex-start; }
+    .gh-title { white-space: normal; text-align: left; }
+    .gh-quote, .gh-attr { text-align: left; }
+    .gh-btns { justify-content: flex-start; }
   }
 
   /* ── Rail row — backlist, visible ≤1024px below the praise section ── */
@@ -891,6 +892,9 @@ function formatDate(dateStr: string) {
 
   @media (max-width: 600px) {
     .hp-events, .hp-press { padding: 40px 0; }
+    /* Left-align section eyebrows and footer CTAs */
+    .section-eyebrow { text-align: left; }
+    .hp-events-footer, .hp-press-footer { text-align: left; }
     .hp-press-row {
       grid-template-columns: 1fr;
       gap: 6px;
