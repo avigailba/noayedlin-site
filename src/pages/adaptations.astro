@@ -460,6 +460,7 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
     /* Larger mobile type */
     .ap-title { font-size: 22px; }
     .ap-network { font-size: 15px; }
+    .ap-country, .ap-medium, .ap-year { font-size: 13px; }
 
     /* Links: border separator + 44px touch height */
     .ap-links {
@@ -473,6 +474,10 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
       min-height: 44px;
       display: inline-flex;
       align-items: center;
+      border-bottom: none;
+      text-decoration: underline;
+      text-decoration-color: var(--rule);
+      text-underline-offset: 3px;
     }
 
     .ap-strip-btn {
