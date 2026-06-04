@@ -719,31 +719,27 @@ function formatDate(dateStr: string) {
   @media (max-width: 768px) {
     .hp-rail-row-inner {
       flex-direction: column;
-      align-items: flex-start;
-      padding: 16px 20px;
-      gap: 12px;
+      align-items: stretch;
+      padding: 0 20px;
+      gap: 0;
     }
     .hp-rail-row-label {
       border-right: none;
-      padding: 0;
+      padding: 16px 0 12px;
     }
     .hp-rail-row-items {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
+      flex-direction: column;
       width: 100%;
-      flex-wrap: nowrap;
     }
     .hp-rail-row .gh-rail-item {
-      flex: 0 0 auto;
-      min-width: 160px;
-      padding: 8px 16px 8px 0;
-      border-top: none;
+      flex: none;
+      padding: 14px 0;
+      border-top: 0.5px solid var(--rule);
+      border-left: none;
     }
-    .hp-rail-row .gh-rail-item:first-child { padding-left: 0; }
     .hp-rail-row .gh-rail-item + .gh-rail-item {
-      border-top: none;
-      border-left: 0.5px solid var(--rule);
-      padding-left: 16px;
+      border-left: none;
+      padding-left: 0;
     }
     .hp-rail-row .gh-rail-more { display: flex; }
   }
