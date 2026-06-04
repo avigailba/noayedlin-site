@@ -9,7 +9,6 @@
   "order": 2,
   "still": {
     "image": "https://noayedlin.com/wp-content/uploads/2023/09/Pic-2.png",
-    "gradient": ["#8E7A6B", "#3D2B1F"],
     "position": "top"
   },
   "awards": [
@@ -18,17 +17,16 @@
   ],
   "watch": [
     { "label": "Watch on YouTube", "url": "https://www.youtube.com/watch?v=pHSIM--ReGA", "primary": true },
-    { "label": "Watch YouTube clip", "url": "https://www.youtube.com/watch?v=yOJzNkKiAXM", "primary": false },
+    { "label": "YouTube clip", "url": "https://www.youtube.com/watch?v=yOJzNkKiAXM", "primary": false },
     { "label": "Watch on TVNow", "url": "https://www.tvnow.de/serien/unter-freunden-stirbt-man-nicht-19005/staffel-1/episode-1-annette-3822471", "primary": false }
   ],
-  "press": [
+  "info": [
     { "label": "IMDb", "url": "https://www.imdb.com/title/tt13413120/" },
     { "label": "Wikipedia (DE)", "url": "https://de.wikipedia.org/wiki/Unter_Freunden_stirbt_man_nicht" },
-    { "label": "DWDL ratings", "url": "https://www.dwdl.de/zahlenzentrale/81960/auch_berben_lauterbach__co_koennen_bei_vox_nicht_punkten/" },
-    { "label": "DWDL review", "url": "https://www.dwdl.de/meinungen/81971/unter_freunden_stirbt_man_nicht_haette_mehr_verdient/" },
     { "label": "Tresor TV", "url": "https://www.tresor.tv/en/news/unter-freunden-stirbt-man-nicht-gewinnt-internationalen-tv-preis/" }
   ],
-  "stills": [
-    "https://noayedlin.com/wp-content/uploads/2023/09/Pic-2.png"
+  "press": [
+    { "label": "DWDL ratings", "url": "https://www.dwdl.de/zahlenzentrale/81960/auch_berben_lauterbach__co_koennen_bei_vox_nicht_punkten/" },
+    { "label": "DWDL review", "url": "https://www.dwdl.de/meinungen/81971/unter_freunden_stirbt_man_nicht_haette_mehr_verdient/" }
   ]
 }

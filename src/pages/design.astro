@@ -23,7 +23,7 @@ import Layout from '../layouts/Layout.astro';
       </div>
       <div class="ds-swatch" style="background: var(--text-muted);">
         <span class="ds-swatch-label ds-light">--text-muted</span>
-        <span class="ds-swatch-value ds-light">#5C5C5A</span>
+        <span class="ds-swatch-value ds-light">#3D3D3B</span>
       </div>
       <div class="ds-swatch" style="background: var(--accent);">
         <span class="ds-swatch-label ds-light">--accent</span>
@@ -31,15 +31,15 @@ import Layout from '../layouts/Layout.astro';
       </div>
       <div class="ds-swatch" style="background: var(--rule); border: 1px solid var(--rule);">
         <span class="ds-swatch-label">--rule</span>
-        <span class="ds-swatch-value">#D8D7D0</span>
+        <span class="ds-swatch-value">#C5C4BC</span>
       </div>
       <div class="ds-swatch" style="background: var(--text-faint);">
         <span class="ds-swatch-label ds-light">--text-faint</span>
-        <span class="ds-swatch-value ds-light">#8E8E8B</span>
+        <span class="ds-swatch-value ds-light">#5C5C5A</span>
       </div>
     </div>
     <p style="font-size: var(--text-xs); color: var(--text-muted); margin-top: 1rem;">
-      <strong>--text-faint</strong> (#8E8E8B) — tertiary text: fine print, retailer label prefix.<br/>
+      <strong>--text-faint</strong> (#5C5C5A) — tertiary text: fine print, retailer label prefix.<br/>
       <strong>--bg-alt</strong> (#F2F1EA) — tinted surface: hero rail, praise band, line-height cards.
     </p>
   </section>
@@ -84,16 +84,24 @@ import Layout from '../layouts/Layout.astro';
     <h2 class="ds-section-heading">Fonts</h2>
     <div class="ds-font-rows">
       <div class="ds-font-row">
-        <span class="ds-type-meta">--font-serif · Fraunces</span>
-        <span style="font-family: var(--font-serif); font-size: 1.5rem;">The quick brown fox jumps over the lazy dog</span>
+        <span class="ds-type-meta">Fraunces · 400</span>
+        <span style="font-family: var(--font-serif); font-weight: 400; font-size: 1.5rem;">The quick brown fox jumps over the lazy dog</span>
       </div>
       <div class="ds-font-row">
-        <span class="ds-type-meta">--font-body · Inter</span>
-        <span style="font-family: var(--font-body); font-size: 1rem;">The quick brown fox jumps over the lazy dog</span>
+        <span class="ds-type-meta">Fraunces · 400 italic</span>
+        <span style="font-family: var(--font-serif); font-weight: 400; font-style: italic; font-size: 1.5rem;">The quick brown fox jumps over the lazy dog</span>
       </div>
       <div class="ds-font-row">
-        <span class="ds-type-meta">--font-serif italic</span>
-        <span style="font-family: var(--font-serif); font-style: italic; font-size: 1.5rem;">The quick brown fox jumps over the lazy dog</span>
+        <span class="ds-type-meta">Inter · 400</span>
+        <span style="font-family: var(--font-body); font-weight: 400; font-size: 1rem;">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div class="ds-font-row">
+        <span class="ds-type-meta">Inter · 500</span>
+        <span style="font-family: var(--font-body); font-weight: 500; font-size: 1rem;">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div class="ds-font-row">
+        <span class="ds-type-meta">Inter · 600</span>
+        <span style="font-family: var(--font-body); font-weight: 600; font-size: 1rem;">The quick brown fox jumps over the lazy dog</span>
       </div>
     </div>
   </section>

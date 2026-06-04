@@ -64,6 +64,11 @@ const adaptationSchema = z.object({
     label: z.string(),
     url: z.string(),
   })).optional(),
+  info: z.array(z.object({
+    label: z.string(),
+    url: z.string(),
+  })).optional(),
+  status: z.string().optional(),
   stills: z.array(z.string()).optional(),
 });
 

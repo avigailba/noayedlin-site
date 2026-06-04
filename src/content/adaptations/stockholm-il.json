@@ -9,18 +9,19 @@
   "order": 1,
   "still": {
     "image": "https://noayedlin.com/wp-content/uploads/2023/09/Pic-3.png",
-    "gradient": ["#3B5E7A", "#1A2E3E"],
     "position": "top"
   },
   "awards": ["Israeli Best Mini-Series TV Award"],
-  "watch": [
-    { "label": "Watch on Kan 11", "url": "https://www.kan.org.il/content/kan/kan-11/13291/%D7%97%D7%99%D7%99%D7%9D-1/87633/", "primary": true },
-    { "label": "Keshet International", "url": "https://www.keshetinternational.com/catalogue/8849", "primary": false }
-  ],
   "stills": [
     "https://noayedlin.com/wp-content/uploads/2023/09/Pic-3.png",
     "https://noayedlin.com/wp-content/uploads/2023/10/2018-02-12-PHOTO-00000150.jpg",
     "https://noayedlin.com/wp-content/uploads/2023/10/2018-02-13-PHOTO-00000271.jpg",
     "https://noayedlin.com/wp-content/uploads/2023/10/DSCF2358ver2-scaled.jpg"
+  ],
+  "watch": [
+    { "label": "Watch on Kan 11", "url": "https://www.kan.org.il/content/kan/kan-11/13291/%D7%97%D7%99%D7%99%D7%9D-1/87633/", "primary": true }
+  ],
+  "info": [
+    { "label": "Keshet International", "url": "https://www.keshetinternational.com/catalogue/8849" }
   ]
 }

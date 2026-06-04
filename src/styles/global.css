@@ -9,10 +9,10 @@
   --bg:          #FAFAF8;
   --bg-alt:      #F2F1EA;
   --text:        #1A1A1A;
-  --text-muted:  #5C5C5A;
+  --text-muted:  #3D3D3B;
   --accent:      #E5512C;
-  --rule:        #D8D7D0;
-  --text-faint:  #8E8E8B;
+  --rule:        #C5C4BC;
+  --text-faint:  #5C5C5A;
 
   /* Aliases kept for older component references */
   --color-bg:     var(--bg);
