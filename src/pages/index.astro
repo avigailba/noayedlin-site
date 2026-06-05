@@ -156,7 +156,7 @@ function formatDate(dateStr: string) {
 
     {upcomingEvents.length > 0 && (
       <section class="hp-events">
-        <p class="section-eyebrow">Upcoming Events</p>
+        <p class="section-eyebrow">Events</p>
         <div class="hp-events-rows event-rows">
           {upcomingEvents.map((event) => {
             const start = hpParseDate(event.data.date_start);
