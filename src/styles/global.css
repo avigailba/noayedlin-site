@@ -1310,6 +1310,8 @@ img { max-width: 100%; display: block; }
 
 .event-location {
   font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--track-wide);
   color: var(--text-muted);
   margin-top: 4px;
 }
