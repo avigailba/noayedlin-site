@@ -42,7 +42,7 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
       ...(a.data.watch ?? []).map(w => ({ label: w.label, url: w.url })),
       ...(a.data.info ?? []),
       ...(a.data.press ?? []),
-    ].slice(0, 3),
+    ],
   }));
   return { slug, book, entries, count: adaptationList.length };
 });
@@ -458,7 +458,7 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
     }
 
     /* Larger mobile type */
-    .ap-title { font-size: 22px; }
+    .ap-title { font-size: 22px; line-height: var(--lh-snug); }
     .ap-network { font-size: 15px; }
     .ap-country, .ap-medium, .ap-year { font-size: 14px; }
 
