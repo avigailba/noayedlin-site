@@ -3,6 +3,19 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Design System" lang="en">
+
+  <!-- Password gate -->
+  <div id="ds-gate" style="display:flex;align-items:center;justify-content:center;min-height:60vh;">
+    <form id="ds-form" style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;">
+      <label for="ds-pw" style="font-size:var(--text-xs);text-transform:uppercase;letter-spacing:var(--track-wide);color:var(--text-muted);">Password</label>
+      <input id="ds-pw" type="password" autocomplete="current-password" style="border:0.5px solid var(--rule);background:var(--bg);color:var(--text);font-size:var(--text-md);padding:10px 14px;width:220px;outline:none;" />
+      <p id="ds-err" style="display:none;font-size:var(--text-xs);color:var(--accent);margin:0;">Incorrect password.</p>
+      <button type="submit" class="btn-primary">Enter</button>
+    </form>
+  </div>
+
+  <!-- Protected content -->
+  <div id="ds-content" hidden>
   <h1 class="ds-page-title">Design System</h1>
 
   <!-- COLOURS -->
@@ -379,7 +392,40 @@ import Layout from '../layouts/Layout.astro';
 
     </div>
   </section>
+  </div> <!-- /ds-content -->
+
 </Layout>
+
+<script>
+  const PASS = '2108';
+  const KEY  = 'ds_auth';
+  const gate    = document.getElementById('ds-gate')!;
+  const content = document.getElementById('ds-content')!;
+  const form    = document.getElementById('ds-form')!;
+  const input   = document.getElementById('ds-pw') as HTMLInputElement;
+  const err     = document.getElementById('ds-err')!;
+
+  function unlock() {
+    gate.style.display    = 'none';
+    content.hidden        = false;
+    sessionStorage.setItem(KEY, '1');
+  }
+
+  if (sessionStorage.getItem(KEY) === '1') {
+    unlock();
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (input.value === PASS) {
+      unlock();
+    } else {
+      err.style.display = 'block';
+      input.value = '';
+      input.focus();
+    }
+  });
+</script>
 
 <style>
   .ds-page-title {
