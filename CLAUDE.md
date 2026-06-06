@@ -17,6 +17,20 @@ Personal author website for **Noa Yedlin** — Israeli novelist and screenwriter
 - **Components:** Astro components in `src/components/`
 - **Fonts:** Fraunces (serif headlines) + Inter (sans body), via Google Fonts
 
+## Warnings — always flag before acting
+
+The site owner is not a developer. Before taking any of the following actions, **stop and explain what could go wrong first**:
+
+- **DNS / domain changes** — warn that old URLs (images, pages, admin panels) will break once the domain points elsewhere. Ask if all assets have been backed up.
+- **Deleting or overwriting files** — confirm before replacing images or content that can't be recovered.
+- **Pushing to production** — note what will change on the live site.
+- **Changing hosting or infrastructure** — explain what will become inaccessible.
+- **Any action that is hard to reverse** — flag it explicitly before proceeding.
+
+Format: one short plain-English sentence explaining the risk, then ask "Want to proceed?"
+
+---
+
 ## Working principles
 
 1. **Small atomic changes over big batches.** One concept per commit. Visual changes ship in narrow PRs that are easy to revert if they look wrong.
