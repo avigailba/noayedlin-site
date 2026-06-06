@@ -249,7 +249,15 @@ const allAdaptations = adaptations ??
   .bd-synopsis-inline p:last-child { margin-bottom: 0; }
 
   /* Praise — quote styles from global .praise* rules */
-  .bd-praise { margin-top: 4rem; }
+  .bd-praise {
+    background: var(--bg-alt);
+    padding: 72px 32px;
+    margin-top: 4rem;
+  }
+
+  @media (max-width: 600px) {
+    .bd-praise { padding: 48px 20px; }
+  }
   .bd-reviews {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
