@@ -51,6 +51,7 @@ const altLangHref = isHe ? '/' : '/he';
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header class="site-header">
       <nav class="nav-inner">
         <a href={base + (isHe ? '/he' : '/')} class="site-title">
@@ -75,7 +76,7 @@ const altLangHref = isHe ? '/' : '/he';
 
     <MobileNav nav={nav} currentPath={currentPath} />
 
-    <main>
+    <main id="main-content">
       <slot />
     </main>
 

@@ -102,7 +102,7 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
 
             {images.length === 1 && (
               <div class="ap-img-wrap">
-                <img src={images[0]} alt="" loading="lazy" class="ap-img" style={`object-position: ${imagePos}`} />
+                <img src={images[0]} alt={`Production still from ${data.title}`} loading="lazy" class="ap-img" style={`object-position: ${imagePos}`} />
               </div>
             )}
             {images.length > 1 && (
@@ -110,7 +110,7 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
                 <div class="ap-img-strip">
                   {images.map((src, i) => (
                     <div class="ap-img-strip-item">
-                      <img src={src} alt="" class="ap-img" style={`object-position: ${i === 0 ? imagePos : 'center 20%'}`} />
+                      <img src={src} alt={`Production still from ${data.title}`} class="ap-img" style={`object-position: ${i === 0 ? imagePos : 'center 20%'}`} />
                     </div>
                   ))}
                 </div>
