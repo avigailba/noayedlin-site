@@ -71,7 +71,6 @@ const allAdaptations = adaptations ??
       {tagline && <p class="bd-tagline">{tagline}</p>}
       {purchaseLinks && purchaseLinks.length > 0 && (
         <div class="retailers">
-          <span class="retailers-label">Order:</span>
           {purchaseLinks.map((link, i) => (
             <>
               {i > 0 && <span class="retailer-sep">·</span>}
