@@ -617,6 +617,7 @@ img { max-width: 100%; display: block; }
   padding: 10px 22px;
   font-size: var(--text-xs);
   letter-spacing: var(--track-none);
+  text-transform: capitalize;
   border: none;
   text-decoration: none;
   cursor: pointer;
@@ -631,6 +632,7 @@ img { max-width: 100%; display: block; }
   padding: 9px 21px;
   font-size: var(--text-xs);
   letter-spacing: var(--track-none);
+  text-transform: capitalize;
   border: 1px solid var(--text);
   text-decoration: none;
   cursor: pointer;
