@@ -34,13 +34,13 @@ Defined in `src/styles/global.css` as CSS custom properties.
 
 | Token | Value | Use |
 |---|---|---|
-| `--bg` | `#F5F5F2` | Page background, sticky header bg |
-| `--bg-alt` | `#EBEAE3` | Tinted section bands (rare) |
+| `--bg` | `#FAFAF8` | Page background, sticky header bg |
+| `--bg-alt` | `#F2F1EA` | Tinted section bands (rare) |
 | `--text` | `#1A1A1A` | Primary text, near-black |
 | `--text-muted` | `#3D3D3B` | Secondary text, captions, eyebrows, type labels |
 | `--text-faint` | `#5C5C5A` | Tertiary text, micro-labels, fine print |
 | `--accent` | `#E5512C` | **Clickable elements only** (see Accent rule below) |
-| `--rule` | `#D8D7D0` | Hairline dividers (0.5px) |
+| `--rule` | `#C5C4BC` | Hairline dividers (0.5px) |
 
 ### Type scale (only these sizes)
 
@@ -48,7 +48,7 @@ Defined in `src/styles/global.css` as CSS custom properties.
 |---|---|---|
 | `--text-xs` | `12px` | Eyebrows, labels, button text, breadcrumbs, status indicators, fine print |
 | `--text-sm` | `14px` | Retailer text, attribution, dates, network lines, captions |
-| `--text-md` | `18px` | Body prose, descriptions, italic taglines |
+| `--text-md` | `16px` | Body prose, descriptions, italic taglines |
 | `--text-lg` | `28px` | All headings below H1 (H2, H3, large italic intros) |
 | `--text-xl` | `48px` | Section H1s where smaller — most page H1s use the 96px inline value via PageHeading |
 
@@ -58,8 +58,7 @@ Defined in `src/styles/global.css` as CSS custom properties.
 
 | Token | Value | Use |
 |---|---|---|
-| `--track-tight` | `-0.02em` | Display H1, hero numbers |
-| `--track-snug` | `-0.01em` | H2/H3/wordmark — slightly tightened |
+| `--track-tight` | `-0.02em` | Display H1, hero numbers, H2/H3 headings |
 | `--track-none` | `0` | Body, italic intros |
 | `--track-wide` | `0.1em` | Uppercase eyebrows, labels, button text |
 
