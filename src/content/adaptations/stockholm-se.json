@@ -10,6 +10,10 @@
   "still": {
     "image": "/adaptations/stockholm-se-still-1.avif"
   },
+  "stills": [
+    "/adaptations/stockholm-se-still-1.avif",
+    "/adaptations/stockholm-se-still-2.avif"
+  ],
   "watch": [
     { "label": "Watch on Vimeo", "url": "https://vimeo.com/801561424", "primary": true }
   ],
