@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import MobileNav from '../components/MobileNav.astro';
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
   title: string;
@@ -164,6 +165,7 @@ const altLangHref = isHe ? '/' : '/he';
         {!isHe && <a href={base + '/accessibility'} class="footer-accessibility">Accessibility Statement</a>}
       </div>
     </footer>
+    <Analytics />
   </body>
   <script define:vars={{ base }}>
     // Sticky header scroll shadow
