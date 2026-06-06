@@ -38,8 +38,8 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
       : a.data.still?.image ? [a.data.still.image] : [],
     imagePos: a.data.still?.position ?? 'center 20%',
     awards: a.data.awards ?? [],
-    prioritized: [
-      ...(a.data.watch ?? []).map(w => ({ label: w.label, url: w.url })),
+    watchLinks: (a.data.watch ?? []).map(w => ({ label: w.label, url: w.url })),
+    otherLinks: [
       ...(a.data.info ?? []),
       ...(a.data.press ?? []),
     ],
@@ -64,7 +64,7 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
           {count > 1 && <span class="ap-count">{count} adaptations</span>}
         </div>
 
-        {entries.map(({ data, images, imagePos, awards, prioritized }) => (
+        {entries.map(({ data, images, imagePos, awards, watchLinks, otherLinks }) => (
           <div class={`ap-entry${images.length > 0 ? ' ap-entry--has-image' : ''}`}>
 
             <div class="ap-meta">
@@ -90,12 +90,22 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
                   ))}
                 </div>
               )}
-              {prioritized.length > 0 && (
+              {watchLinks.length > 0 && (
                 <div class="ap-links">
-                  {prioritized.map((link, i) => (
+                  {watchLinks.map((link, i) => (
                     <>
                       <a href={link.url} target="_blank" rel="noopener" class="ap-link">{link.label} <span aria-hidden="true">↗</span></a>
-                      {i < prioritized.length - 1 && <span class="ap-sep">·</span>}
+                      {i < watchLinks.length - 1 && <span class="ap-sep">·</span>}
+                    </>
+                  ))}
+                </div>
+              )}
+              {otherLinks.length > 0 && (
+                <div class="ap-links ap-links--other">
+                  {otherLinks.map((link, i) => (
+                    <>
+                      <a href={link.url} target="_blank" rel="noopener" class="ap-link">{link.label} <span aria-hidden="true">↗</span></a>
+                      {i < otherLinks.length - 1 && <span class="ap-sep">·</span>}
                     </>
                   ))}
                 </div>
@@ -303,6 +313,8 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
     gap: 2px 0;
     margin-top: 10px;
   }
+
+  .ap-links--other { margin-top: 6px; }
 
   .ap-link {
     font-family: var(--font-body);
