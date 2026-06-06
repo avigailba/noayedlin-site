@@ -1310,8 +1310,9 @@ img { max-width: 100%; display: block; }
 
 .event-location {
   font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--track-wide);
   color: var(--text-muted);
-  margin-top: 4px;
 }
 
 .event-type {
@@ -1319,7 +1320,6 @@ img { max-width: 100%; display: block; }
   letter-spacing: var(--track-wide);
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-top: 6px;
 }
 
 .event-content {

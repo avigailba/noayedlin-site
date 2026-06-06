@@ -3,6 +3,19 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Design System" lang="en">
+
+  <!-- Password gate -->
+  <div id="ds-gate" style="display:flex;align-items:center;justify-content:center;min-height:60vh;">
+    <form id="ds-form" style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;">
+      <label for="ds-pw" style="font-size:var(--text-xs);text-transform:uppercase;letter-spacing:var(--track-wide);color:var(--text-muted);">Password</label>
+      <input id="ds-pw" type="password" autocomplete="current-password" style="border:0.5px solid var(--rule);background:var(--bg);color:var(--text);font-size:var(--text-md);padding:10px 14px;width:220px;outline:none;" />
+      <p id="ds-err" style="display:none;font-size:var(--text-xs);color:var(--accent);margin:0;">Incorrect password.</p>
+      <button type="submit" class="btn-primary">Enter</button>
+    </form>
+  </div>
+
+  <!-- Protected content -->
+  <div id="ds-content" hidden>
   <h1 class="ds-page-title">Design System</h1>
 
   <!-- COLOURS -->
@@ -46,62 +59,41 @@ import Layout from '../layouts/Layout.astro';
 
   <hr class="ds-rule" />
 
-  <!-- TYPE SCALE -->
+  <!-- TYPE & FONTS -->
   <section class="ds-section">
-    <h2 class="ds-section-heading">Type Scale</h2>
+    <h2 class="ds-section-heading">Type &amp; Fonts</h2>
     <div class="ds-type-rows">
       <div class="ds-type-row">
-        <span class="ds-type-meta">--text-xs · 12px</span>
-        <span style="font-size: var(--text-xs); text-transform: uppercase; letter-spacing: var(--track-wide);">EYEBROW · ATTRIBUTION · METADATA</span>
+        <span style="font-size: var(--text-xs); font-family: var(--font-body); text-transform: uppercase; letter-spacing: var(--track-wide);">Eyebrow · Metadata</span>
+        <span class="ds-type-meta">--text-xs</span><span class="ds-type-meta">12px</span><span class="ds-type-meta">Inter 400</span>
       </div>
       <div class="ds-type-row">
-        <span class="ds-type-meta">--text-sm · 14px</span>
-        <span style="font-size: var(--text-sm);">Book rail title · Small body</span>
+        <span style="font-size: var(--text-sm); font-family: var(--font-body);">Rail title · Caption · Small body</span>
+        <span class="ds-type-meta">--text-sm</span><span class="ds-type-meta">14px</span><span class="ds-type-meta">Inter 400</span>
       </div>
       <div class="ds-type-row">
-        <span class="ds-type-meta">--text-md · 16px</span>
-        <span style="font-size: var(--text-md);">Default body text</span>
+        <span style="font-size: var(--text-md); font-family: var(--font-body);">Default body text</span>
+        <span class="ds-type-meta">--text-md</span><span class="ds-type-meta">16px</span><span class="ds-type-meta">Inter 400</span>
       </div>
       <div class="ds-type-row">
-        <span class="ds-type-meta">--text-title · 18px</span>
-        <span style="font-size: var(--text-title); font-family: var(--font-serif);">Noa Yedlin</span>
+        <span style="font-size: var(--text-title); font-family: var(--font-serif);">Noa Yedlin — wordmark</span>
+        <span class="ds-type-meta">--text-title</span><span class="ds-type-meta">18px</span><span class="ds-type-meta">Fraunces 400</span>
       </div>
       <div class="ds-type-row">
-        <span class="ds-type-meta">--text-lg · 28px</span>
+        <span style="font-size: var(--text-md); font-family: var(--font-serif); font-style: italic;">Praise quotes · pull quotes · taglines</span>
+        <span class="ds-type-meta">--text-md</span><span class="ds-type-meta">16px</span><span class="ds-type-meta">Fraunces italic</span>
+      </div>
+      <div class="ds-type-row">
         <span style="font-size: var(--text-lg); font-family: var(--font-serif);">Card title · Section heading</span>
+        <span class="ds-type-meta">--text-lg</span><span class="ds-type-meta">28px</span><span class="ds-type-meta">Fraunces 400</span>
       </div>
       <div class="ds-type-row">
-        <span class="ds-type-meta">--text-xl · 48px</span>
         <span style="font-size: var(--text-xl); font-family: var(--font-serif);">Page title</span>
+        <span class="ds-type-meta">--text-xl</span><span class="ds-type-meta">48px</span><span class="ds-type-meta">Fraunces 400</span>
       </div>
-    </div>
-  </section>
-
-  <hr class="ds-rule" />
-
-  <!-- FONTS -->
-  <section class="ds-section">
-    <h2 class="ds-section-heading">Fonts</h2>
-    <div class="ds-font-rows">
-      <div class="ds-font-row">
-        <span class="ds-type-meta">Fraunces · 400</span>
-        <span style="font-family: var(--font-serif); font-weight: 400; font-size: 1.5rem;">The quick brown fox jumps over the lazy dog</span>
-      </div>
-      <div class="ds-font-row">
-        <span class="ds-type-meta">Fraunces · 400 italic</span>
-        <span style="font-family: var(--font-serif); font-weight: 400; font-style: italic; font-size: 1.5rem;">The quick brown fox jumps over the lazy dog</span>
-      </div>
-      <div class="ds-font-row">
-        <span class="ds-type-meta">Inter · 400</span>
-        <span style="font-family: var(--font-body); font-weight: 400; font-size: 1rem;">The quick brown fox jumps over the lazy dog</span>
-      </div>
-      <div class="ds-font-row">
-        <span class="ds-type-meta">Inter · 500</span>
-        <span style="font-family: var(--font-body); font-weight: 500; font-size: 1rem;">The quick brown fox jumps over the lazy dog</span>
-      </div>
-      <div class="ds-font-row">
-        <span class="ds-type-meta">Inter · 600</span>
-        <span style="font-family: var(--font-body); font-weight: 600; font-size: 1rem;">The quick brown fox jumps over the lazy dog</span>
+      <div class="ds-type-row">
+        <span style="font-size: clamp(48px, 8vw, 96px); font-family: var(--font-serif); letter-spacing: var(--track-tight); line-height: var(--lh-tight);">Page H1</span>
+        <span class="ds-type-meta">—</span><span class="ds-type-meta">96px</span><span class="ds-type-meta">Fraunces 400</span>
       </div>
     </div>
   </section>
@@ -347,6 +339,7 @@ import Layout from '../layouts/Layout.astro';
   <section class="ds-section">
     <h2 class="ds-section-heading">Event Row</h2>
     <div style="max-width: 720px;">
+      <p style="font-size: var(--text-xs); text-transform: uppercase; letter-spacing: var(--track-wide); color: var(--text-muted); margin: 0 0 8px; padding-top: 0;">Upcoming</p>
       <article class="event-row">
         <div class="event-meta">
           <div class="event-location">New York, NY</div>
@@ -354,7 +347,7 @@ import Layout from '../layouts/Layout.astro';
           <div class="event-type">Lecture</div>
         </div>
         <div class="event-content">
-          <h3 class="event-title" style="margin:0 0 6px;">
+          <h3 class="event-title">
             <a href="#" class="headline-link">An Evening with Noa Yedlin</a>
           </h3>
           <p class="event-description">In conversation with the author.</p>
@@ -371,7 +364,7 @@ import Layout from '../layouts/Layout.astro';
           <div class="event-type">Book Launch</div>
         </div>
         <div class="event-content">
-          <h3 class="event-title" style="margin:0 0 6px;">
+          <h3 class="event-title">
             <a href="#" class="headline-link">House Arrest Launch Event</a>
           </h3>
           <div class="event-status">
@@ -484,7 +477,40 @@ import Layout from '../layouts/Layout.astro';
     </div>
     <p style="font-size: var(--text-xs); color: var(--text-muted); margin-top: 1.5rem;">Key breakpoints: 1024px (hero rail hidden), 768px (hero stacks), 600px (type scale + event row collapse).</p>
   </section>
+  </div> <!-- /ds-content -->
+
 </Layout>
+
+<script>
+  const PASS = '2108';
+  const KEY  = 'ds_auth';
+  const gate    = document.getElementById('ds-gate')!;
+  const content = document.getElementById('ds-content')!;
+  const form    = document.getElementById('ds-form')!;
+  const input   = document.getElementById('ds-pw') as HTMLInputElement;
+  const err     = document.getElementById('ds-err')!;
+
+  function unlock() {
+    gate.style.display    = 'none';
+    content.hidden        = false;
+    sessionStorage.setItem(KEY, '1');
+  }
+
+  if (sessionStorage.getItem(KEY) === '1') {
+    unlock();
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (input.value === PASS) {
+      unlock();
+    } else {
+      err.style.display = 'block';
+      input.value = '';
+      input.focus();
+    }
+  });
+</script>
 
 <style>
   .ds-page-title {
@@ -559,9 +585,9 @@ import Layout from '../layouts/Layout.astro';
 
   .ds-type-row {
     display: grid;
-    grid-template-columns: 260px 1fr;
+    grid-template-columns: 1fr 100px 60px 120px;
     align-items: baseline;
-    gap: 2rem;
+    gap: 1.5rem;
     padding: 14px 0;
     border-bottom: 0.5px solid var(--rule);
   }
