@@ -37,8 +37,7 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
       ? a.data.stills
       : a.data.still?.image ? [a.data.still.image] : [],
     imagePos: a.data.still?.position ?? 'center 20%',
-    topAward: a.data.awards?.[0] ?? null,
-    moreAwards: Math.max(0, (a.data.awards?.length ?? 0) - 1),
+    awards: a.data.awards ?? [],
     prioritized: [
       ...(a.data.watch ?? []).map(w => ({ label: w.label, url: w.url })),
       ...(a.data.info ?? []),
@@ -65,7 +64,7 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
           {count > 1 && <span class="ap-count">{count} adaptations</span>}
         </div>
 
-        {entries.map(({ data, images, imagePos, topAward, moreAwards, prioritized }) => (
+        {entries.map(({ data, images, imagePos, awards, prioritized }) => (
           <div class={`ap-entry${images.length > 0 ? ' ap-entry--has-image' : ''}`}>
 
             <div class="ap-meta">
@@ -81,11 +80,14 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
                   {data.network}{data.status && <em class="ap-status"> — {data.status}</em>}
                 </div>
               )}
-              {topAward && (
-                <div class="ap-award">
-                  <span class="ap-award-dash">—</span>
-                  <span class="ap-award-text">{topAward}</span>
-                  {moreAwards > 0 && <span class="ap-award-more">+{moreAwards} more</span>}
+              {awards.length > 0 && (
+                <div class="ap-awards">
+                  {awards.map((award) => (
+                    <div class="ap-award">
+                      <span class="ap-award-dash">—</span>
+                      <span class="ap-award-text">{award}</span>
+                    </div>
+                  ))}
                 </div>
               )}
               {prioritized.length > 0 && (
@@ -458,7 +460,7 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
     /* Larger mobile type */
     .ap-title { font-size: 22px; }
     .ap-network { font-size: 15px; }
-    .ap-country, .ap-medium, .ap-year { font-size: 13px; }
+    .ap-country, .ap-medium, .ap-year { font-size: 14px; }
 
     /* Links: border separator + 44px touch height */
     .ap-links {
@@ -472,10 +474,6 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
       min-height: 44px;
       display: inline-flex;
       align-items: center;
-      border-bottom: none;
-      text-decoration: underline;
-      text-decoration-color: var(--rule);
-      text-underline-offset: 3px;
     }
 
     .ap-strip-btn {
