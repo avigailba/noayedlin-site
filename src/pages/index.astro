@@ -199,7 +199,7 @@ function formatDate(dateStr: string) {
           })}
         </div>
         <div class="hp-events-footer">
-          <a href={base + '/events'} class="link-accent">All events →</a>
+          <a href={base + '/events'} class="btn-secondary">All events →</a>
         </div>
       </section>
     )}
@@ -210,7 +210,7 @@ function formatDate(dateStr: string) {
         <div class="hp-about-text">
           <p class="eyebrow hp-about-eyebrow">About</p>
           <p class="hp-about-lead" set:html={aboutEntry.data.lead} />
-          <a href={base + '/about'} class="link-accent">Read more →</a>
+          <a href={base + '/about'} class="btn-secondary">Read more →</a>
         </div>
       </section>
     )}
@@ -224,7 +224,7 @@ function formatDate(dateStr: string) {
           <p>Yedlin is the creator of a two-season TV series based on her bestselling novel <em>Stockholm</em>, winner of the Israeli Best Mini-Series TV Award. A German remake — <em>You Don't Die Among Friends</em> — won Best Scripted Format at the 2021 International Format Awards and Best European Series at La Rochelle Festival De La Fiction 2021. The series has also been remade by SVT Sweden.</p>
           <p>Her novel <em>People Like Us</em> is currently being developed into a series in Israel, and a stage adaptation of <em>House Arrest</em> is playing at Beit Lessin Theater in Tel Aviv.</p>
         </div>
-        <a href={base + '/adaptations'} class="link-accent">All adaptations →</a>
+        <a href={base + '/adaptations'} class="btn-secondary">All adaptations →</a>
       </div>
       {featuredStill && (
         <div class="hp-adaptations__image">
@@ -254,7 +254,7 @@ function formatDate(dateStr: string) {
           ))}
         </div>
         <div class="hp-press-footer">
-          <a href={base + '/media'} class="link-accent">All press →</a>
+          <a href={base + '/media'} class="btn-secondary">All press →</a>
         </div>
       </section>
     )}
@@ -477,12 +477,16 @@ function formatDate(dateStr: string) {
 
   .gh-rail-more {
     font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--accent);
+    font-size: var(--text-xs);
+    color: var(--text);
     white-space: nowrap;
     flex-shrink: 0;
     text-decoration: none;
+    display: inline-block;
+    background: transparent;
+    padding: 9px 21px;
+    border: 1px solid var(--text);
+    letter-spacing: var(--track-none);
   }
   .gh-rail-arrow {
     display: inline-block;
@@ -658,7 +662,7 @@ function formatDate(dateStr: string) {
     .hp-feat {
       flex: none;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
       justify-content: flex-start;
       padding: 32px 20px;
       gap: 24px;
@@ -669,12 +673,12 @@ function formatDate(dateStr: string) {
     }
     .gh-info {
       max-width: 100%;
-      align-items: flex-start;
+      align-items: center;
     }
-    .gh-badge { align-self: flex-start; }
-    .gh-title { white-space: normal; text-align: left; }
-    .gh-quote, .gh-attr { text-align: left; }
-    .gh-btns { justify-content: flex-start; }
+    .gh-badge { align-self: center; }
+    .gh-title { white-space: normal; text-align: center; }
+    .gh-quote, .gh-attr { text-align: center; }
+    .gh-btns { justify-content: center; }
   }
 
   /* ── Rail row — backlist, visible ≤1024px below the praise section ── */
@@ -892,6 +896,7 @@ function formatDate(dateStr: string) {
 
   @media (max-width: 600px) {
     .hp-events, .hp-press { padding: 40px 0; }
+    .hp-events .section-eyebrow { margin-bottom: 12px; }
     /* Left-align homepage footer CTAs */
     .hp-events-footer, .hp-press-footer { text-align: left; }
     .hp-press-row {

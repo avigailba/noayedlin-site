@@ -399,6 +399,91 @@ import Layout from '../layouts/Layout.astro';
 
     </div>
   </section>
+
+  <hr class="ds-rule" />
+
+  <!-- RESPONSIVE BEHAVIOR -->
+  <section class="ds-section">
+    <h2 class="ds-section-heading">Responsive Behavior</h2>
+    <div class="ds-responsive">
+
+      <!-- Desktop -->
+      <div class="ds-responsive-col">
+        <p class="ds-responsive-label">Desktop <span>≥ 601px</span></p>
+        <div class="ds-responsive-frame">
+
+          <div class="ds-resp-block">
+            <span class="ds-type-meta ds-resp-meta">Type scale</span>
+            <p style="font-size: 48px; font-family: var(--font-serif); letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 6px;">House Arrest</p>
+            <p style="font-size: 28px; font-family: var(--font-serif); line-height: 1.1; margin: 0;">Section heading</p>
+          </div>
+
+          <div class="ds-resp-block">
+            <span class="ds-type-meta ds-resp-meta">Section eyebrow</span>
+            <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin: 0; text-align: center;">Upcoming Events</p>
+          </div>
+
+          <div class="ds-resp-block">
+            <span class="ds-type-meta ds-resp-meta">Event row</span>
+            <div style="display: grid; grid-template-columns: 120px 1fr; gap: 24px; padding: 16px 0; align-items: baseline;">
+              <div>
+                <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">New York, NY</div>
+                <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text);">June 15, 2026</div>
+              </div>
+              <div style="font-family: var(--font-serif); font-size: 22px; line-height: 1.1;">An Evening with Noa Yedlin</div>
+            </div>
+          </div>
+
+          <div class="ds-resp-block ds-resp-block--last">
+            <span class="ds-type-meta ds-resp-meta">Section CTA</span>
+            <div style="text-align: center; padding-top: 8px;">
+              <a href="#" class="btn-secondary">All events →</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Mobile -->
+      <div class="ds-responsive-col">
+        <p class="ds-responsive-label">Mobile <span>≤ 600px</span></p>
+        <div class="ds-responsive-frame ds-responsive-frame--mobile">
+
+          <div class="ds-resp-block">
+            <span class="ds-type-meta ds-resp-meta">Type scale</span>
+            <p style="font-size: 32px; font-family: var(--font-serif); letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 6px;">House Arrest</p>
+            <p style="font-size: 24px; font-family: var(--font-serif); line-height: 1.1; margin: 0;">Section heading</p>
+          </div>
+
+          <div class="ds-resp-block">
+            <span class="ds-type-meta ds-resp-meta">Section eyebrow</span>
+            <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin: 0; text-align: left;">Upcoming Events</p>
+          </div>
+
+          <div class="ds-resp-block">
+            <span class="ds-type-meta ds-resp-meta">Event row</span>
+            <div style="display: flex; flex-direction: column; gap: 4px; padding: 16px 0;">
+              <div>
+                <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">New York, NY</div>
+                <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text);">June 15, 2026</div>
+              </div>
+              <div style="font-family: var(--font-serif); font-size: 22px; line-height: 1.1;">An Evening with Noa Yedlin</div>
+            </div>
+          </div>
+
+          <div class="ds-resp-block ds-resp-block--last">
+            <span class="ds-type-meta ds-resp-meta">Section CTA</span>
+            <div style="text-align: left; padding-top: 8px;">
+              <a href="#" class="btn-secondary">All events →</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <p style="font-size: var(--text-xs); color: var(--text-muted); margin-top: 1.5rem;">Key breakpoints: 1024px (hero rail hidden), 768px (hero stacks), 600px (type scale + event row collapse).</p>
+  </section>
 </Layout>
 
 <style>
@@ -645,5 +730,62 @@ import Layout from '../layouts/Layout.astro';
       gap: 0.75rem;
     }
     .ds-component-note { white-space: normal; }
+  }
+
+  /* Responsive behavior section */
+  .ds-responsive {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .ds-responsive-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .ds-responsive-label {
+    font-size: var(--text-xs);
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: var(--track-wide);
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .ds-responsive-label span {
+    color: var(--text-faint);
+    font-weight: 400;
+  }
+
+  .ds-responsive-frame {
+    border: 0.5px solid var(--rule);
+    padding: 20px;
+    background: var(--bg);
+  }
+
+  .ds-responsive-frame--mobile {
+    background: var(--bg-alt);
+  }
+
+  .ds-resp-block {
+    padding: 16px 0;
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  .ds-resp-block:first-child { padding-top: 0; }
+  .ds-resp-block--last { border-bottom: none; padding-bottom: 0; }
+
+  .ds-resp-meta {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 760px) {
+    .ds-responsive {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

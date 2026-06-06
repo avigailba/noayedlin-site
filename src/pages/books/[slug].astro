@@ -163,6 +163,17 @@ const allAdaptations = adaptations ??
   .breadcrumb a { color: var(--text-muted); text-decoration: none; }
   .breadcrumb a:hover { color: var(--accent); opacity: 1; }
 
+  @media (max-width: 600px) {
+    .breadcrumb {
+      font-size: var(--text-sm);
+      margin-bottom: 2rem;
+    }
+    .breadcrumb a {
+      display: inline-block;
+      padding: 8px 0;
+    }
+  }
+
   /* Hero */
   .bd-hero {
     display: grid;
@@ -277,7 +288,7 @@ const allAdaptations = adaptations ??
   .bd-adaptation-list li { font-size: var(--text-md); line-height: var(--lh-loose); color: var(--text); }
 
   @media (max-width: 680px) {
-    .bd-hero { grid-template-columns: 150px 1fr; gap: 1.5rem; }
-    .bd-cover-wrap { width: 150px; }
+    .bd-hero { grid-template-columns: 1fr; gap: 1.25rem; }
+    .bd-cover-wrap { width: clamp(180px, 52vw, 240px); }
   }
 </style>
