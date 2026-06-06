@@ -61,7 +61,7 @@ const past = allEvents
                 <article class="event-row">
                   <div class="event-meta">
                     {locationStr && <div class="event-location">{locationStr}</div>}
-                    <div class="event-date">{fmtEventDate(start, end)}</div>
+                    <time class="event-date" datetime={event.data.date_start}>{fmtEventDate(start, end)}</time>
                     {event.data.type && <div class="event-type">{event.data.type}</div>}
                   </div>
                   <div class="event-content">
@@ -80,7 +80,7 @@ const past = allEvents
                         <>
                           <span class="event-dot event-dot--accent"></span>
                           {event.data.url
-                            ? <a href={event.data.url} target="_blank" rel="noopener">Get details →</a>
+                            ? <a href={event.data.url} target="_blank" rel="noopener" aria-label="Get details (opens in new window)">Get details →</a>
                             : <span>Get details</span>
                           }
                         </>
@@ -89,7 +89,7 @@ const past = allEvents
                         <>
                           <span class="event-dot event-dot--accent"></span>
                           {event.data.url
-                            ? <a href={event.data.url} target="_blank" rel="noopener">Get tickets →</a>
+                            ? <a href={event.data.url} target="_blank" rel="noopener" aria-label="Get tickets (opens in new window)">Get tickets →</a>
                             : <span>Get tickets</span>
                           }
                         </>
@@ -116,7 +116,7 @@ const past = allEvents
                 <article class="event-row event-row--past">
                   <div class="event-meta">
                     {locationStr && <div class="event-location">{locationStr}</div>}
-                    <div class="event-date">{fmtEventDate(start, end)}</div>
+                    <time class="event-date" datetime={event.data.date_start}>{fmtEventDate(start, end)}</time>
                     {event.data.type && <div class="event-type">{event.data.type}</div>}
                   </div>
                   <div class="event-content">

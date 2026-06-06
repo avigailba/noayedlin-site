@@ -37,8 +37,8 @@ Defined in `src/styles/global.css` as CSS custom properties.
 | `--bg` | `#F5F5F2` | Page background, sticky header bg |
 | `--bg-alt` | `#EBEAE3` | Tinted section bands (rare) |
 | `--text` | `#1A1A1A` | Primary text, near-black |
-| `--text-muted` | `#5C5C5A` | Secondary text, captions, eyebrows, type labels |
-| `--text-faint` | `#8E8E8B` | Tertiary text, micro-labels, fine print |
+| `--text-muted` | `#3D3D3B` | Secondary text, captions, eyebrows, type labels |
+| `--text-faint` | `#5C5C5A` | Tertiary text, micro-labels, fine print |
 | `--accent` | `#E5512C` | **Clickable elements only** (see Accent rule below) |
 | `--rule` | `#D8D7D0` | Hairline dividers (0.5px) |
 

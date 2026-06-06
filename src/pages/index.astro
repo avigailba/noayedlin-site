@@ -73,14 +73,16 @@ function formatDate(dateStr: string) {
           <div class="gh-info">
             <div class="gh-badge">Forthcoming · Oct 2026</div>
             <h1 class="gh-title">{featured2.data.title}</h1>
-            <blockquote class="gh-quote">"A lucid, clear, and distinct voice."</blockquote>
-            <p class="eyebrow gh-attr">— Dorit Rabinyan</p>
+            <blockquote class="gh-quote">
+              "A lucid, clear, and distinct voice."
+              <footer class="eyebrow gh-attr">— Dorit Rabinyan</footer>
+            </blockquote>
             <div class="gh-btns">
               <a class="btn-primary gh-btn" href={`${base}/books/${featured2.data.slug}`}>
                 More about the book <span class="gh-arrow">→</span>
               </a>
               <a class="btn-secondary gh-btn" href="https://www.amazon.com/House-Arrest-Noa-Yedlin/dp/1954404433" target="_blank" rel="noopener noreferrer">
-                Pre-order on Amazon
+                Pre-order on Amazon <span aria-hidden="true">↗</span><span class="sr-only"> (opens in new window)</span>
               </a>
             </div>
           </div>
@@ -170,7 +172,7 @@ function formatDate(dateStr: string) {
               <article class="event-row">
                 <div class="event-meta">
                   {locationStr && <div class="event-location">{locationStr}</div>}
-                  <div class="event-date">{dateStr}</div>
+                  <time class="event-date" datetime={event.data.date_start}>{dateStr}</time>
                   {event.data.type && <div class="event-type">{event.data.type}</div>}
                 </div>
                 <div class="event-content">
@@ -184,12 +186,12 @@ function formatDate(dateStr: string) {
                     )}
                     {event.data.status === 'scheduled' && (
                       <><span class="event-dot event-dot--accent"></span>
-                        {event.data.url ? <a href={event.data.url} target="_blank" rel="noopener">Get details →</a> : <span>Get details</span>}
+                        {event.data.url ? <a href={event.data.url} target="_blank" rel="noopener" aria-label="Get details (opens in new window)">Get details →</a> : <span>Get details</span>}
                       </>
                     )}
                     {event.data.status === 'ticketed' && (
                       <><span class="event-dot event-dot--accent"></span>
-                        {event.data.url ? <a href={event.data.url} target="_blank" rel="noopener">Get tickets →</a> : <span>Get tickets</span>}
+                        {event.data.url ? <a href={event.data.url} target="_blank" rel="noopener" aria-label="Get tickets (opens in new window)">Get tickets →</a> : <span>Get tickets</span>}
                       </>
                     )}
                   </div>
@@ -206,7 +208,7 @@ function formatDate(dateStr: string) {
 
     {aboutEntry && (
       <section class="hp-about-strip">
-        <img class="hp-about-img" src={aboutEntry.data.portrait} alt={aboutEntry.data.heading} />
+        <img class="hp-about-img" src={aboutEntry.data.portrait} alt="Portrait of Noa Yedlin" />
         <div class="hp-about-text">
           <p class="eyebrow hp-about-eyebrow">About</p>
           <p class="hp-about-lead" set:html={aboutEntry.data.lead} />

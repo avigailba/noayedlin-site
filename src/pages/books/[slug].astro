@@ -75,7 +75,7 @@ const allAdaptations = adaptations ??
           {purchaseLinks.map((link, i) => (
             <>
               {i > 0 && <span class="retailer-sep">·</span>}
-              <a class="retailer-link" href={link.href} target="_blank" rel="noopener">{link.label}</a>
+              <a class="retailer-link" href={link.href} target="_blank" rel="noopener">{link.label} <span aria-hidden="true">↗</span><span class="sr-only"> (opens in new window)</span></a>
             </>
           ))}
         </div>

@@ -32,17 +32,17 @@ const showLangFilter = languages.has('English') && languages.has('Hebrew');
 
   <div class="filter-bar">
     <div class="filter-chips" role="group" aria-label="Filter by type">
-      <button class="chip chip--active" data-filter-type="all">All</button>
+      <button class="chip chip--active" data-filter-type="all" aria-pressed="true">All</button>
       {Object.entries(TYPE_LABELS)
         .filter(([key]) => existingTypes.has(key as any))
         .map(([key, label]) => (
-          <button class="chip" data-filter-type={key}>{label}</button>
+          <button class="chip" data-filter-type={key} aria-pressed="false">{label}</button>
         ))}
     </div>
     {showLangFilter && (
       <div class="filter-chips filter-chips--lang" role="group" aria-label="Filter by language">
-        <button class="chip chip--active" data-filter-lang="English">English</button>
-        <button class="chip chip--active" data-filter-lang="Hebrew">עברית</button>
+        <button class="chip chip--active" data-filter-lang="English" aria-pressed="true">English</button>
+        <button class="chip chip--active" data-filter-lang="Hebrew" aria-pressed="true">עברית</button>
       </div>
     )}
   </div>
@@ -106,7 +106,11 @@ const showLangFilter = languages.has('English') && languages.has('Hebrew');
   typeChips.forEach(chip => {
     chip.addEventListener('click', () => {
       activeType = chip.dataset.filterType!;
-      typeChips.forEach(c => c.classList.toggle('chip--active', c === chip));
+      typeChips.forEach(c => {
+        const active = c === chip;
+        c.classList.toggle('chip--active', active);
+        c.setAttribute('aria-pressed', String(active));
+      });
       applyFilters();
     });
   });
@@ -115,9 +119,15 @@ const showLangFilter = languages.has('English') && languages.has('Hebrew');
     chip.addEventListener('click', () => {
       const lang = chip.dataset.filterLang!;
       if (activeLangs.has(lang)) {
-        if (activeLangs.size > 1) { activeLangs.delete(lang); chip.classList.remove('chip--active'); }
+        if (activeLangs.size > 1) {
+          activeLangs.delete(lang);
+          chip.classList.remove('chip--active');
+          chip.setAttribute('aria-pressed', 'false');
+        }
       } else {
-        activeLangs.add(lang); chip.classList.add('chip--active');
+        activeLangs.add(lang);
+        chip.classList.add('chip--active');
+        chip.setAttribute('aria-pressed', 'true');
       }
       applyFilters();
     });
@@ -125,8 +135,16 @@ const showLangFilter = languages.has('English') && languages.has('Hebrew');
 
   resetBtn.addEventListener('click', () => {
     activeType = 'all';
-    typeChips.forEach(c => c.classList.toggle('chip--active', c.dataset.filterType === 'all'));
-    langChips.forEach(c => { activeLangs.add(c.dataset.filterLang!); c.classList.add('chip--active'); });
+    typeChips.forEach(c => {
+      const active = c.dataset.filterType === 'all';
+      c.classList.toggle('chip--active', active);
+      c.setAttribute('aria-pressed', String(active));
+    });
+    langChips.forEach(c => {
+      activeLangs.add(c.dataset.filterLang!);
+      c.classList.add('chip--active');
+      c.setAttribute('aria-pressed', 'true');
+    });
     applyFilters();
   });
 </script>
