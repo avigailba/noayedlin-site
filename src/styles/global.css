@@ -1383,6 +1383,18 @@ img { max-width: 100%; display: block; }
 
 @media (max-width: 600px) {
   .section-eyebrow { text-align: left; }
+  .retailers {
+    white-space: normal;
+    padding-left: 54px;
+    text-indent: -54px;
+    line-height: 2;
+  }
+  .retailer-sep { display: none; }
+  .retailer-link:not(:last-child)::after {
+    content: ' ·';
+    color: var(--text-muted);
+    margin-left: 2px;
+  }
 }
 
 /* Touch devices: show underlines on links that rely on hover only */
