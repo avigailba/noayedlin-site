@@ -66,6 +66,7 @@ const showLangFilter = languages.has('English') && languages.has('Hebrew');
           {item.data.excerpt && (
             <p class="press-excerpt">{item.data.excerpt}</p>
           )}
+          <a href={item.data.url} target="_blank" rel="noopener" class="btn-secondary press-view-btn">View ↗</a>
         </div>
       </div>
     ))}
@@ -233,6 +234,8 @@ const showLangFilter = languages.has('English') && languages.has('Hebrew');
     letter-spacing: var(--track-tight);
     margin: 0;
   }
+
+  .press-view-btn { margin-top: 10px; }
 
   .press-excerpt {
     font-family: var(--font-serif);
