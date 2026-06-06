@@ -229,7 +229,7 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
   }
 
   .ap-entry--has-image {
-    grid-template-columns: 120px 1fr 260px;
+    grid-template-columns: 120px 1fr 320px;
   }
 
   /* Meta column */
@@ -417,6 +417,7 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
     border-radius: 2px;
   }
 
+  .ap-strip-btn[hidden] { display: none; }
   .ap-strip-btn:hover { background: var(--bg-alt); }
   .ap-strip-prev { left: 6px; }
   .ap-strip-next { right: 6px; }
