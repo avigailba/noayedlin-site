@@ -92,7 +92,6 @@ function formatDate(dateStr: string) {
 
         {/* Rail column — backlist */}
         <div class="hp-rail">
-          <p class="eyebrow hp-rail-label">More from Noa Yedlin</p>
           {backlist.map((book, i) => (
             <a class="gh-rail-item" href={`${base}/books/${book!.data.slug}`}>
               <img
@@ -116,23 +115,18 @@ function formatDate(dateStr: string) {
 
   {/* ── Praise carousel ── */}
   <section class="hp-praise-carousel" aria-label="Reader praise">
+    <button class="hpc-arrow" id="hpc-prev" aria-label="Previous quote">←</button>
     <div class="hpc-body" id="hpc-body">
       <p class="hpc-book" id="hpc-book"></p>
       <blockquote class="hpc-quote" id="hpc-quote"></blockquote>
       <p class="hpc-attr" id="hpc-attr"></p>
     </div>
-    <div class="hpc-nav">
-      <button class="hpc-arrow" id="hpc-prev" aria-label="Previous quote">←</button>
-      <div class="hpc-dots" id="hpc-dots" role="tablist" aria-label="Quote navigation"></div>
-      <button class="hpc-arrow" id="hpc-next" aria-label="Next quote">→</button>
-      <span class="hpc-counter" id="hpc-counter"></span>
-    </div>
+    <button class="hpc-arrow" id="hpc-next" aria-label="Next quote">→</button>
   </section>
 
   {/* ── Rail row — backlist outside hero at ≤1024px ── */}
   <div class="hp-rail-row">
     <div class="hp-rail-row-inner">
-      <p class="eyebrow hp-rail-row-label">More from Noa Yedlin</p>
       <div class="hp-rail-row-items">
         {backlist.map((book) => (
           <a class="gh-rail-item" href={`${base}/books/${book!.data.slug}`}>
@@ -499,13 +493,17 @@ function formatDate(dateStr: string) {
   /* ── Praise carousel (full-bleed, lives outside hp-inner) ── */
   :global(.hp-praise-carousel) {
     background: var(--bg-alt);
-    padding: 72px 32px;
+    padding: 72px 48px;
     text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 32px;
   }
 
   :global(.hpc-body) {
+    flex: 1;
     max-width: 860px;
-    margin: 0 auto 40px;
+    margin: 0 auto;
     transition: opacity 0.18s ease, transform 0.18s ease;
   }
 
@@ -548,13 +546,6 @@ function formatDate(dateStr: string) {
     margin: 0;
   }
 
-  :global(.hpc-nav) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-  }
-
   :global(.hpc-arrow) {
     width: 32px;
     height: 32px;
@@ -574,43 +565,10 @@ function formatDate(dateStr: string) {
     border-color: var(--text);
   }
 
-  :global(.hpc-dots) {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  :global(.hpc-dot) {
-    height: 8px;
-    width: 8px;
-    border-radius: 50%;
-    border: 1px solid var(--rule);
-    background: transparent;
-    cursor: pointer;
-    padding: 0;
-    transition: width 0.2s ease, background 0.2s ease, border-color 0.2s ease, border-radius 0.2s ease;
-    flex-shrink: 0;
-  }
-
-  :global(.hpc-dot--active) {
-    width: 20px;
-    border-radius: 4px;
-    background: var(--accent);
-    border-color: var(--accent);
-  }
-
-  :global(.hpc-counter) {
-    font-family: var(--font-body);
-    font-size: var(--text-xs);
-    letter-spacing: var(--track-wide);
-    color: var(--text-muted);
-    min-width: 36px;
-    text-align: left;
-  }
 
   @media (max-width: 768px) {
-    :global(.hp-praise-carousel) { padding: 48px 20px; }
-    :global(.hpc-body) { margin-bottom: 32px; }
+    :global(.hp-praise-carousel) { padding: 48px 20px; gap: 16px; }
+    :global(.hpc-arrow) { flex-shrink: 0; }
   }
 
   /* ── Entrance animation — feature column only ── */
@@ -950,38 +908,18 @@ function formatDate(dateStr: string) {
   let current = 0;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const bodyEl    = document.getElementById('hpc-body')!;
-  const bookEl    = document.getElementById('hpc-book')!;
-  const quoteEl   = document.getElementById('hpc-quote')!;
-  const attrEl    = document.getElementById('hpc-attr')!;
-  const dotsEl    = document.getElementById('hpc-dots')!;
-  const prevBtn   = document.getElementById('hpc-prev')!;
-  const nextBtn   = document.getElementById('hpc-next')!;
-  const counterEl = document.getElementById('hpc-counter')!;
-
-  function buildDots() {
-    dotsEl.innerHTML = '';
-    shuffled.forEach((_, i) => {
-      const btn = document.createElement('button');
-      btn.className = 'hpc-dot' + (i === current ? ' hpc-dot--active' : '');
-      btn.setAttribute('aria-label', `Go to quote ${i + 1}`);
-      btn.setAttribute('role', 'tab');
-      btn.setAttribute('aria-selected', String(i === current));
-      btn.addEventListener('click', () => goTo(i));
-      dotsEl.appendChild(btn);
-    });
-  }
+  const bodyEl  = document.getElementById('hpc-body')!;
+  const bookEl  = document.getElementById('hpc-book')!;
+  const quoteEl = document.getElementById('hpc-quote')!;
+  const attrEl  = document.getElementById('hpc-attr')!;
+  const prevBtn = document.getElementById('hpc-prev')!;
+  const nextBtn = document.getElementById('hpc-next')!;
 
   function render(idx: number) {
     const q = shuffled[idx];
     bookEl.textContent  = q.book;
     quoteEl.textContent = '\u201c' + q.text + '\u201d';
     attrEl.textContent  = q.role ? q.author.toUpperCase() + ' \u00b7 ' + q.role.toUpperCase() : q.author.toUpperCase();
-    counterEl.textContent = (idx + 1) + ' / ' + shuffled.length;
-    dotsEl.querySelectorAll('.hpc-dot').forEach((d, i) => {
-      d.classList.toggle('hpc-dot--active', i === idx);
-      d.setAttribute('aria-selected', String(i === idx));
-    });
   }
 
   async function goTo(idx: number) {
@@ -996,7 +934,6 @@ function formatDate(dateStr: string) {
     }
   }
 
-  buildDots();
   render(current);
 
   // Auto-advance every 5 seconds; pause on user interaction
@@ -1005,5 +942,4 @@ function formatDate(dateStr: string) {
 
   prevBtn.addEventListener('click', () => { goTo(current - 1); resetTimer(); });
   nextBtn.addEventListener('click', () => { goTo(current + 1); resetTimer(); });
-  dotsEl.addEventListener('click', resetTimer);
 </script>
