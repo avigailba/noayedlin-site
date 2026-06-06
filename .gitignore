@@ -25,3 +25,6 @@ pnpm-debug.log*
 dist/
 node_modules/
 .astro/
+
+# Claude Code config
+.claude/
