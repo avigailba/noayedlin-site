@@ -37,6 +37,7 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
       ? a.data.stills
       : a.data.still?.image ? [a.data.still.image] : [],
     imagePos: a.data.still?.position ?? 'center 20%',
+    photoCredit: a.data.photo_credit ?? null,
     awards: a.data.awards ?? [],
     watchLinks: (a.data.watch ?? []).map(w => ({ label: w.label, url: w.url })),
     otherLinks: [
@@ -64,7 +65,7 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
           {count > 1 && <span class="ap-count">{count} adaptations</span>}
         </div>
 
-        {entries.map(({ data, images, imagePos, awards, watchLinks, otherLinks }) => (
+        {entries.map(({ data, images, imagePos, awards, watchLinks, otherLinks, photoCredit }) => (
           <div class={`ap-entry${images.length > 0 ? ' ap-entry--has-image' : ''}`}>
 
             <div class="ap-meta">
@@ -115,6 +116,7 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
             {images.length === 1 && (
               <div class="ap-img-wrap">
                 <img src={images[0]} alt={`Production still from ${data.title}`} loading="lazy" class="ap-img" style={`object-position: ${imagePos}`} />
+                {photoCredit && <p class="ap-photo-credit">Photo: {photoCredit}</p>}
               </div>
             )}
             {images.length > 1 && (
@@ -128,6 +130,7 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
                 </div>
                 <button class="ap-strip-btn ap-strip-prev" aria-label="Previous image" hidden>←</button>
                 <button class="ap-strip-btn ap-strip-next" aria-label="Next image">→</button>
+                {photoCredit && <p class="ap-photo-credit">Photo: {photoCredit}</p>}
               </div>
             )}
 
@@ -341,6 +344,13 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
     aspect-ratio: 4 / 3;
     overflow: hidden;
     border-radius: 4px;
+  }
+
+  .ap-photo-credit {
+    font-size: var(--text-xs);
+    color: var(--text-faint);
+    margin: 6px 0 0;
+    letter-spacing: var(--track-none);
   }
 
   .ap-img {

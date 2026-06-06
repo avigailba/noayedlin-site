@@ -8,13 +8,14 @@
   "network": "Beit Lessin Theater, Tel Aviv",
   "order": 1,
   "still": {
-    "image": "/images/house-arrest-stage-1.png"
+    "image": "/images/house-arrest-stage-1.jpg"
   },
   "stills": [
-    "/images/house-arrest-stage-1.png",
-    "/images/house-arrest-stage-2.png",
-    "/images/house-arrest-stage-3.png"
+    "/images/house-arrest-stage-1.jpg",
+    "/images/house-arrest-stage-2.jpg",
+    "/images/house-arrest-stage-3.jpg"
   ],
+  "photo_credit": "Kfir Bolotin",
   "info": [
     { "label": "Drama Israel", "url": "https://exposure.dramaisrael.org/2021/house-arrest/" }
   ]
