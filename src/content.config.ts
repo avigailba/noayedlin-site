@@ -70,6 +70,7 @@ const adaptationSchema = z.object({
   })).optional(),
   status: z.string().optional(),
   stills: z.array(z.string()).optional(),
+  photo_credit: z.string().optional(),
 });
 
 const adaptations = defineCollection({
