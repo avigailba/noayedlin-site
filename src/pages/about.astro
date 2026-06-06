@@ -26,7 +26,6 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
   </div>
 
   <div class="ab-section">
-    <p class="section-eyebrow">Representation</p>
     <div class="ab-rep-grid">
       {representation.map((r) => (
         <div class="ab-rep-entry">
@@ -152,6 +151,19 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
   }
 
   .ab-rep-link:hover { opacity: 0.7; }
+
+  :global(.ab-adapt-link) {
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-color: var(--text-muted);
+    text-underline-offset: 3px;
+    font-style: normal;
+  }
+
+  :global(.ab-adapt-link:hover) {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+  }
 
   @media (max-width: 768px) {
     .ab-portrait { width: 100%; max-width: 280px; margin: 0 auto 2rem; }
