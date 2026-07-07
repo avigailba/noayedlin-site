@@ -102,12 +102,13 @@ const about = defineCollection({
 const mediaSchema = z.object({
   outlet: z.string(),
   headline: z.string(),
-  url: z.string(),
+  url: z.string().optional(),
   date: z.string(),
   type: z.enum(['Essay', 'Interview', 'Review', 'Profile', 'Feature', 'Event']).optional(),
   excerpt: z.string().optional(),
   featured: z.boolean().optional(),
   language: z.string().optional(),
+  draft: z.boolean().optional(),
 });
 
 const media = defineCollection({
