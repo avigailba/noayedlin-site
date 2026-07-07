@@ -6,4 +6,5 @@ date: "2013-01-31"
 type: Review
 featured: true
 language: English
+excerpt: Journalist Noa Yadlin on money, an absent father and her new book 'Ba'alat Habayit.'
 ---

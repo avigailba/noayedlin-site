@@ -638,9 +638,9 @@ img { max-width: 100%; display: block; }
   border: 1px solid var(--text);
   text-decoration: none;
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: background 0.15s, color 0.15s;
 }
-.btn-secondary:hover { opacity: 0.7; }
+.btn-secondary:hover { background: #000; color: #fff; border-color: #000; }
 
 .link-accent {
   color: var(--accent);
