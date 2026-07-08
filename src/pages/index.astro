@@ -118,9 +118,12 @@ function formatDate(dateStr: string) {
   <section class="hp-praise-carousel" aria-label="Reader praise">
     <button class="hpc-arrow" id="hpc-prev" aria-label="Previous quote">←</button>
     <div class="hpc-body" id="hpc-body">
-      <p class="hpc-book" id="hpc-book"></p>
-      <blockquote class="hpc-quote" id="hpc-quote"></blockquote>
-      <p class="hpc-attr" id="hpc-attr"></p>
+      <div aria-live="polite" aria-atomic="true">
+        <p class="hpc-book" id="hpc-book"></p>
+        <blockquote class="hpc-quote" id="hpc-quote"></blockquote>
+        <p class="hpc-attr" id="hpc-attr"></p>
+      </div>
+      <button class="hpc-pause" id="hpc-pause" aria-label="Pause auto-advancing quotes" aria-pressed="false">Pause</button>
     </div>
     <button class="hpc-arrow" id="hpc-next" aria-label="Next quote">→</button>
   </section>
@@ -577,6 +580,26 @@ function formatDate(dateStr: string) {
     border-color: var(--text);
   }
 
+  :global(.hpc-pause) {
+    display: block;
+    margin: 14px auto 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid transparent;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    letter-spacing: var(--track-wide);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 2px 0;
+    transition: color 0.15s, border-bottom-color 0.15s;
+  }
+
+  :global(.hpc-pause:hover) {
+    color: var(--text);
+    border-bottom-color: var(--text);
+  }
 
   @media (max-width: 768px) {
     :global(.hp-praise-carousel) { padding: 48px 20px; gap: 16px; }
@@ -864,12 +887,14 @@ function formatDate(dateStr: string) {
   let current = 0;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const bodyEl  = document.getElementById('hpc-body')!;
-  const bookEl  = document.getElementById('hpc-book')!;
-  const quoteEl = document.getElementById('hpc-quote')!;
-  const attrEl  = document.getElementById('hpc-attr')!;
-  const prevBtn = document.getElementById('hpc-prev')!;
-  const nextBtn = document.getElementById('hpc-next')!;
+  const bodyEl   = document.getElementById('hpc-body')!;
+  const bookEl   = document.getElementById('hpc-book')!;
+  const quoteEl  = document.getElementById('hpc-quote')!;
+  const attrEl   = document.getElementById('hpc-attr')!;
+  const prevBtn  = document.getElementById('hpc-prev')!;
+  const nextBtn  = document.getElementById('hpc-next')!;
+  const pauseBtn = document.getElementById('hpc-pause')!;
+  const carouselEl = document.querySelector('.hp-praise-carousel')!;
 
   function render(idx: number) {
     const q = shuffled[idx];
@@ -892,10 +917,28 @@ function formatDate(dateStr: string) {
 
   render(current);
 
-  // Auto-advance every 5 seconds; pause on user interaction
+  // Auto-advance every 5 seconds
   let timer = setInterval(() => goTo(current + 1), 5000);
   const resetTimer = () => { clearInterval(timer); timer = setInterval(() => goTo(current + 1), 5000); };
 
-  prevBtn.addEventListener('click', () => { goTo(current - 1); resetTimer(); });
-  nextBtn.addEventListener('click', () => { goTo(current + 1); resetTimer(); });
+  // Pause / play
+  let paused = false;
+  pauseBtn.addEventListener('click', () => {
+    paused = !paused;
+    pauseBtn.textContent = paused ? 'Resume' : 'Pause';
+    pauseBtn.setAttribute('aria-label', paused ? 'Resume auto-advancing quotes' : 'Pause auto-advancing quotes');
+    pauseBtn.setAttribute('aria-pressed', String(paused));
+    if (paused) { clearInterval(timer); } else { resetTimer(); }
+  });
+
+  // Also pause while keyboard focus is inside the carousel
+  carouselEl.addEventListener('focusin', () => { if (!paused) clearInterval(timer); });
+  carouselEl.addEventListener('focusout', (e) => {
+    if (!paused && !carouselEl.contains((e as FocusEvent).relatedTarget as Node)) {
+      resetTimer();
+    }
+  });
+
+  prevBtn.addEventListener('click', () => { goTo(current - 1); if (!paused) resetTimer(); });
+  nextBtn.addEventListener('click', () => { goTo(current + 1); if (!paused) resetTimer(); });
 </script>
