@@ -521,6 +521,10 @@ function formatDate(dateStr: string) {
     flex: 1;
     max-width: 860px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     transition: opacity 0.18s ease, transform 0.18s ease;
   }
 
@@ -911,6 +915,17 @@ function formatDate(dateStr: string) {
     quoteEl.textContent = '\u201c' + q.text + '\u201d';
     attrEl.textContent  = q.role ? q.author.toUpperCase() + ' \u00b7 ' + q.role.toUpperCase() : q.author.toUpperCase();
   }
+
+  // Lock strip height to the tallest quote so it never reflows on transition
+  // Elements start empty so this runs invisibly before first paint
+  let maxH = 0;
+  for (const q of QUOTES) {
+    bookEl.textContent  = q.book;
+    quoteEl.textContent = '\u201c' + q.text + '\u201d';
+    attrEl.textContent  = q.role ? q.author.toUpperCase() + ' \u00b7 ' + q.role.toUpperCase() : q.author.toUpperCase();
+    maxH = Math.max(maxH, bodyEl.scrollHeight);
+  }
+  bodyEl.style.minHeight = maxH + 'px';
 
   async function goTo(idx: number) {
     if (!reducedMotion) {
