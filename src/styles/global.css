@@ -51,7 +51,7 @@
 
   /* --- Fonts --- */
   --font-serif: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
-  --font-body:  'Inter', system-ui, -apple-system, sans-serif;
+  --font-body:  'Roboto', system-ui, -apple-system, sans-serif;
 
   /* --- Type scale --- */
   --text-xs:    12px;   /* eyebrows, labels, buttons, breadcrumbs, status, fine print */
@@ -220,6 +220,8 @@ img { max-width: 100%; display: block; }
   letter-spacing: var(--track-wide);
   text-transform: uppercase;
   color: var(--text-muted);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
 }
 
 .nav-links a:hover {
@@ -231,8 +233,7 @@ img { max-width: 100%; display: block; }
 .nav-links a.is-active {
   color: var(--accent);
   opacity: 1;
-  border-bottom: 1px solid var(--accent);
-  padding-bottom: 2px;
+  border-bottom-color: var(--accent);
 }
 
 /* Hamburger */
