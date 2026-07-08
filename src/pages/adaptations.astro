@@ -221,22 +221,23 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
   /* Entry row */
   .ap-entry {
     display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: 0 36px;
-    border-top: 1px solid var(--rule);
-    padding: 18px 0;
-    align-items: start;
+    grid-template-columns: 160px 1fr;
+    gap: 0 32px;
+    border-top: 0.5px solid var(--rule);
+    padding: 28px 0;
+    align-items: baseline;
   }
 
   .ap-entry--has-image {
-    grid-template-columns: 120px 1fr 320px;
+    grid-template-columns: 160px 1fr 320px;
+    align-items: start;
   }
 
   /* Meta column */
   .ap-meta {
     display: flex;
     flex-direction: column;
-    padding-top: 3px;
+    gap: 8px;
   }
 
   .ap-country {
@@ -245,7 +246,6 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
     color: var(--text-muted);
     letter-spacing: var(--track-wide);
     text-transform: uppercase;
-    line-height: 1.5;
   }
 
   .ap-medium,
@@ -255,23 +255,24 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
     text-transform: uppercase;
     letter-spacing: var(--track-wide);
     color: var(--text-muted);
-    line-height: 1.4;
   }
 
   /* Content column */
   .ap-title {
     font-family: var(--font-serif);
-    font-size: 20px;
+    font-size: var(--text-lg);
     font-weight: 400;
     color: var(--text);
-    line-height: 1.2;
-    margin-bottom: 3px;
+    line-height: var(--lh-tight);
+    letter-spacing: var(--track-tight);
+    margin-bottom: 0;
   }
 
   .ap-network {
-    font-family: var(--font-body);
-    font-size: var(--text-sm);
-    color: var(--text-faint);
+    font-size: var(--text-md);
+    line-height: var(--lh-loose);
+    color: var(--text-muted);
+    margin-top: 8px;
   }
 
   .ap-status {
@@ -425,7 +426,7 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
   /* Responsive */
   @media (max-width: 860px) {
     .ap-entry--has-image {
-      grid-template-columns: 90px 1fr;
+      grid-template-columns: 160px 1fr;
       grid-template-rows: auto auto;
     }
 

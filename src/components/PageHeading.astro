@@ -35,9 +35,9 @@ const { eyebrow, title, subtitle, variant = 'default' } = Astro.props;
 
   .page-heading__title {
     font-family: var(--font-serif);
-    font-size: 96px;
-    line-height: 0.92;
-    letter-spacing: -0.035em;
+    font-size: var(--text-xl);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--track-tight);
     font-weight: 400;
     color: var(--text);
     text-align: left;
@@ -66,7 +66,6 @@ const { eyebrow, title, subtitle, variant = 'default' } = Astro.props;
       padding: 20px 0 32px;
     }
     .page-heading__title {
-      font-size: clamp(48px, 12vw, 96px);
       margin-bottom: 16px;
     }
     .page-heading--with-aside {
