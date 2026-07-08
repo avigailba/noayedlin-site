@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import BooksRail from '../components/BooksRail.astro';
 import { getEntry } from 'astro:content';
 
 const about = await getEntry('about', 'about');
@@ -185,19 +184,6 @@ const { heading, tagline, portrait, lead, bio, awards, representation } = about.
   }
 
   .ab-rep-link:hover { opacity: 0.7; }
-
-  :global(.ab-adapt-link) {
-    color: var(--text);
-    text-decoration: underline;
-    text-decoration-color: var(--text-muted);
-    text-underline-offset: 3px;
-    font-style: normal;
-  }
-
-  :global(.ab-adapt-link:hover) {
-    color: var(--accent);
-    text-decoration-color: var(--accent);
-  }
 
   /* ── Mobile ── */
   @media (max-width: 768px) {

@@ -6,7 +6,6 @@ import { getCollection, getEntry } from 'astro:content';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const books = await getCollection('booksEn');
 const featured2 = books.find((b) => b.id === 'house-arrest');  // primary featured
-const featured  = books.find((b) => b.id === 'stockholm');
 const backlist  = [
   books.find((b) => b.id === 'stockholm'),
   books.find((b) => b.id === 'people-like-us'),
@@ -37,7 +36,6 @@ const upcomingEvents = allEventsRaw
   .slice(0, 3);
 
 const allMedia = await getCollection('media');
-const featuredMedia = allMedia.filter((m) => m.data.featured);
 
 const allAdaptations = await getCollection('adaptations');
 const featuredStill = allAdaptations.find(a => a.data.slug === 'stockholm-de')?.data?.still?.image;
@@ -45,6 +43,7 @@ const homeMedia = allMedia
   .filter(m => !m.data.draft)
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
   .slice(0, 3);
+
 
 const aboutEntry = await getEntry('about', 'about');
 
@@ -747,7 +746,7 @@ function formatDate(dateStr: string) {
   }
   .hp-about-eyebrow { margin-bottom: 16px; }
   .hp-about-lead {
-    font-family: var(--font-serif);
+    font-family: var(--font-body);
     font-size: var(--text-md);
     line-height: var(--lh-loose);
     color: var(--text);
@@ -780,7 +779,7 @@ function formatDate(dateStr: string) {
   .hp-adaptations__title {
     font-family: var(--font-serif);
     font-size: var(--text-lg);
-    letter-spacing: var(--track-snug);
+    letter-spacing: var(--track-none);
     line-height: var(--lh-tight);
     font-weight: 400;
     margin: 0 0 18px;

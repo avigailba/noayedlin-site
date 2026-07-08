@@ -11,9 +11,6 @@ const books = allBooks.sort((a, b) => {
   return (b.data.year ?? 0) - (a.data.year ?? 0);
 });
 
-const years = books.map(b => b.data.year).filter(Boolean) as number[];
-const minYear = Math.min(...years);
-const maxYear = Math.max(...years);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
