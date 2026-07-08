@@ -10,7 +10,7 @@ import PageHeading from '../components/PageHeading.astro';
   />
 
   <section class="a11y-section">
-    <div class="reading-column">
+    <div class="a11y-content">
 
       <p class="intro">Noa Yedlin is committed to making this website accessible to all users, including people with disabilities. This statement describes the accessibility features of this site and our ongoing efforts to meet accessibility standards.</p>
 
@@ -37,15 +37,20 @@ import PageHeading from '../components/PageHeading.astro';
       <p>Some pages may not yet meet full accessibility requirements. We are actively working to address any gaps. Third-party content (such as external links) may have limited accessibility beyond our control.</p>
 
       <h2>Contact</h2>
-      <p>If you encounter any accessibility barrier on this site or require assistance, please contact us via the <a class="link-accent" href="/contact">Contact page</a>.</p>
+      <p>If you encounter any accessibility barrier on this site or require assistance, please <a class="link-accent" href="mailto:contact@noayedlin.com">contact us</a>.</p>
 
     </div>
   </section>
 </Layout>
 
+
 <style>
   .a11y-section {
     padding: 56px 0;
+  }
+
+  .a11y-content {
+    max-width: 620px;
   }
 
   .intro {
