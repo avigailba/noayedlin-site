@@ -123,9 +123,11 @@ function formatDate(dateStr: string) {
         <blockquote class="hpc-quote" id="hpc-quote"></blockquote>
         <p class="hpc-attr" id="hpc-attr"></p>
       </div>
+    </div>
+    <div class="hpc-right">
+      <button class="hpc-arrow" id="hpc-next" aria-label="Next quote">→</button>
       <button class="hpc-pause" id="hpc-pause" aria-label="Pause auto-advancing quotes" aria-pressed="false">⏸</button>
     </div>
-    <button class="hpc-arrow" id="hpc-next" aria-label="Next quote">→</button>
   </section>
 
   {/* ── Rail row — backlist outside hero at ≤1024px ── */}
@@ -580,6 +582,14 @@ function formatDate(dateStr: string) {
     border-color: var(--text);
   }
 
+  :global(.hpc-right) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
   :global(.hpc-pause) {
     width: 32px;
     height: 32px;
@@ -593,7 +603,6 @@ function formatDate(dateStr: string) {
     justify-content: center;
     transition: border-color 0.15s, color 0.15s;
     flex-shrink: 0;
-    margin-top: 16px;
   }
 
   :global(.hpc-pause:hover) {
@@ -862,16 +871,16 @@ function formatDate(dateStr: string) {
 
   // ── Praise carousel ──
   const QUOTES = [
-    { book: 'on Stockholm',      text: "Too funny, too sad, too real, and too preposterous \u2014 just like life. Stockholm is the most entertaining book I\u2019ve read in a long time.", author: "Etgar Keret",    role: "Author" },
-    { book: 'on Stockholm',      text: "Bright, witty, irreverent and compassionate\u2026 an astute and hilarious study of the human condition.",                                          author: "Ruby Namdar",   role: "Author" },
-    { book: 'on Stockholm',      text: "Hilarious, refreshing, tightly plotted and vividly written. An irresistible read.",                                                               author: "Jonas Jonasson", role: "#1 New York Times bestselling author" },
-    { book: 'on Stockholm',      text: "The portraits of these four friends are so vivid that as I read, I felt Avishay\u2019s friends also became mine. Unputdownable, full of intrigue, a bit of sadness, and a lot of humor.", author: "Helene Tursten", role: "Internationally bestselling author" },
-    { book: 'on Stockholm',      text: "A brilliant meditation on the intricacies of friendship, aging, ego, wounds and healing.",                                                        author: "Parini Shroff",  role: "Author of The Bandit Queens" },
-    { book: 'on People Like Us', text: "All this abundance, in which one family becomes a mirror to an entire social class in Israel.",                                                   author: "Avraham Balaban", role: "Haaretz Books" },
-    { book: 'on People Like Us', text: "A riveting book that examines Ashkenazi society with both sarcasm and compassion.",                                                               author: "Alon Hilu",      role: "Author" },
-    { book: 'on People Like Us', text: "An excellent book \u2014 a clear, distinct, and uncompromising voice that sets a high literary standard.",                                        author: "Dorit Rabinyan", role: "Author" },
-    { book: 'on House Arrest',   text: "One should run, run to buy this book",                                                                                                              author: "Haaretz",        role: "" },
-    { book: 'on House Arrest',   text: "A lucid, clear, and distinct voice",                                                                                                                author: "Dorit Rabinyan", role: "Author" },
+    { book: 'Stockholm',      text: "Too funny, too sad, too real, and too preposterous \u2014 just like life. Stockholm is the most entertaining book I\u2019ve read in a long time.", author: "Etgar Keret",    role: "Author" },
+    { book: 'Stockholm',      text: "Bright, witty, irreverent and compassionate\u2026 an astute and hilarious study of the human condition.",                                          author: "Ruby Namdar",   role: "Author" },
+    { book: 'Stockholm',      text: "Hilarious, refreshing, tightly plotted and vividly written. An irresistible read.",                                                               author: "Jonas Jonasson", role: "#1 New York Times bestselling author" },
+    { book: 'Stockholm',      text: "The portraits of these four friends are so vivid that as I read, I felt Avishay\u2019s friends also became mine. Unputdownable, full of intrigue, a bit of sadness, and a lot of humor.", author: "Helene Tursten", role: "Internationally bestselling author" },
+    { book: 'Stockholm',      text: "A brilliant meditation on the intricacies of friendship, aging, ego, wounds and healing.",                                                        author: "Parini Shroff",  role: "Author of The Bandit Queens" },
+    { book: 'People Like Us', text: "All this abundance, in which one family becomes a mirror to an entire social class in Israel.",                                                   author: "Avraham Balaban", role: "Haaretz Books" },
+    { book: 'People Like Us', text: "A riveting book that examines Ashkenazi society with both sarcasm and compassion.",                                                               author: "Alon Hilu",      role: "Author" },
+    { book: 'People Like Us', text: "An excellent book \u2014 a clear, distinct, and uncompromising voice that sets a high literary standard.",                                        author: "Dorit Rabinyan", role: "Author" },
+    { book: 'House Arrest',   text: "One should run, run to buy this book",                                                                                                              author: "Haaretz",        role: "" },
+    { book: 'House Arrest',   text: "A lucid, clear, and distinct voice",                                                                                                                author: "Dorit Rabinyan", role: "Author" },
   ];
 
   function shuffle(arr: typeof QUOTES) {
