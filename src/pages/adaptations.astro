@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageHeading from '../components/PageHeading.astro';
-import BooksRail from '../components/BooksRail.astro';
 import { getCollection } from 'astro:content';
 
 const allAdaptations = await getCollection('adaptations');
@@ -488,7 +487,7 @@ const processedGroups = sortedGroups.map(([slug, adaptationList]) => {
 
     /* Links: border separator + 44px touch height */
     .ap-links {
-      border-top: 1px solid #F0F0F0;
+      border-top: 1px solid var(--rule);
       padding-top: 12px;
       margin-top: 10px;
     }

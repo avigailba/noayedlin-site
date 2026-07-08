@@ -1,6 +1,5 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import BooksRail from '../../components/BooksRail.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -13,7 +12,7 @@ export async function getStaticPaths() {
 
 const { event } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const { title, date_start, date_end, city, region, country, description, type, status } = event.data;
+const { title, date_start, date_end, city, region, country, description, type, status, url } = event.data;
 
 function parseDate(str: string) {
   const [y, m, d] = str.split('-').map(Number);
@@ -51,6 +50,24 @@ const dateLabel = end
         <>
           <span class="ev-dot ev-dot--muted"></span>
           <span class="ev-status-label ev-status-label--muted">Details coming soon</span>
+        </>
+      )}
+      {status === 'scheduled' && (
+        <>
+          <span class="ev-dot ev-dot--accent"></span>
+          {url
+            ? <a href={url} target="_blank" rel="noopener" class="ev-status-label ev-status-label--accent">Get details →</a>
+            : <span class="ev-status-label ev-status-label--muted">Scheduled</span>
+          }
+        </>
+      )}
+      {status === 'ticketed' && (
+        <>
+          <span class="ev-dot ev-dot--accent"></span>
+          {url
+            ? <a href={url} target="_blank" rel="noopener" class="ev-status-label ev-status-label--accent">Get tickets →</a>
+            : <span class="ev-status-label ev-status-label--muted">Ticketed</span>
+          }
         </>
       )}
     </div>
@@ -116,12 +133,15 @@ const dateLabel = end
     border-radius: 50%;
     flex-shrink: 0;
   }
-  .ev-dot--muted { background: var(--text-muted); }
+  .ev-dot--muted  { background: var(--text-muted); }
+  .ev-dot--accent { background: var(--accent); }
 
   .ev-status-label {
     font-size: var(--text-xs);
     text-transform: uppercase;
     letter-spacing: var(--track-wide);
+    text-decoration: none;
   }
-  .ev-status-label--muted { color: var(--text-muted); }
+  .ev-status-label--muted  { color: var(--text-muted); }
+  .ev-status-label--accent { color: var(--accent); }
 </style>
