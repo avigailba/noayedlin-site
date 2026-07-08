@@ -123,7 +123,7 @@ function formatDate(dateStr: string) {
         <blockquote class="hpc-quote" id="hpc-quote"></blockquote>
         <p class="hpc-attr" id="hpc-attr"></p>
       </div>
-      <button class="hpc-pause" id="hpc-pause" aria-label="Pause auto-advancing quotes" aria-pressed="false">Pause</button>
+      <button class="hpc-pause" id="hpc-pause" aria-label="Pause auto-advancing quotes" aria-pressed="false">⏸</button>
     </div>
     <button class="hpc-arrow" id="hpc-next" aria-label="Next quote">→</button>
   </section>
@@ -581,24 +581,24 @@ function formatDate(dateStr: string) {
   }
 
   :global(.hpc-pause) {
-    display: block;
-    margin: 14px auto 0;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--rule);
     background: transparent;
-    border: none;
-    border-bottom: 1px solid transparent;
     cursor: pointer;
-    font-family: var(--font-body);
-    font-size: var(--text-xs);
-    letter-spacing: var(--track-wide);
-    text-transform: uppercase;
     color: var(--text-muted);
-    padding: 2px 0;
-    transition: color 0.15s, border-bottom-color 0.15s;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.15s, color 0.15s;
+    flex-shrink: 0;
+    margin-top: 16px;
   }
 
   :global(.hpc-pause:hover) {
+    border-color: var(--text);
     color: var(--text);
-    border-bottom-color: var(--text);
   }
 
   @media (max-width: 768px) {
@@ -925,7 +925,7 @@ function formatDate(dateStr: string) {
   let paused = false;
   pauseBtn.addEventListener('click', () => {
     paused = !paused;
-    pauseBtn.textContent = paused ? 'Resume' : 'Pause';
+    pauseBtn.textContent = paused ? '▶' : '⏸';
     pauseBtn.setAttribute('aria-label', paused ? 'Resume auto-advancing quotes' : 'Pause auto-advancing quotes');
     pauseBtn.setAttribute('aria-pressed', String(paused));
     if (paused) { clearInterval(timer); } else { resetTimer(); }
