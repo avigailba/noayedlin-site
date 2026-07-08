@@ -47,6 +47,8 @@ const showLangFilter = languages.has('English') && languages.has('Hebrew');
     )}
   </div>
 
+  <span id="press-status" class="sr-only" role="status"></span>
+
   <div class="press-list-wrap">
     {mediaItems.map((item) => (
       <div
@@ -92,6 +94,7 @@ const showLangFilter = languages.has('English') && languages.has('Hebrew');
   const rows = document.querySelectorAll<HTMLElement>('[data-row-type]');
   const emptyEl = document.getElementById('press-empty')!;
   const resetBtn = document.getElementById('press-reset')!;
+  const statusEl = document.getElementById('press-status')!;
 
   let activeType = 'all';
   const activeLangs = new Set([...langChips].map(c => c.dataset.filterLang!));
@@ -106,6 +109,9 @@ const showLangFilter = languages.has('English') && languages.has('Hebrew');
       if (!row.hidden) visible++;
     });
     emptyEl.hidden = visible > 0;
+    statusEl.textContent = visible > 0
+      ? `Showing ${visible} item${visible === 1 ? '' : 's'}.`
+      : 'No items match this filter.';
   }
 
   typeChips.forEach(chip => {
@@ -187,6 +193,7 @@ const showLangFilter = languages.has('English') && languages.has('Hebrew');
 
   .chip:hover { border-color: var(--text); color: var(--text); }
   .chip--active { border-color: var(--accent); color: var(--accent); }
+  .chip:focus-visible { outline-offset: 3px; }
 
   /* Press list */
   .press-list-wrap {
@@ -220,5 +227,6 @@ const showLangFilter = languages.has('English') && languages.has('Hebrew');
   }
 
   .press-reset:hover { opacity: 0.7; }
+  .press-reset:focus-visible { outline-offset: 4px; }
 
 </style>
