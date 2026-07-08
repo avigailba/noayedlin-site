@@ -88,7 +88,7 @@ const allAdaptations = adaptations ??
       )}
       {excerpt && (
         <div class="bd-ctas">
-          <a href={excerpt} class="btn-primary">Read an excerpt</a>
+          <a href={excerpt} class="btn-primary" target="_blank" rel="noopener">Read an excerpt ↗</a>
         </div>
       )}
     </div>
@@ -130,15 +130,20 @@ const allAdaptations = adaptations ??
     <>
       <section class="bd-adaptations">
         <p class="eyebrow bd-section-eyebrow">Adaptations</p>
-        <ul class="bd-adaptation-list">
+        <div class="bd-adapt-rows">
           {allAdaptations.map((a) => (
-            <li>
-              {a.title ? <><em>{a.title}</em>{' — '}</> : null}
-              {a.medium}{a.year ? `, ${a.year}` : ''}
-            </li>
+            <div class="press-row">
+              <div class="press-outlet">
+                {a.year && <span class="press-date">{String(a.year)}</span>}
+              </div>
+              <div class="press-content">
+                {a.title && <div class="press-headline"><em>{a.title}</em></div>}
+                {a.medium && <p class="press-excerpt">{a.medium}</p>}
+              </div>
+            </div>
           ))}
-        </ul>
-        <a href={base + '/adaptations'} class="btn-secondary bd-adaptations-btn">View more</a>
+        </div>
+        <a href={base + '/adaptations'} class="btn-secondary bd-adaptations-btn">View more →</a>
       </section>
     </>
   )}
@@ -149,28 +154,6 @@ const allAdaptations = adaptations ??
 </Layout>
 
 <style>
-  /* Breadcrumb */
-  .breadcrumb {
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--track-wide);
-    color: var(--text-muted);
-    margin-bottom: 3rem;
-  }
-  .breadcrumb a { color: var(--text-muted); text-decoration: none; }
-  .breadcrumb a:hover { color: var(--accent); opacity: 1; }
-
-  @media (max-width: 600px) {
-    .breadcrumb {
-      font-size: var(--text-sm);
-      margin-bottom: 2rem;
-    }
-    .breadcrumb a {
-      display: inline-block;
-      padding: 8px 0;
-    }
-  }
-
   /* Hero */
   .bd-hero {
     display: grid;
@@ -203,16 +186,12 @@ const allAdaptations = adaptations ??
   .bd-eyebrow { color: var(--text-muted); margin: 0; }
 
   .bd-title {
-    font-size: 96px;
-    line-height: 0.92;
-    letter-spacing: -0.035em;
+    font-size: var(--text-xl);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--track-tight);
     font-weight: 400;
     margin: 0;
     text-align: left;
-  }
-
-  @media (max-width: 768px) {
-    .bd-title { font-size: clamp(48px, 12vw, 96px); }
   }
 
   .bd-hero-awards {
@@ -285,13 +264,6 @@ const allAdaptations = adaptations ??
   /* Adaptations */
   .bd-adaptations { margin-top: 4rem; }
   .bd-adaptations-btn { margin-top: 1.5rem; display: inline-block; }
-  .bd-adaptation-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-  .bd-adaptation-list li { font-size: var(--text-md); line-height: var(--lh-loose); color: var(--text); }
 
   @media (max-width: 680px) {
     .bd-hero { grid-template-columns: 1fr; gap: 1.25rem; }

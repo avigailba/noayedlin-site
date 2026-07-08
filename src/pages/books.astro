@@ -57,7 +57,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           <p class="books-list-synopsis">
             {book.data.synopsis ?? book.data.description}
           </p>
-          <a href={`${base}/books/${book.data.slug}`} class="btn-primary" aria-label={`Read more about ${book.data.title}`}>Read more</a>
+          <a href={`${base}/books/${book.data.slug}`} class="btn-primary" aria-label={`Read more about ${book.data.title}`}>Read more →</a>
         </div>
       </div>
     ))}
@@ -133,10 +133,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-  }
-
-  .books-list-awards .award-badge {
-    color: var(--text);
   }
 
   .books-list-tagline {
