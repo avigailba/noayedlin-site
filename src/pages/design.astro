@@ -65,15 +65,15 @@ import Layout from '../layouts/Layout.astro';
     <div class="ds-type-rows">
       <div class="ds-type-row">
         <span style="font-size: var(--text-xs); font-family: var(--font-body); text-transform: uppercase; letter-spacing: var(--track-wide);">Eyebrow · Metadata</span>
-        <span class="ds-type-meta">--text-xs</span><span class="ds-type-meta">12px</span><span class="ds-type-meta">Inter 400</span>
+        <span class="ds-type-meta">--text-xs</span><span class="ds-type-meta">12px</span><span class="ds-type-meta">Roboto 400</span>
       </div>
       <div class="ds-type-row">
         <span style="font-size: var(--text-sm); font-family: var(--font-body);">Rail title · Caption · Small body</span>
-        <span class="ds-type-meta">--text-sm</span><span class="ds-type-meta">14px</span><span class="ds-type-meta">Inter 400</span>
+        <span class="ds-type-meta">--text-sm</span><span class="ds-type-meta">14px</span><span class="ds-type-meta">Roboto 400</span>
       </div>
       <div class="ds-type-row">
         <span style="font-size: var(--text-md); font-family: var(--font-body);">Default body text</span>
-        <span class="ds-type-meta">--text-md</span><span class="ds-type-meta">16px</span><span class="ds-type-meta">Inter 400</span>
+        <span class="ds-type-meta">--text-md</span><span class="ds-type-meta">16px</span><span class="ds-type-meta">Roboto 400</span>
       </div>
       <div class="ds-type-row">
         <span style="font-size: var(--text-title); font-family: var(--font-serif);">Noa Yedlin — wordmark</span>
@@ -88,14 +88,11 @@ import Layout from '../layouts/Layout.astro';
         <span class="ds-type-meta">--text-lg</span><span class="ds-type-meta">28px</span><span class="ds-type-meta">Fraunces 400</span>
       </div>
       <div class="ds-type-row">
-        <span style="font-size: var(--text-xl); font-family: var(--font-serif);">Page title</span>
+        <span style="font-size: var(--text-xl); font-family: var(--font-serif); letter-spacing: var(--track-tight); line-height: var(--lh-tight);">Page title · H1</span>
         <span class="ds-type-meta">--text-xl</span><span class="ds-type-meta">48px</span><span class="ds-type-meta">Fraunces 400</span>
       </div>
-      <div class="ds-type-row">
-        <span style="font-size: clamp(48px, 8vw, 96px); font-family: var(--font-serif); letter-spacing: var(--track-tight); line-height: var(--lh-tight);">Page H1</span>
-        <span class="ds-type-meta">—</span><span class="ds-type-meta">96px</span><span class="ds-type-meta">Fraunces 400</span>
-      </div>
     </div>
+    <p style="font-size: var(--text-xs); color: var(--text-muted); margin-top: 1rem;">Exception: homepage hero book title uses <code>clamp(36px, 4.4vw, 62px)</code> — local style in index.astro. All other tokens are fixed px, unchanged on mobile.</p>
   </section>
 
   <hr class="ds-rule" />
@@ -143,33 +140,6 @@ import Layout from '../layouts/Layout.astro';
 
   <hr class="ds-rule" />
 
-  <!-- SHADOW -->
-  <section class="ds-section">
-    <h2 class="ds-section-heading">Shadow</h2>
-    <div class="ds-shadow-rows">
-      <div class="ds-shadow-row">
-        <div class="ds-shadow-swatch">
-          <img src={import.meta.env.BASE_URL.replace(/\/$/, '') + '/images/HouseArrest-fordistribution.jpg'} alt="Book cover" class="ds-shadow-img" style="box-shadow: var(--shadow-cover);" />
-        </div>
-        <div>
-          <p class="ds-type-meta" style="margin-bottom: 0.5rem;">--shadow-cover</p>
-          <p style="font-size: var(--text-sm); color: var(--text-muted); margin: 0;">4px 6px 18px rgba(31, 27, 22, 0.18)<br />Rail covers, detail page covers</p>
-        </div>
-      </div>
-      <div class="ds-shadow-row">
-        <div class="ds-shadow-swatch">
-          <img src={import.meta.env.BASE_URL.replace(/\/$/, '') + '/images/HouseArrest-fordistribution.jpg'} alt="Book cover" class="ds-shadow-img" style="box-shadow: var(--shadow-cover-lg);" />
-        </div>
-        <div>
-          <p class="ds-type-meta" style="margin-bottom: 0.5rem;">--shadow-cover-lg</p>
-          <p style="font-size: var(--text-sm); color: var(--text-muted); margin: 0;">8px 14px 40px rgba(31, 27, 22, 0.24)<br />Featured hero cover</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <hr class="ds-rule" />
-
   <!-- BUTTONS -->
   <section class="ds-section">
     <h2 class="ds-section-heading">Buttons</h2>
@@ -178,17 +148,17 @@ import Layout from '../layouts/Layout.astro';
       <div class="ds-component-row">
         <span class="ds-type-meta">.btn-primary</span>
         <div class="ds-component-preview">
-          <a href="#" class="btn-primary">Read an excerpt</a>
+          <a href="#" class="btn-primary">Read an excerpt ↗</a>
         </div>
-        <span class="ds-component-note">Filled pill · dark bg · used for primary CTA (excerpt, main action)</span>
+        <span class="ds-component-note">Filled · dark bg · primary CTA · internal gets →, external gets ↗</span>
       </div>
 
       <div class="ds-component-row">
         <span class="ds-type-meta">.btn-secondary</span>
         <div class="ds-component-preview">
-          <a href="#" class="btn-secondary">Buy on Amazon</a>
+          <a href="#" class="btn-secondary">All events →</a>
         </div>
-        <span class="ds-component-note">Outline pill · used for purchase links and secondary CTAs</span>
+        <span class="ds-component-note">Outline · secondary CTA · internal gets →, external gets ↗</span>
       </div>
 
       <div class="ds-component-row">
@@ -196,15 +166,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="ds-component-preview">
           <a href="#" class="link-accent">More about the book →</a>
         </div>
-        <span class="ds-component-note">Underlined accent link · used for inline navigation CTAs</span>
-      </div>
-
-      <div class="ds-component-row">
-        <span class="ds-type-meta">.lang-toggle</span>
-        <div class="ds-component-preview">
-          <a href="#" class="lang-toggle">עברית</a>
-        </div>
-        <span class="ds-component-note">Bordered pill · language switcher in nav</span>
+        <span class="ds-component-note">Underlined accent link · inline navigation CTAs</span>
       </div>
 
       <div class="ds-component-row">
@@ -244,7 +206,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="ds-component-preview">
           <p class="award-badge">Sapir Prize (2013)</p>
         </div>
-        <span class="ds-component-note">Accent colour + star prefix · awards on book detail &amp; about</span>
+        <span class="ds-component-note">Near-black (--text) + star prefix · awards on book detail &amp; about</span>
       </div>
 
       <div class="ds-component-row">
@@ -260,7 +222,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="ds-component-preview">
           <p class="kirkus-star">★ Kirkus Starred Review</p>
         </div>
-        <span class="ds-component-note">Accent · starred review callout above praise blockquote</span>
+        <span class="ds-component-note">Near-black (--text) · starred review callout above praise blockquote</span>
       </div>
 
       <div class="ds-component-row">
@@ -276,7 +238,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="ds-component-preview">
           <div style="display:inline-block;background:var(--text);color:#fff;font-family:var(--font-body);font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:5px 11px;border-radius:4px;">Forthcoming · Oct 2026</div>
         </div>
-        <span class="ds-component-note">Hero badge · filled dark pill, 4px radius · forthcoming / release status in featured hero</span>
+        <span class="ds-component-note">Hero badge · filled dark pill, 4px radius · local style in index.astro (not in global.css)</span>
       </div>
 
       <div class="ds-component-row">
@@ -335,147 +297,25 @@ import Layout from '../layouts/Layout.astro';
 
   <hr class="ds-rule" />
 
-  <!-- EVENT ROW -->
+  <!-- LIST ROW -->
   <section class="ds-section">
-    <h2 class="ds-section-heading">Event Row</h2>
-    <div style="max-width: 720px;">
-      <p style="font-size: var(--text-xs); text-transform: uppercase; letter-spacing: var(--track-wide); color: var(--text-muted); margin: 0 0 8px; padding-top: 0;">Upcoming</p>
-      <article class="event-row">
-        <div class="event-meta">
-          <div class="event-location">New York, NY</div>
-          <div class="event-date">June 15, 2026</div>
-          <div class="event-type">Lecture</div>
+    <h2 class="ds-section-heading">List Row</h2>
+    <p class="ds-component-note" style="max-width: 580px; line-height: var(--lh-loose); margin-bottom: 1.5rem;">Shared component for events and media. 160px meta column + content. Always includes: label trio, serif title, subtitle, and a view link.</p>
+    <div style="max-width: 800px;">
+      <div style="border-top: 0.5px solid var(--rule); border-bottom: 0.5px solid var(--rule); padding: 28px 0; display: grid; grid-template-columns: 160px 1fr; gap: 32px; align-items: baseline;">
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <span style="font-size: var(--text-xs); text-transform: uppercase; letter-spacing: var(--track-wide); color: var(--text-muted);">Location / Else</span>
+          <span style="font-size: var(--text-xs); text-transform: uppercase; letter-spacing: var(--track-wide); color: var(--text);">Date</span>
+          <span style="font-size: var(--text-xs); text-transform: uppercase; letter-spacing: var(--track-wide); color: var(--text-muted);">Type</span>
         </div>
-        <div class="event-content">
-          <h3 class="event-title">
-            <a href="#" class="headline-link">An Evening with Noa Yedlin</a>
-          </h3>
-          <p class="event-description">In conversation with the author.</p>
-          <div class="event-status">
-            <span class="event-dot event-dot--accent"></span>
-            <a href="#">Get tickets →</a>
-          </div>
-        </div>
-      </article>
-      <article class="event-row">
-        <div class="event-meta">
-          <div class="event-location">Tel Aviv</div>
-          <div class="event-date">September 3, 2026</div>
-          <div class="event-type">Book Launch</div>
-        </div>
-        <div class="event-content">
-          <h3 class="event-title">
-            <a href="#" class="headline-link">House Arrest Launch Event</a>
-          </h3>
-          <div class="event-status">
-            <span class="event-dot event-dot--muted"></span>
-            <span>Details coming soon</span>
-          </div>
-        </div>
-      </article>
-    </div>
-    <p style="font-size: var(--text-xs); color: var(--text-muted); margin-top: 1.5rem;">Shared pattern across <code>/events</code> listing and homepage upcoming block. 160px meta column + content column.</p>
-  </section>
-
-  <hr class="ds-rule" />
-
-  <!-- DIVIDERS -->
-  <section class="ds-section">
-    <h2 class="ds-section-heading">Dividers</h2>
-    <div class="ds-divider-rows">
-
-      <div class="ds-divider-row">
-        <span class="ds-type-meta">0.5px solid var(--rule)</span>
-        <div style="flex: 1; border-top: 0.5px solid var(--rule); margin-top: 0.5rem;"></div>
-        <span class="ds-component-note">All dividers — nav, footer, section rules, row separators</span>
-      </div>
-
-    </div>
-  </section>
-
-  <hr class="ds-rule" />
-
-  <!-- RESPONSIVE BEHAVIOR -->
-  <section class="ds-section">
-    <h2 class="ds-section-heading">Responsive Behavior</h2>
-    <div class="ds-responsive">
-
-      <!-- Desktop -->
-      <div class="ds-responsive-col">
-        <p class="ds-responsive-label">Desktop <span>≥ 601px</span></p>
-        <div class="ds-responsive-frame">
-
-          <div class="ds-resp-block">
-            <span class="ds-type-meta ds-resp-meta">Type scale</span>
-            <p style="font-size: 48px; font-family: var(--font-serif); letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 6px;">House Arrest</p>
-            <p style="font-size: 28px; font-family: var(--font-serif); line-height: 1.1; margin: 0;">Section heading</p>
-          </div>
-
-          <div class="ds-resp-block">
-            <span class="ds-type-meta ds-resp-meta">Section eyebrow</span>
-            <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin: 0; text-align: center;">Upcoming Events</p>
-          </div>
-
-          <div class="ds-resp-block">
-            <span class="ds-type-meta ds-resp-meta">Event row</span>
-            <div style="display: grid; grid-template-columns: 120px 1fr; gap: 24px; padding: 16px 0; align-items: baseline;">
-              <div>
-                <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">New York, NY</div>
-                <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text);">June 15, 2026</div>
-              </div>
-              <div style="font-family: var(--font-serif); font-size: 22px; line-height: 1.1;">An Evening with Noa Yedlin</div>
-            </div>
-          </div>
-
-          <div class="ds-resp-block ds-resp-block--last">
-            <span class="ds-type-meta ds-resp-meta">Section CTA</span>
-            <div style="text-align: center; padding-top: 8px;">
-              <a href="#" class="btn-secondary">All events →</a>
-            </div>
-          </div>
-
+        <div style="display: flex; flex-direction: column;">
+          <p style="font-family: var(--font-serif); font-size: var(--text-lg); font-weight: 400; line-height: var(--lh-tight); letter-spacing: var(--track-tight); margin: 0;">Title</p>
+          <p style="font-size: var(--text-md); line-height: var(--lh-loose); color: var(--text-muted); margin: 8px 0 0;">Subtitle</p>
+          <a href="#" style="margin-top: 10px; display: inline-block; width: fit-content;">View →</a>
         </div>
       </div>
-
-      <!-- Mobile -->
-      <div class="ds-responsive-col">
-        <p class="ds-responsive-label">Mobile <span>≤ 600px</span></p>
-        <div class="ds-responsive-frame ds-responsive-frame--mobile">
-
-          <div class="ds-resp-block">
-            <span class="ds-type-meta ds-resp-meta">Type scale</span>
-            <p style="font-size: 32px; font-family: var(--font-serif); letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 6px;">House Arrest</p>
-            <p style="font-size: 24px; font-family: var(--font-serif); line-height: 1.1; margin: 0;">Section heading</p>
-          </div>
-
-          <div class="ds-resp-block">
-            <span class="ds-type-meta ds-resp-meta">Section eyebrow</span>
-            <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin: 0; text-align: left;">Upcoming Events</p>
-          </div>
-
-          <div class="ds-resp-block">
-            <span class="ds-type-meta ds-resp-meta">Event row</span>
-            <div style="display: flex; flex-direction: column; gap: 4px; padding: 16px 0;">
-              <div>
-                <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">New York, NY</div>
-                <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text);">June 15, 2026</div>
-              </div>
-              <div style="font-family: var(--font-serif); font-size: 22px; line-height: 1.1;">An Evening with Noa Yedlin</div>
-            </div>
-          </div>
-
-          <div class="ds-resp-block ds-resp-block--last">
-            <span class="ds-type-meta ds-resp-meta">Section CTA</span>
-            <div style="text-align: left; padding-top: 8px;">
-              <a href="#" class="btn-secondary">All events →</a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
     </div>
-    <p style="font-size: var(--text-xs); color: var(--text-muted); margin-top: 1.5rem;">Key breakpoints: 1024px (hero rail hidden), 768px (hero stacks), 600px (type scale + event row collapse).</p>
+    <p style="font-size: var(--text-xs); color: var(--text-muted); margin-top: 1.5rem;">Events use <code>.event-row</code> / <code>.event-meta</code>; media use <code>.press-row</code> / <code>.press-outlet</code>. Both share the same grid, spacing, and type rules. Internal navigation buttons get <code>→</code>; external links get <code>↗</code>.</p>
   </section>
 
   <hr class="ds-rule" />
@@ -497,7 +337,7 @@ import Layout from '../layouts/Layout.astro';
       <div class="ds-component-row">
         <span class="ds-type-meta">≤ 600px</span>
         <div class="ds-component-preview"></div>
-        <span class="ds-component-note">Press list removes side padding. Section eyebrows force left-align. Praise reviews go 1-column.</span>
+        <span class="ds-component-note">List rows collapse to single column (meta becomes inline strip). Praise reviews go 1-column. Contact rows stack.</span>
       </div>
       <div class="ds-component-row">
         <span class="ds-type-meta">≤ 480px</span>
@@ -507,85 +347,6 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
-  <hr class="ds-rule" />
-
-  <!-- MOBILE TYPE -->
-  <section class="ds-section">
-    <h2 class="ds-section-heading">Type — Mobile</h2>
-    <div class="ds-type-rows">
-      <div class="ds-type-row">
-        <span style="font-size: clamp(36px, 4.4vw, 62px); font-family: var(--font-serif); letter-spacing: var(--track-tight); line-height: var(--lh-tight);">Homepage hero title</span>
-        <span class="ds-type-meta">—</span><span class="ds-type-meta">clamp(36px, 4.4vw, 62px)</span><span class="ds-type-meta">Fraunces 400</span>
-      </div>
-      <div class="ds-type-row">
-        <span style="font-size: clamp(48px, 12vw, 96px); font-family: var(--font-serif); letter-spacing: var(--track-tight); line-height: var(--lh-tight);">Page H1</span>
-        <span class="ds-type-meta">—</span><span class="ds-type-meta">clamp(48px, 12vw, 96px)</span><span class="ds-type-meta">Fraunces 400</span>
-      </div>
-    </div>
-    <p style="font-size: var(--text-xs); color: var(--text-muted); margin-top: 1rem;">All other type tokens are unchanged on mobile — only display headings scale down via clamp.</p>
-  </section>
-
-  <hr class="ds-rule" />
-
-  <!-- MOBILE NAV -->
-  <section class="ds-section">
-    <h2 class="ds-section-heading">Mobile Nav</h2>
-    <div class="ds-component-rows">
-      <div class="ds-component-row">
-        <span class="ds-type-meta">Trigger</span>
-        <div class="ds-component-preview">
-          <div style="display:flex;flex-direction:column;gap:5px;cursor:pointer;">
-            <span style="display:block;width:22px;height:1.5px;background:var(--text);"></span>
-            <span style="display:block;width:22px;height:1.5px;background:var(--text);"></span>
-            <span style="display:block;width:22px;height:1.5px;background:var(--text);"></span>
-          </div>
-        </div>
-        <span class="ds-component-note">3-bar icon, top-right of header. Hidden on desktop (&gt; 768px). Opens full-screen drawer.</span>
-      </div>
-      <div class="ds-component-row ds-component-row--tall">
-        <span class="ds-type-meta">Drawer</span>
-        <div class="ds-component-preview" style="flex-direction:column;align-items:flex-start;gap:4px;border:0.5px solid var(--rule);padding:16px;background:var(--bg);">
-          <a style="font-family:var(--font-serif);font-size:var(--text-lg);color:var(--text);text-decoration:none;padding:4px 0;display:block;">Books</a>
-          <a style="font-family:var(--font-serif);font-size:var(--text-lg);color:var(--accent);text-decoration:none;padding:4px 0;border-left:3px solid var(--accent);padding-left:12px;display:block;">Events</a>
-          <a style="font-family:var(--font-serif);font-size:var(--text-lg);color:var(--text);text-decoration:none;padding:4px 0;display:block;">About</a>
-        </div>
-        <span class="ds-component-note">Full-screen overlay, var(--bg) background. Fraunces --text-lg nav items. Active item: accent colour + 3px left border. × close button top-right.</span>
-      </div>
-    </div>
-  </section>
-
-  <hr class="ds-rule" />
-
-  <!-- MOBILE LAYOUT PATTERNS -->
-  <section class="ds-section">
-    <h2 class="ds-section-heading">Layout — Mobile</h2>
-    <div class="ds-component-rows">
-      <div class="ds-component-row">
-        <span class="ds-type-meta">Alignment</span>
-        <div class="ds-component-preview"></div>
-        <span class="ds-component-note">Hero title, quote, attribution, and CTA buttons: left-aligned. Section eyebrows: left-aligned. Desktop centering removed on mobile.</span>
-      </div>
-      <div class="ds-component-row">
-        <span class="ds-type-meta">Books rail</span>
-        <div class="ds-component-preview"></div>
-        <span class="ds-component-note">Backlist rail switches from 4-column horizontal grid to single vertical column. Each book: cover + title stacked.</span>
-      </div>
-      <div class="ds-component-row">
-        <span class="ds-type-meta">Press &amp; events meta</span>
-        <div class="ds-component-preview" style="flex-direction:column;align-items:flex-start;">
-          <span style="font-size:var(--text-xs);text-transform:uppercase;letter-spacing:var(--track-wide);color:var(--text);">Rolling Stone · November 2023 · Essay</span>
-        </div>
-        <span class="ds-component-note">Left meta column collapses into an inline strip with · separators above the headline. All caps, --text-xs throughout.</span>
-      </div>
-      <div class="ds-component-row">
-        <span class="ds-type-meta">Touch links</span>
-        <div class="ds-component-preview">
-          <a class="headline-link" style="font-family:var(--font-serif);font-size:var(--text-md);text-decoration:underline;text-decoration-color:var(--rule);">Hadassah Baltimore</a>
-        </div>
-        <span class="ds-component-note">On touch devices (@media hover:none) .headline-link shows a permanent underline (var(--rule) colour) since hover states don't fire.</span>
-      </div>
-    </div>
-  </section>
   </div> <!-- /ds-content -->
 
 </Layout>
@@ -712,24 +473,6 @@ import Layout from '../layouts/Layout.astro';
     white-space: nowrap;
   }
 
-  /* Fonts */
-  .ds-font-rows {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .ds-font-row {
-    display: grid;
-    grid-template-columns: 260px 1fr;
-    align-items: center;
-    gap: 2rem;
-    padding: 18px 0;
-    border-bottom: 0.5px solid var(--rule);
-  }
-
-  .ds-font-row:first-child { border-top: 0.5px solid var(--rule); }
-
   /* Tracking */
   .ds-tracking-rows {
     display: flex;
@@ -772,31 +515,7 @@ import Layout from '../layouts/Layout.astro';
     margin: 0;
   }
 
-  /* Shadow */
-  .ds-shadow-rows {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-  .ds-shadow-row {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-  }
-
-  .ds-shadow-swatch {
-    width: 80px;
-    flex-shrink: 0;
-  }
-
-  .ds-shadow-img {
-    width: 100%;
-    aspect-ratio: 2/3;
-    object-fit: cover;
-    box-shadow: var(--shadow-cover);
-  }
-
-  /* Component rows — buttons, badges, quotes, dividers */
+  /* Component rows — buttons, badges, quotes */
   .ds-component-rows {
     display: flex;
     flex-direction: column;
@@ -834,93 +553,17 @@ import Layout from '../layouts/Layout.astro';
     line-height: 1.5;
   }
 
-  .ds-divider-rows {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .ds-divider-row {
-    display: grid;
-    grid-template-columns: 200px 1fr 280px;
-    align-items: center;
-    gap: 2rem;
-    padding: 20px 0;
-    border-bottom: 0.5px solid var(--rule);
-  }
-
-  .ds-divider-row:first-child { border-top: 0.5px solid var(--rule); }
-
   @media (max-width: 680px) {
     .ds-type-row,
-    .ds-font-row,
     .ds-tracking-row {
       grid-template-columns: 1fr;
       gap: 0.5rem;
     }
     .ds-leading-grid { grid-template-columns: 1fr 1fr; }
-    .ds-component-row,
-    .ds-divider-row {
+    .ds-component-row {
       grid-template-columns: 1fr;
       gap: 0.75rem;
     }
     .ds-component-note { white-space: normal; }
-  }
-
-  /* Responsive behavior section */
-  .ds-responsive {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    align-items: start;
-  }
-
-  .ds-responsive-col {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .ds-responsive-label {
-    font-size: var(--text-xs);
-    font-family: var(--font-body);
-    text-transform: uppercase;
-    letter-spacing: var(--track-wide);
-    color: var(--text-muted);
-    margin: 0;
-  }
-
-  .ds-responsive-label span {
-    color: var(--text-faint);
-    font-weight: 400;
-  }
-
-  .ds-responsive-frame {
-    border: 0.5px solid var(--rule);
-    padding: 20px;
-    background: var(--bg);
-  }
-
-  .ds-responsive-frame--mobile {
-    background: var(--bg-alt);
-  }
-
-  .ds-resp-block {
-    padding: 16px 0;
-    border-bottom: 0.5px solid var(--rule);
-  }
-
-  .ds-resp-block:first-child { padding-top: 0; }
-  .ds-resp-block--last { border-bottom: none; padding-bottom: 0; }
-
-  .ds-resp-meta {
-    display: block;
-    margin-bottom: 10px;
-  }
-
-  @media (max-width: 760px) {
-    .ds-responsive {
-      grid-template-columns: 1fr;
-    }
   }
 </style>

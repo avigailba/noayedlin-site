@@ -175,6 +175,7 @@ function formatDate(dateStr: string) {
                     <a href={`${base}/events/${slug}`} class="headline-link">{event.data.title}</a>
                   </h3>
                   {event.data.description && <p class="event-description">{event.data.description}</p>}
+                  <a href={`${base}/events/${slug}`} class="btn-secondary ev-details-btn">More details →</a>
                   <div class="event-status">
                     {event.data.status === 'details_coming_soon' && (
                       <><span class="event-dot event-dot--muted"></span><span>Details coming soon</span></>
@@ -235,21 +236,21 @@ function formatDate(dateStr: string) {
         <p class="section-eyebrow">Media</p>
         <div class="hp-press-list">
           {homeMedia.map((item) => (
-            <div class="hp-press-row">
-              <div class="hp-press-outlet">
-                <span class="hp-press-outlet-name">{item.data.outlet}</span>
-                <span class="hp-press-date">{formatDate(item.data.date)}</span>
-                {item.data.type && <span class="hp-press-type">{item.data.type}</span>}
+            <div class="press-row">
+              <div class="press-outlet">
+                <span class="press-outlet-name">{item.data.outlet}</span>
+                <span class="press-date">{formatDate(item.data.date)}</span>
+                {item.data.type && <span class="press-type">{item.data.type}</span>}
               </div>
-              <div class="hp-press-content">
-                <h3 class="hp-press-headline">
+              <div class="press-content">
+                <h3 class="press-headline">
                   {item.data.url
                     ? <a href={item.data.url} target="_blank" rel="noopener" class="headline-link">{item.data.headline}</a>
                     : item.data.headline}
                 </h3>
-                {item.data.excerpt && <p class="hp-press-excerpt">{item.data.excerpt}</p>}
+                {item.data.excerpt && <p class="press-excerpt">{item.data.excerpt}</p>}
                 {item.data.url && (
-                  <a href={item.data.url} target="_blank" rel="noopener" class="btn-secondary hp-press-view-btn">View ↗</a>
+                  <a href={item.data.url} target="_blank" rel="noopener" class="btn-secondary press-view-btn">View ↗</a>
                 )}
               </div>
             </div>
@@ -494,6 +495,11 @@ function formatDate(dateStr: string) {
     display: inline-block;
     transition: transform .2s ease;
   }
+  .gh-rail-item:hover .gh-rail-more {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+  }
   .gh-rail-item:hover .gh-rail-arrow { transform: translateX(4px); }
 
   /* ── Praise carousel (full-bleed, lives outside hp-inner) ── */
@@ -718,7 +724,6 @@ function formatDate(dateStr: string) {
   /* ── Post-hero sections ── */
   .hp-events {
     padding: 64px 0;
-    border-top: 0.5px solid var(--rule);
   }
   .hp-events-rows { max-width: none; }
   .hp-events-footer {
@@ -810,51 +815,6 @@ function formatDate(dateStr: string) {
     padding: 64px 0;
     border-top: 0.5px solid var(--rule);
   }
-  .hp-press-row {
-    display: grid;
-    grid-template-columns: 160px 1fr;
-    gap: 32px;
-    align-items: baseline;
-    padding: 28px 0;
-  }
-  .hp-press-row + .hp-press-row { border-top: 0.5px solid var(--rule); }
-  .hp-press-outlet { display: flex; flex-direction: column; gap: 8px; }
-  .hp-press-outlet-name {
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--track-wide);
-    color: var(--text);
-  }
-  .hp-press-date {
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--track-wide);
-    color: var(--text-muted);
-  }
-  .hp-press-type {
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--track-wide);
-    color: var(--text-muted);
-  }
-  .hp-press-headline {
-    font-family: var(--font-serif);
-    font-size: var(--text-lg);
-    font-weight: 400;
-    line-height: var(--lh-tight);
-    letter-spacing: var(--track-tight);
-    margin: 0;
-  }
-  .hp-press-excerpt {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: var(--text-sm);
-    line-height: var(--lh-snug);
-    color: var(--text-muted);
-    max-width: 60ch;
-    margin: 8px 0 0;
-  }
-  .hp-press-view-btn { margin-top: 10px; }
   .hp-press-footer {
     text-align: left;
     padding: 32px 0 56px;
@@ -865,17 +825,6 @@ function formatDate(dateStr: string) {
     .hp-events .section-eyebrow { margin-bottom: 12px; }
     /* Left-align homepage footer CTAs */
     .hp-events-footer, .hp-press-footer { text-align: left; }
-    .hp-press-row {
-      grid-template-columns: 1fr;
-      gap: 6px;
-      padding: 20px 0;
-    }
-    .hp-press-outlet { flex-direction: row; flex-wrap: wrap; align-items: baseline; }
-    .hp-press-outlet-name::after { content: ' · '; }
-    .hp-press-date { display: inline; margin-top: 0; }
-    .hp-press-type { display: inline; margin-top: 0; }
-    .hp-press-type::before { content: ' · '; }
-    .hp-press-headline { font-size: var(--text-md); }
   }
 </style>
 

@@ -68,7 +68,7 @@ const past = allEvents
                       <a href={`${base}/events/${slug}`} class="headline-link">{event.data.title}</a>
                     </h3>
                     {event.data.description && <p class="event-description">{event.data.description}</p>}
-                    <a href={`${base}/events/${slug}`} class="btn-secondary ev-details-btn">More details</a>
+                    <a href={`${base}/events/${slug}`} class="btn-secondary ev-details-btn">More details →</a>
                     <div class="event-status">
                       {event.data.status === 'details_coming_soon' && (
                         <>
@@ -124,7 +124,7 @@ const past = allEvents
                       <a href={`${base}/events/${slug}`} class="headline-link">{event.data.title}</a>
                     </h3>
                     {event.data.description && <p class="event-description">{event.data.description}</p>}
-                    <a href={`${base}/events/${slug}`} class="btn-secondary ev-details-btn">More details</a>
+                    <a href={`${base}/events/${slug}`} class="btn-secondary ev-details-btn">More details →</a>
                     <div class="event-status">
                       <span class="event-dot event-dot--muted"></span>
                       <span>Past event</span>
@@ -169,8 +169,6 @@ const past = allEvents
     margin: 0;
     padding: 48px 0 8px;
   }
-
-  .ev-details-btn { margin-top: 10px; }
 
   .ev-section-eyebrow--past {
     padding-top: 56px;
