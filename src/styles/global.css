@@ -512,8 +512,8 @@ img { max-width: 100%; display: block; }
   width: fit-content;
   background: transparent;
   color: var(--text);
-  padding: 9px 21px;
-  font-size: var(--text-sm);
+  padding: 5px 12px;
+  font-size: var(--text-xs);
   letter-spacing: var(--track-none);
   text-transform: capitalize;
   border: 1px solid var(--text);
@@ -873,7 +873,6 @@ img { max-width: 100%; display: block; }
   font-size: var(--text-md);
   line-height: var(--lh-loose);
   color: var(--text-muted);
-  max-width: 60ch;
   margin: 8px 0 0;
 }
 
@@ -895,7 +894,7 @@ img { max-width: 100%; display: block; }
   .press-date { display: inline; margin-top: 0; }
   .press-type { display: inline; margin-top: 0; }
   .press-type::before { content: ' · '; }
-  .press-headline { font-size: var(--text-md); }
+  .press-headline { font-size: var(--text-lg); }
 }
 
 @media (max-width: 600px) {
