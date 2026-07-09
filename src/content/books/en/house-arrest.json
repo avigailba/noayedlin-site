@@ -6,7 +6,7 @@
   "order": 1,
   "coverColor": "#3D2B1F",
   "description": "Asa Fogel, an unemployed professor recently separated from his wife, learns that his mother — deputy director of a peace research institute and professor of Israel studies — is suspected of embezzling 3.4 million shekels. The novel follows Asa as he navigates family dynamics, media scrutiny, and the need to reassess everything he thought he knew about the people closest to him. Told across eight narrative sections, each from a different perspective, House Arrest is a darkly comic portrait of a family, a social class, and the lies we tell to protect ourselves.",
-  "tagline": "A story of family, power, and the walls we build around ourselves.",
+  "tagline": "A darkly comic portrait of a family and the gap between who we think we are and how we actually live.\nA novel about secrets, identity, and what we owe the people we love.",
   "year": 2026,
   "reviews": [
     { "quote": "One should run, run to buy this book", "source": "Haaretz" },
@@ -26,6 +26,26 @@
       "publication": "Yedioth Aharonot"
     },
     {
+      "quote": "Sharp satire combined with lyrical emotional depth.",
+      "reviewer": "Arik Glasner",
+      "publication": "Yedioth Aharonot"
+    },
+    {
+      "quote": "Stunning work — Yedlin's talents shine brightly.",
+      "reviewer": "Haaretz",
+      "publication": ""
+    },
+    {
+      "quote": "Hilarious and deeply moving.",
+      "reviewer": "Tarbut Yom Aleph",
+      "publication": ""
+    },
+    {
+      "quote": "Excellent, compelling narrative with wonderful style and remarkable irony.",
+      "reviewer": "Haaretz",
+      "publication": ""
+    },
+    {
       "quote": "An excellent book — a clear, distinct, and uncompromising voice that sets a high literary standard.",
       "reviewer": "Dorit Rabinyan",
       "publication": ""
@@ -34,11 +54,6 @@
       "quote": "A riveting book that examines Ashkenazi society with both sarcasm and compassion.",
       "reviewer": "Alon Hilu",
       "publication": ""
-    },
-    {
-      "quote": "Sharp satire combined with lyrical emotional depth.",
-      "reviewer": "Arik Glasner",
-      "publication": "Yedioth Aharonot"
     }
   ],
   "purchaseLinks": [

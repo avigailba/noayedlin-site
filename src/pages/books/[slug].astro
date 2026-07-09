@@ -73,7 +73,6 @@ const bookAdaptations = allAdaptationsCollection
           ))}
         </div>
       )}
-      {tagline && <p class="bd-tagline">{tagline}</p>}
       {purchaseLinks && purchaseLinks.length > 0 && (
         <div class="retailers">
           {purchaseLinks.map((link, i) => (
@@ -99,18 +98,21 @@ const bookAdaptations = allAdaptationsCollection
     </div>
   </section>
 
+  {tagline && tagline.split('\n').filter((l: string) => l.trim()).map((line: string) => (
+    <p class="bd-tagline">{line}</p>
+  ))}
+
   {allReviews.length > 0 && (
     <>
       <section class="bd-praise">
         <div class="bd-reviews">
           {allReviews.map((r) => (
             <div class="bd-review">
-              {r.starred && <p class="kirkus-star">★ Kirkus Starred Review</p>}
               <blockquote class="praise">
                 <p>"{r.quote}"</p>
                 <footer class="quote-attribution">
                   <div class="quote-author">{r.name}</div>
-                  {r.pub && <div class="quote-outlet">{r.pub}</div>}
+                  <div class="quote-outlet">{r.starred ? '★ Kirkus Starred Review' : r.pub}</div>
                 </footer>
               </blockquote>
             </div>
@@ -146,7 +148,7 @@ const bookAdaptations = allAdaptationsCollection
     gap: 3rem;
     align-items: start;
     margin-bottom: 0;
-    padding-bottom: 3rem;
+    padding-bottom: 1.5rem;
   }
 
   .bd-cover-wrap {
@@ -189,9 +191,9 @@ const bookAdaptations = allAdaptationsCollection
     font-style: italic;
     font-size: var(--text-md);
     color: var(--text-muted);
-    margin: 0;
+    margin: 0 0 2rem;
     line-height: var(--lh-snug);
-    max-width: 44ch;
+    max-width: 620px;
   }
 
   .bd-ctas {
@@ -214,8 +216,7 @@ const bookAdaptations = allAdaptationsCollection
 
   /* Praise — quote styles from global .praise* rules */
   .bd-praise {
-    background: var(--bg-alt);
-    padding: 72px 32px;
+    padding: 72px 0;
     margin-top: 4rem;
   }
 
@@ -225,7 +226,36 @@ const bookAdaptations = allAdaptationsCollection
   .bd-reviews {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px 24px;
+    gap: 24px;
+  }
+
+  .bd-review {
+    background: var(--bg-alt);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bd-review :global(.praise) {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin: 0;
+    border: none;
+    padding: 0;
+  }
+
+  .bd-review :global(.praise p) {
+    flex: 1;
+  }
+
+  .bd-review :global(.quote-attribution) {
+    margin-top: 20px;
+    min-height: 44px;
+  }
+
+  .bd-review :global(.quote-author::before) {
+    content: none;
   }
 
   @media (max-width: 1024px) {
@@ -247,7 +277,7 @@ const bookAdaptations = allAdaptationsCollection
   .bd-prize-list li { font-size: var(--text-md); line-height: var(--lh-loose); color: var(--text); }
 
   /* Adaptations */
-  .bd-adaptations { margin-top: 4rem; }
+  .bd-adaptations { margin-top: 4rem; padding-bottom: 3rem; }
   .bd-adaptations-btn { margin-top: 1.5rem; display: inline-block; }
   .bd-adapt-rows :global(.ap-entry:last-child) { border-bottom: none; }
 
