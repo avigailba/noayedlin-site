@@ -122,9 +122,11 @@ function formatDate(dateStr: string) {
         <blockquote class="hpc-quote" id="hpc-quote"></blockquote>
         <p class="hpc-attr" id="hpc-attr"></p>
       </div>
+    </div>
+    <div class="hpc-controls">
+      <button class="hpc-arrow" id="hpc-next" aria-label="Next quote">→</button>
       <button class="hpc-pause" id="hpc-pause" aria-label="Pause auto-advancing quotes" aria-pressed="false">⏸</button>
     </div>
-    <button class="hpc-arrow" id="hpc-next" aria-label="Next quote">→</button>
   </section>
 
   {/* ── Rail row — backlist outside hero at ≤1024px ── */}
@@ -518,6 +520,9 @@ function formatDate(dateStr: string) {
     flex: 1;
     max-width: 860px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     transition: opacity 0.18s ease, transform 0.18s ease;
   }
 
@@ -579,6 +584,14 @@ function formatDate(dateStr: string) {
     border-color: var(--text);
   }
 
+  :global(.hpc-controls) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
   :global(.hpc-pause) {
     width: 32px;
     height: 32px;
@@ -592,7 +605,6 @@ function formatDate(dateStr: string) {
     justify-content: center;
     transition: border-color 0.15s, color 0.15s;
     flex-shrink: 0;
-    margin-top: 16px;
   }
 
   :global(.hpc-pause:hover) {
@@ -915,6 +927,22 @@ function formatDate(dateStr: string) {
   }
 
   render(current);
+
+  // Lock body height to the tallest quote so the strip never resizes
+  (function lockHeight() {
+    const origIdx = current;
+    bodyEl.style.minHeight = '';
+    let maxH = 0;
+    for (let i = 0; i < shuffled.length; i++) {
+      const q = shuffled[i];
+      bookEl.textContent  = q.book;
+      quoteEl.textContent = '\u201c' + q.text + '\u201d';
+      attrEl.textContent  = q.role ? q.author.toUpperCase() + ' \u00b7 ' + q.role.toUpperCase() : q.author.toUpperCase();
+      maxH = Math.max(maxH, bodyEl.scrollHeight);
+    }
+    bodyEl.style.minHeight = maxH + 'px';
+    render(origIdx);
+  })();
 
   // Auto-advance every 5 seconds
   let timer = setInterval(() => goTo(current + 1), 5000);
