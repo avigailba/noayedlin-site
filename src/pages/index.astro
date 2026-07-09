@@ -71,7 +71,7 @@ function formatDate(dateStr: string) {
             />
           </a>
           <div class="gh-info">
-            <div class="gh-badge">Forthcoming · Oct 2026</div>
+            <p class="eyebrow gh-coming">Coming October 2026</p>
             <h1 class="gh-title">{featured2.data.title}</h1>
             <blockquote class="gh-quote">
               "A lucid, clear, and distinct voice."
@@ -360,20 +360,20 @@ function formatDate(dateStr: string) {
     min-width: 0;
   }
 
-  .gh-badge {
-    display: inline-block;
-    background: var(--text);
-    color: #fff;
-    font-family: var(--font-body);
-    font-size: clamp(0.65rem, 0.8vw, 0.75rem);
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 5px 11px;
-    border-radius: 4px;
-    white-space: nowrap;
-    margin-bottom: 16px;
+  .gh-coming {
+    margin: 0 0 16px;
     align-self: flex-start;
+    text-align: left;
+    padding: 0 2px;
+    background-image: linear-gradient(rgba(210, 165, 45, 0.22), rgba(210, 165, 45, 0.22));
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 0% 65%;
+    animation: gh-highlight 0.55s cubic-bezier(0.4, 0, 0.2, 1) 0.7s forwards;
+  }
+
+  @keyframes gh-highlight {
+    to { background-size: 100% 65%; }
   }
 
   .gh-title {
@@ -397,7 +397,7 @@ function formatDate(dateStr: string) {
     margin: 0 0 8px;
   }
 
-  .gh-attr { margin: 0 0 26px; }
+  .gh-attr { margin: 0 0 26px; font-style: normal; }
 
   /* Button row */
   .gh-btns {
@@ -681,7 +681,7 @@ function formatDate(dateStr: string) {
       max-width: 100%;
       align-items: center;
     }
-    .gh-badge { align-self: center; }
+    .gh-coming { align-self: center; text-align: center; }
     .gh-title { white-space: normal; text-align: center; }
     .gh-quote, .gh-attr { text-align: center; }
     .gh-btns { justify-content: center; }
