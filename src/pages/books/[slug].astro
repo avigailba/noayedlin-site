@@ -83,6 +83,13 @@ const bookAdaptations = allAdaptationsCollection
           ))}
         </div>
       )}
+      {tagline && (
+        <div class="bd-taglines">
+          {tagline.split('\n').filter((l: string) => l.trim()).map((line: string) => (
+            <p class="bd-tagline">{line}</p>
+          ))}
+        </div>
+      )}
       {(synopsis ?? description) && (
         <div class="bd-synopsis-inline">
           {(synopsis ?? description).split('\n').filter((p: string) => p.trim()).map((para: string) => (
@@ -97,14 +104,6 @@ const bookAdaptations = allAdaptationsCollection
       )}
     </div>
   </section>
-
-  {tagline && (
-    <div class="bd-taglines">
-      {tagline.split('\n').filter((l: string) => l.trim()).map((line: string) => (
-        <p class="bd-tagline">{line}</p>
-      ))}
-    </div>
-  )}
 
   {allReviews.length > 0 && (
     <>
@@ -189,10 +188,6 @@ const bookAdaptations = allAdaptationsCollection
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-  }
-
-  .bd-taglines {
-    margin: 0 0 2rem;
   }
 
   .bd-tagline {
