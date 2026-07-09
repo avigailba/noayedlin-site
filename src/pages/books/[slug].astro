@@ -98,9 +98,13 @@ const bookAdaptations = allAdaptationsCollection
     </div>
   </section>
 
-  {tagline && tagline.split('\n').filter((l: string) => l.trim()).map((line: string) => (
-    <p class="bd-tagline">{line}</p>
-  ))}
+  {tagline && (
+    <div class="bd-taglines">
+      {tagline.split('\n').filter((l: string) => l.trim()).map((line: string) => (
+        <p class="bd-tagline">{line}</p>
+      ))}
+    </div>
+  )}
 
   {allReviews.length > 0 && (
     <>
@@ -187,13 +191,21 @@ const bookAdaptations = allAdaptationsCollection
     gap: 0.25rem;
   }
 
+  .bd-taglines {
+    margin: 0 0 2rem;
+  }
+
   .bd-tagline {
     font-style: italic;
     font-size: var(--text-md);
     color: var(--text-muted);
-    margin: 0 0 2rem;
+    margin: 0 0 0.35rem;
     line-height: var(--lh-snug);
     max-width: 620px;
+  }
+
+  .bd-tagline:last-child {
+    margin-bottom: 0;
   }
 
   .bd-ctas {
