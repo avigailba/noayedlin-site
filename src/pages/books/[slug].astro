@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import AdaptationEntry from '../../components/AdaptationEntry.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -32,8 +33,13 @@ const allReviews = [
 
 const allPrizes = [...(prizes ?? []), ...(awards ?? [])];
 
-const allAdaptations = adaptations ??
-  (adaptationText ? [{ title: '', medium: adaptationText, year: undefined }] : []);
+const allAdaptationsCollection = await getCollection('adaptations');
+const bookAdaptations = allAdaptationsCollection
+  .filter(a => a.data.source_book === book.data.slug)
+  .sort((a, b) => {
+    if (a.data.year !== b.data.year) return (b.data.year ?? 0) - (a.data.year ?? 0);
+    return (a.data.order ?? 0) - (b.data.order ?? 0);
+  });
 ---
 
 <Layout title={title} lang="en">
@@ -114,37 +120,17 @@ const allAdaptations = adaptations ??
     </>
   )}
 
-  {allPrizes.length > 0 && (
-    <>
-      <section class="bd-prizes">
-        <p class="eyebrow bd-section-eyebrow">Prizes</p>
-        <ul class="bd-prize-list">
-          {allPrizes.map((prize) => <li>{prize}</li>)}
-        </ul>
-      </section>
-    </>
-  )}
 
-  {allAdaptations.length > 0 && (
-    <>
-      <section class="bd-adaptations">
-        <p class="eyebrow bd-section-eyebrow">Adaptations</p>
-        <div class="bd-adapt-rows">
-          {allAdaptations.map((a) => (
-            <div class="press-row">
-              <div class="press-outlet">
-                {a.year && <span class="press-date">{String(a.year)}</span>}
-              </div>
-              <div class="press-content">
-                {a.title && <div class="press-headline"><em>{a.title}</em></div>}
-                {a.medium && <p class="press-excerpt">{a.medium}</p>}
-              </div>
-            </div>
-          ))}
-        </div>
-        <a href={base + '/adaptations'} class="btn-secondary bd-adaptations-btn">View more →</a>
-      </section>
-    </>
+  {bookAdaptations.length > 0 && (
+    <section class="bd-adaptations">
+      <p class="eyebrow bd-section-eyebrow">Adaptations</p>
+      <div class="bd-adapt-rows">
+        {bookAdaptations.map((a) => (
+          <AdaptationEntry data={a.data} />
+        ))}
+      </div>
+      <a href={base + '/adaptations'} class="btn-secondary bd-adaptations-btn">View all adaptations →</a>
+    </section>
   )}
 
   {/* <section class="books-rail-section">
