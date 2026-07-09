@@ -67,7 +67,10 @@ const past = allEvents
                       <a href={`${base}/events/${slug}`} class="headline-link">{event.data.title}</a>
                     </h3>
                     {event.data.description && <p class="event-description">{event.data.description}</p>}
-                    <a href={`${base}/events/${slug}`} class="btn-secondary ev-details-btn">More details →</a>
+                    {event.data.status === 'details_coming_soon'
+                      ? <span class="btn-secondary ev-details-btn ev-details-btn--disabled">Details coming soon</span>
+                      : <a href={`${base}/events/${slug}`} class="btn-secondary ev-details-btn">More details →</a>
+                    }
                     <div class="event-status">
                       {event.data.status === 'details_coming_soon' && (
                         <>
@@ -147,6 +150,12 @@ const past = allEvents
 
 <style>
   /* Content container */
+
+  .ev-details-btn--disabled {
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none;
+  }
 
   .ev-empty {
     font-family: var(--font-serif);
