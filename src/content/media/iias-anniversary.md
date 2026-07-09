@@ -1,7 +1,7 @@
 ---
 outlet: IIAS
 headline: Israel Institute for Advanced Studies 50 Year Anniversary
-url: https://www.youtube.com/watch?v=KYBoJeGpGtc&t=5005s
+url: https://www.youtube.com/watch?v=KYBoJeGpGtc&t=5019s
 date: "2026-01-01"
 type: Event
 featured: true
