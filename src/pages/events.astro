@@ -72,12 +72,6 @@ const past = allEvents
                       : <a href={`${base}/events/${slug}`} class="btn-secondary ev-details-btn">More details →</a>
                     }
                     <div class="event-status">
-                      {event.data.status === 'details_coming_soon' && (
-                        <>
-                          <span class="event-dot event-dot--muted"></span>
-                          <span>Details coming soon</span>
-                        </>
-                      )}
                       {event.data.status === 'scheduled' && (
                         <>
                           <span class="event-dot event-dot--accent"></span>

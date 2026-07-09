@@ -182,9 +182,6 @@ function formatDate(dateStr: string) {
                     : <a href={`${base}/events/${slug}`} class="btn-secondary ev-details-btn">More details →</a>
                   }
                   <div class="event-status">
-                    {event.data.status === 'details_coming_soon' && (
-                      <><span class="event-dot event-dot--muted"></span><span>Details coming soon</span></>
-                    )}
                     {event.data.status === 'scheduled' && (
                       <><span class="event-dot event-dot--accent"></span>
                         {event.data.url ? <a href={event.data.url} target="_blank" rel="noopener" aria-label="Get details (opens in new window)">Get details →</a> : <span>Get details</span>}
