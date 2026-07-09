@@ -878,6 +878,12 @@ img { max-width: 100%; display: block; }
 
 .press-view-btn { margin-top: 10px; }
 
+.ev-details-btn--disabled {
+  opacity: 0.4;
+  cursor: default;
+  pointer-events: none;
+}
+
 @media (max-width: 600px) {
   .press-row {
     grid-template-columns: 1fr;
