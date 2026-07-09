@@ -42,7 +42,7 @@ const adaptationSchema = z.object({
   slug: z.string(),
   source_book: z.string(),
   title: z.string(),
-  medium: z.enum(['Television series', 'Film', 'Stage play', 'Audio drama', 'Podcast']),
+  medium: z.enum(['TV series', 'Film', 'Stage play', 'Audio drama', 'Podcast']),
   country: z.string(),
   year: z.number().optional(),
   network: z.string().optional(),

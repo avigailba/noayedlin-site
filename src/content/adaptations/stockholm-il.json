@@ -2,11 +2,12 @@
   "slug": "stockholm-il",
   "source_book": "stockholm",
   "title": "Stockholm",
-  "medium": "Television series",
+  "medium": "TV series",
   "country": "Israel",
   "year": 2021,
   "network": "Kan 11",
   "order": 1,
+  "synopsis": "The original TV series adaptation.",
   "still": {
     "image": "/images/stockholm-il.png",
     "position": "top"

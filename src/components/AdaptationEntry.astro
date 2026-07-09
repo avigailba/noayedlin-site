@@ -1,0 +1,381 @@
+---
+interface Props {
+  data: {
+    title: string;
+    country: string;
+    medium: string;
+    year?: number;
+    network?: string;
+    synopsis?: string;
+    status?: string;
+    awards?: string[];
+    watch?: { label: string; url: string; primary: boolean }[];
+    info?: { label: string; url: string }[];
+    press?: { label: string; url: string }[];
+    still?: { image?: string; position?: string; gradient?: [string, string] };
+    stills?: string[];
+    photo_credit?: string;
+  };
+}
+
+const { data } = Astro.props;
+
+const images = data.stills && data.stills.length > 0
+  ? data.stills
+  : data.still?.image ? [data.still.image] : [];
+const imagePos = data.still?.position ?? 'center 20%';
+const photoCredit = data.photo_credit ?? null;
+const awards = data.awards ?? [];
+const watchLinks = (data.watch ?? []).map(w => ({ label: w.label, url: w.url }));
+const otherLinks = [
+  ...(data.info ?? []),
+  ...(data.press ?? []),
+];
+const metaYear = data.year != null ? String(data.year) : (data.status ?? null);
+---
+
+<div class={`ap-entry${images.length > 0 ? ' ap-entry--has-image' : ''}`}>
+
+  <div class="ap-meta">
+    <span class="ap-meta-item">{data.country}</span>
+    {data.network && <span class="ap-meta-item">{data.network}</span>}
+    {metaYear && <span class="ap-meta-item">{metaYear}</span>}
+  </div>
+
+  <div class="ap-content">
+    <div class="ap-title">{data.title}</div>
+    {data.synopsis && <p class="ap-synopsis">{data.synopsis}</p>}
+    {awards.length > 0 && (
+      <div class="ap-awards">
+        {awards.map((award) => (
+          <div class="ap-award">
+            <span class="ap-award-star">★</span>
+            <span class="ap-award-text">{award}</span>
+          </div>
+        ))}
+      </div>
+    )}
+    {watchLinks.length > 0 && (
+      <div class="ap-links">
+        {watchLinks.map((link, i) => (
+          <>
+            <a href={link.url} target="_blank" rel="noopener" class="ap-link">{link.label} <span aria-hidden="true">↗</span></a>
+            {i < watchLinks.length - 1 && <span class="ap-sep">·</span>}
+          </>
+        ))}
+      </div>
+    )}
+    {otherLinks.length > 0 && (
+      <div class="ap-links ap-links--other">
+        {otherLinks.map((link, i) => (
+          <>
+            <a href={link.url} target="_blank" rel="noopener" class="ap-link">{link.label} <span aria-hidden="true">↗</span></a>
+            {i < otherLinks.length - 1 && <span class="ap-sep">·</span>}
+          </>
+        ))}
+      </div>
+    )}
+  </div>
+
+  {images.length === 1 && (
+    <div class="ap-img-wrap">
+      <img src={images[0]} alt={`Production still from ${data.title}`} loading="lazy" class="ap-img" style={`object-position: ${imagePos}`} />
+      {photoCredit && <p class="ap-photo-credit">Photo: {photoCredit}</p>}
+    </div>
+  )}
+  {images.length > 1 && (
+    <div class="ap-img-strip-wrap">
+      <div class="ap-img-strip">
+        {images.map((src, i) => (
+          <div class="ap-img-strip-item">
+            <img src={src} alt={`Production still from ${data.title}`} class="ap-img" style={`object-position: ${i === 0 ? imagePos : 'center 20%'}`} />
+          </div>
+        ))}
+      </div>
+      <button class="ap-strip-btn ap-strip-prev" aria-label="Previous image" hidden>←</button>
+      <button class="ap-strip-btn ap-strip-next" aria-label="Next image">→</button>
+      {photoCredit && <p class="ap-photo-credit">Photo: {photoCredit}</p>}
+    </div>
+  )}
+
+</div>
+
+<script>
+  document.querySelectorAll<HTMLImageElement>('.ap-img').forEach(img => {
+    const show = () => { img.style.opacity = '1'; };
+    const hide = () => {
+      const stripItem = img.closest('.ap-img-strip-item') as HTMLElement | null;
+      if (stripItem) { stripItem.remove(); return; }
+      (img.closest('.ap-img-wrap') as HTMLElement | null)?.remove();
+    };
+    if (img.complete) { img.naturalWidth ? show() : hide(); }
+    else { img.addEventListener('load', show); img.addEventListener('error', hide); }
+  });
+
+  document.querySelectorAll<HTMLElement>('.ap-img-strip-wrap').forEach(wrap => {
+    const strip = wrap.querySelector<HTMLElement>('.ap-img-strip');
+    const prev = wrap.querySelector<HTMLButtonElement>('.ap-strip-prev');
+    const next = wrap.querySelector<HTMLButtonElement>('.ap-strip-next');
+    const items = wrap.querySelectorAll<HTMLElement>('.ap-img-strip-item');
+    if (!strip || !prev || !next || !items.length) return;
+
+    let current = 0;
+    const go = (index: number) => {
+      current = Math.max(0, Math.min(index, items.length - 1));
+      strip.scrollTo({ left: items[0].offsetWidth * current + 6 * current, behavior: 'smooth' });
+      prev.hidden = current === 0;
+      next.hidden = current === items.length - 1;
+    };
+    prev.addEventListener('click', () => go(current - 1));
+    next.addEventListener('click', () => go(current + 1));
+  });
+</script>
+
+<style>
+  .ap-entry {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 0 32px;
+    border-bottom: 0.5px solid var(--rule);
+    padding: 28px 0;
+    align-items: start;
+  }
+
+  .ap-entry:last-child {
+    border-bottom: none;
+  }
+
+  .ap-entry--has-image {
+    grid-template-columns: 160px 1fr 320px;
+    align-items: start;
+  }
+
+  .ap-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ap-meta-item {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--track-wide);
+    color: var(--text-muted);
+  }
+
+  .ap-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-weight: 400;
+    color: var(--text);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--track-tight);
+    margin-bottom: 0;
+  }
+
+  .ap-synopsis {
+    font-size: var(--text-md);
+    line-height: var(--lh-loose);
+    color: var(--text-muted);
+    margin-top: 8px;
+    margin-bottom: 0;
+  }
+
+  .ap-award {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    margin-top: 8px;
+  }
+
+  .ap-award-star {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    color: var(--text);
+    flex-shrink: 0;
+  }
+
+  .ap-award-text {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .ap-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 0;
+    margin-top: 10px;
+  }
+
+  .ap-links--other { margin-top: 6px; }
+
+  .ap-link {
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 1px;
+    line-height: 1.6;
+  }
+
+  .ap-link:hover { opacity: 0.7; }
+
+  .ap-sep {
+    color: var(--rule);
+    font-size: var(--text-xs);
+    margin: 0 8px;
+    line-height: 1.6;
+  }
+
+  .ap-img-wrap {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+
+  .ap-photo-credit {
+    font-size: var(--text-xs);
+    color: var(--text-faint);
+    margin: 6px 0 0;
+    letter-spacing: var(--track-none);
+  }
+
+  .ap-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .ap-img-strip-wrap {
+    width: 100%;
+    position: relative;
+  }
+
+  .ap-img-strip {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 6px;
+  }
+
+  .ap-img-strip::-webkit-scrollbar { display: none; }
+
+  .ap-img-strip-item {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+
+  .ap-img-strip-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .ap-strip-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 28px;
+    height: 28px;
+    background: var(--bg);
+    border: 0.5px solid var(--rule);
+    color: var(--text);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 2px;
+  }
+
+  .ap-strip-btn[hidden] { display: none; }
+  .ap-strip-btn:hover { background: var(--bg-alt); }
+  .ap-strip-prev { left: 6px; }
+  .ap-strip-next { right: 6px; }
+
+  @media (max-width: 768px) {
+    .ap-entry,
+    .ap-entry--has-image {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    /* Dissolve ap-content so its children become direct grid items */
+    .ap-content {
+      display: contents;
+    }
+
+    .ap-title {
+      order: 1;
+      font-size: 22px;
+      line-height: var(--lh-snug);
+    }
+
+    .ap-meta {
+      order: 2;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0;
+      margin-top: 10px;
+    }
+
+    .ap-meta-item + .ap-meta-item::before {
+      content: ' · ';
+      opacity: 0.5;
+    }
+
+    .ap-synopsis {
+      order: 3;
+      font-size: 15px;
+      margin-top: 10px;
+    }
+
+    .ap-awards { order: 4; }
+
+    .ap-links,
+    .ap-links--other {
+      order: 5;
+      margin-top: 8px;
+    }
+
+    .ap-img-wrap,
+    .ap-img-strip-wrap {
+      order: 6;
+      width: 100%;
+      margin: 16px 0 0;
+    }
+
+    .ap-link {
+      font-size: 15px;
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      border-bottom: none;
+      text-decoration: underline;
+      text-decoration-color: var(--accent);
+      text-underline-offset: 2px;
+    }
+
+    .ap-strip-btn { width: 40px; height: 40px; font-size: 15px; }
+  }
+</style>

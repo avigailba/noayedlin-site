@@ -2,11 +2,12 @@
   "slug": "stockholm-se",
   "source_book": "stockholm",
   "title": "Äntligen!",
-  "medium": "Television series",
+  "medium": "TV series",
   "country": "Sweden",
   "year": 2022,
   "network": "SVT",
   "order": 3,
+  "synopsis": "A television adaptation of Stockholm.",
   "still": {
     "image": "/adaptations/stockholm-se-still-1.avif"
   },

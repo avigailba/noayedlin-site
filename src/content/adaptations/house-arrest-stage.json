@@ -5,8 +5,9 @@
   "medium": "Stage play",
   "country": "Israel",
   "year": 2021,
-  "network": "Beit Lessin Theater, Tel Aviv",
+  "network": "Beit Lessin Theater",
   "order": 1,
+  "synopsis": "A stage adaptation of the novel.",
   "still": {
     "image": "/images/house-arrest-stage-1.jpg"
   },

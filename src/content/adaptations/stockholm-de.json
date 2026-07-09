@@ -2,11 +2,12 @@
   "slug": "stockholm-de",
   "source_book": "stockholm",
   "title": "Unter Freunden stirbt man nicht",
-  "medium": "Television series",
+  "medium": "TV series",
   "country": "Germany",
   "year": 2021,
   "network": "Vox",
   "order": 2,
+  "synopsis": "A television adaptation of Stockholm.",
   "still": {
     "image": "/images/stockholm-de.jpg",
     "position": "top"
