@@ -1,0 +1,47 @@
+---
+import { fmtShortDate, fmtLocation, parseDate, type EventEntry } from '../lib/events';
+
+interface Props {
+  event: EventEntry;
+  variant?: 'upcoming' | 'past';
+  showYear?: boolean;
+}
+
+const { event, variant = 'upcoming', showYear } = Astro.props;
+const { title, date_start, date_end, city, region, venue, description, status, url } = event.data;
+
+const isPast = variant === 'past';
+const withYear = showYear ?? (isPast || parseDate(date_end ?? date_start).getFullYear() !== new Date().getFullYear());
+
+const dateLabel = fmtShortDate(date_start, date_end, withYear);
+const place = fmtLocation(city, region);
+
+// No inner pages: the card carries every detail, and the only link out is the event's own url.
+type Action = { kind: 'primary'; label: string; aria: string } | { kind: 'soon' } | null;
+let action: Action = null;
+if (url && isPast) {
+  action = { kind: 'primary', label: 'Event details →', aria: 'Event details (opens in new window)' };
+} else if (!isPast && status === 'details_coming_soon') {
+  action = { kind: 'soon' };
+} else if (!isPast && url && status === 'ticketed') {
+  action = { kind: 'primary', label: 'Tickets & info →', aria: 'Tickets and info (opens in new window)' };
+} else if (!isPast && url && status === 'scheduled') {
+  action = { kind: 'primary', label: 'Event details →', aria: 'Event details (opens in new window)' };
+}
+---
+
+<article class={`ev-card${isPast ? ' ev-card--past' : ''}`}>
+  <time class="ev-card__date" datetime={date_start}>{dateLabel}</time>
+  <div class="ev-card__body">
+    <h3 class="ev-card__title">{title}</h3>
+    {description && <p class="ev-card__desc">{description}</p>}
+  </div>
+  <div class="ev-card__where">
+    <span class="place">{place}</span>
+    {venue && <span class="venue" title={venue}>{venue}</span>}
+  </div>
+  {action?.kind === 'primary' && (
+    <a href={url!} target="_blank" rel="noopener" class="btn-primary ev-card__action" aria-label={action.aria}>{action.label}</a>
+  )}
+  {action?.kind === 'soon' && <p class="ev-card__soon">Details coming soon</p>}
+</article>

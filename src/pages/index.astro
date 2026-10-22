@@ -1,6 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import EventCard from '../components/EventCard.astro';
 import { getCollection, getEntry } from 'astro:content';
+import { byDate, isPast } from '../lib/events';
 
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -18,21 +20,9 @@ function coverSrc(raw: string) {
 
 
 const allEventsRaw = await getCollection('events');
-function hpParseDate(str: string) {
-  const [y, m, d] = str.split('-').map(Number);
-  return new Date(y, m - 1, d);
-}
-const HP_MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const hpToday = new Date(); hpToday.setHours(0, 0, 0, 0);
 const upcomingEvents = allEventsRaw
-  .filter(e => {
-    const last = hpParseDate(e.data.date_end ?? e.data.date_start);
-    return e.data.status !== 'past' && last >= hpToday;
-  })
-  .sort((a, b) => {
-    const diff = a.data.date_start.localeCompare(b.data.date_start);
-    return diff !== 0 ? diff : (a.data.order ?? 99) - (b.data.order ?? 99);
-  })
+  .filter(e => !isPast(e))
+  .sort(byDate)
   .slice(0, 3);
 
 const allMedia = await getCollection('media');
@@ -157,36 +147,8 @@ function formatDate(dateStr: string) {
     {upcomingEvents.length > 0 && (
       <section class="hp-events">
         <p class="section-eyebrow">Upcoming Events</p>
-        <div class="hp-events-rows event-rows">
-          {upcomingEvents.map((event) => {
-            const start = hpParseDate(event.data.date_start);
-            const end   = event.data.date_end ? hpParseDate(event.data.date_end) : null;
-            const dateStr = end
-              ? `${HP_MONTHS_LONG[start.getMonth()]} ${start.getDate()}–${end.getDate()}, ${start.getFullYear()}`
-              : `${HP_MONTHS_LONG[start.getMonth()]} ${start.getDate()}, ${start.getFullYear()}`;
-            const locationStr = [event.data.city, event.data.region].filter(Boolean).join(', ');
-            return (
-              <article class="event-row">
-                <div class="event-meta">
-                  {locationStr && <div class="event-location">{locationStr}</div>}
-                  <time class="event-date" datetime={event.data.date_start}>{dateStr}</time>
-                  {event.data.type && <div class="event-type">{event.data.type}</div>}
-                </div>
-                <div class="event-content">
-                  <h3 class="event-title">
-                    <a href={base + '/events'} class="headline-link">{event.data.title}</a>
-                  </h3>
-                  {event.data.description && <p class="event-description">{event.data.description}</p>}
-                  {event.data.venue && <p class="event-venue">{event.data.venue}</p>}
-                  {event.data.url && (event.data.status === 'ticketed' || event.data.status === 'scheduled') && (
-                    <div class="ev-actions">
-                      <a href={event.data.url} target="_blank" rel="noopener" class="btn-primary" aria-label={(event.data.status === 'ticketed' ? 'Tickets & info' : 'Event details') + ' (opens in new window)'}>{event.data.status === 'ticketed' ? 'Tickets & info' : 'Event details'} →</a>
-                    </div>
-                  )}
-                </div>
-              </article>
-            );
-          })}
+        <div class="ev-grid hp-events-grid">
+          {upcomingEvents.map((event) => <EventCard event={event} />)}
         </div>
         <div class="hp-events-footer">
           <a href={base + '/events'} class="btn-secondary">All events →</a>
@@ -747,7 +709,7 @@ function formatDate(dateStr: string) {
   .hp-events {
     padding: 64px 0;
   }
-  .hp-events-rows { max-width: none; }
+  .hp-events-grid { margin-top: 0; }
   .hp-events-footer {
     text-align: left;
     padding: 24px 0 0;

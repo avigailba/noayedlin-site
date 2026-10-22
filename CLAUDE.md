@@ -130,6 +130,32 @@ Used at the bottom of every page except `/books` (which IS the books listing). R
 
 **Wrapping:** Always wrap usage in `<section class="books-rail-section">` for top padding (80px desktop, 56px mobile).
 
+### `<EventCard>`
+
+**Path:** `src/components/EventCard.astro` (styles: `.ev-card` / `.ev-grid` in `global.css`; date and location helpers: `src/lib/events.ts`)
+
+Tinted square card for one event. Used on `/events` in a `.ev-grid` (3 / 2 / 1 columns at desktop / ≤900px / ≤560px, 32px gap). The card is not a link — all details live on the card, there are no event detail pages.
+
+**Props:**
+- `event: CollectionEntry<'events'>`
+- `variant?: 'upcoming' | 'past'` — default `upcoming`. `past` uses the `--bg-past` background (`#ECECEA`, the only token added for it) and always shows the year.
+- `showYear?: boolean` — default: always for `past`; for `upcoming` only when the event isn't in the current year.
+
+**Content (top to bottom):** short date (`Nov 4`, `Nov 12–13`, `Mar 18, 2025`) · title · description (includes times) · hairline · `city, region` (just `Online` when no region) · venue · action.
+
+**Action rules:**
+| Status | Action |
+|---|---|
+| `ticketed` + `url` | `.btn-primary` **Tickets & info →** (new window) |
+| `scheduled` + `url` | `.btn-primary` **Event details →** (new window) |
+| `details_coming_soon` | muted text **Details coming soon** (not a button) |
+| `ticketed` / `scheduled` without `url` | no action |
+| past variant with `url` | `.btn-primary` **Event details →**; without `url`, no action |
+
+**Fixed slots:** every card is the same height and the divider and button sit at the same height on every card, in every row. Body slot is 104px (title clamped to 2 lines, description to 3), location slot is 64px (`city, region` plus venue clamped to 2 lines, full venue on hover via `title`), action slot is 42px. Keep descriptions within 3 lines (about 110 characters) and venues within 2 lines — anything longer is cut off.
+
+**Rules:** no accent color, no hover lift, shadow or radius on cards. Card type sizes use the standard type tokens (12 / 14 / 16 / 28px). `/events` shows the first 6 past events and reveals the rest behind a **Show all past events** `<details>` toggle.
+
 ### `<Header>`
 
 Sticky desktop header with wordmark on left, nav on right. Active nav item gets accent color + 1px accent underline. Active state is computed from `Astro.url.pathname`.
@@ -323,6 +349,7 @@ src/
 ├── components/
 │   ├── PageHeading.astro
 │   ├── BooksRail.astro
+│   ├── EventCard.astro  # event card (upcoming / past)
 │   ├── MobileNav.astro  # mobile drawer
 │   └── ...              # header + footer are inline in layouts/Layout.astro
 ├── content/
@@ -332,6 +359,8 @@ src/
 │   ├── media/         # one .md per press item
 │   └── adaptations/   # one .md per adaptation
 ├── content.config.ts  # collection schemas
+├── lib/
+│   └── events.ts      # event date + location helpers
 ├── layouts/
 │   └── Layout.astro   # root layout (contains header + footer inline)
 ├── pages/

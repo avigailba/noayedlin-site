@@ -1,39 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageHeading from '../components/PageHeading.astro';
+import EventCard from '../components/EventCard.astro';
 import { getCollection } from 'astro:content';
+import { byDate, isPast } from '../lib/events';
 
 const allEvents = await getCollection('events');
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-// Date helpers
-function parseDate(str: string) {
-  const [y, m, d] = str.split('-').map(Number);
-  return new Date(y, m - 1, d);
-}
-const MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-
-function fmtEventDate(start: Date, end: Date | null): string {
-  if (end) {
-    return `${MONTHS_LONG[start.getMonth()]} ${start.getDate()}–${end.getDate()}, ${start.getFullYear()}`;
-  }
-  return `${MONTHS_LONG[start.getMonth()]} ${start.getDate()}, ${start.getFullYear()}`;
-}
-
-// Split upcoming / past
-const today = new Date(); today.setHours(0, 0, 0, 0);
-function lastDay(e: typeof allEvents[0]) {
-  return parseDate(e.data.date_end ?? e.data.date_start);
-}
-const upcoming = allEvents
-  .filter(e => e.data.status !== 'past' && lastDay(e) >= today)
-  .sort((a, b) => {
-    const diff = a.data.date_start.localeCompare(b.data.date_start);
-    return diff !== 0 ? diff : (a.data.order ?? 99) - (b.data.order ?? 99);
-  });
-const past = allEvents
-  .filter(e => e.data.status === 'past' || lastDay(e) < today)
-  .sort((a, b) => b.data.date_start.localeCompare(a.data.date_start));
+const PAST_VISIBLE = 6;
+const upcoming = allEvents.filter(e => !isPast(e)).sort(byDate);
+const past = allEvents.filter(e => isPast(e)).sort((a, b) => byDate(b, a));
 ---
 
 <Layout title="Events &amp; Lectures" lang="en">
@@ -48,83 +24,37 @@ const past = allEvents
     <div class="ev-container">
 
       {upcoming.length > 0 && (
-        <>
-          <div class="ev-rows event-rows">
-            {upcoming.map((event) => {
-              const start = parseDate(event.data.date_start);
-              const end   = event.data.date_end ? parseDate(event.data.date_end) : null;
-              const locationStr = [event.data.city, event.data.region].filter(Boolean).join(', ');
-              return (
-                <article class="event-row">
-                  <div class="event-meta">
-                    {locationStr && <div class="event-location">{locationStr}</div>}
-                    <time class="event-date" datetime={event.data.date_start}>{fmtEventDate(start, end)}</time>
-                    {event.data.type && <div class="event-type">{event.data.type}</div>}
-                  </div>
-                  <div class="event-content">
-                    <h3 class="event-title">
-                      {event.data.title}
-                    </h3>
-                    {event.data.description && <p class="event-description">{event.data.description}</p>}
-                    {event.data.venue && <p class="event-venue">{event.data.venue}</p>}
-                    {event.data.url && (event.data.status === 'ticketed' || event.data.status === 'scheduled') && (
-                      <div class="ev-actions">
-                        <a href={event.data.url} target="_blank" rel="noopener" class="btn-primary" aria-label={(event.data.status === 'ticketed' ? 'Tickets & info' : 'Event details') + ' (opens in new window)'}>{event.data.status === 'ticketed' ? 'Tickets & info' : 'Event details'} →</a>
-                      </div>
-                    )}
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </>
+        <div class="ev-grid">
+          {upcoming.map((event) => <EventCard event={event} />)}
+        </div>
       )}
 
       {past.length > 0 && (
         <>
-          <p class="ev-section-eyebrow ev-section-eyebrow--past">Past</p>
-          <div class="ev-rows event-rows">
-            {past.map((event) => {
-              const start = parseDate(event.data.date_start);
-              const end   = event.data.date_end ? parseDate(event.data.date_end) : null;
-              const locationStr = [event.data.city, event.data.region].filter(Boolean).join(', ');
-              return (
-                <article class="event-row event-row--past">
-                  <div class="event-meta">
-                    {locationStr && <div class="event-location">{locationStr}</div>}
-                    <time class="event-date" datetime={event.data.date_start}>{fmtEventDate(start, end)}</time>
-                    {event.data.type && <div class="event-type">{event.data.type}</div>}
-                  </div>
-                  <div class="event-content">
-                    <h3 class="event-title">
-                      {event.data.title}
-                    </h3>
-                    {event.data.description && <p class="event-description">{event.data.description}</p>}
-                    {event.data.venue && <p class="event-venue">{event.data.venue}</p>}
-                    <div class="event-status">
-                      <span class="event-dot event-dot--muted"></span>
-                      <span>Past event</span>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
+          <div class="ev-past-head">
+            <h2>Past events</h2>
+            <span class="count">{past.length} {past.length === 1 ? 'event' : 'events'}</span>
           </div>
+          <div class="ev-grid ev-grid--past">
+            {past.slice(0, PAST_VISIBLE).map((event) => <EventCard event={event} variant="past" />)}
+          </div>
+          {past.length > PAST_VISIBLE && (
+            <details class="ev-past-more">
+              <summary class="btn-secondary">Show all past events</summary>
+              <div class="ev-grid">
+                {past.slice(PAST_VISIBLE).map((event) => <EventCard event={event} variant="past" />)}
+              </div>
+            </details>
+          )}
         </>
       )}
 
     </div>
   )}
 
-  {/* <section class="books-rail-section">
-    <BooksRail />
-  </section> */}
-
 </Layout>
 
 <style>
-  /* Content container */
-
   .ev-empty {
     font-family: var(--font-serif);
     font-style: italic;
@@ -132,20 +62,4 @@ const past = allEvents
     margin-top: 3rem;
     text-align: center;
   }
-
-  /* Section eyebrows */
-  .ev-section-eyebrow {
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--track-wide);
-    color: var(--text-muted);
-    margin: 0;
-    padding: 48px 0 8px;
-  }
-
-  .ev-section-eyebrow--past {
-    padding-top: 56px;
-  }
-
-  /* Row styles handled by global .event-row* rules */
 </style>
