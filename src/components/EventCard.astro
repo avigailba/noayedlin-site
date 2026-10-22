@@ -24,11 +24,12 @@ const classes = ['ev-card', isPast && 'ev-card--past', url && 'ev-card--link'].f
 <article class={classes}>
   <div class="ev-card__meta">
     <time datetime={date_start}>{dateLabel}</time>
+    {time && <span class="sep" aria-hidden="true">·</span>}
+    {time && <span class="ev-card__time">{time}</span>}
   </div>
   <div class="ev-card__body">
     <h3 class="ev-card__title">{title}</h3>
     {description && <p class="ev-card__desc">{description}</p>}
-    {time && <p class="ev-card__time">{time}</p>}
   </div>
   <div class="ev-card__where">
     <span class="place">{place}</span>

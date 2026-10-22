@@ -525,10 +525,11 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
   color: var(--text-muted);
 }
-.ev-card__meta time { flex-shrink: 0; color: var(--text); font-weight: 600; }
+.ev-card__meta time,
+.ev-card__meta .ev-card__time { flex-shrink: 0; color: var(--text); font-weight: 600; }  /* time matches the date */
 
 .ev-card__body {
-  height: 124px;  /* 2-line title + 2-line description + time line */
+  height: 100px;  /* 2-line title + 2-line description */
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -552,18 +553,11 @@ img { max-width: 100%; display: block; }
   font-size: 13px;
   line-height: 1.45;
   color: var(--text-muted);
+  text-wrap: balance;  /* no single-word last lines */
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
-}
-/* The time sits on its own line at the bottom of the body slot, so times line up across a row */
-.ev-card__time {
-  margin-top: auto;
-  flex-shrink: 0;
-  font-size: 13px;
-  line-height: 1.45;
-  color: inherit;
 }
 
 .ev-card__where {
@@ -577,6 +571,7 @@ img { max-width: 100%; display: block; }
 }
 .ev-card__where .place { display: block; }
 .ev-card__where .venue {
+  text-wrap: balance;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -596,7 +591,7 @@ img { max-width: 100%; display: block; }
 .ev-card__link::after { content: ''; position: absolute; inset: 0; }
 .ev-card__link .label-short { display: none; }
 .ev-card .arrow { display: inline-block; }
-.ev-card__note { font-size: var(--text-xs); color: var(--text-muted); padding: 8px 0; }
+.ev-card__note { text-wrap: balance; font-size: var(--text-xs); color: var(--text-muted); padding: 8px 0; }
 
 @media (max-width: 900px) { .ev-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
