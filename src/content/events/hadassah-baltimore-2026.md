@@ -5,9 +5,9 @@ city: Baltimore
 region: MD
 country: United States
 venue: Pikesville, MD 21208
-description: Fall dinner event, 6–9 p.m.
+description: Fall Dinner Event, 6–9 p.m.
 type: Lecture
 status: ticketed
-url: "https://mid-a.hadassah.org/event/fall-dinner-event/e836315/register/new/select-tickets"
+url: "https://mid-a.hadassah.org/event/fall-dinner-event/e836315"
 order: 1
 ---

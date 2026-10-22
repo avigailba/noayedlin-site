@@ -7,7 +7,7 @@ country: United States
 venue: Center for Jewish Studies, Thompson Room, Barker Center 110, 12 Quincy Street
 description: The creative world of Noa Yedlin, 4 p.m.
 type: Lecture
-status: ticketed
+status: scheduled
 url: "https://cjs.fas.harvard.edu/calendar_event/creative-world-of-noa-yedlin/"
 order: 2
 ---
