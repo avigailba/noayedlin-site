@@ -21,33 +21,53 @@ const past = allEvents.filter(e => isPast(e)).sort((a, b) => byDate(b, a));
       <p class="ev-empty">Upcoming dates will appear here. Check back soon.</p>
     </div>
   ) : (
-    <div class="ev-container">
+    <div class="ev-container" id="ev-container">
 
-      {upcoming.length > 0 && (
-        <div class="ev-grid">
-          {upcoming.map((event) => <EventCard event={event} />)}
-        </div>
+      <div class="ev-grid" id="ev-upcoming" hidden={upcoming.length === 0}>
+        {upcoming.map((event) => <EventCard event={event} />)}
+      </div>
+
+      <div class="ev-past-head" id="ev-past-head" hidden={past.length === 0}>
+        <h2>Past events</h2>
+        <span class="count" id="ev-past-count">{past.length} {past.length === 1 ? 'event' : 'events'}</span>
+      </div>
+      <div class="ev-grid ev-grid--past" id="ev-past" hidden={past.length === 0}>
+        {past.slice(0, PAST_VISIBLE).map((event) => <EventCard event={event} variant="past" />)}
+      </div>
+      {past.length > PAST_VISIBLE && (
+        <details class="ev-past-more">
+          <summary class="btn-secondary">Show all past events</summary>
+          <div class="ev-grid">
+            {past.slice(PAST_VISIBLE).map((event) => <EventCard event={event} variant="past" />)}
+          </div>
+        </details>
       )}
 
-      {past.length > 0 && (
-        <>
-          <div class="ev-past-head">
-            <h2>Past events</h2>
-            <span class="count">{past.length} {past.length === 1 ? 'event' : 'events'}</span>
-          </div>
-          <div class="ev-grid ev-grid--past">
-            {past.slice(0, PAST_VISIBLE).map((event) => <EventCard event={event} variant="past" />)}
-          </div>
-          {past.length > PAST_VISIBLE && (
-            <details class="ev-past-more">
-              <summary class="btn-secondary">Show all past events</summary>
-              <div class="ev-grid">
-                {past.slice(PAST_VISIBLE).map((event) => <EventCard event={event} variant="past" />)}
-              </div>
-            </details>
-          )}
-        </>
-      )}
+      <script is:inline>
+        // Move events that have ended since the last build into "Past events", using the visitor's date (no rebuild needed)
+        (function () {
+          var d = new Date(), p = function (n) { return (n < 10 ? '0' : '') + n; };
+          var today = d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+          var upcoming = document.getElementById('ev-upcoming');
+          var pastGrid = document.getElementById('ev-past');
+          var head = document.getElementById('ev-past-head');
+          var ended = Array.prototype.filter.call(upcoming.children, function (c) { return c.dataset.end < today; });
+          if (!ended.length) return;
+          ended.sort(function (a, b) { return a.dataset.end < b.dataset.end ? 1 : -1; });  // newest first
+          ended.forEach(function (c) {
+            c.classList.add('ev-card--past');
+            c.classList.remove('ev-card--link');
+            var t = c.querySelector('.ev-card__meta time');
+            if (t) t.textContent = c.dataset.dateYear;
+          });
+          pastGrid.prepend.apply(pastGrid, ended);
+          var total = document.querySelectorAll('#ev-container .ev-card--past').length;
+          document.getElementById('ev-past-count').textContent = total + (total === 1 ? ' event' : ' events');
+          pastGrid.hidden = false;
+          head.hidden = false;
+          upcoming.hidden = upcoming.children.length === 0;
+        })();
+      </script>
 
     </div>
   )}

@@ -510,6 +510,7 @@ img { max-width: 100%; display: block; }
   border-radius: 0;
 }
 .ev-card--past { background: var(--bg-past); }
+.ev-card[hidden], .ev-grid[hidden], .ev-past-head[hidden], .hp-events[hidden] { display: none; }
 .ev-card p, .ev-card h3 { margin: 0; }  /* spacing comes from the card's gap only */
 
 .ev-card__meta {

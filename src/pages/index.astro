@@ -20,10 +20,11 @@ function coverSrc(raw: string) {
 
 
 const allEventsRaw = await getCollection('events');
+const HP_EVENTS_SHOWN = 3;
+// Every upcoming event is rendered; the script below hides the ones that have ended since the last build
 const upcomingEvents = allEventsRaw
   .filter(e => !isPast(e))
-  .sort(byDate)
-  .slice(0, 3);
+  .sort(byDate);
 
 const allMedia = await getCollection('media');
 
@@ -145,15 +146,32 @@ function formatDate(dateStr: string) {
   <div class="hp-inner">
 
     {upcomingEvents.length > 0 && (
-      <section class="hp-events">
+      <section class="hp-events" id="hp-events">
         <p class="section-eyebrow">Upcoming Events</p>
         <div class="ev-grid hp-events-grid">
-          {upcomingEvents.map((event) => <EventCard event={event} />)}
+          {upcomingEvents.map((event, i) => (
+            <EventCard event={event} hidden={i >= HP_EVENTS_SHOWN} />
+          ))}
         </div>
         <div class="hp-events-footer">
           <a href={base + '/events'} class="btn-secondary">All events →</a>
         </div>
       </section>
+      <script is:inline define:vars={{ shown: HP_EVENTS_SHOWN }}>
+        // Show the next events that haven't ended yet, using the visitor's date (no rebuild needed)
+        (function () {
+          var d = new Date(), p = function (n) { return (n < 10 ? '0' : '') + n; };
+          var today = d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+          var section = document.getElementById('hp-events');
+          var n = 0;
+          section.querySelectorAll('.ev-card').forEach(function (c) {
+            var show = c.dataset.end >= today && n < shown;
+            c.hidden = !show;
+            if (show) n++;
+          });
+          section.hidden = n === 0;
+        })();
+      </script>
     )}
 
     {aboutEntry && (
