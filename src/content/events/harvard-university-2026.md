@@ -4,8 +4,11 @@ date_start: "2026-11-11"
 city: Cambridge
 region: MA
 country: United States
-description: A lecture and conversation
+venue: Center for Jewish Studies, Thompson Room, Barker Center 110, 12 Quincy Street
+description: "The creative world of Noa Yedlin"
+time: "4 p.m."
 type: Lecture
-status: details_coming_soon
+status: scheduled
+url: "https://cjs.fas.harvard.edu/calendar_event/creative-world-of-noa-yedlin/"
 order: 2
 ---

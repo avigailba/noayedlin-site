@@ -33,11 +33,6 @@ const booksEn = defineCollection({
   schema: bookSchema,
 });
 
-const booksHe = defineCollection({
-  loader: glob({ pattern: '*.json', base: './src/content/books/he' }),
-  schema: bookSchema,
-});
-
 const adaptationSchema = z.object({
   slug: z.string(),
   source_book: z.string(),
@@ -121,6 +116,8 @@ const eventSchema = z.object({
   title: z.string(),
   date_start: z.string(),
   date_end: z.string().nullish(),
+  time: z.string().nullish(),
+  note: z.string().nullish(),
   city: z.string(),
   region: z.string().nullish(),
   country: z.string(),
@@ -137,4 +134,4 @@ const events = defineCollection({
   schema: eventSchema,
 });
 
-export const collections = { booksEn, booksHe, adaptations, about, media, events };
+export const collections = { booksEn, adaptations, about, media, events };

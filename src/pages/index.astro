@@ -1,6 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import EventCard from '../components/EventCard.astro';
 import { getCollection, getEntry } from 'astro:content';
+import { byDate, isPast } from '../lib/events';
 
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -18,22 +20,11 @@ function coverSrc(raw: string) {
 
 
 const allEventsRaw = await getCollection('events');
-function hpParseDate(str: string) {
-  const [y, m, d] = str.split('-').map(Number);
-  return new Date(y, m - 1, d);
-}
-const HP_MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const hpToday = new Date(); hpToday.setHours(0, 0, 0, 0);
+const HP_EVENTS_SHOWN = 3;
+// Every upcoming event is rendered; the script below hides the ones that have ended since the last build
 const upcomingEvents = allEventsRaw
-  .filter(e => {
-    const last = hpParseDate(e.data.date_end ?? e.data.date_start);
-    return e.data.status !== 'past' && last >= hpToday;
-  })
-  .sort((a, b) => {
-    const diff = a.data.date_start.localeCompare(b.data.date_start);
-    return diff !== 0 ? diff : (a.data.order ?? 99) - (b.data.order ?? 99);
-  })
-  .slice(0, 3);
+  .filter(e => !isPast(e))
+  .sort(byDate);
 
 const allMedia = await getCollection('media');
 
@@ -71,7 +62,6 @@ function formatDate(dateStr: string) {
             />
           </a>
           <div class="gh-info">
-            <p class="eyebrow gh-coming">Coming October 2026</p>
             <h1 class="gh-title">{featured2.data.title}</h1>
             <blockquote class="gh-quote">
               "A lucid, clear, and distinct voice."
@@ -82,7 +72,7 @@ function formatDate(dateStr: string) {
                 More about the book <span class="gh-arrow">→</span>
               </a>
               <a class="btn-secondary gh-btn" href="https://www.amazon.com/House-Arrest-Noa-Yedlin/dp/1954404433" target="_blank" rel="noopener noreferrer">
-                Pre-order on Amazon <span aria-hidden="true">↗</span><span class="sr-only"> (opens in new window)</span>
+                Order on Amazon <span aria-hidden="true">↗</span><span class="sr-only"> (opens in new window)</span>
               </a>
             </div>
           </div>
@@ -156,54 +146,32 @@ function formatDate(dateStr: string) {
   <div class="hp-inner">
 
     {upcomingEvents.length > 0 && (
-      <section class="hp-events">
+      <section class="hp-events" id="hp-events">
         <p class="section-eyebrow">Upcoming Events</p>
-        <div class="hp-events-rows event-rows">
-          {upcomingEvents.map((event) => {
-            const start = hpParseDate(event.data.date_start);
-            const end   = event.data.date_end ? hpParseDate(event.data.date_end) : null;
-            const slug  = event.data.slug ?? event.id;
-            const dateStr = end
-              ? `${HP_MONTHS_LONG[start.getMonth()]} ${start.getDate()}–${end.getDate()}, ${start.getFullYear()}`
-              : `${HP_MONTHS_LONG[start.getMonth()]} ${start.getDate()}, ${start.getFullYear()}`;
-            const locationStr = [event.data.city, event.data.region].filter(Boolean).join(', ');
-            return (
-              <article class="event-row">
-                <div class="event-meta">
-                  {locationStr && <div class="event-location">{locationStr}</div>}
-                  <time class="event-date" datetime={event.data.date_start}>{dateStr}</time>
-                  {event.data.type && <div class="event-type">{event.data.type}</div>}
-                </div>
-                <div class="event-content">
-                  <h3 class="event-title">
-                    <a href={`${base}/events/${slug}`} class="headline-link">{event.data.title}</a>
-                  </h3>
-                  {event.data.description && <p class="event-description">{event.data.description}</p>}
-                  {event.data.status === 'details_coming_soon'
-                    ? <span class="btn-secondary ev-details-btn ev-details-btn--disabled">Details coming soon</span>
-                    : <a href={`${base}/events/${slug}`} class="btn-secondary ev-details-btn">More details →</a>
-                  }
-                  <div class="event-status">
-                    {event.data.status === 'scheduled' && (
-                      <><span class="event-dot event-dot--accent"></span>
-                        {event.data.url ? <a href={event.data.url} target="_blank" rel="noopener" aria-label="Get details (opens in new window)">Get details →</a> : <span>Get details</span>}
-                      </>
-                    )}
-                    {event.data.status === 'ticketed' && (
-                      <><span class="event-dot event-dot--accent"></span>
-                        {event.data.url ? <a href={event.data.url} target="_blank" rel="noopener" aria-label="Get tickets (opens in new window)">Get tickets →</a> : <span>Get tickets</span>}
-                      </>
-                    )}
-                  </div>
-                </div>
-              </article>
-            );
-          })}
+        <div class="ev-grid hp-events-grid">
+          {upcomingEvents.map((event, i) => (
+            <EventCard event={event} hidden={i >= HP_EVENTS_SHOWN} />
+          ))}
         </div>
         <div class="hp-events-footer">
           <a href={base + '/events'} class="btn-secondary">All events →</a>
         </div>
       </section>
+      <script is:inline define:vars={{ shown: HP_EVENTS_SHOWN }}>
+        // Show the next events that haven't ended yet, using the visitor's date (no rebuild needed)
+        (function () {
+          var d = new Date(), p = function (n) { return (n < 10 ? '0' : '') + n; };
+          var today = d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+          var section = document.getElementById('hp-events');
+          var n = 0;
+          section.querySelectorAll('.ev-card').forEach(function (c) {
+            var show = c.dataset.end >= today && n < shown;
+            c.hidden = !show;
+            if (show) n++;
+          });
+          section.hidden = n === 0;
+        })();
+      </script>
     )}
 
     {aboutEntry && (
@@ -759,7 +727,7 @@ function formatDate(dateStr: string) {
   .hp-events {
     padding: 64px 0;
   }
-  .hp-events-rows { max-width: none; }
+  .hp-events-grid { margin-top: 0; }
   .hp-events-footer {
     text-align: left;
     padding: 24px 0 0;

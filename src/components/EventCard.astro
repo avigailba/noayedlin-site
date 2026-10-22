@@ -1,0 +1,53 @@
+---
+import { fmtShortDate, fmtLocation, parseDate, type EventEntry } from '../lib/events';
+
+interface Props {
+  event: EventEntry;
+  variant?: 'upcoming' | 'past';
+  hidden?: boolean;
+}
+
+const { event, variant = 'upcoming', hidden = false } = Astro.props;
+const { title, date_start, date_end, city, region, venue, description, time, note, status, url } = event.data;
+
+const isPast = variant === 'past';
+const withYear = isPast || parseDate(date_end ?? date_start).getFullYear() !== new Date().getFullYear();
+
+const dateLabel = fmtShortDate(date_start, date_end, withYear);
+const dateLabelYear = fmtShortDate(date_start, date_end, true);  // used when the page moves a card to "past"
+const place = fmtLocation(city, region);
+// No link: a `note` (or "Details coming soon") takes the button's place.
+const noteText = url ? null : (note || (!isPast && status === 'details_coming_soon' ? 'Details coming soon' : null));
+
+// No inner pages: the card carries every detail, and the only link out is the event's own url.
+const classes = ['ev-card', isPast && 'ev-card--past', url && 'ev-card--link'].filter(Boolean).join(' ');
+---
+
+<article class={classes} data-end={date_end ?? date_start} data-date-year={dateLabelYear} hidden={hidden}>
+  <div class="ev-card__meta">
+    <time datetime={date_start}>{dateLabel}</time>
+    {time && <span class="sep" aria-hidden="true">·</span>}
+    {time && <span class="ev-card__time">{time}</span>}
+  </div>
+  <div class="ev-card__body">
+    <h3 class="ev-card__title">{title}</h3>
+    {description && <p class="ev-card__desc">{description}</p>}
+  </div>
+  <div class="ev-card__where">
+    <span class="place">{place}</span>
+    {venue && <span class="venue" title={venue}>{venue}</span>}
+  </div>
+  {url && (
+    <div class="ev-card__action">
+      <a href={url} target="_blank" rel="noopener" class="btn-primary ev-card__link" aria-label="Event details (opens in new window)">
+        <span class="label-full">Event details</span><span class="label-short" aria-hidden="true">Details</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  )}
+  {noteText && (
+    <div class="ev-card__action ev-card__action--note">
+      <p class="ev-card__note">{noteText}</p>
+    </div>
+  )}
+</article>

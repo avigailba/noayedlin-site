@@ -1,39 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageHeading from '../components/PageHeading.astro';
+import EventCard from '../components/EventCard.astro';
 import { getCollection } from 'astro:content';
+import { byDate, isPast } from '../lib/events';
 
 const allEvents = await getCollection('events');
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-// Date helpers
-function parseDate(str: string) {
-  const [y, m, d] = str.split('-').map(Number);
-  return new Date(y, m - 1, d);
-}
-const MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-
-function fmtEventDate(start: Date, end: Date | null): string {
-  if (end) {
-    return `${MONTHS_LONG[start.getMonth()]} ${start.getDate()}–${end.getDate()}, ${start.getFullYear()}`;
-  }
-  return `${MONTHS_LONG[start.getMonth()]} ${start.getDate()}, ${start.getFullYear()}`;
-}
-
-// Split upcoming / past
-const today = new Date(); today.setHours(0, 0, 0, 0);
-function lastDay(e: typeof allEvents[0]) {
-  return parseDate(e.data.date_end ?? e.data.date_start);
-}
-const upcoming = allEvents
-  .filter(e => e.data.status !== 'past' && lastDay(e) >= today)
-  .sort((a, b) => {
-    const diff = a.data.date_start.localeCompare(b.data.date_start);
-    return diff !== 0 ? diff : (a.data.order ?? 99) - (b.data.order ?? 99);
-  });
-const past = allEvents
-  .filter(e => e.data.status === 'past' || lastDay(e) < today)
-  .sort((a, b) => b.data.date_start.localeCompare(a.data.date_start));
+const PAST_VISIBLE = 6;
+const upcoming = allEvents.filter(e => !isPast(e)).sort(byDate);
+const past = allEvents.filter(e => isPast(e)).sort((a, b) => byDate(b, a));
 ---
 
 <Layout title="Events &amp; Lectures" lang="en">
@@ -45,106 +21,60 @@ const past = allEvents
       <p class="ev-empty">Upcoming dates will appear here. Check back soon.</p>
     </div>
   ) : (
-    <div class="ev-container">
+    <div class="ev-container" id="ev-container">
 
-      {upcoming.length > 0 && (
-        <>
-          <div class="ev-rows event-rows">
-            {upcoming.map((event) => {
-              const start = parseDate(event.data.date_start);
-              const end   = event.data.date_end ? parseDate(event.data.date_end) : null;
-              const slug  = event.data.slug ?? event.id;
-              const locationStr = [event.data.city, event.data.region].filter(Boolean).join(', ');
-              return (
-                <article class="event-row">
-                  <div class="event-meta">
-                    {locationStr && <div class="event-location">{locationStr}</div>}
-                    <time class="event-date" datetime={event.data.date_start}>{fmtEventDate(start, end)}</time>
-                    {event.data.type && <div class="event-type">{event.data.type}</div>}
-                  </div>
-                  <div class="event-content">
-                    <h3 class="event-title">
-                      <a href={`${base}/events/${slug}`} class="headline-link">{event.data.title}</a>
-                    </h3>
-                    {event.data.description && <p class="event-description">{event.data.description}</p>}
-                    {event.data.status === 'details_coming_soon'
-                      ? <span class="btn-secondary ev-details-btn ev-details-btn--disabled">Details coming soon</span>
-                      : <a href={`${base}/events/${slug}`} class="btn-secondary ev-details-btn">More details →</a>
-                    }
-                    <div class="event-status">
-                      {event.data.status === 'scheduled' && (
-                        <>
-                          <span class="event-dot event-dot--accent"></span>
-                          {event.data.url
-                            ? <a href={event.data.url} target="_blank" rel="noopener" aria-label="Get details (opens in new window)">Get details →</a>
-                            : <span>Get details</span>
-                          }
-                        </>
-                      )}
-                      {event.data.status === 'ticketed' && (
-                        <>
-                          <span class="event-dot event-dot--accent"></span>
-                          {event.data.url
-                            ? <a href={event.data.url} target="_blank" rel="noopener" aria-label="Get tickets (opens in new window)">Get tickets →</a>
-                            : <span>Get tickets</span>
-                          }
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
+      <div class="ev-grid" id="ev-upcoming" hidden={upcoming.length === 0}>
+        {upcoming.map((event) => <EventCard event={event} />)}
+      </div>
+
+      <div class="ev-past-head" id="ev-past-head" hidden={past.length === 0}>
+        <h2>Past events</h2>
+        <span class="count" id="ev-past-count">{past.length} {past.length === 1 ? 'event' : 'events'}</span>
+      </div>
+      <div class="ev-grid ev-grid--past" id="ev-past" hidden={past.length === 0}>
+        {past.slice(0, PAST_VISIBLE).map((event) => <EventCard event={event} variant="past" />)}
+      </div>
+      {past.length > PAST_VISIBLE && (
+        <details class="ev-past-more">
+          <summary class="btn-secondary">Show all past events</summary>
+          <div class="ev-grid">
+            {past.slice(PAST_VISIBLE).map((event) => <EventCard event={event} variant="past" />)}
           </div>
-        </>
+        </details>
       )}
 
-      {past.length > 0 && (
-        <>
-          <p class="ev-section-eyebrow ev-section-eyebrow--past">Past</p>
-          <div class="ev-rows event-rows">
-            {past.map((event) => {
-              const start = parseDate(event.data.date_start);
-              const end   = event.data.date_end ? parseDate(event.data.date_end) : null;
-              const slug  = event.data.slug ?? event.id;
-              const locationStr = [event.data.city, event.data.region].filter(Boolean).join(', ');
-              return (
-                <article class="event-row event-row--past">
-                  <div class="event-meta">
-                    {locationStr && <div class="event-location">{locationStr}</div>}
-                    <time class="event-date" datetime={event.data.date_start}>{fmtEventDate(start, end)}</time>
-                    {event.data.type && <div class="event-type">{event.data.type}</div>}
-                  </div>
-                  <div class="event-content">
-                    <h3 class="event-title">
-                      <a href={`${base}/events/${slug}`} class="headline-link">{event.data.title}</a>
-                    </h3>
-                    {event.data.description && <p class="event-description">{event.data.description}</p>}
-                    <a href={`${base}/events/${slug}`} class="btn-secondary ev-details-btn">More details →</a>
-                    <div class="event-status">
-                      <span class="event-dot event-dot--muted"></span>
-                      <span>Past event</span>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </>
-      )}
+      <script is:inline>
+        // Move events that have ended since the last build into "Past events", using the visitor's date (no rebuild needed)
+        (function () {
+          var d = new Date(), p = function (n) { return (n < 10 ? '0' : '') + n; };
+          var today = d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+          var upcoming = document.getElementById('ev-upcoming');
+          var pastGrid = document.getElementById('ev-past');
+          var head = document.getElementById('ev-past-head');
+          var ended = Array.prototype.filter.call(upcoming.children, function (c) { return c.dataset.end < today; });
+          if (!ended.length) return;
+          ended.sort(function (a, b) { return a.dataset.end < b.dataset.end ? 1 : -1; });  // newest first
+          ended.forEach(function (c) {
+            c.classList.add('ev-card--past');
+            c.classList.remove('ev-card--link');
+            var t = c.querySelector('.ev-card__meta time');
+            if (t) t.textContent = c.dataset.dateYear;
+          });
+          pastGrid.prepend.apply(pastGrid, ended);
+          var total = document.querySelectorAll('#ev-container .ev-card--past').length;
+          document.getElementById('ev-past-count').textContent = total + (total === 1 ? ' event' : ' events');
+          pastGrid.hidden = false;
+          head.hidden = false;
+          upcoming.hidden = upcoming.children.length === 0;
+        })();
+      </script>
 
     </div>
   )}
 
-  {/* <section class="books-rail-section">
-    <BooksRail />
-  </section> */}
-
 </Layout>
 
 <style>
-  /* Content container */
-
   .ev-empty {
     font-family: var(--font-serif);
     font-style: italic;
@@ -152,20 +82,4 @@ const past = allEvents
     margin-top: 3rem;
     text-align: center;
   }
-
-  /* Section eyebrows */
-  .ev-section-eyebrow {
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--track-wide);
-    color: var(--text-muted);
-    margin: 0;
-    padding: 48px 0 8px;
-  }
-
-  .ev-section-eyebrow--past {
-    padding-top: 56px;
-  }
-
-  /* Row styles handled by global .event-row* rules */
 </style>

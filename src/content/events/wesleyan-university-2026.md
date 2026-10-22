@@ -1,12 +1,14 @@
 ---
 title: Wesleyan University
 date_start: "2026-11-12"
-date_end: "2026-11-13"
 city: Middletown
 region: CT
 country: United States
-description: Two-day visiting writer residency
-type: Residency
-status: details_coming_soon
+venue: Frank Center for Public Affairs, 238 Church Street
+description: ""
+note: "Free admission — Open to the public"
+time: "7:30 p.m."
+type: Lecture
+status: scheduled
 order: 3
 ---

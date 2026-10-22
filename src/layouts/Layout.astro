@@ -5,28 +5,17 @@ import Analytics from '@vercel/analytics/astro';
 
 interface Props {
   title: string;
-  lang: 'en' | 'he';
+  lang?: 'en';
   description?: string;
 }
 
-const { title, lang, description = 'Noa Yedlin – Israeli novelist and screenwriter' } = Astro.props;
+const { title, lang = 'en', description = 'Noa Yedlin – Israeli novelist and screenwriter' } = Astro.props;
 
-const isHe = lang === 'he';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const rawPath = Astro.url.pathname;
 const currentPath = (rawPath.startsWith(base) ? rawPath.slice(base.length) : rawPath) || '/';
 
-const nav = isHe
-  ? [
-      { label: 'בית', href: '/he' },
-      { label: 'ספרים', href: '/he/books' },
-      { label: 'עיבודים', href: '/he/adaptations' },
-      { label: 'אירועים', href: '/he/events' },
-      { label: 'תקשורת', href: '/he/media' },
-      { label: 'אודות', href: '/he/about' },
-      { label: 'צור קשר', href: '/he/contact' },
-    ]
-  : [
+const nav = [
       { label: 'Home', href: '/' },
       { label: 'Books', href: '/books' },
       { label: 'Events', href: '/events' },
@@ -36,11 +25,10 @@ const nav = isHe
       { label: 'Contact', href: '/contact' },
     ];
 
-const altLangHref = isHe ? '/' : '/he';
 ---
 
 <!doctype html>
-<html lang={lang} dir={isHe ? 'rtl' : 'ltr'}>
+<html lang={lang} dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -55,8 +43,8 @@ const altLangHref = isHe ? '/' : '/he';
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <header class="site-header">
       <nav class="nav-inner">
-        <a href={base + (isHe ? '/he' : '/')} class="site-title">
-          {isHe ? 'נועה ידלין' : 'Noa Yedlin'}
+        <a href={base + '/'} class="site-title">
+          Noa Yedlin
         </a>
         <ul class="nav-links">
           {nav.map(({ label, href }) => (
@@ -84,50 +72,28 @@ const altLangHref = isHe ? '/' : '/he';
     <footer class="site-footer">
       <div class="footer-top">
         <div class="footer-brand">
-          <p class="footer-brand-name">{isHe ? 'נועה ידלין' : 'Noa Yedlin'}</p>
+          <p class="footer-brand-name">Noa Yedlin</p>
           <p class="footer-brand-tagline">
-            {isHe ? (
-              <>סופרת ותסריטאית ישראלית.<br />זוכת פרס ספיר.</>
-            ) : (
-              <>Israeli novelist and screenwriter.<br />Sapir Prize Winner.</>
-            )}
+                          <>Israeli novelist and screenwriter.<br />Sapir Prize Winner.</>
           </p>
         </div>
 
         <div class="footer-col">
-          <p class="footer-col-label">{isHe ? 'ספרים' : 'Books'}</p>
+          <p class="footer-col-label">Books</p>
           <ul>
-            {isHe ? (
-              <>
-                <li><a href={base + '/he/books/house-arrest'}>מעצר בית</a></li>
-                <li><a href={base + '/he/books/stockholm'}>סטוקהולם</a></li>
-                <li><a href={base + '/he/books/people-like-us'}>אנשים כמונו</a></li>
-                <li><a href={base + '/he/books/the-wrong-book'}>הספר הלא נכון</a></li>
-              </>
-            ) : (
-              <>
+                          <>
                 <li><a href={base + '/books/house-arrest'}>House Arrest</a></li>
                 <li><a href={base + '/books/stockholm'}>Stockholm</a></li>
                 <li><a href={base + '/books/people-like-us'}>People Like Us</a></li>
                 <li><a href={base + '/books/the-wrong-book'}>The Wrong Book</a></li>
               </>
-            )}
           </ul>
         </div>
 
         <div class="footer-col">
-          <p class="footer-col-label">{isHe ? 'ניווט' : 'Navigate'}</p>
+          <p class="footer-col-label">Navigate</p>
           <ul>
-            {isHe ? (
-              <>
-                <li><a href={base + '/he/books'}>ספרים</a></li>
-                <li><a href={base + '/he/events'}>הרצאות ואירועים</a></li>
-                <li><a href={base + '/he/about'}>אודות</a></li>
-                <li><a href={base + '/he/media'}>תקשורת</a></li>
-                <li><a href={base + '/he/contact'}>צור קשר</a></li>
-              </>
-            ) : (
-              <>
+                          <>
                 <li><a href={base + '/books'}>Books</a></li>
                 <li><a href={base + '/events'}>Events</a></li>
                 <li><a href={base + '/about'}>About</a></li>
@@ -135,34 +101,26 @@ const altLangHref = isHe ? '/' : '/he';
                 <li><a href={base + '/contact'}>Contact</a></li>
                 <li><a href={base + '/design'}>Design system</a></li>
               </>
-            )}
           </ul>
         </div>
 
         <div class="footer-col footer-col--reps">
-          <p class="footer-col-label">{isHe ? 'ייצוג' : 'Representatives'}</p>
+          <p class="footer-col-label">Representatives</p>
           <ul>
-            {isHe ? (
-              <>
-                <li><a href="https://www.curtisbrown.co.uk/client/noa-yedlin" target="_blank" rel="noopener">ספרותי – Curtis Brown</a></li>
-                <li><a href="https://lionhouseagency.com/noa-yedlin" target="_blank" rel="noopener">סוכן הרצאות – ארה"ב</a></li>
-              </>
-            ) : (
-              <>
+                          <>
                 <li><a href="https://www.curtisbrown.co.uk/client/noa-yedlin" target="_blank" rel="noopener">Literary – Curtis Brown</a></li>
                 <li><a href="https://lionhouseagency.com/noa-yedlin" target="_blank" rel="noopener">Lecture Agent – USA</a></li>
                 <li>Lecture Agent – Israel: Hamartzim, <a href="mailto:info@hamartzim.co.il">info@hamartzim.co.il</a>, +972-3-7208856</li>
                 <li>Film &amp; TV (<em>Stockholm</em>): Keshet, <a href="mailto:keren.shahar@keshet-tv.com">keren.shahar@keshet-tv.com</a></li>
                 <li>Film &amp; TV (other novels): Andiamo Media, <a href="mailto:jillgillett@andiamo.media">jillgillett@andiamo.media</a></li>
               </>
-            )}
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <p>© {new Date().getFullYear()} Noa Yedlin. {isHe ? 'כל הזכויות שמורות.' : 'All rights reserved.'}</p>
-        {!isHe && <a href={base + '/accessibility'} class="footer-accessibility">Accessibility Statement</a>}
+        <p>© {new Date().getFullYear()} Noa Yedlin. All rights reserved.</p>
+        <a href={base + '/accessibility'} class="footer-accessibility">Accessibility Statement</a>
       </div>
     </footer>
     <Analytics />
