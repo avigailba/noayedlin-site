@@ -140,7 +140,7 @@ Tinted square card for one event, used on `/events` and the homepage inside a `.
 - `event: CollectionEntry<'events'>`
 - `variant?: 'upcoming' | 'past'` — default `upcoming`. `past` uses `--bg-past` (`#ECECEA`, the only token added for it).
 
-**Markup:** one `<article class="ev-card">` with these children in order: `.ev-card__meta` (the `<time datetime>` date; the event `type` is not shown) · `.ev-card__body` (`<h3>` title + description) · `.ev-card__where` (`city, region` or `Online`; optional venue clamped to 2 lines, full venue in a `title` attribute) · `.ev-card__action`.
+**Markup:** one `<article class="ev-card">` with these children in order: `.ev-card__meta` (the `<time datetime>` date; the event `type` is not shown) · `.ev-card__body` (`<h3>` title + description + the optional `time` field on its own line at the bottom of the slot) · `.ev-card__where` (`city, region` or `Online`; optional venue clamped to 2 lines, full venue in a `title` attribute) · `.ev-card__action`.
 
 **Dates:** `Nov 4`, `Nov 12–13`; past events and dates outside the current year include the year (`Mar 18, 2025`).
 
@@ -148,14 +148,15 @@ Tinted square card for one event, used on `/events` and the homepage inside a `.
 | Case | Action |
 |---|---|
 | has `url` | `.btn-primary` **Event details →** (new window, "(opens in new window)" in the aria-label); the whole card is clickable via a stretched link on the button (one `<a>`, no nested links) |
-| `details_coming_soon`, no `url`, upcoming | muted text **Details coming soon** (not a button) |
+| no `url`, has `note` | the `note` text in the button's place (muted, not a button), e.g. "Free admission — Open to the public" |
+| no `url`, no `note`, `details_coming_soon`, upcoming | muted text **Details coming soon** (not a button) |
 | anything else | no action |
 
 On mobile the label shortens to **Details →** (the full label stays for screen readers).
 
-**Hover / focus** (only for cards with a link, only where hover exists): the card inverts to ink (`--text` background, `--bg` text; description and meta use `--rule`), the button inverts, the arrow nudges 4px. `:focus-within` mirrors every hover rule. No lift, shadow or scale. Touch gets `.ev-card:active` feedback instead.
+**Hover:** the card has no hover state (no invert, lift, shadow or scale). The whole card is still clickable when it has a link, and the button keeps the standard `.btn-primary` hover. Touch gets `.ev-card:active` feedback.
 
-**Fixed slots (desktop and tablet):** every card is the same height and the divider and button sit at the same height on every card, in every row. Body slot is 118px (title clamped to 2 lines, description to 3), location slot is 64px. Do not turn these into `min-height`. Keep descriptions to about 110 characters, titles to 2 lines and venues to 2 lines — anything longer is cut off.
+**Fixed slots (desktop and tablet):** every card is the same height and the divider and button sit at the same height on every card, in every row. Body slot is 124px (title clamped to 2 lines, description to 2, time on its own line), location slot is 64px. Do not turn these into `min-height`. Keep the time out of the description (use the `time` field) and descriptions to about 70 characters, titles to 2 lines and venues to 2 lines — anything longer is cut off.
 
 **Mobile (≤560px):** one column; fixed heights and clamps removed; location and button share one row with the divider above it; button min-height 44px; past cards hide the description.
 
