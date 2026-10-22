@@ -116,6 +116,8 @@ const eventSchema = z.object({
   title: z.string(),
   date_start: z.string(),
   date_end: z.string().nullish(),
+  time: z.string().nullish(),
+  note: z.string().nullish(),
   city: z.string(),
   region: z.string().nullish(),
   country: z.string(),

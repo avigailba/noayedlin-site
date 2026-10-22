@@ -5,7 +5,9 @@ city: Middletown
 region: CT
 country: United States
 venue: Frank Center for Public Affairs, 238 Church Street
-description: 7:30 p.m.
+description: ""
+note: "Free admission — Open to the public"
+time: "7:30 p.m."
 type: Lecture
 status: scheduled
 order: 3
