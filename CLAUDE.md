@@ -134,7 +134,7 @@ Used at the bottom of every page except `/books` (which IS the books listing). R
 
 **Path:** `src/components/EventCard.astro` (styles: `.ev-card` / `.ev-grid` in `global.css`; date and location helpers: `src/lib/events.ts`)
 
-Tinted square card for one event, used on `/events` and the homepage inside a `.ev-grid` (3 / 2 / 1 columns at desktop / ≤900px / ≤560px; 32px gap on desktop and tablet, 10px on mobile). There are no event detail pages — all details live on the card.
+Tinted square card for one event, used on `/events` and the homepage inside a `.ev-grid` (3 / 2 / 1 columns at desktop / ≤900px / ≤560px; 32px gap at every width). There are no event detail pages — all details live on the card.
 
 **Props:**
 - `event: CollectionEntry<'events'>`
@@ -156,11 +156,11 @@ On mobile the label shortens to **Details →** (the full label stays for screen
 
 **Hover:** the card has no hover state (no invert, lift, shadow or scale). The whole card is still clickable when it has a link, and the button keeps the standard `.btn-primary` hover. Touch gets `.ev-card:active` feedback.
 
-**Fixed slots (desktop and tablet):** every card is the same height and the divider and button sit at the same height on every card, in every row. Body slot is 100px (title clamped to 2 lines, description to 2), location slot is 64px. Do not turn these into `min-height`. Keep the time out of the description (use the `time` field) and descriptions to about 70 characters, titles to 2 lines and venues to 2 lines — anything longer is cut off.
+**Fixed slots (desktop and tablet):** every card is the same height and the divider and button sit at the same height on every card, in every row. Body slot is 104px (title clamped to 2 lines, description to 2), location slot is 73px. Do not turn these into `min-height`. Keep the time out of the description (use the `time` field) and descriptions to about 70 characters, titles to 2 lines and venues to 2 lines — anything longer is cut off.
 
 **Mobile (≤560px):** one column; fixed heights and clamps removed; location and button share one row with the divider above it; button min-height 44px; past cards hide the description.
 
-**Type exceptions:** the card uses the event-card spec's exact sizes — meta 11px, description 13px, title 24px at weight 600 (22px on mobile), past-events heading 32px (26px on mobile). These are deliberate exceptions to the type scale; no other component should use them.
+**Type:** date/time meta 12px, description, location and button 14px (all standard tokens). Deliberate exceptions to the type scale, from the event-card spec: title 24px at weight 600 (22px on mobile) and the past-events heading 32px (26px on mobile). No other component should use them.
 
 **Rules:** no accent color in the card, no border-radius. `/events` shows the first 6 past events and reveals the rest behind a **Show all past events** `<details>` toggle.
 
