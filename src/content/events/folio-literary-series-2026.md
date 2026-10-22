@@ -5,7 +5,7 @@ city: Online
 country: United States
 description: Hosted by The New York Jewish Week, 6–7 p.m. Online event.
 type: Conversation
-status: ticketed
+status: scheduled
 url: "https://www.myjewishlearning.com/the-hub/fiction-family-and-the-new-israeli-narrative-with-author-noa-yedlin/"
 order: 3
 ---
