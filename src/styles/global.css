@@ -789,6 +789,26 @@ img { max-width: 100%; display: block; }
 
 .ev-details-btn { margin-top: 10px; }
 
+.event-venue {
+  font-size: var(--text-sm);
+  line-height: var(--lh-loose);
+  color: var(--text-muted);
+  margin: 4px 0 0;
+}
+
+.ev-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+.ev-actions .btn-primary {
+  padding: 5px 12px;
+  font-size: var(--text-xs);
+  border: 1px solid var(--text);
+}
+
 .event-status {
   display: inline-flex;
   align-items: center;

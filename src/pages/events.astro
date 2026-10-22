@@ -53,7 +53,6 @@ const past = allEvents
             {upcoming.map((event) => {
               const start = parseDate(event.data.date_start);
               const end   = event.data.date_end ? parseDate(event.data.date_end) : null;
-              const slug  = event.data.slug ?? event.id;
               const locationStr = [event.data.city, event.data.region].filter(Boolean).join(', ');
               return (
                 <article class="event-row">
@@ -64,33 +63,15 @@ const past = allEvents
                   </div>
                   <div class="event-content">
                     <h3 class="event-title">
-                      <a href={`${base}/events/${slug}`} class="headline-link">{event.data.title}</a>
+                      {event.data.title}
                     </h3>
                     {event.data.description && <p class="event-description">{event.data.description}</p>}
-                    {event.data.status === 'details_coming_soon'
-                      ? <span class="btn-secondary ev-details-btn ev-details-btn--disabled">Details coming soon</span>
-                      : <a href={`${base}/events/${slug}`} class="btn-secondary ev-details-btn">More details →</a>
-                    }
-                    <div class="event-status">
-                      {event.data.status === 'scheduled' && (
-                        <>
-                          <span class="event-dot event-dot--accent"></span>
-                          {event.data.url
-                            ? <a href={event.data.url} target="_blank" rel="noopener" aria-label="Get details (opens in new window)">Get details →</a>
-                            : <span>Get details</span>
-                          }
-                        </>
-                      )}
-                      {event.data.status === 'ticketed' && (
-                        <>
-                          <span class="event-dot event-dot--accent"></span>
-                          {event.data.url
-                            ? <a href={event.data.url} target="_blank" rel="noopener" aria-label="Get tickets (opens in new window)">Get tickets →</a>
-                            : <span>Get tickets</span>
-                          }
-                        </>
-                      )}
-                    </div>
+                    {event.data.venue && <p class="event-venue">{event.data.venue}</p>}
+                    {event.data.url && (event.data.status === 'ticketed' || event.data.status === 'scheduled') && (
+                      <div class="ev-actions">
+                        <a href={event.data.url} target="_blank" rel="noopener" class="btn-primary" aria-label={(event.data.status === 'ticketed' ? 'Get tickets' : 'Get details') + ' (opens in new window)'}>{event.data.status === 'ticketed' ? 'Get tickets' : 'Get details'} →</a>
+                      </div>
+                    )}
                   </div>
                 </article>
               );
@@ -106,7 +87,6 @@ const past = allEvents
             {past.map((event) => {
               const start = parseDate(event.data.date_start);
               const end   = event.data.date_end ? parseDate(event.data.date_end) : null;
-              const slug  = event.data.slug ?? event.id;
               const locationStr = [event.data.city, event.data.region].filter(Boolean).join(', ');
               return (
                 <article class="event-row event-row--past">
@@ -117,10 +97,10 @@ const past = allEvents
                   </div>
                   <div class="event-content">
                     <h3 class="event-title">
-                      <a href={`${base}/events/${slug}`} class="headline-link">{event.data.title}</a>
+                      {event.data.title}
                     </h3>
                     {event.data.description && <p class="event-description">{event.data.description}</p>}
-                    <a href={`${base}/events/${slug}`} class="btn-secondary ev-details-btn">More details →</a>
+                    {event.data.venue && <p class="event-venue">{event.data.venue}</p>}
                     <div class="event-status">
                       <span class="event-dot event-dot--muted"></span>
                       <span>Past event</span>
