@@ -69,7 +69,7 @@ const past = allEvents
                     {event.data.venue && <p class="event-venue">{event.data.venue}</p>}
                     {event.data.url && (event.data.status === 'ticketed' || event.data.status === 'scheduled') && (
                       <div class="ev-actions">
-                        <a href={event.data.url} target="_blank" rel="noopener" class="btn-primary" aria-label={(event.data.status === 'ticketed' ? 'Get tickets' : 'Get details') + ' (opens in new window)'}>{event.data.status === 'ticketed' ? 'Get tickets' : 'Get details'} →</a>
+                        <a href={event.data.url} target="_blank" rel="noopener" class="btn-primary" aria-label={(event.data.status === 'ticketed' ? 'Tickets & info' : 'Event details') + ' (opens in new window)'}>{event.data.status === 'ticketed' ? 'Tickets & info' : 'Event details'} →</a>
                       </div>
                     )}
                   </div>
