@@ -134,27 +134,34 @@ Used at the bottom of every page except `/books` (which IS the books listing). R
 
 **Path:** `src/components/EventCard.astro` (styles: `.ev-card` / `.ev-grid` in `global.css`; date and location helpers: `src/lib/events.ts`)
 
-Tinted square card for one event. Used on `/events` in a `.ev-grid` (3 / 2 / 1 columns at desktop / ≤900px / ≤560px, 32px gap). The card is not a link — all details live on the card, there are no event detail pages.
+Tinted square card for one event, used on `/events` and the homepage inside a `.ev-grid` (3 / 2 / 1 columns at desktop / ≤900px / ≤560px; 32px gap on desktop and tablet, 10px on mobile). There are no event detail pages — all details live on the card.
 
 **Props:**
 - `event: CollectionEntry<'events'>`
-- `variant?: 'upcoming' | 'past'` — default `upcoming`. `past` uses the `--bg-past` background (`#ECECEA`, the only token added for it) and always shows the year.
-- `showYear?: boolean` — default: always for `past`; for `upcoming` only when the event isn't in the current year.
+- `variant?: 'upcoming' | 'past'` — default `upcoming`. `past` uses `--bg-past` (`#ECECEA`, the only token added for it).
 
-**Content (top to bottom):** short date (`Nov 4`, `Nov 12–13`, `Mar 18, 2025`) · title · description (includes times) · hairline · `city, region` (just `Online` when no region) · venue · action.
+**Markup:** one `<article class="ev-card">` with these children in order: `.ev-card__meta` (the `<time datetime>` date; the event `type` is not shown) · `.ev-card__body` (`<h3>` title + description) · `.ev-card__where` (`city, region` or `Online`; optional venue clamped to 2 lines, full venue in a `title` attribute) · `.ev-card__action`.
+
+**Dates:** `Nov 4`, `Nov 12–13`; past events and dates outside the current year include the year (`Mar 18, 2025`).
 
 **Action rules:**
-| Status | Action |
+| Case | Action |
 |---|---|
-| `ticketed` + `url` | `.btn-primary` **Tickets & info →** (new window) |
-| `scheduled` + `url` | `.btn-primary` **Event details →** (new window) |
-| `details_coming_soon` | muted text **Details coming soon** (not a button) |
-| `ticketed` / `scheduled` without `url` | no action |
-| past variant with `url` | `.btn-primary` **Event details →**; without `url`, no action |
+| has `url` | `.btn-primary` **Event details →** (new window, "(opens in new window)" in the aria-label); the whole card is clickable via a stretched link on the button (one `<a>`, no nested links) |
+| `details_coming_soon`, no `url`, upcoming | muted text **Details coming soon** (not a button) |
+| anything else | no action |
 
-**Fixed slots:** every card is the same height and the divider and button sit at the same height on every card, in every row. Body slot is 104px (title clamped to 2 lines, description to 3), location slot is 64px (`city, region` plus venue clamped to 2 lines, full venue on hover via `title`), action slot is 42px. Keep descriptions within 3 lines (about 110 characters) and venues within 2 lines — anything longer is cut off.
+On mobile the label shortens to **Details →** (the full label stays for screen readers).
 
-**Rules:** no accent color, no hover lift, shadow or radius on cards. Card type sizes use the standard type tokens (12 / 14 / 16 / 28px). `/events` shows the first 6 past events and reveals the rest behind a **Show all past events** `<details>` toggle.
+**Hover / focus** (only for cards with a link, only where hover exists): the card inverts to ink (`--text` background, `--bg` text; description and meta use `--rule`), the button inverts, the arrow nudges 4px. `:focus-within` mirrors every hover rule. No lift, shadow or scale. Touch gets `.ev-card:active` feedback instead.
+
+**Fixed slots (desktop and tablet):** every card is the same height and the divider and button sit at the same height on every card, in every row. Body slot is 118px (title clamped to 2 lines, description to 3), location slot is 64px. Do not turn these into `min-height`. Keep descriptions to about 110 characters, titles to 2 lines and venues to 2 lines — anything longer is cut off.
+
+**Mobile (≤560px):** one column; fixed heights and clamps removed; location and button share one row with the divider above it; button min-height 44px; past cards hide the description.
+
+**Type exceptions:** the card uses the event-card spec's exact sizes — meta 11px, description 13px, title 24px at weight 600 (22px on mobile), past-events heading 32px (26px on mobile). These are deliberate exceptions to the type scale; no other component should use them.
+
+**Rules:** no accent color in the card, no border-radius. `/events` shows the first 6 past events and reveals the rest behind a **Show all past events** `<details>` toggle.
 
 ### `<Header>`
 
