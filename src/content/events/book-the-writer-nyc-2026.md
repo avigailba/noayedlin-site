@@ -3,8 +3,9 @@ title: Book the Writer
 date_start: "2026-11-06"
 city: New York City
 region: NY
+online: true
 country: United States
-description: "In-person and online event"
+description: "Pop-up book group on the new novel, House Arrest."
 time: "7:30 p.m."
 type: Conversation
 status: ticketed

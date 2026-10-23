@@ -4,8 +4,7 @@ date_start: "2026-11-04"
 city: Baltimore
 region: MD
 country: United States
-venue: Pikesville, MD 21208
-description: "Fall Dinner Event"
+description: "Fall Dinner Event. Noa Yedlin interviewed by award-winning journalist Sandee Brawarsky"
 time: "6–9 p.m."
 type: Lecture
 status: ticketed

@@ -4,7 +4,6 @@ date_start: "2026-11-09"
 city: New York City
 region: NY
 country: United States
-venue: Institute for Israel and Jewish Studies, Kent Hall
 description: "House Arrest — a book talk with Noa Yedlin"
 time: "12–1 p.m."
 type: Lecture
