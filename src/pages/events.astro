@@ -14,7 +14,7 @@ const past = allEvents.filter(e => isPast(e)).sort((a, b) => byDate(b, a));
 
 <Layout title="Events &amp; Lectures" lang="en">
 
-  <PageHeading eyebrow="Events" title="Lectures & events" subtitle="Upcoming talks, readings, and public appearances." />
+  <PageHeading eyebrow="Events" title="Lectures & events" subtitle="Book talks, conversations, and public appearances — in person and online." />
 
   {allEvents.length === 0 ? (
     <div class="ev-container">

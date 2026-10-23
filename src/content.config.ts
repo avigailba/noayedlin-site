@@ -118,6 +118,7 @@ const eventSchema = z.object({
   date_end: z.string().nullish(),
   time: z.string().nullish(),
   note: z.string().nullish(),
+  online: z.boolean().nullish(),  // also takes place online: the location block lists the place and "Online" as bullets
   city: z.string(),
   region: z.string().nullish(),
   country: z.string(),

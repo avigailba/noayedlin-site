@@ -15,7 +15,7 @@ Personal author website for **Noa Yedlin** — Israeli novelist and screenwriter
 - **Content:** Astro content collections (markdown) for `books`, `events`, `media`, `adaptations`
 - **Routing:** File-based (`src/pages/`)
 - **Components:** Astro components in `src/components/`
-- **Fonts:** Fraunces (serif headlines) + Inter (sans body), via Google Fonts
+- **Fonts:** Fraunces (serif headlines) + Roboto (sans body), via Google Fonts
 
 ## Warnings — always flag before acting
 
@@ -28,6 +28,31 @@ The site owner is not a developer. Before taking any of the following actions, *
 - **Any action that is hard to reverse** — flag it explicitly before proceeding.
 
 Format: one short plain-English sentence explaining the risk, then ask "Want to proceed?"
+
+---
+
+## Hosting and publishing
+
+- **Live site:** https://www.noayedlin.com, built and served by **Vercel** from the `main` branch. Pushing a branch makes a private Vercel **preview** only; merging to `main` is what changes the live site.
+- **`.github/workflows/deploy.yml`** publishes to GitHub Pages on every push to `main`. It looks like a leftover and is not the live site. Don't rely on it, and don't remove it unless the owner asks.
+- The cloud session can't reach external sites (including noayedlin.com, Vercel and the event ticket pages), so live pages can't be checked from here — ask the owner to look and describe or screenshot them.
+- Work on the feature branch named in the session. After a pull request is merged, restart the branch from the latest `main` before new work.
+
+## Working with the owner
+
+The owner is not technical. Learned across sessions:
+
+- **Local first.** Make changes in the working tree only. Don't commit or push until the owner says "commit and push" or "push" (each push approval covers that batch only). Merging to `main` needs a clear yes after explaining what changes on the live site. Ignore the stop-hook reminders about uncommitted changes until then.
+- **Show, don't describe.** After a visual change, send screenshots (desktop and mobile when relevant) and measure alignment in the browser (Playwright is installed; the dev server stops now and then, so restart it).
+- **Plain language, short answers.** No jargon. Ask one clear question when a request is ambiguous or conflicts with an earlier decision. Don't ask the owner to do manual steps (settings, deploy hooks) when the site can handle it itself.
+- **Design decisions already made:** English only; no event detail pages (all event info lives on the card); no event type shown; every linked event shows one **Event details** button; real data only — don't invent event descriptions. When a spec conflicts with these or with the type scale, ask before building.
+
+## Adding an event
+
+1. Create `src/content/events/<name>-<year>.md` with: `title`, `date_start` (`"YYYY-MM-DD"`), optional `date_end`, optional `time` (e.g. `"6–9 p.m."`), `city`, optional `region`, `country`, optional `venue`, `description` (can be `""`), optional `note` (shown in place of the button when there's no link), optional `url`, `status` (`scheduled`, `ticketed`, `details_coming_soon` or `past`), `type` (required, not shown), `order`.
+2. Online events: `city: Online`, no `region`.
+3. Keep the time out of the description. Keep descriptions to about 110 characters and venues to 1 line.
+4. Commit and merge as usual. Events move to "Past events" by themselves once their last day has passed (see `<EventCard>`); no rebuild is needed.
 
 ---
 
@@ -87,7 +112,7 @@ Defined in `src/styles/global.css` as CSS custom properties.
 ### Fonts
 
 - `--font-serif`: `'Fraunces', 'Iowan Old Style', Georgia, serif`
-- `--font-body`: `'Inter', system-ui, sans-serif`
+- `--font-body`: `'Roboto', system-ui, -apple-system, sans-serif`
 
 ---
 
@@ -140,7 +165,13 @@ Tinted square card for one event, used on `/events` and the homepage inside a `.
 - `event: CollectionEntry<'events'>`
 - `variant?: 'upcoming' | 'past'` — default `upcoming`. `past` uses `--bg-past` (`#ECECEA`, the only token added for it).
 
-**Markup:** one `<article class="ev-card">` with these children in order: `.ev-card__meta` (the `<time datetime>` date, then the optional `time` field after a `·`; the event `type` is not shown) · `.ev-card__body` (`<h3>` title + description) · `.ev-card__where` (`city, region` or `Online`; optional venue clamped to 2 lines, full venue in a `title` attribute) · `.ev-card__action`.
+**Markup:** one `<article class="ev-card">` with these children in order: `.ev-card__meta` (the `<time datetime>` date, then the optional `time` field after a `·`; the event `type` is not shown) · `.ev-card__body` (`<h3>` title + description) · `.ev-card__where` (`city, region` or `Online`; optional venue clamped to 1 line, full venue in a `title` attribute) · `.ev-card__action`.
+
+**Where it's used:** `/events` shows every event (upcoming grid, then a "Past events" heading with a count and a grid; the first 6 past events show and the rest sit behind a **Show all past events** `<details>` toggle). The homepage "Upcoming Events" block renders every upcoming event and shows the next 3 that haven't ended.
+
+**Past events move on their own:** the site is built ahead of time, so an inline script on `/events` and the homepage compares each card's `data-end` (its last day) with the visitor's date. On `/events`, ended cards move into the "Past events" grid (newest first), get the year in the date, and the count updates. On the homepage, ended cards are hidden and the next ones take their place; the block disappears if none are left. No rebuild is needed. Without JavaScript the page shows the state from the last build. Don't add a rebuild job for this.
+
+**Event content** (`src/content/events/*.md`, schema in `content.config.ts`): `title`, `date_start`, optional `date_end`, optional `time` (shown next to the date), `city`, optional `region`, `country`, optional `venue`, `description` (may be empty), optional `note`, optional `online` (true if the event also takes place online: the location block shows the place and "Online" as bullets), optional `url`, `status`, `type` (required by the schema, not shown on the card), `order`.
 
 **Dates:** `Nov 4`, `Nov 12–13`; past events and dates outside the current year include the year (`Mar 18, 2025`).
 
@@ -148,7 +179,7 @@ Tinted square card for one event, used on `/events` and the homepage inside a `.
 | Case | Action |
 |---|---|
 | has `url` | `.btn-primary` **Event details →** (new window, "(opens in new window)" in the aria-label); the whole card is clickable via a stretched link on the button (one `<a>`, no nested links) |
-| no `url`, has `note` | the `note` text in the button's place (muted, not a button), e.g. "Free admission — Open to the public" |
+| no `url`, has `note` | the `note` lines under the location (muted, 14px), e.g. "Free admission — Open to the public" and the address; no button |
 | no `url`, no `note`, `details_coming_soon`, upcoming | muted text **Details coming soon** (not a button) |
 | anything else | no action |
 
@@ -156,13 +187,17 @@ On mobile the label shortens to **Details →** (the full label stays for screen
 
 **Hover:** the card has no hover state (no invert, lift, shadow or scale). The whole card is still clickable when it has a link, and the button keeps the standard `.btn-primary` hover. Touch gets `.ev-card:active` feedback.
 
-**Fixed slots (desktop and tablet):** every card is the same height and the divider and button sit at the same height on every card, in every row. Body slot is 104px (title clamped to 2 lines, description to 2), location slot is 73px. Do not turn these into `min-height`. Keep the time out of the description (use the `time` field) and descriptions to about 70 characters, titles to 2 lines and venues to 2 lines — anything longer is cut off.
+**Fixed slots (desktop and tablet):** every card is the same height and the divider and button sit at the same height on every card, in every row. Body slot is 122px (title clamped to 2 lines, description to 3), or 96px with the title clamped to 1 line on screens 1000px and wider; location slot is 50px (the place plus one more line, e.g. a venue or "Online"). Keep titles short — on wide screens a title longer than one line is cut off with an ellipsis. Do not turn these into `min-height`. Keep the time out of the description (use the `time` field) and descriptions to about 110 characters, titles to 2 lines and venues to 1 line — anything longer is cut off. A `note` (use `\n` for extra lines) goes under the location in the same muted style, e.g. "Free admission — Open to the public" and the address; use it for events with no link — with no button on the card, the location block grows into the button's space, so the row height doesn't change.
 
 **Mobile (≤560px):** one column; fixed heights and clamps removed; location and button share one row with the divider above it; button min-height 44px; past cards hide the description.
 
 **Type:** date/time meta 12px, description, location and button 14px (all standard tokens). Deliberate exceptions to the type scale, from the event-card spec: title 24px at weight 600 (22px on mobile) and the past-events heading 32px (26px on mobile). No other component should use them.
 
-**Rules:** no accent color in the card, no border-radius. `/events` shows the first 6 past events and reveals the rest behind a **Show all past events** `<details>` toggle.
+**Rules:** no accent color in the card, no border-radius. The location block's hairline is the one divider allowed inside a card. Line-heights 1.15 (title), 1.45 (description) and 1.5 (location) are exceptions from the event-card spec.
+
+### Buttons
+
+`.btn-primary` (black) and `.btn-secondary` (outlined) are the only button styles. **Labels are sentence case, written as they should appear** (`Event details →`, `All events →`) — no automatic capitalizing. Hover: black buttons fade to 75% (dark grey, no movement); outlined buttons fill solid black with white text. External links use `↗`, internal navigation uses `→`.
 
 ### `<Header>`
 
@@ -251,9 +286,9 @@ Dot prefix + uppercase text. Used for book release status, event status, etc.
 
 For award/review badges like "Kirkus Starred Review": star icon + uppercase text, all in `var(--text)`.
 
-### Event row pattern
+### Event row pattern (legacy)
 
-Mirrors the media list. 160px left meta column (uppercase date, location, type), right column with serif headline + italic description + status indicator. Used on both `/events` listing and the homepage events block.
+Events no longer use rows — `/events` and the homepage use `<EventCard>`. The `.event-row` / `.event-meta` styles still exist in `global.css` and are shown on the internal `design` page, but nothing on the live pages uses them. The media list still uses the same row pattern (`.press-row`).
 
 ### Hover state on clickable serif titles
 
@@ -337,10 +372,11 @@ Skip the period for proper names: `Noa Yedlin`, book titles, event titles.
 
 ### Dividers (less is more)
 
-Use hairlines only in three places:
+Use hairlines only in these places:
 1. Header bottom border (sticky boundary)
-2. Between rows in a list (media, events) — only between, not above first or below last
+2. Between rows in a list (media) — only between, not above first or below last
 3. Above the footer
+4. Inside an `EventCard` (above the location) and under the "Past events" heading on `/events`
 
 **Don't use dividers** between section blocks, below page headings, above rails, or between book detail sub-sections. Section padding does the work.
 
@@ -362,8 +398,7 @@ src/
 │   └── ...              # header + footer are inline in layouts/Layout.astro
 ├── content/
 │   ├── books/en/      # one .json per book (4 books); collection: booksEn
-│   ├── books/he/      # Hebrew versions; collection: booksHe
-│   ├── events/        # one .md per event
+│   ├── events/        # one .md per event (collection: events)
 │   ├── media/         # one .md per press item
 │   └── adaptations/   # one .md per adaptation
 ├── content.config.ts  # collection schemas
@@ -374,7 +409,6 @@ src/
 ├── pages/
 │   ├── index.astro
 │   ├── books/[slug].astro
-│   ├── events/[slug].astro
 │   ├── books.astro
 │   ├── events.astro
 │   ├── media.astro

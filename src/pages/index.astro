@@ -229,7 +229,7 @@ function formatDate(dateStr: string) {
           ))}
         </div>
         <div class="hp-press-footer">
-          <a href={base + '/media'} class="btn-secondary">All Media →</a>
+          <a href={base + '/media'} class="btn-secondary">All media →</a>
         </div>
       </section>
     )}
@@ -389,14 +389,11 @@ function formatDate(dateStr: string) {
     transition: transform .18s ease, background .18s ease, color .18s ease, opacity .18s ease;
   }
 
-  .gh-btns .btn-primary.gh-btn:hover {
-    opacity: 1;
-    background: #000;
-    transform: translateY(-1px);
-  }
+  /* black buttons use the standard .btn-primary hover (fade to dark grey); white buttons fill black */
   .gh-btns .btn-secondary.gh-btn:hover {
     opacity: 1;
-    background: var(--text);
+    background: #000;
+    border-color: #000;
     color: #fff;
   }
 
@@ -404,7 +401,6 @@ function formatDate(dateStr: string) {
     display: inline-block;
     transition: transform .2s ease;
   }
-  .gh-btns .btn-primary.gh-btn:hover .gh-arrow { transform: translateX(4px); }
 
   /* ── Rail column ── */
   .hp-rail {
