@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { event, variant = 'upcoming', hidden = false } = Astro.props;
-const { title, date_start, date_end, city, region, venue, description, time, note, status, url } = event.data;
+const { title, date_start, date_end, city, region, venue, description, time, note, online, status, url } = event.data;
 
 const isPast = variant === 'past';
 const withYear = isPast || parseDate(date_end ?? date_start).getFullYear() !== new Date().getFullYear();
@@ -16,11 +16,13 @@ const withYear = isPast || parseDate(date_end ?? date_start).getFullYear() !== n
 const dateLabel = fmtShortDate(date_start, date_end, withYear);
 const dateLabelYear = fmtShortDate(date_start, date_end, true);  // used when the page moves a card to "past"
 const place = fmtLocation(city, region);
-// No link: a `note` (or "Details coming soon") takes the button's place.
-const noteText = url ? null : (note || (!isPast && status === 'details_coming_soon' ? 'Details coming soon' : null));
+// No link: a `note` (one line per `\n`) goes under the location; without a note, "Details coming soon" takes the button's place.
+const noteLines = !url && note ? note.split('\n') : [];
+const soon = !url && !note && !isPast && status === 'details_coming_soon';
 
 // No inner pages: the card carries every detail, and the only link out is the event's own url.
 const classes = ['ev-card', isPast && 'ev-card--past', url && 'ev-card--link'].filter(Boolean).join(' ');
+const whereClass = noteLines.length ? 'ev-card__where ev-card__where--notes' : 'ev-card__where';
 ---
 
 <article class={classes} data-end={date_end ?? date_start} data-date-year={dateLabelYear} hidden={hidden}>
@@ -33,9 +35,22 @@ const classes = ['ev-card', isPast && 'ev-card--past', url && 'ev-card--link'].f
     <h3 class="ev-card__title">{title}</h3>
     {description && <p class="ev-card__desc">{description}</p>}
   </div>
-  <div class="ev-card__where">
-    <span class="place">{place}</span>
-    {venue && <span class="venue" title={venue}>{venue}</span>}
+  <div class={whereClass}>
+    {online ? (
+      <ul class="ev-card__places">
+        <li>
+          <span class="place">{place}</span>
+          {venue && <span class="venue" title={venue}>{venue}</span>}
+        </li>
+        <li>Online</li>
+      </ul>
+    ) : (
+      <>
+        <span class="place">{place}</span>
+        {venue && <span class="venue" title={venue}>{venue}</span>}
+      </>
+    )}
+    {noteLines.map((line) => <span class="note">{line}</span>)}
   </div>
   {url && (
     <div class="ev-card__action">
@@ -45,9 +60,9 @@ const classes = ['ev-card', isPast && 'ev-card--past', url && 'ev-card--link'].f
       </a>
     </div>
   )}
-  {noteText && (
-    <div class="ev-card__action ev-card__action--note">
-      <p class="ev-card__note">{noteText}</p>
+  {soon && (
+    <div class="ev-card__action">
+      <p class="ev-card__note">Details coming soon</p>
     </div>
   )}
 </article>

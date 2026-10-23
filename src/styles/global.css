@@ -503,10 +503,10 @@ img { max-width: 100%; display: block; }
 .ev-card {
   position: relative;
   background: var(--bg-alt);
-  padding: 22px 20px;
+  padding: 18px 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   border-radius: 0;
 }
 .ev-card--past { background: var(--bg-past); }
@@ -530,7 +530,7 @@ img { max-width: 100%; display: block; }
 .ev-card__meta .ev-card__time { flex-shrink: 0; color: var(--text); font-weight: 600; }  /* time matches the date */
 
 .ev-card__body {
-  height: 104px;  /* 2-line title + 2-line description */
+  height: 122px;  /* 2-line title + 3-line description */
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -554,16 +554,17 @@ img { max-width: 100%; display: block; }
   font-size: var(--text-sm);
   line-height: 1.45;
   color: var(--text-muted);
+  white-space: pre-line;  /* a line break in the description (\n in the file) starts a new line */
   text-wrap: balance;  /* no single-word last lines */
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   overflow: hidden;
 }
 
 .ev-card__where {
-  height: 73px;  /* 10px padding-top + 3 × 21px lines */
-  padding-top: 10px;
+  height: 50px;  /* 8px padding-top + 2 × 21px lines */
+  padding-top: 8px;
   border-top: 0.5px solid var(--rule);
   font-size: var(--text-sm);
   line-height: 1.5;
@@ -571,11 +572,14 @@ img { max-width: 100%; display: block; }
   overflow: hidden;
 }
 .ev-card__where .place { display: block; }
+.ev-card__places { margin: 0; padding: 0 0 0 16px; list-style: disc; }
+.ev-card__places li { padding-left: 0; }
+.ev-card__places li::marker { color: var(--text-muted); }
 .ev-card__where .venue {
   text-wrap: balance;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   overflow: hidden;
 }
 
@@ -592,9 +596,18 @@ img { max-width: 100%; display: block; }
 .ev-card__link::after { content: ''; position: absolute; inset: 0; }
 .ev-card__link .label-short { display: none; }
 .ev-card .arrow { display: inline-block; }
-.ev-card__note { text-wrap: balance; font-size: var(--text-sm); color: var(--text-muted); padding: 8px 0; }
+.ev-card__note { font-size: var(--text-sm); color: var(--text-muted); padding: 8px 0; }
+/* Notes sit under the location. With no button on the card, the block can grow into the button's space */
+.ev-card__where--notes { height: auto; min-height: 50px; overflow: visible; }
+.ev-card__where .note { display: block; color: var(--text-muted); }
 
 @media (max-width: 900px) { .ev-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Wide screens: cards are wide enough for a one-line title, so the body slot only reserves one title line */
+@media (min-width: 1000px) {
+  .ev-card__body { height: 96px; }
+  .ev-card__title { -webkit-line-clamp: 1; }
+}
 
 @media (max-width: 560px) {
   .ev-grid { grid-template-columns: 1fr; gap: 32px; }
@@ -628,9 +641,6 @@ img { max-width: 100%; display: block; }
   }
   .ev-card__link .label-short { display: inline; }
   .ev-card__note { padding: 0; }
-  /* a note replaces the button, so it sits on its own row under the location, with no second divider */
-  .ev-card__where:has(+ .ev-card__action--note) { grid-column: 1 / -1; }
-  .ev-card__action--note { grid-column: 1 / -1; border-top: 0; padding-top: 0; }
   .ev-card:active { background: #E9E7DC; }
 }
 
@@ -667,7 +677,7 @@ img { max-width: 100%; display: block; }
   padding: 10px 22px;
   font-size: var(--text-sm);
   letter-spacing: var(--track-none);
-  text-transform: capitalize;
+  text-transform: none;  /* sentence case, as written */
   border: none;
   text-decoration: none;
   cursor: pointer;
@@ -683,13 +693,13 @@ img { max-width: 100%; display: block; }
   padding: 5px 12px;
   font-size: var(--text-xs);
   letter-spacing: var(--track-none);
-  text-transform: capitalize;
+  text-transform: none;  /* sentence case, as written */
   border: 1px solid var(--text);
   text-decoration: none;
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
 }
-.btn-secondary:hover { background: #000; color: #fff; border-color: #000; }
+.btn-secondary:hover { background: #000; color: #fff; border-color: #000; opacity: 1; }  /* opacity: 1 cancels the global a:hover fade, so the fill stays solid black */
 
 .link-accent {
   color: var(--accent);
