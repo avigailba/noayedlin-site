@@ -9,7 +9,7 @@ import Layout from '../layouts/Layout.astro';
     <form id="ds-form" style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;">
       <label for="ds-pw" style="font-size:var(--text-xs);text-transform:uppercase;letter-spacing:var(--track-wide);color:var(--text-muted);">Password</label>
       <input id="ds-pw" type="password" autocomplete="current-password" style="border:0.5px solid var(--rule);background:var(--bg);color:var(--text);font-size:var(--text-md);padding:10px 14px;width:220px;outline:none;" />
-      <p id="ds-err" style="display:none;font-size:var(--text-xs);color:var(--accent);margin:0;">Incorrect password.</p>
+      <p id="ds-err" style="display:none;font-size:var(--text-xs);color:var(--accent-text);margin:0;">Incorrect password.</p>
       <button type="submit" class="btn-primary">Enter</button>
     </form>
   </div>
@@ -511,7 +511,7 @@ import Layout from '../layouts/Layout.astro';
     font-size: var(--text-xs);
     text-transform: uppercase;
     letter-spacing: var(--track-wide);
-    color: var(--accent);
+    color: var(--accent-text);
     margin: 0;
   }
 

@@ -163,7 +163,7 @@ const showLangFilter = languages.has('English') && languages.has('Hebrew');
   }
 
   .chip:hover { border-color: var(--text); color: var(--text); }
-  .chip--active { border-color: var(--accent); color: var(--accent); }
+  .chip--active { border-color: var(--accent); color: var(--accent-text); }
   .chip:focus-visible { outline-offset: 3px; }
 
   /* Press list */
@@ -183,7 +183,7 @@ const showLangFilter = languages.has('English') && languages.has('Hebrew');
 
   .press-reset {
     font-size: var(--text-xs);
-    color: var(--accent);
+    color: var(--accent-text);
     background: transparent;
     border: none;
     cursor: pointer;

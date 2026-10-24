@@ -20,7 +20,6 @@ const RowTag = url ? 'a' : 'article';
   href={url}
   target={url ? '_blank' : undefined}
   rel={url ? 'noopener' : undefined}
-  aria-label={url ? `${headline}, ${outlet} (opens in new window)` : undefined}
 >
   <div class="press-row__head">
     {logo && (
@@ -36,11 +35,11 @@ const RowTag = url ? 'a' : 'article';
     </div>
   </div>
   <div class="press-row__body">
-    <h3 class="press-row__headline">{headline}</h3>
+    <h2 class="press-row__headline">{headline}</h2>
     {excerpt && <p class="press-row__excerpt">{excerpt}</p>}
     {url && (
       <span class="press-row__read-more btn-primary">
-        Read more <span aria-hidden="true">↗</span>
+        Read more <span aria-hidden="true">↗</span><span class="sr-only"> (opens in new window)</span>
       </span>
     )}
   </div>

@@ -79,6 +79,7 @@ Defined in `src/styles/global.css` as CSS custom properties.
 | `--text-muted` | `#3D3D3B` | Secondary text, captions, eyebrows, type labels |
 | `--text-faint` | `#5C5C5A` | Tertiary text, micro-labels, fine print |
 | `--accent` | `#E5512C` | **Clickable elements only** (see Accent rule below) |
+| `--accent-text` | `#C13B1F` | Text on clickable elements where WCAG AA contrast is required |
 | `--rule` | `#C5C4BC` | Hairline dividers (0.5px) |
 
 ### Type scale (only these sizes)
@@ -159,7 +160,7 @@ Used at the bottom of every page except `/books` (which IS the books listing). R
 
 **Path:** `src/components/PressRow.astro` (styles in `.press-row*` in `src/styles/global.css`; outlet logo map: `src/lib/media.ts`; logo assets: `public/images/media-logos/`)
 
-Shared press/media row used by `/media` and the homepage. Props: `item: CollectionEntry<'media'>`. If the item has a URL, the entire row is one external link with an accessible “opens in new window” label and a “Read more” button treatment with an external-link icon below the copy. Without a URL, it renders as a plain article and omits these link cues.
+Shared press/media row used by `/media` and the homepage. Props: `item: CollectionEntry<'media'>`. If the item has a URL, the entire row is one external link whose accessible name includes its visible text and a visually hidden “opens in new window” note; it has a “Read more” button treatment with an external-link icon below the copy. Without a URL, it renders as a plain article and omits these link cues. Headlines use h2 semantics.
 
 Outlet logos sit in consistent square frames and are full color by default. On hover-capable devices they appear grayscale until the row is hovered or keyboard-focused; touch devices always show them in color. On mobile the logo and outlet/date/type share the top line, followed by the full headline and a three-line excerpt. Desktop uses a three-column row and clamps excerpts to two lines. The media page’s filter script uses `data-row-type` and `data-row-lang` on each row.
 
@@ -175,7 +176,7 @@ Tinted square card for one event, used on `/events` and the homepage inside a `.
 - `event: CollectionEntry<'events'>`
 - `variant?: 'upcoming' | 'past'` — default `upcoming`. `past` uses `--bg-past` (`#ECECEA`, the only token added for it).
 
-**Markup:** one `<article class="ev-card">` with these children in order: `.ev-card__meta` (the `<time datetime>` date, then the optional `time` field after a `·`; the event `type` is not shown) · `.ev-card__body` (`<h3>` title + description) · `.ev-card__where` (`city, region` or `Online`; optional venue clamped to 1 line, full venue in a `title` attribute) · `.ev-card__action`.
+**Markup:** one `<article class="ev-card">` with these children in order: `.ev-card__meta` (the `<time datetime>` date, then the optional `time` field after a `·`; the event `type` is not shown) · `.ev-card__body` (`<h2>` title + description) · `.ev-card__where` (`city, region` or `Online`; optional venue clamped to 1 line, full venue in a `title` attribute) · `.ev-card__action`.
 
 **Where it's used:** `/events` shows every event (upcoming grid, then a "Past events" heading with a count and a grid; the first 6 past events show and the rest sit behind a **Show all past events** `<details>` toggle). The homepage "Upcoming Events" block renders every upcoming event and shows the next 3 that haven't ended.
 
@@ -355,7 +356,9 @@ On `/adaptations`, each book group header is `eyebrow` ("From the novel") + ital
 
 ### Accent color is reserved for clickable elements
 
-`var(--accent)` only appears on things the user can click:
+`var(--accent-text)` is the readable text color for links and active controls; it provides at least 4.5:1 contrast against `--bg` and `--bg-alt`. Keep the brighter `var(--accent)` for borders, underlines, focus indicators and other non-text accents on interactive elements.
+
+The accent treatment only appears on things the user can click:
 
 - Active header nav item
 - `.headline-link` hover state
