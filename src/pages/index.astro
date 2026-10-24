@@ -853,7 +853,9 @@ const aboutEntry = await getEntry('about', 'about');
     return a;
   }
 
-  const shuffled = shuffle(QUOTES);
+  const houseArrestQuotes = QUOTES.filter(q => q.book === 'on House Arrest');
+  const otherQuotes = QUOTES.filter(q => q.book !== 'on House Arrest');
+  const shuffled = [...shuffle(houseArrestQuotes), ...shuffle(otherQuotes)];
   let current = 0;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
