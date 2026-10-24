@@ -683,9 +683,9 @@ img { max-width: 100%; display: block; }
   border: none;
   text-decoration: none;
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
 }
-.btn-primary:hover { opacity: 0.75; }
+.btn-primary:hover { opacity: 1; background: #fff; color: var(--text); box-shadow: inset 0 0 0 1px var(--text); }  /* white fill + ink outline (an inset shadow, so the button doesn't change size) */
 
 .btn-secondary {
   display: inline-block;

@@ -207,7 +207,7 @@ On mobile the label shortens to **Details →** (the full label stays for screen
 
 ### Buttons
 
-`.btn-primary` (black) and `.btn-secondary` (outlined) are the only button styles. **Labels are sentence case, written as they should appear** (`Event details →`, `All events →`) — no automatic capitalizing. Hover: black buttons fade to 75% (dark grey, no movement); outlined buttons fill solid black with white text. External links use `↗`, internal navigation uses `→`.
+`.btn-primary` (black) and `.btn-secondary` (outlined) are the only button styles. **Labels are sentence case, written as they should appear** (`Event details →`, `All events →`) — no automatic capitalizing. Hover: black buttons turn white with black text and a thin black outline (no movement, no size change); outlined buttons fill solid black with white text. External links use `↗`, internal navigation uses `→`.
 
 ### `<Header>`
 
