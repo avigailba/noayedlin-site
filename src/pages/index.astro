@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import EventCard from '../components/EventCard.astro';
+import PressRow from '../components/PressRow.astro';
 import { getCollection, getEntry } from 'astro:content';
 import { byDate, isPast } from '../lib/events';
 
@@ -38,10 +39,6 @@ const homeMedia = allMedia
 
 const aboutEntry = await getEntry('about', 'about');
 
-function formatDate(dateStr: string) {
-  const [year, month] = dateStr.split('-').map(Number);
-  return new Date(year, month - 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-}
 ---
 
 <Layout title="Home" lang="en">
@@ -147,7 +144,7 @@ function formatDate(dateStr: string) {
 
     {upcomingEvents.length > 0 && (
       <section class="hp-events" id="hp-events">
-        <p class="section-eyebrow">Upcoming Events</p>
+        <p class="section-eyebrow"><a class="hp-section-link" href={base + '/events'}>Upcoming Events</a></p>
         <div class="ev-grid hp-events-grid">
           {upcomingEvents.map((event, i) => (
             <EventCard event={event} hidden={i >= HP_EVENTS_SHOWN} />
@@ -178,7 +175,7 @@ function formatDate(dateStr: string) {
       <section class="hp-about-strip">
         <img class="hp-about-img" src={aboutEntry.data.portrait} alt="Portrait of Noa Yedlin" />
         <div class="hp-about-text">
-          <p class="eyebrow hp-about-eyebrow">About</p>
+          <p class="eyebrow hp-about-eyebrow"><a class="hp-section-link" href={base + '/about'}>About</a></p>
           <p class="hp-about-lead" set:html={aboutEntry.data.lead} />
           <a href={base + '/about'} class="btn-secondary">Read more →</a>
         </div>
@@ -188,8 +185,8 @@ function formatDate(dateStr: string) {
     {/* ── Adaptations preview ── */}
     <section class="hp-adaptations">
       <div class="hp-adaptations__text">
-        <p class="section-eyebrow">Adaptations</p>
-        <h2 class="hp-adaptations__title">On screen and on stage.</h2>
+        <p class="section-eyebrow"><a class="hp-section-link" href={base + '/adaptations'}>Adaptations</a></p>
+        <h2 class="hp-adaptations__title"><a class="hp-section-link" href={base + '/adaptations'}>On screen and on stage.</a></h2>
         <div class="hp-adaptations__body">
           <p>Yedlin is the creator of a two-season TV series based on her bestselling novel <em>Stockholm</em>, winner of the Israeli Best Mini-Series TV Award. A German remake — <em>You Don't Die Among Friends</em> — won Best Scripted Format at the 2021 International Format Awards and Best European Series at La Rochelle Festival De La Fiction 2021. The series has also been remade by SVT Sweden.</p>
           <p>Her novel <em>People Like Us</em> is currently being developed into a series in Israel, and a stage adaptation of <em>House Arrest</em> is playing at Beit Lessin Theater in Tel Aviv.</p>
@@ -205,28 +202,9 @@ function formatDate(dateStr: string) {
 
     {homeMedia.length > 0 && (
       <section class="hp-press">
-        <p class="section-eyebrow">Media</p>
+        <p class="section-eyebrow"><a class="hp-section-link" href={base + '/media'}>Media</a></p>
         <div class="hp-press-list">
-          {homeMedia.map((item) => (
-            <div class="press-row">
-              <div class="press-outlet">
-                <span class="press-outlet-name">{item.data.outlet}</span>
-                <span class="press-date">{formatDate(item.data.date)}</span>
-                {item.data.type && <span class="press-type">{item.data.type}</span>}
-              </div>
-              <div class="press-content">
-                <h3 class="press-headline">
-                  {item.data.url
-                    ? <a href={item.data.url} target="_blank" rel="noopener" class="headline-link">{item.data.headline}</a>
-                    : item.data.headline}
-                </h3>
-                {item.data.excerpt && <p class="press-excerpt">{item.data.excerpt}</p>}
-                {item.data.url && (
-                  <a href={item.data.url} target="_blank" rel="noopener" class="btn-secondary press-view-btn">View ↗</a>
-                )}
-              </div>
-            </div>
-          ))}
+          {homeMedia.map((item) => <PressRow item={item} />)}
         </div>
         <div class="hp-press-footer">
           <a href={base + '/media'} class="btn-secondary">All media →</a>
@@ -244,6 +222,18 @@ function formatDate(dateStr: string) {
   }
 
   /* ── Inner wrapper restores padding for post-hero sections ── */
+  .hp-section-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .hp-section-link:hover,
+  .hp-section-link:focus-visible {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
   .hp-inner {
     max-width: var(--max-width);
     margin: 0 auto;
@@ -404,23 +394,28 @@ function formatDate(dateStr: string) {
 
   /* ── Rail column ── */
   .hp-rail {
-    flex: 1;
+    flex: 1.15;
+    min-width: 0;
     background: var(--bg);
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: clamp(20px, 3vh, 34px) 15% clamp(20px, 3vh, 34px) clamp(28px, 2.6vw, 40px);
+    padding: clamp(20px, 3vh, 34px) clamp(24px, 3vw, 44px) clamp(20px, 3vh, 34px) clamp(28px, 2.6vw, 40px);
   }
 
   .hp-rail-label { margin-bottom: 20px; }
 
   .gh-rail-item {
-    display: flex;
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) max-content;
     align-items: center;
     gap: 16px;
     padding: clamp(12px, 1.8vh, 20px) 0;
     text-decoration: none;
     color: var(--text);
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
   .gh-rail-item + .gh-rail-item { border-top: 0.5px solid var(--rule); }
 
@@ -436,7 +431,7 @@ function formatDate(dateStr: string) {
   }
   .gh-rail-item:hover .gh-rail-thumb { transform: translateY(-4px); }
 
-  .gh-rail-text { flex: 1; min-width: 0; }
+  .gh-rail-text { min-width: 0; }
   .gh-rail-title {
     font-family: var(--font-serif);
     font-size: 20px;
@@ -597,10 +592,10 @@ function formatDate(dateStr: string) {
       padding: 24px clamp(20px, 2.5vw, 32px) 24px 8%;
     }
     .hp-rail {
-      min-width: 280px;
-      max-width: 320px;
-      flex: none;
-      padding: clamp(20px, 3vh, 34px) 4% clamp(20px, 3vh, 34px) clamp(24px, 2vw, 32px);
+      min-width: 400px;
+      max-width: none;
+      flex: 1.15;
+      padding: clamp(20px, 3vh, 34px) 32px clamp(20px, 3vh, 34px) clamp(24px, 2vw, 32px);
     }
     .gh-info { min-width: 260px; }
   }

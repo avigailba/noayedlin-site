@@ -155,6 +155,16 @@ Used at the bottom of every page except `/books` (which IS the books listing). R
 
 **Wrapping:** Always wrap usage in `<section class="books-rail-section">` for top padding (80px desktop, 56px mobile).
 
+### `<PressRow>`
+
+**Path:** `src/components/PressRow.astro` (styles in `.press-row*` in `src/styles/global.css`; outlet logo map: `src/lib/media.ts`; logo assets: `public/images/media-logos/`)
+
+Shared press/media row used by `/media` and the homepage. Props: `item: CollectionEntry<'media'>`. If the item has a URL, the entire row is one external link with an accessible “opens in new window” label and a “Read more” button treatment with an external-link icon below the copy. Without a URL, it renders as a plain article and omits these link cues.
+
+Outlet logos sit in consistent square frames and are full color by default. On hover-capable devices they appear grayscale until the row is hovered or keyboard-focused; touch devices always show them in color. On mobile the logo and outlet/date/type share the top line, followed by the full headline and a three-line excerpt. Desktop uses a three-column row and clamps excerpts to two lines. The media page’s filter script uses `data-row-type` and `data-row-lang` on each row.
+
+Keep media excerpts concise, around 160 characters. To add an outlet logo, add its image to `public/images/media-logos/` and add the outlet-to-filename entry in `src/lib/media.ts`.
+
 ### `<EventCard>`
 
 **Path:** `src/components/EventCard.astro` (styles: `.ev-card` / `.ev-grid` in `global.css`; date and location helpers: `src/lib/events.ts`)
@@ -288,7 +298,7 @@ For award/review badges like "Kirkus Starred Review": star icon + uppercase text
 
 ### Event row pattern (legacy)
 
-Events no longer use rows — `/events` and the homepage use `<EventCard>`. The `.event-row` / `.event-meta` styles still exist in `global.css` and are shown on the internal `design` page, but nothing on the live pages uses them. The media list still uses the same row pattern (`.press-row`).
+Events no longer use rows — `/events` and the homepage use `<EventCard>`. The `.event-row` / `.event-meta` styles still exist in `global.css` and are shown on the internal `design` page, but nothing on the live pages uses them. The media list and homepage media preview share `<PressRow>`.
 
 ### Hover state on clickable serif titles
 
@@ -394,6 +404,7 @@ src/
 │   ├── PageHeading.astro
 │   ├── BooksRail.astro
 │   ├── EventCard.astro  # event card (upcoming / past)
+│   ├── PressRow.astro   # shared press/media row
 │   ├── MobileNav.astro  # mobile drawer
 │   └── ...              # header + footer are inline in layouts/Layout.astro
 ├── content/
@@ -403,7 +414,8 @@ src/
 │   └── adaptations/   # one .md per adaptation
 ├── content.config.ts  # collection schemas
 ├── lib/
-│   └── events.ts      # event date + location helpers
+│   ├── events.ts      # event date + location helpers
+│   └── media.ts       # outlet logo map
 ├── layouts/
 │   └── Layout.astro   # root layout (contains header + footer inline)
 ├── pages/

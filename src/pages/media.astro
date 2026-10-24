@@ -1,17 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageHeading from '../components/PageHeading.astro';
+import PressRow from '../components/PressRow.astro';
 import { getCollection } from 'astro:content';
 
 const allMedia = await getCollection('media');
 const mediaItems = allMedia.filter(m => !m.data.draft).sort(
   (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
-
-function formatDate(dateStr: string) {
-  const [year, month] = dateStr.split('-').map(Number);
-  return new Date(year, month - 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-}
 
 const TYPE_LABELS: Record<string, string> = {
   Essay: 'Essays',
@@ -50,32 +46,7 @@ const showLangFilter = languages.has('English') && languages.has('Hebrew');
   <span id="press-status" class="sr-only" role="status"></span>
 
   <div class="press-list-wrap">
-    {mediaItems.map((item) => (
-      <div
-        class="press-row"
-        data-row-type={item.data.type ?? ''}
-        data-row-lang={item.data.language ?? ''}
-      >
-        <div class="press-outlet">
-          <span class="press-outlet-name">{item.data.outlet}</span>
-          <span class="press-date">{formatDate(item.data.date)}</span>
-          {item.data.type && <span class="press-type">{item.data.type}</span>}
-        </div>
-        <div class="press-content">
-          <h3 class="press-headline">
-            {item.data.url
-              ? <a href={item.data.url} target="_blank" rel="noopener" class="headline-link">{item.data.headline}</a>
-              : item.data.headline}
-          </h3>
-          {item.data.excerpt && (
-            <p class="press-excerpt">{item.data.excerpt}</p>
-          )}
-          {item.data.url && (
-            <a href={item.data.url} target="_blank" rel="noopener" class="btn-secondary press-view-btn">View ↗</a>
-          )}
-        </div>
-      </div>
-    ))}
+    {mediaItems.map((item) => <PressRow item={item} />)}
   </div>
 
   <div class="press-empty" id="press-empty" hidden>
@@ -225,6 +196,23 @@ const showLangFilter = languages.has('English') && languages.has('Hebrew');
   .press-reset:hover { opacity: 0.7; }
   .press-reset:focus-visible { outline-offset: 4px; }
 
-  .press-view-btn { margin-top: 10px; }
+
+
+  @media (max-width: 640px) {
+    .filter-bar {
+      flex-direction: row;
+      flex-wrap: nowrap;
+      width: calc(100% + 40px);
+      margin-inline: -20px;
+      padding: 16px 20px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .filter-bar::-webkit-scrollbar { display: none; }
+
+    .filter-chips { flex: 0 0 auto; flex-wrap: nowrap; }
+    .chip { min-height: 44px; flex: 0 0 auto; }
+  }
 
 </style>

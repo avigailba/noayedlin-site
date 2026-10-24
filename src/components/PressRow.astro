@@ -1,0 +1,47 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { OUTLET_LOGOS } from '../lib/media';
+
+interface Props { item: CollectionEntry<'media'> }
+
+const { item } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const { outlet, headline, url, date, type, excerpt, language } = item.data;
+const logo = OUTLET_LOGOS[outlet];
+const [year, month] = date.split('-').map(Number);
+const dateLabel = new Date(year, month - 1).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+const RowTag = url ? 'a' : 'article';
+---
+
+<RowTag
+  class="press-row"
+  data-row-type={type ?? ''}
+  data-row-lang={language ?? ''}
+  href={url}
+  target={url ? '_blank' : undefined}
+  rel={url ? 'noopener' : undefined}
+  aria-label={url ? `${headline}, ${outlet} (opens in new window)` : undefined}
+>
+  <div class="press-row__head">
+    {logo && (
+      <span class="press-row__logo">
+        <img src={`${base}/images/media-logos/${logo}`} alt="" loading="lazy" />
+      </span>
+    )}
+    <div class="press-row__meta">
+      <span class="press-row__outlet">{outlet}</span>
+      <span class="press-row__info">
+        <time datetime={date}>{dateLabel}</time>{type && <> · {type}</>}
+      </span>
+    </div>
+  </div>
+  <div class="press-row__body">
+    <h3 class="press-row__headline">{headline}</h3>
+    {excerpt && <p class="press-row__excerpt">{excerpt}</p>}
+    {url && (
+      <span class="press-row__read-more btn-primary">
+        Read more <span aria-hidden="true">↗</span>
+      </span>
+    )}
+  </div>
+</RowTag>
