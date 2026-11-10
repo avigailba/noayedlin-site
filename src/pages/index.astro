@@ -243,19 +243,19 @@ const aboutEntry = await getEntry('about', 'about');
   }
 
   .hp-inner {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 0 32px 56px;
+    max-width: none;
+    margin: 0;
+    padding: 0 var(--site-gutter-right) 56px var(--site-gutter-left);
   }
   @media (max-width: 600px) {
-    .hp-inner { padding: 0 20px 40px; }
+    .hp-inner { padding: 0 var(--site-gutter-right) 40px var(--site-gutter-left); }
   }
 
   /* ═══════════════════════════════════════════════════
      Hero frame — full-viewport flex column
   ═══════════════════════════════════════════════════ */
   .hp-hero-frame {
-    height: max(460px, calc(75vh - var(--header-h, 68px)));
+    height: max(460px, calc(60vh - var(--header-h, 68px)));
     display: flex;
     flex-direction: column;
     background: var(--bg);
@@ -299,7 +299,7 @@ const aboutEntry = await getEntry('about', 'about');
     display: flex;
     align-items: center;
     gap: clamp(28px, 3.2vw, 46px);
-    padding: 24px clamp(28px, 3vw, 40px) 24px 12%;
+    padding: 24px clamp(28px, 3vw, 40px) 24px var(--site-gutter-left);
   }
 
   .gh-cover-link { display: block; flex-shrink: 0; }
@@ -408,7 +408,7 @@ const aboutEntry = await getEntry('about', 'about');
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: clamp(20px, 3vh, 34px) clamp(32px, 10vw, 190px) clamp(20px, 3vh, 34px) clamp(28px, 2.6vw, 40px);
+    padding: clamp(20px, 3vh, 34px) var(--site-gutter-right) clamp(20px, 3vh, 34px) clamp(28px, 2.6vw, 40px);
   }
 
   .hp-rail-label { margin-bottom: 20px; }
@@ -476,7 +476,7 @@ const aboutEntry = await getEntry('about', 'about');
   /* ── Praise carousel (full-bleed, lives outside hp-inner) ── */
   :global(.hp-praise-carousel) {
     background: var(--bg-alt);
-    padding: 72px 48px;
+    padding: 40px 48px;
     text-align: center;
     display: flex;
     align-items: center;
@@ -492,6 +492,8 @@ const aboutEntry = await getEntry('about', 'about');
     justify-content: center;
     transition: opacity 0.18s ease, transform 0.18s ease;
   }
+
+  :global(.hpc-body.is-long) { max-width: 1500px; }
 
   :global(.hpc-body.is-leaving) {
     opacity: 0;
@@ -514,13 +516,18 @@ const aboutEntry = await getEntry('about', 'about');
   :global(.hpc-quote) {
     font-family: var(--font-serif);
     font-style: italic;
-    font-size: clamp(22px, 2.8vw, 36px);
+    font-size: clamp(22px, 2.5vw, 32px);
     line-height: var(--lh-snug);
     letter-spacing: var(--track-none);
     color: var(--text);
     border: none;
     padding: 0;
     margin: 0 0 24px;
+  }
+
+  :global(.hpc-body.is-long .hpc-quote) {
+    font-size: clamp(20px, 1.8vw, 28px);
+    line-height: 1.25;
   }
 
   :global(.hpc-attr) {
@@ -589,7 +596,7 @@ const aboutEntry = await getEntry('about', 'about');
   }
 
   @media (max-width: 768px) {
-    :global(.hp-praise-carousel) { padding: 48px 20px; gap: 16px; }
+    :global(.hp-praise-carousel) { padding: 36px 20px; gap: 16px; }
     :global(.hpc-arrow) { flex-shrink: 0; }
   }
 
@@ -606,13 +613,13 @@ const aboutEntry = await getEntry('about', 'about');
   /* ── 1280px: tighten column proportions ── */
   @media (max-width: 1280px) {
     .hp-feat {
-      padding: 24px clamp(20px, 2.5vw, 32px) 24px 8%;
+      padding: 24px clamp(20px, 2.5vw, 32px) 24px var(--site-gutter-left);
     }
     .hp-rail {
       min-width: 400px;
       max-width: none;
       flex: 1.15;
-      padding: clamp(20px, 3vh, 34px) 32px clamp(20px, 3vh, 34px) clamp(24px, 2vw, 32px);
+      padding: clamp(20px, 3vh, 34px) var(--site-gutter-right) clamp(20px, 3vh, 34px) clamp(24px, 2vw, 32px);
     }
     .gh-info { min-width: 260px; }
   }
@@ -673,12 +680,12 @@ const aboutEntry = await getEntry('about', 'about');
       border-top: 0.5px solid var(--rule);
     }
     .hp-rail-row-inner {
-      max-width: var(--max-width);
-      margin: 0 auto;
+      width: 100%;
+      margin: 0;
       display: flex;
       align-items: center;
       gap: 0;
-      padding: 0 32px;
+      padding: 0 var(--site-gutter-right) 0 var(--site-gutter-left);
     }
     .hp-rail-row-label {
       flex-shrink: 0;
@@ -825,6 +832,7 @@ const aboutEntry = await getEntry('about', 'about');
     padding: 64px 0;
     border-top: 0.5px solid var(--rule);
   }
+  .hp-press-list { display: grid; gap: 24px; }
   .hp-press-footer {
     text-align: left;
     padding: 32px 0 56px;
@@ -894,6 +902,9 @@ const aboutEntry = await getEntry('about', 'about');
     bookEl.textContent  = q.book;
     quoteEl.textContent = '\u201c' + q.text + '\u201d';
     attrEl.textContent  = q.role ? q.author.toUpperCase() + ' \u00b7 ' + q.role.toUpperCase() : q.author.toUpperCase();
+    const lineHeight = parseFloat(getComputedStyle(quoteEl).lineHeight);
+    const lineCount = Math.ceil(quoteEl.getBoundingClientRect().height / lineHeight);
+    bodyEl.classList.toggle('is-long', lineCount > 4);
   }
 
   async function goTo(idx: number) {

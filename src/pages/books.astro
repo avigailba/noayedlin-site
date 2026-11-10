@@ -83,7 +83,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     width: 240px;
     aspect-ratio: 2/3;
     object-fit: cover;
-    box-shadow: var(--shadow-cover);
+    box-shadow: var(--shadow-cover-lg);
     display: block;
   }
 
@@ -93,6 +93,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     gap: 0.45rem;
     padding-top: 0.15rem;
     align-items: flex-start;
+    max-width: 900px;
   }
 
   .books-list-meta {
@@ -139,19 +140,17 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   }
 
   .books-list-synopsis {
+    width: min(66.666%, 600px);
     font-size: var(--text-sm);
     color: var(--text-muted);
     margin: 0;
     line-height: var(--lh-loose);
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
   }
 
   @media (max-width: 700px) {
     .books-list-row { grid-template-columns: 140px 1fr; gap: 1.5rem; padding: 2rem 0; }
     .books-list-cover img { width: 140px; }
+    .books-list-synopsis { width: 100%; }
   }
 
   @media (max-width: 480px) {

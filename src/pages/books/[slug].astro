@@ -108,6 +108,7 @@ const bookAdaptations = allAdaptationsCollection
   {allReviews.length > 0 && (
     <>
       <section class="bd-praise">
+        <p class="eyebrow bd-section-eyebrow">Reviews</p>
         <div class="bd-reviews">
           {allReviews.map((r) => (
             <div class="bd-review">
@@ -157,13 +158,13 @@ const bookAdaptations = allAdaptationsCollection
   .bd-cover-wrap {
     width: 240px;
     border-radius: 1px;
-    overflow: hidden;
   }
 
   .bd-cover-wrap img {
     width: 100%;
     display: block;
-    box-shadow: var(--shadow-cover);
+    border-radius: 3px;
+    box-shadow: var(--shadow-cover-lg);
   }
 
   .bd-info {
@@ -217,7 +218,7 @@ const bookAdaptations = allAdaptationsCollection
   }
 
   /* Synopsis inline (under Order line) */
-  .bd-synopsis-inline { margin-top: 24px; }
+  .bd-synopsis-inline { width: min(66.666%, 780px); margin-top: 24px; }
   .bd-synopsis-inline p { font-size: var(--text-md); line-height: var(--lh-loose); color: var(--text); margin-bottom: 1rem; }
   .bd-synopsis-inline p:last-child { margin-bottom: 0; }
 
@@ -291,5 +292,6 @@ const bookAdaptations = allAdaptationsCollection
   @media (max-width: 680px) {
     .bd-hero { grid-template-columns: 1fr; gap: 1.25rem; }
     .bd-cover-wrap { width: clamp(180px, 52vw, 240px); }
+    .bd-synopsis-inline { width: 100%; }
   }
 </style>
