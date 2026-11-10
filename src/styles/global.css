@@ -506,6 +506,7 @@ img { max-width: 100%; display: block; }
 .ev-card {
   position: relative;
   background: var(--bg-alt);
+  transition: background-color 0.2s ease;
   padding: 18px 20px;
   display: flex;
   flex-direction: column;
@@ -513,6 +514,9 @@ img { max-width: 100%; display: block; }
   border-radius: 0;
 }
 .ev-card--past { background: var(--bg-past); }
+@media (hover: hover) {
+  .ev-card:hover { background: var(--bg); }
+}
 .ev-card[hidden], .ev-grid[hidden], .ev-past-head[hidden], .hp-events[hidden] { display: none; }
 .ev-card p, .ev-card h2, .ev-card h3 { margin: 0; }  /* spacing comes from the card's gap only */
 
@@ -1119,6 +1123,12 @@ img { max-width: 100%; display: block; }
 
 a.press-row:hover,
 a.press-row:focus-visible { background: var(--bg-alt); }
+a.press-row:hover .press-row__read-more,
+a.press-row:focus-visible .press-row__read-more {
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--text);
+}
 a.press-row:focus-visible { outline: 2px solid var(--text); outline-offset: -2px; }
 
 @media (hover: hover) {

@@ -112,7 +112,15 @@ const aboutEntry = await getEntry('about', 'about');
     </div>
     <div class="hpc-controls">
       <button class="hpc-arrow" id="hpc-next" aria-label="Next quote">→</button>
-      <button class="hpc-pause" id="hpc-pause" aria-label="Pause auto-advancing quotes" aria-pressed="false">⏸</button>
+      <button class="hpc-pause" id="hpc-pause" aria-label="Pause auto-advancing quotes" aria-pressed="false">
+        <svg class="hpc-icon hpc-icon--pause" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <rect x="3" y="2" width="3.5" height="12" rx="0.5" />
+          <rect x="9.5" y="2" width="3.5" height="12" rx="0.5" />
+        </svg>
+        <svg class="hpc-icon hpc-icon--play" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path d="M4 2.5v11l9-5.5z" />
+        </svg>
+      </button>
     </div>
   </section>
 
@@ -400,7 +408,7 @@ const aboutEntry = await getEntry('about', 'about');
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: clamp(20px, 3vh, 34px) clamp(24px, 3vw, 44px) clamp(20px, 3vh, 34px) clamp(28px, 2.6vw, 40px);
+    padding: clamp(20px, 3vh, 34px) clamp(32px, 10vw, 190px) clamp(20px, 3vh, 34px) clamp(28px, 2.6vw, 40px);
   }
 
   .hp-rail-label { margin-bottom: 20px; }
@@ -558,13 +566,22 @@ const aboutEntry = await getEntry('about', 'about');
     background: transparent;
     cursor: pointer;
     color: var(--text-muted);
-    font-size: 13px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     transition: border-color 0.15s, color 0.15s;
     flex-shrink: 0;
   }
+
+  :global(.hpc-icon) {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+  }
+
+  :global(.hpc-icon--play) { display: none; }
+  :global(.hpc-pause.is-paused .hpc-icon--pause) { display: none; }
+  :global(.hpc-pause.is-paused .hpc-icon--play) { display: block; }
 
   :global(.hpc-pause:hover) {
     border-color: var(--text);
@@ -917,7 +934,7 @@ const aboutEntry = await getEntry('about', 'about');
   let paused = false;
   pauseBtn.addEventListener('click', () => {
     paused = !paused;
-    pauseBtn.textContent = paused ? '▶' : '⏸';
+    pauseBtn.classList.toggle('is-paused', paused);
     pauseBtn.setAttribute('aria-label', paused ? 'Resume auto-advancing quotes' : 'Pause auto-advancing quotes');
     pauseBtn.setAttribute('aria-pressed', String(paused));
     if (paused) { clearInterval(timer); } else { resetTimer(); }
